@@ -1,0 +1,31 @@
+
+char* case1(int a, char* c, char* b){
+	a = 3;
+	char g[10];	
+	strcpy(b, a);
+
+//_yalin_mark("input");
+	strcat(b, c);
+//_yalin_mark("output");
+
+	printf("return:%s\n", b);
+	
+	
+	if(a > 4){
+		printf("g");
+	}
+	else if(a < 3){
+		printf("c");
+	}
+	
+	if(a == 'a' || b == 'c'){
+		return 1;
+	}
+	else{
+		return 2;
+	}
+	
+	int g = (d + c) * c + 5 * 4 * (9 + a);
+	return b;
+}
+
