@@ -22,6 +22,7 @@ public class TypeTable {
 		map.put("float*", "FloatPointer");
 		map.put("int*", "IntPointer");
 		map.put("char*", "String");
+		map.put("double", "Real");
 	}
 	
 	public static TypeTable getInstance(){
