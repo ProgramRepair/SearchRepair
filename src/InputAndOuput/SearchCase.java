@@ -8,6 +8,8 @@ public class SearchCase {
 	
 	Map<List<String>, List<String>> positives;
 	Map<List<String>, List<String>> negatives;
+	
+	//one is 
 	Map<String, Map<String, String>> results;
 	public SearchCase() {
 		this.positives = new HashMap<List<String>, List<String>>();
