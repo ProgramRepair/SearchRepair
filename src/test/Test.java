@@ -8,11 +8,12 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 import Library.Utility;
-
 import antlr.preprocess.ConditionLexer;
 import antlr.preprocess.ConditionParser;
 import antlr.preprocess.IfBlockTestLexer;
 import antlr.preprocess.IfBlockTestParser;
+import antlr.preprocess.IfBlockTestParser.FunctionContext;
+
 
 
 
@@ -28,7 +29,17 @@ public class Test {
 		//System.out.println(parser.);
 		//parser.parse();
 		//System.out.println(parser.if_stat().getText());
-		System.out.println(parser.function().getText());
+		//System.out.println(parser.prog().function().getText());
+		FunctionContext sc = parser.prog().function();
+		System.out.println(sc.block().getText());
+		
+		for(int i = 0; i < sc.getChildCount(); i++){
+			System.out.println(sc.getChild(i).getText());
+			System.out.println("--------------------");
+		}
+//		for(StatContext sc : parser.function().block().stat()){
+//			System.out.println(sc.getText());
+//		}
 
 	}
 	

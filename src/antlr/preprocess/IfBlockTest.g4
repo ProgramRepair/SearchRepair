@@ -1,7 +1,8 @@
 grammar IfBlockTest;
 
+prog : function;
 function
-	: type ID parameters block 
+	: type ID parameters block
 	;
 
 type
@@ -21,7 +22,11 @@ formalParameter
 	;	
 	
  
- block : '{' stat* '}';
+ block : LBR stat* RBR;
+ 
+LBR: '{';
+RBR: '}';
+
 
 
 
@@ -35,8 +40,15 @@ formalParameter
  	;
 
 if_stat
- : 'if'  condExpr (stat | block) ('else' 'if' condExpr (stat | block))* ('else' (stat | block))?
+ : IF  condExpr (stat | block) (ELSE IF condExpr (stat | block))* (ELSE (stat | block))?
  ;
+ 
+ IF: 'if';
+ ELSE: 'else';
+ 
+ 
+ 
+ 
  
  declarationStat
 	: type ID 
@@ -44,9 +56,10 @@ if_stat
 	;
 	
 returnStat
-	: 'return' ( arith_expression )
+	: RETURN ( arith_expression )
 	;
 	
+RETURN : 'return';
 callStat
 	: callExpr
 	;
@@ -116,17 +129,7 @@ StringLiteral
     :    '"' SCharSequence? '"'
     ;	
 
-fragment   
-SCharSequence
-    :   SChar+
-    ;
- fragment
- SChar
-    :   ~["\\\r\n]
-    |   EscapeSequence
-    ;
-fragment
-EscapeSequence:  '\\' ['"?abfnrtv\\];
+
 
 
 Int : 'int';
@@ -175,5 +178,21 @@ NEQ : '!=';
 
 
 WS : [ \t\r\n]+ -> skip;
+
+fragment   
+SCharSequence
+    :   SChar+
+    ;
+ fragment
+ SChar
+    :   ~["\\\r\n]
+    |   EscapeSequence
+    ;
+fragment
+EscapeSequence:  '\\' ['"?abfnrtv\\];
+
+
+
+
 
 

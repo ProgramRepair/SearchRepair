@@ -137,6 +137,18 @@ public class IfBlockTestBaseListener implements IfBlockTestListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterProg(@NotNull IfBlockTestParser.ProgContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitProg(@NotNull IfBlockTestParser.ProgContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterAdd_expression(@NotNull IfBlockTestParser.Add_expressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -161,18 +173,6 @@ public class IfBlockTestBaseListener implements IfBlockTestListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSelfIncreStat(@NotNull IfBlockTestParser.SelfIncreStatContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSelfIncreStat(@NotNull IfBlockTestParser.SelfIncreStatContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterParameters(@NotNull IfBlockTestParser.ParametersContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -180,6 +180,18 @@ public class IfBlockTestBaseListener implements IfBlockTestListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitParameters(@NotNull IfBlockTestParser.ParametersContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSelfIncreStat(@NotNull IfBlockTestParser.SelfIncreStatContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSelfIncreStat(@NotNull IfBlockTestParser.SelfIncreStatContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

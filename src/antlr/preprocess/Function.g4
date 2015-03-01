@@ -1,63 +1,56 @@
 grammar Function;
 
-
+prog : function;
 function
-	: type ID parameters block 
+	: type ID parameters block
 	;
-	
+
 type
 	: Int
 	| Char
 	| Float
 	| String
-	| Double
 	;
 	
-parameters
+parameters 
 	: LPAREN (formalParameter(',' formalParameter)*)? RPAREN
 	;
 	
 formalParameter
 	: type ID
-	;
-
-
-block
-	: '{' statement* '}'
-	;
+	;	
 	
-statement
-	: declarationStat ';'
-	| assignStat ';'
-	| returnStat ';'
-	| callStat ';'
-	| ifBlock 
-	| selfIncreStat ';'
-	;
-	
-	
-selfIncreStat: ID increOperator;
-
-increOperator: INCRE | DECRE;	
-	
-ifBlock: ifPart elseifPart* elsePart?;
-
-ifPart : 'if' '('condExpr ')' (statement | block);
+ 
+ block : '{' stat* '}';
 
 
 
-elseifPart : 'else if' '(' condExpr ')' (statement | block);
+ stat
+ 	: declarationStat ';' 
+ 	| if_stat
+ 	| returnStat ';'
+ 	| callStat ';'
+ 	| assignStat ';'
+ 	| selfIncreStat ';'
+ 	;
 
-elsePart : 'else' (statement | block);
-
-
-
-	
-declarationStat
+if_stat
+ : 'if'  condExpr (stat | block) ('else' 'if' condExpr (stat | block))* ('else' (stat | block))?
+ ;
+ 
+ declarationStat
 	: type ID 
-	| type ID ('[' INT ']') ';'
+	| type ID ('[' INT ']') 
 	;
-
+	
+returnStat
+	: 'return' ( arith_expression )
+	;
+	
+callStat
+	: callExpr
+	;
+	
 assignStat
 	: ID ASSIGN assign_expression
 	| type ID ASSIGN assign_expression
@@ -67,6 +60,16 @@ assignStat
 	| POINTER ID arithmAssignOperator assign_expression
 	;
 	
+	
+callExpr : ID arguments;
+
+selfIncreStat: ID increOperator;
+
+increOperator: INCRE | DECRE;
+
+arguments:
+	LPAREN (assign_expression(',' assign_expression)*)? RPAREN;
+	
 assign_expression 
 	: arith_expression
 	| StringLiteral
@@ -74,101 +77,23 @@ assign_expression
 	;
 
 arithmAssignOperator : ADDSELF | DEDUCTSELF | MODSELF | MULTISELF | DIVIDESELF;	
-	
-returnStat
-	: 'return' ( arith_expression )
-	;
-
-callStat
-	: callExpr
-	;
-	
-	
-	
-addressExpr: '&' ID;
-defExpr : POINTER ID;
-
-	
-callExpr : ID arguments;
-
-arguments:
-	LPAREN (assign_expression(',' assign_expression)*)? RPAREN;
 
 
+ 
+ condExpr : or_expression ;
+or_expression : and_expression (OR or_expression)*;
+and_expression : term (AND term)*;
+term : atom ( operator atom)? | LPAREN or_expression RPAREN;
 
 arith_expression : add_expression;
 add_expression : multi_expression (addOperator add_expression)*;
 multi_expression : expr (multiOperator expr)*;
 expr : atom | LPAREN add_expression RPAREN;
-
 addOperator : ADDCTIVE | DEDUCTIVE;
 multiOperator : MULTIPLY | DIVIDE | MOD;
 
-condExpr: or_expression;
-
-or_expression: and_expression (OR or_expression)*;
-
-and_expression : term (AND term)*;
-
-term : atom ( condOperator atom)? | LPAREN or_expression RPAREN;
-
-atom : ID | INT | FLOAT;
-
-condOperator : LT | GT | EQ | NEQ | LE | GE;
-	
-	
-
-
-ASSIGN : '=';
-POINTER : '*';
-
-ADDCTIVE : '+';
-DEDUCTIVE : '-';
-MULTIPLY : '*';
-DIVIDE : '/';
-MOD : '%';
-INCRE: '++';
-DECRE: '--';
-ADDSELF: '+=';
-DEDUCTSELF: '-=';
-MODSELF: '%=';
-MULTISELF: '*=';
-DIVIDESELF: '/=';
-
-Int : 'int';
-
-Char : 'char';
-
-Float : 'float';
-
-String : 'char*';
-
-Double : 'double';
-
-
-
-ID : ('a'..'z' |'A'..'Z'|'_'|'|')('a'..'z' |'A'..'Z'|'_' | '0'..'9')*;
-
-INT : '0'..'9'+;
-FLOAT : ('0'..'9')+ '.' ('0'..'9')+;
-
-
-
-
-
-OR : '||';
-AND: '&&';
-LPAREN : '(';
-RPAREN : ')';
-
-LT : '<';
-LE : '<=';
-GT : '>';
-GE : '>=';
-EQ : '==';
-NEQ : '!=';
-
-WS : [ \t\r\n]+ -> skip;
+atom : ID | INT | FLOAT | CharacterLiteral;
+operator : LT | GT | EQ | NEQ | LE | GE;
 
 
 BlockComment
@@ -180,9 +105,8 @@ LineComment
     :   '//' ~[\r\n]*
         -> skip
     ;
-    
-
-
+	
+	
 CharacterLiteral 
 	: '\'' (SChar) '\''
 	;	
@@ -190,17 +114,68 @@ CharacterLiteral
 	
 StringLiteral
     :    '"' SCharSequence? '"'
-    ;
-fragment    
+    ;	
+
+
+
+
+Int : 'int';
+
+Char : 'char';
+
+Float : 'float';
+
+String : 'char*';
+
+Double : 'double';
+
+INT : '0'..'9'+;
+FLOAT : ('0'..'9')+ '.' ('0'..'9')*;
+STRING : '"' ('a'..'z'|'A'..'Z'|'_'|' ')* '"';
+ID : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+OR : '||';
+AND: '&&';
+LPAREN : '(';
+RPAREN : ')';
+ADDCTIVE : '+';
+DEDUCTIVE : '-';
+MULTIPLY : '*';
+DIVIDE : '/';
+MOD : '%';
+
+ASSIGN : '=';
+POINTER : '*';
+
+
+INCRE: '++';
+DECRE: '--';
+ADDSELF: '+=';
+DEDUCTSELF: '-=';
+MODSELF: '%=';
+MULTISELF: '*=';
+DIVIDESELF: '/=';
+
+LT : '<';
+LE : '<=';
+GT : '>';
+GE : '>=';
+EQ : '==';
+NEQ : '!=';
+
+
+
+WS : [ \t\r\n]+ -> skip;
+
+fragment   
 SCharSequence
     :   SChar+
     ;
-fragment
+ fragment
  SChar
     :   ~["\\\r\n]
     |   EscapeSequence
     ;
+fragment
 EscapeSequence:  '\\' ['"?abfnrtv\\];
-
 
 

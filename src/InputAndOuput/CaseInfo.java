@@ -9,13 +9,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
-import java.util.Queue;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
 
 import Library.Utility;
 import antlr.preprocess.FunctionExtractorLexer;
@@ -24,7 +21,6 @@ import antlr.preprocess.FunctionExtractorParser.FunctionDefinitionContext;
 import antlr.preprocess.FunctionExtractorParser.ProgContext;
 import antlr.preprocess.FunctionLexer;
 import antlr.preprocess.FunctionParser;
-import antlr.preprocess.FunctionParser.IfBlockContext;
 
 
 
@@ -101,11 +97,7 @@ public class CaseInfo {
 			FunctionLexer lexer = new FunctionLexer(input);
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			FunctionParser parser = new FunctionParser(tokens);
-			System.out.println(parser.function().getText());
-			IfBlockContext block = parser.ifBlock();
-			if(block == null){
-				System.out.println(block.getText());
-			}
+			System.out.println(parser.prog().function().block().getText());
 			
 		}catch(Exception e){
 			
@@ -154,9 +146,14 @@ public class CaseInfo {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(this.casePrefix + ".c")));
 			String s = null;
 			
+			boolean find = false;
+			String function = " " + this.casePrefix.substring(this.casePrefix.lastIndexOf("/") + 1) + "(";
+			
 			for(int i = 1; i < buggy[0]; i++){
 				s = reader.readLine();
 				if(s.trim().startsWith("#")) continue;
+				//if(!find && !s.contains(function)) continue;
+				find = true;
 				writer.write(s);
 				writer.write("\n");
 				writer.flush();

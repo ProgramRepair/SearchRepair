@@ -65,18 +65,6 @@ public class FunctionBaseListener implements FunctionListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIfPart(@NotNull FunctionParser.IfPartContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitIfPart(@NotNull FunctionParser.IfPartContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterBlock(@NotNull FunctionParser.BlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -84,18 +72,6 @@ public class FunctionBaseListener implements FunctionListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitBlock(@NotNull FunctionParser.BlockContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAddressExpr(@NotNull FunctionParser.AddressExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAddressExpr(@NotNull FunctionParser.AddressExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -137,18 +113,6 @@ public class FunctionBaseListener implements FunctionListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDefExpr(@NotNull FunctionParser.DefExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDefExpr(@NotNull FunctionParser.DefExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterFunction(@NotNull FunctionParser.FunctionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -173,6 +137,18 @@ public class FunctionBaseListener implements FunctionListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterProg(@NotNull FunctionParser.ProgContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitProg(@NotNull FunctionParser.ProgContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterAdd_expression(@NotNull FunctionParser.Add_expressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -180,18 +156,6 @@ public class FunctionBaseListener implements FunctionListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAdd_expression(@NotNull FunctionParser.Add_expressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterElseifPart(@NotNull FunctionParser.ElseifPartContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitElseifPart(@NotNull FunctionParser.ElseifPartContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -209,18 +173,6 @@ public class FunctionBaseListener implements FunctionListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSelfIncreStat(@NotNull FunctionParser.SelfIncreStatContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSelfIncreStat(@NotNull FunctionParser.SelfIncreStatContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterParameters(@NotNull FunctionParser.ParametersContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -228,6 +180,18 @@ public class FunctionBaseListener implements FunctionListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitParameters(@NotNull FunctionParser.ParametersContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSelfIncreStat(@NotNull FunctionParser.SelfIncreStatContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSelfIncreStat(@NotNull FunctionParser.SelfIncreStatContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -269,30 +233,6 @@ public class FunctionBaseListener implements FunctionListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCondOperator(@NotNull FunctionParser.CondOperatorContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCondOperator(@NotNull FunctionParser.CondOperatorContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterOr_expression(@NotNull FunctionParser.Or_expressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitOr_expression(@NotNull FunctionParser.Or_expressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterAssignStat(@NotNull FunctionParser.AssignStatContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -305,13 +245,13 @@ public class FunctionBaseListener implements FunctionListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIfBlock(@NotNull FunctionParser.IfBlockContext ctx) { }
+	@Override public void enterOr_expression(@NotNull FunctionParser.Or_expressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIfBlock(@NotNull FunctionParser.IfBlockContext ctx) { }
+	@Override public void exitOr_expression(@NotNull FunctionParser.Or_expressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -341,25 +281,25 @@ public class FunctionBaseListener implements FunctionListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterElsePart(@NotNull FunctionParser.ElsePartContext ctx) { }
+	@Override public void enterOperator(@NotNull FunctionParser.OperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitElsePart(@NotNull FunctionParser.ElsePartContext ctx) { }
+	@Override public void exitOperator(@NotNull FunctionParser.OperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatement(@NotNull FunctionParser.StatementContext ctx) { }
+	@Override public void enterStat(@NotNull FunctionParser.StatContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatement(@NotNull FunctionParser.StatementContext ctx) { }
+	@Override public void exitStat(@NotNull FunctionParser.StatContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -377,18 +317,6 @@ public class FunctionBaseListener implements FunctionListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTerm(@NotNull FunctionParser.TermContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTerm(@NotNull FunctionParser.TermContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterAnd_expression(@NotNull FunctionParser.And_expressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -396,6 +324,18 @@ public class FunctionBaseListener implements FunctionListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAnd_expression(@NotNull FunctionParser.And_expressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTerm(@NotNull FunctionParser.TermContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTerm(@NotNull FunctionParser.TermContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -420,6 +360,18 @@ public class FunctionBaseListener implements FunctionListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMulti_expression(@NotNull FunctionParser.Multi_expressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIf_stat(@NotNull FunctionParser.If_statContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIf_stat(@NotNull FunctionParser.If_statContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

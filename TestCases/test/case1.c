@@ -28,5 +28,5 @@ char* case1(int a, char* c, char* b){
 	else if(a < 3){
 		printf("c");
 	}
-	return b;
+	return b * a;
 }

@@ -109,6 +109,16 @@ public interface IfBlockTestListener extends ParseTreeListener {
 	 */
 	void exitDeclarationStat(@NotNull IfBlockTestParser.DeclarationStatContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link IfBlockTestParser#prog}.
+	 * @param ctx the parse tree
+	 */
+	void enterProg(@NotNull IfBlockTestParser.ProgContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IfBlockTestParser#prog}.
+	 * @param ctx the parse tree
+	 */
+	void exitProg(@NotNull IfBlockTestParser.ProgContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link IfBlockTestParser#add_expression}.
 	 * @param ctx the parse tree
 	 */
@@ -129,16 +139,6 @@ public interface IfBlockTestListener extends ParseTreeListener {
 	 */
 	void exitArithmAssignOperator(@NotNull IfBlockTestParser.ArithmAssignOperatorContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link IfBlockTestParser#selfIncreStat}.
-	 * @param ctx the parse tree
-	 */
-	void enterSelfIncreStat(@NotNull IfBlockTestParser.SelfIncreStatContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link IfBlockTestParser#selfIncreStat}.
-	 * @param ctx the parse tree
-	 */
-	void exitSelfIncreStat(@NotNull IfBlockTestParser.SelfIncreStatContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link IfBlockTestParser#parameters}.
 	 * @param ctx the parse tree
 	 */
@@ -148,6 +148,16 @@ public interface IfBlockTestListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParameters(@NotNull IfBlockTestParser.ParametersContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IfBlockTestParser#selfIncreStat}.
+	 * @param ctx the parse tree
+	 */
+	void enterSelfIncreStat(@NotNull IfBlockTestParser.SelfIncreStatContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IfBlockTestParser#selfIncreStat}.
+	 * @param ctx the parse tree
+	 */
+	void exitSelfIncreStat(@NotNull IfBlockTestParser.SelfIncreStatContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link IfBlockTestParser#increOperator}.
 	 * @param ctx the parse tree

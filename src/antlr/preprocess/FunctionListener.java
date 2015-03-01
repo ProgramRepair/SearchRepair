@@ -49,16 +49,6 @@ public interface FunctionListener extends ParseTreeListener {
 	 */
 	void exitMultiOperator(@NotNull FunctionParser.MultiOperatorContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FunctionParser#ifPart}.
-	 * @param ctx the parse tree
-	 */
-	void enterIfPart(@NotNull FunctionParser.IfPartContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FunctionParser#ifPart}.
-	 * @param ctx the parse tree
-	 */
-	void exitIfPart(@NotNull FunctionParser.IfPartContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link FunctionParser#block}.
 	 * @param ctx the parse tree
 	 */
@@ -68,16 +58,6 @@ public interface FunctionListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBlock(@NotNull FunctionParser.BlockContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FunctionParser#addressExpr}.
-	 * @param ctx the parse tree
-	 */
-	void enterAddressExpr(@NotNull FunctionParser.AddressExprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FunctionParser#addressExpr}.
-	 * @param ctx the parse tree
-	 */
-	void exitAddressExpr(@NotNull FunctionParser.AddressExprContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link FunctionParser#expr}.
 	 * @param ctx the parse tree
@@ -109,16 +89,6 @@ public interface FunctionListener extends ParseTreeListener {
 	 */
 	void exitCallStat(@NotNull FunctionParser.CallStatContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FunctionParser#defExpr}.
-	 * @param ctx the parse tree
-	 */
-	void enterDefExpr(@NotNull FunctionParser.DefExprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FunctionParser#defExpr}.
-	 * @param ctx the parse tree
-	 */
-	void exitDefExpr(@NotNull FunctionParser.DefExprContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link FunctionParser#function}.
 	 * @param ctx the parse tree
 	 */
@@ -139,6 +109,16 @@ public interface FunctionListener extends ParseTreeListener {
 	 */
 	void exitDeclarationStat(@NotNull FunctionParser.DeclarationStatContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link FunctionParser#prog}.
+	 * @param ctx the parse tree
+	 */
+	void enterProg(@NotNull FunctionParser.ProgContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FunctionParser#prog}.
+	 * @param ctx the parse tree
+	 */
+	void exitProg(@NotNull FunctionParser.ProgContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link FunctionParser#add_expression}.
 	 * @param ctx the parse tree
 	 */
@@ -148,16 +128,6 @@ public interface FunctionListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAdd_expression(@NotNull FunctionParser.Add_expressionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FunctionParser#elseifPart}.
-	 * @param ctx the parse tree
-	 */
-	void enterElseifPart(@NotNull FunctionParser.ElseifPartContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FunctionParser#elseifPart}.
-	 * @param ctx the parse tree
-	 */
-	void exitElseifPart(@NotNull FunctionParser.ElseifPartContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link FunctionParser#arithmAssignOperator}.
 	 * @param ctx the parse tree
@@ -169,16 +139,6 @@ public interface FunctionListener extends ParseTreeListener {
 	 */
 	void exitArithmAssignOperator(@NotNull FunctionParser.ArithmAssignOperatorContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FunctionParser#selfIncreStat}.
-	 * @param ctx the parse tree
-	 */
-	void enterSelfIncreStat(@NotNull FunctionParser.SelfIncreStatContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FunctionParser#selfIncreStat}.
-	 * @param ctx the parse tree
-	 */
-	void exitSelfIncreStat(@NotNull FunctionParser.SelfIncreStatContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link FunctionParser#parameters}.
 	 * @param ctx the parse tree
 	 */
@@ -188,6 +148,16 @@ public interface FunctionListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParameters(@NotNull FunctionParser.ParametersContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FunctionParser#selfIncreStat}.
+	 * @param ctx the parse tree
+	 */
+	void enterSelfIncreStat(@NotNull FunctionParser.SelfIncreStatContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FunctionParser#selfIncreStat}.
+	 * @param ctx the parse tree
+	 */
+	void exitSelfIncreStat(@NotNull FunctionParser.SelfIncreStatContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link FunctionParser#increOperator}.
 	 * @param ctx the parse tree
@@ -219,26 +189,6 @@ public interface FunctionListener extends ParseTreeListener {
 	 */
 	void exitReturnStat(@NotNull FunctionParser.ReturnStatContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FunctionParser#condOperator}.
-	 * @param ctx the parse tree
-	 */
-	void enterCondOperator(@NotNull FunctionParser.CondOperatorContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FunctionParser#condOperator}.
-	 * @param ctx the parse tree
-	 */
-	void exitCondOperator(@NotNull FunctionParser.CondOperatorContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link FunctionParser#or_expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterOr_expression(@NotNull FunctionParser.Or_expressionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FunctionParser#or_expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitOr_expression(@NotNull FunctionParser.Or_expressionContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link FunctionParser#assignStat}.
 	 * @param ctx the parse tree
 	 */
@@ -249,15 +199,15 @@ public interface FunctionListener extends ParseTreeListener {
 	 */
 	void exitAssignStat(@NotNull FunctionParser.AssignStatContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FunctionParser#ifBlock}.
+	 * Enter a parse tree produced by {@link FunctionParser#or_expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterIfBlock(@NotNull FunctionParser.IfBlockContext ctx);
+	void enterOr_expression(@NotNull FunctionParser.Or_expressionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FunctionParser#ifBlock}.
+	 * Exit a parse tree produced by {@link FunctionParser#or_expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitIfBlock(@NotNull FunctionParser.IfBlockContext ctx);
+	void exitOr_expression(@NotNull FunctionParser.Or_expressionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link FunctionParser#callExpr}.
 	 * @param ctx the parse tree
@@ -279,25 +229,25 @@ public interface FunctionListener extends ParseTreeListener {
 	 */
 	void exitArith_expression(@NotNull FunctionParser.Arith_expressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FunctionParser#elsePart}.
+	 * Enter a parse tree produced by {@link FunctionParser#operator}.
 	 * @param ctx the parse tree
 	 */
-	void enterElsePart(@NotNull FunctionParser.ElsePartContext ctx);
+	void enterOperator(@NotNull FunctionParser.OperatorContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FunctionParser#elsePart}.
+	 * Exit a parse tree produced by {@link FunctionParser#operator}.
 	 * @param ctx the parse tree
 	 */
-	void exitElsePart(@NotNull FunctionParser.ElsePartContext ctx);
+	void exitOperator(@NotNull FunctionParser.OperatorContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FunctionParser#statement}.
+	 * Enter a parse tree produced by {@link FunctionParser#stat}.
 	 * @param ctx the parse tree
 	 */
-	void enterStatement(@NotNull FunctionParser.StatementContext ctx);
+	void enterStat(@NotNull FunctionParser.StatContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link FunctionParser#statement}.
+	 * Exit a parse tree produced by {@link FunctionParser#stat}.
 	 * @param ctx the parse tree
 	 */
-	void exitStatement(@NotNull FunctionParser.StatementContext ctx);
+	void exitStat(@NotNull FunctionParser.StatContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link FunctionParser#arguments}.
 	 * @param ctx the parse tree
@@ -309,16 +259,6 @@ public interface FunctionListener extends ParseTreeListener {
 	 */
 	void exitArguments(@NotNull FunctionParser.ArgumentsContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link FunctionParser#term}.
-	 * @param ctx the parse tree
-	 */
-	void enterTerm(@NotNull FunctionParser.TermContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link FunctionParser#term}.
-	 * @param ctx the parse tree
-	 */
-	void exitTerm(@NotNull FunctionParser.TermContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link FunctionParser#and_expression}.
 	 * @param ctx the parse tree
 	 */
@@ -328,6 +268,16 @@ public interface FunctionListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAnd_expression(@NotNull FunctionParser.And_expressionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FunctionParser#term}.
+	 * @param ctx the parse tree
+	 */
+	void enterTerm(@NotNull FunctionParser.TermContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FunctionParser#term}.
+	 * @param ctx the parse tree
+	 */
+	void exitTerm(@NotNull FunctionParser.TermContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link FunctionParser#condExpr}.
 	 * @param ctx the parse tree
@@ -348,4 +298,14 @@ public interface FunctionListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMulti_expression(@NotNull FunctionParser.Multi_expressionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FunctionParser#if_stat}.
+	 * @param ctx the parse tree
+	 */
+	void enterIf_stat(@NotNull FunctionParser.If_statContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FunctionParser#if_stat}.
+	 * @param ctx the parse tree
+	 */
+	void exitIf_stat(@NotNull FunctionParser.If_statContext ctx);
 }
