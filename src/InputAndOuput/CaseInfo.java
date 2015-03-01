@@ -4,17 +4,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import search.ResultObject;
+
 public class CaseInfo {
 	
 	Map<List<String>, List<String>> positives;
 	Map<List<String>, List<String>> negatives;
 	
-	//one is 
-	Map<String, Map<String, String>> results;
+	ResultObject result;
 	public CaseInfo() {
 		this.positives = new HashMap<List<String>, List<String>>();
 		this.negatives = new HashMap<List<String>, List<String>>();
-		this.results = new HashMap<String, Map<String, String>>();
+		result = new ResultObject();
 	}
 	public Map<List<String>, List<String>> getPositives() {
 		return positives;
@@ -31,11 +32,11 @@ public class CaseInfo {
 	
 	
 	
-	public Map<String, Map<String, String>> getResults() {
-		return results;
+	public ResultObject getResult() {
+		return result;
 	}
-	public void setResults(Map<String, Map<String, String>> results) {
-		this.results = results;
+	public void setResult(ResultObject result) {
+		this.result = result;
 	}
 	public void print(){
 		System.out.println("positve");

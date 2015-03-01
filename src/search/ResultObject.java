@@ -9,6 +9,16 @@ public class ResultObject {
 	private Map<String, String> pathVariablesTypes;
 	private Map<String, String> pathVariableTrack;
 	private Map<String, String> pathVariableMap;
+	
+	private Map<String, String> searchMapping;
+	
+	
+	public Map<String, String> getSearchMapping() {
+		return searchMapping;
+	}
+	public void setSearchMapping(Map<String, String> searchMapping) {
+		this.searchMapping = searchMapping;
+	}
 	public String getSource() {
 		return source;
 	}

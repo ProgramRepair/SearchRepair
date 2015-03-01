@@ -12,14 +12,13 @@ import java.io.OutputStreamWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import lookups.ClassType;
 import lookups.TypeTable;
-import test.Test;
-import db.DataBaseManager;
+import Database.DataBaseManager;
+import Library.Utility;
 
 public class SearchManager {
 	
@@ -28,8 +27,8 @@ public class SearchManager {
 	
 	public  static List<String> search(Object[] input, Object output) throws SQLException, IOException{
 		List<String> finding = new ArrayList<String>();
-		DataBaseManager.connect();
-		ResultSet result = DataBaseManager.query(SEARCHURL);
+		Database.DataBaseManager.connect();
+		ResultSet result = Database.DataBaseManager.query(SEARCHURL);
 		while(result.next()){
 			String[] input1 = result.getString(5).split("\n");
 			if(input1.length != input.length || !CheckInputType(input1, input)){
@@ -44,7 +43,7 @@ public class SearchManager {
 			List<String> searchOver = loadInputAndOutput(constraint, input1, input, output);
 			loadSearchOver(bw, searchOver);
 			bw.close();
-			String res = Test.invokeZ3onFile("ctest/test/temp");
+			String res = Utility.invokeZ3onFile("ctest/test/temp");
 			if(res.equals("sat")){
 				finding.add(result.getString(3));
 			}

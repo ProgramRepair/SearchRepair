@@ -97,8 +97,11 @@ public class PrototypeSearch {
 				if(validate(delcarations, mappingConstraint, constraint, states)) pass = false;
 			}
 			if(!pass) continue;
+			
+			
+			recordOnePath(path, source, path, variableTypes, variableTracks, info, mapping);
+
 			//System.out.println(mappingConstraint);
-			info.getResult().add(source);
 			Map<String, String> track = getVariableTrack(mapping);
 			Map<String, String> rel = new HashMap<String, String>();
 			for(String s : map.keySet()){
@@ -111,6 +114,23 @@ public class PrototypeSearch {
 			
 		
 	}
+
+	private static void recordOnePath(String path, String source, String path2,
+			String[] variableTypes, String[] variableTracks, CaseInfo info,
+			String[] mapping) {
+			info.getResult().setSource(source);
+			info.getResult().setPath(path);
+			Map<String, String> types = getVariableTrack(variableTypes);
+			Map<String, String> tracks = getVariableTrack(variableTracks);
+			Map<String, String> backTracking = getVariableTrack(mapping);
+			
+			for()
+			
+			info.getResult().set
+		
+	}
+
+
 
 	private static String getMapping(Map<String, String> m) {
 		String temp = "(assert (and ";
