@@ -13,33 +13,67 @@ import java.util.Map;
 
 import lookups.TypeTable;
 import test.Test;
+import Database.DataHandler;
+import Database.EntryHandler;
 import InputAndOuput.CaseInfo;
+import InputAndOuput.SearchCase;
 import Library.StringRepresentation;
 
 public class PrototypeSearch {
 	private static String SEARCHPROTOTYPE = "select * from prototype";	
-	public static void search(InputAndOuput.CaseInfo info) throws SQLException, IOException{
+	public static void search(CaseInfo info) throws SQLException, IOException{
 		Database.DataBaseManager.connect();
 		ResultSet result = Database.DataBaseManager.query(SEARCHPROTOTYPE);
 		while(result.next()){
-			String constraint = result.getString(2);
-			String[] types = result.getString(3).split("\n");
-//			Map<String, String> variables = translator.getVariableTypeTrack();
 			String source = result.getString(1);
-			String[] tracks= result.getString(4).split("\n");
-			String[] mapping = result.getString(5).split("\n");
-			//search(constraint, types, source, info, tracks, mapping);
-			searchWithMapping(constraint, types, source, info, tracks, mapping);
+			String[] pathconstraint = result.getString(2).split(EntryHandler.PATH_SEPERATOR);
+			String[] pathtypes = result.getString(3).split(EntryHandler.PATH_SEPERATOR);			
+			String[] pathtracks= result.getString(4).split(EntryHandler.PATH_SEPERATOR);
+			String[] pathmapping = result.getString(5).split(EntryHandler.PATH_SEPERATOR);
+			
+			searchAllPath(pathconstraint, pathtypes, source, info, pathtracks, pathmapping);
 		}
 	}
 	
-	private static void searchWithMapping(String constraint, String[] variableTypes,
+
+
+	private static void searchAllPath(String[] pathconstraint,
+			String[] pathtypes, String source, CaseInfo info,
+			String[] pathtracks, String[] pathmapping) {
+		// only one path can succeed
+		int success = 0;
+		if(!(pathconstraint.length == pathtypes.length && pathtypes.length == pathtracks.length && pathtracks.length == pathmapping.length)) return;
+		
+		for(int i = 0; i < pathconstraint.length; i++){
+			String[] pathAndCon = pathconstraint[i].split(EntryHandler.PATH_CONSTRAINT);
+			String[] pathAndType = pathtypes[i].split(EntryHandler.PATH_VARIABLE_TYPE);
+			String[] pathAndTrack = pathtracks[i].split(EntryHandler.PATH_VARIABLE_TRACK);
+			String[] pathAndMap = pathmapping[i].split(EntryHandler.PATH_VARIABLE_MAP);
+			String path = pathAndCon[0];
+			String constraint = pathAndCon[1];
+			String[] variableTypes = pathAndType[1].split(DataHandler.VARIABLE_TYPE);
+			String[] variableTracks = pathAndTrack[1].split(DataHandler.VARIABLE_TRACK);
+			String[] mapping = pathAndMap[1].split(DataHandler.VARIABLE_MAP);
+			if(searchWithMapping(path, constraint, variableTypes, source, info, variableTracks, mapping)){
+				if(success == 1){
+					//return false;
+				}
+				else{
+					success += 1;
+				}
+			}
+			
+		}
+		
+	}
+
+
+
+	private static boolean searchWithMapping(String path, String constraint, String[] variableTypes,
 			String source, CaseInfo info, String[] variableTracks, String[] mapping) {
 		List<Map<String, String>> list = getValidateMapping(variableTypes, info, variableTracks);
-		if(list.isEmpty()) return;
+		if(list.isEmpty()) return false;
 		
-//		String mc = getMappingConstraint(list);
-//		System.out.println(mc);
 		List<String> delcarations = getVariableTypeConstraint(variableTypes);
 		//
 		for(Map<String, String> map : list){
@@ -119,7 +153,7 @@ public class PrototypeSearch {
 		}
 		if(!pass) return;
 //		System.out.println(constraint);
-		info.getResult().add(source);
+		//info.getResult().add(source);
 		
 	}
 	
