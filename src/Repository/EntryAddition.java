@@ -18,11 +18,11 @@ public class EntryAddition {
 		List<Method> methods = parse(filePath);
 		for(Method method : methods){
 			EntryObject object = covertMethodToEntry(method);
-			EntryHandler.save(object);
+			//EntryHandler.save(object);
 			for(String path : method.getPath())
 			{
-				System.out.println(path);
-				System.out.println(method.getPathToInput().get(path));
+				//System.out.println(path);
+				//System.out.println(method.getPathToInput().get(path));
 			}
 		}
 	}

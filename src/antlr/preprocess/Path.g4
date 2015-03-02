@@ -12,7 +12,7 @@ statement
 	;
 	
 callStat
-	: callExpr
+	: callExpr ';'
 	;
 	
 
@@ -22,16 +22,17 @@ assumeStat
 	
 declarationStat
 	: type ID ';'
+	| type '*' ID ';'
 	;
 
 assignStat
 	: ID assiginOperator expr  ';'
-	| POINTER ID assiginOperator expr  ';'
+	| '*' ID assiginOperator expr  ';'
 	| ID assiginOperator callExpr ';'
 	;
 		
 returnStat
-	: 'return' '('expr ');'
+	: 'return' '('expr ')' ';'
 	;
 	
 
@@ -49,14 +50,20 @@ expr
 
 	
 addressExpr: '&' ID;
-defExpr : POINTER ID;
+defExpr : '*' ID;
 
 	
 	
 callExpr : ID arguments;
 
 arguments:
-	'(' (expr(',' expr)*)? ')';
+	'(' (formalArgument(',' formalArgument)*)? ')';
+
+formalArgument
+	: ID
+	| FLOAT
+	| INT
+	;
 
 
 
@@ -65,7 +72,6 @@ type
 	| Char
 	| Float
 	| Double
-	| String
 	;
 
 arithOperator: ADDCTIVE | DEDUCTIVE | MULTIPLY | DIVIDE | MOD;
@@ -84,12 +90,12 @@ Char : 'char';
 
 Float : 'float';
 
-String : 'char*';
 
 Double : 'double';
 
 ASSIGN : '=';
-POINTER : '*';
+
+
 
 INT : '0'..'9'+;
 FLOAT : ('0'..'9')+ '.' ('0'..'9')*;
@@ -114,12 +120,14 @@ DIVIDESELF: '/=';
 
 
 
+
 LT : '<';
 LE : '<=';
 GT : '>';
 GE : '>=';
 EQ : '==';
 NEQ : '!=';
+
 
 
 WS : [ \t\r\n]+ -> skip;
@@ -134,7 +142,7 @@ StringLiteral
 	: '"' (Character)* '"' 
 	;
 
-fragment
+
 Character : [0-9|a-z|A-Z];
 
 fragment   

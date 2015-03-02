@@ -1,5 +1,6 @@
 package Database;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class EntryObject {
@@ -20,6 +21,13 @@ public class EntryObject {
 	
 
 
+	public EntryObject() {
+		source = "";
+		this.pathConstraint = new HashMap<String, String>();
+		this.pathVariablesTypes = new HashMap<String, String>();
+		this.pathVariableTrack = new HashMap<String, String>();
+		this.pathVariableMap = new HashMap<String, String>();
+	}
 	public Map<String, String> getPathVariablesTypes() {
 		return pathVariablesTypes;
 	}

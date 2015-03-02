@@ -11,16 +11,11 @@ public class EntryTranslator {
 	private EntryObject entryObject;
 	
 	
-	//for generating new name only
-	private String fileName;
-	private int count;
 	
 	public EntryTranslator(Method method) {
 		super();
 		this.method = method;
 		this.entryObject = new EntryObject();
-		this.count = 0;
-		this.fileName = method.getName();
 		
 		initEntryObject();
 		
@@ -47,6 +42,8 @@ public class EntryTranslator {
 				constraintString.append(line);
 				constraintString.append("\n");
 			}
+			
+			System.out.println(constraintString.toString());
 			this.entryObject.getPathConstraint().put(path, constraintString.toString());
 			
 			Map<String, String> mapping = pathTranslator.getVariableMap();
