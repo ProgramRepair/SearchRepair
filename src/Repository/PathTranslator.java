@@ -272,7 +272,14 @@ public class PathTranslator {
 		String expr = getExpr(c.expr());
 		String id = this.variableTrack.get(c.ID().getText());
 		String newId = generateNewName(id);
-		String constraint = "(assert(= " + newId + " " + expr + "))";
+		String constraint = "";
+		if(c.assiginOperator().getText() .equals('=') ){
+			constraint = "(assert(= " + newId + " " + expr + "))";
+		}
+		else{
+			char operater = c.assiginOperator().getText().charAt(0);
+			constraint = "(assert(= " + newId + "( " + operater + " " + id + " " + expr + " )))";
+		}
 		ssa.add(constraint);		
 	}
 
