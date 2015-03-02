@@ -34,7 +34,7 @@ public class Utility {
 	
 	public static String invokeZ3onFile(String file) {
 		String out = "";
-		String execString = "CSMT/z3"
+		String execString = "executors/z3"
 				+ " -smt2 -nw -file:" + file;
 		//System.out.println(execString);
 		String ls_str;

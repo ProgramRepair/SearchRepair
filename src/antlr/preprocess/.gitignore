@@ -36,3 +36,9 @@
 /CListener.java
 /CParser.java
 /Condition.g4
+/Path.tokens
+/PathBaseListener.java
+/PathLexer.java
+/PathLexer.tokens
+/PathListener.java
+/PathParser.java

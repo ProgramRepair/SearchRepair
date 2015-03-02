@@ -3,6 +3,7 @@ package Database;
 import java.util.Map;
 
 public class EntryObject {
+	//private String name;
 	private String source;
 	private Map<String, String> pathConstraint;
 	private Map<String, String> pathVariablesTypes;
