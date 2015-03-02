@@ -141,16 +141,19 @@ public class EntryAddition {
 		int start = -1;
 		int end = -1;
 		Stack<Character> stack = new Stack<Character>();
+		Stack<Integer> index = new Stack<Integer>();
 		for(int i = 0; i < fileString.length(); i++)
 		{
 			char c = fileString.charAt(i);
-			if(c == '{' && stack.isEmpty()){
-				start = i;
+			if(c == '{'){
+				index.push(i);
 				stack.add(c);
 			}
 			else if(c == '}'){
 				stack.pop();
+				int temp = index.pop();
 				if(stack.isEmpty()){
+					start = temp;
 					end = i;
 					sources.add(fileString.substring(start+1, end));
 				}				

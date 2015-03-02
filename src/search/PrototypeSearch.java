@@ -25,7 +25,7 @@ public class PrototypeSearch {
 	private static String SEARCHPAUTOBUGFIX= "select * from autobugfix";
 	public static void search(CaseInfo info) throws SQLException, IOException{
 		Database.DataBaseManager.connect();
-		ResultSet result = Database.DataBaseManager.query(SEARCHPROTOTYPE);
+		ResultSet result = Database.DataBaseManager.query(SEARCHPAUTOBUGFIX);
 		while(result.next()){
 			String source = result.getString(1);
 			String[] pathconstraint = result.getString(2).split(EntryHandler.PATH_SEPERATOR);

@@ -41,6 +41,7 @@ if_stat
  declarationStat
 	: type ID 
 	| type ID ('[' INT ']') 
+	//| type POINTER ID
 	;
 	
 returnStat
@@ -55,7 +56,7 @@ assignStat
 	: ID ASSIGN assign_expression
 	| type ID ASSIGN assign_expression
 	| POINTER ID ASSIGN assign_expression
-	| type POINTER ID ASSIGN assign_expression
+	//| type POINTER ID ASSIGN assign_expression
 	| ID arithmAssignOperator assign_expression
 	| POINTER ID arithmAssignOperator assign_expression
 	;

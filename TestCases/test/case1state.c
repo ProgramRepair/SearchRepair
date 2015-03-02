@@ -17,7 +17,9 @@ char* case1(int a, char* c, char* b){
 	a = 3;
     
     char g[20];
+printf("input state:g:%s:char*,b:%s:char*,c:%s:char*,a:%d:int\n", g, b, c, a);
 	strcpy(g, "ab");	
+printf("output state:g:%s:char*,b:%s:char*,c:%s:char*,a:%d:int\n", g, b, c, a);
 	strcpy(b, c);
 
 	strcat(b, c);
