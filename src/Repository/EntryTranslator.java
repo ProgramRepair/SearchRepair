@@ -1,8 +1,9 @@
 package Repository;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import Database.DataHandler;
 import Database.EntryObject;
 
 public class EntryTranslator {
@@ -40,16 +41,44 @@ public class EntryTranslator {
 	private void translateWithSSA() {
 		for(String path : method.getPath()){
 			PathTranslator pathTranslator = new PathTranslator(path, method.getPathToInput().get(path));
-			List<String> constraints = new ArrayList<String>();
+			List<String> constraints = pathTranslator.getSsa();
 			StringBuilder constraintString = new StringBuilder();
 			for(String line : constraints){
 				constraintString.append(line);
 				constraintString.append("\n");
 			}
 			this.entryObject.getPathConstraint().put(path, constraintString.toString());
-			this.entryObject.getPathVariableMap().put(path, pathTranslator.getVariableMap());
-			this.entryObject.getPathVariableTrack().put(path, pathTranslator.getVariableTrack());
-			this.entryObject.getPathVariablesTypes().put(path, pathTranslator.getVariableType());
+			
+			Map<String, String> mapping = pathTranslator.getVariableMap();
+			StringBuilder mappingString = new StringBuilder();
+			for(String var : mapping.keySet()){
+				String one = DataHandler.concat(var, mapping.get(var));
+				mappingString.append(one);
+			}
+			
+			this.entryObject.getPathVariableMap().put(path, mapping.toString());
+			
+			
+			Map<String, String> tracks = pathTranslator.getVariableTrack();
+			StringBuilder trackString = new StringBuilder();
+			for(String var : tracks.keySet()){
+				String one = DataHandler.concat(var, tracks.get(var));
+				trackString.append(one);
+			}
+			
+			
+			this.entryObject.getPathVariableTrack().put(path, trackString.toString());
+			
+			
+			Map<String, String> types = pathTranslator.getVariableType();
+			StringBuilder typeString = new StringBuilder();
+			for(String var : types.keySet()){
+				String one = DataHandler.concat(var, types.get(var));
+				typeString.append(one);
+			}			
+			
+			
+			this.entryObject.getPathVariablesTypes().put(path, typeString.toString());
 		}
 
 		
