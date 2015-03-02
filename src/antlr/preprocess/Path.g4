@@ -29,6 +29,7 @@ assignStat
 	: ID assiginOperator expr  ';'
 	| '*' ID assiginOperator expr  ';'
 	| ID assiginOperator callExpr ';'
+	| ID assiginOperator StringLiteral ';'
 	;
 		
 returnStat
@@ -42,7 +43,7 @@ expr
 	| expr arithOperator expr
 	| FLOAT
 	| CharacterLiteral
-	| StringLiteral
+	//| StringLiteral
 	| addressExpr
 	| defExpr
 	;
@@ -98,8 +99,11 @@ ASSIGN : '=';
 
 
 INT : '0'..'9'+;
+
+
 FLOAT : ('0'..'9')+ '.' ('0'..'9')*;
-STRING : '"' ('a'..'z'|'A'..'Z'|'_'|' ')* '"';
+
+
 ID : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 OR : '||';
 AND: '&&';
@@ -134,16 +138,16 @@ WS : [ \t\r\n]+ -> skip;
 
 
 CharacterLiteral 
-	: '\'' (Character) '\''
+	: '\'' (SChar) '\''
 	;	
 	
 	
 StringLiteral
-	: '"' (Character)* '"' 
+	: '"' SCharSequence? '"' 
 	;
 
 
-Character : [0-9|a-z|A-Z];
+
 
 fragment   
 SCharSequence

@@ -1,28 +1,11 @@
 
 
-int Doubled(int a){
-	int c = 2 * a;
-	return c;
-}
-
-int minus(int a, int b){
-	int c = a - b;
-	return c;
-}
-
-int sum(int a, int b)
+int a(int g)
 {
-	
-	int c = a + b;
-	return c;
-}
-
-int muliptly(int a, int b){
-	int c = a * b;
-	return c;
-}
-
-int divide(int a, int b){
-	int c = a / b;
-	return c;
+    
+    char* a = "abc";
+    char* b = "ab";
+    char* c = "abcab";
+    strcat(a, b);
+    return 0;
 }

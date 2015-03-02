@@ -258,7 +258,7 @@ public class PathTranslator {
 
 
 	private void convertNonCallExprAssign(AssignStatContext assign) {
-		if(assign.expr().StringLiteral() != null){
+		if(assign.StringLiteral() != null){
 			convertString(assign);
 		}
 		else{
@@ -288,11 +288,12 @@ public class PathTranslator {
 
 
 	private void convertString(AssignStatContext c) {
-		String content = c.expr().StringLiteral().getText();
+		String content = c.StringLiteral().getText();
 		content = content.substring(1, content.length() - 1);
 		String id = c.ID().getText();
 		String newId = this.generateNewName(id);
 		StringRepresentation rep = new StringRepresentation(newId, content);
+		//System.out.println(rep.getConstraints());
 		ssa.addAll(rep.getConstraints());
 		
 	}

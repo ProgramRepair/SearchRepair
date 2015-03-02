@@ -142,7 +142,7 @@ public class EntryAddition {
 	
 	
 	public static void main(String[] args){
-		String filePath = "./testcases/ccode/test.c";
+		String filePath = "./testcases/ccode/source.c";
 		EntryAddition.addOneFile(filePath);;
 	}
 }

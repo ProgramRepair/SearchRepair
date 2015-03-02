@@ -1,0 +1,10 @@
+(declare-sort  IntPointer 0)
+(declare-sort  FloatPointer 0)
+
+(declare-fun valueOf (IntPointer) Int)
+(declare-fun valueOf (FloatPointer) Real)
+
+(declare-fun addressOf (IntPointer) Int)
+(declare-fun addressOf (FloatPointer) Real)
+(declare-fun addressOf (Int) IntPointer)
+(declare-fun addressOf (Real) FloatPointer)
