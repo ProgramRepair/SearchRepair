@@ -16,35 +16,29 @@ callStat
 	;
 	
 
- 
-
 assumeStat
 	: expr comparator expr ';'
 	;
 	
 declarationStat
-	: type '*' ID ';'
-	| type ID ';'
+	: type ID ';'
 	;
 
 assignStat
-	: ID '=' expr  ';'
-	| '*' ID '=' expr  ';'
-	| ID '=' callExpr ';'
+	: ID assiginOperator expr  ';'
+	| POINTER ID assiginOperator expr  ';'
+	| ID assiginOperator callExpr ';'
 	;
-	
-	
-	
+		
 returnStat
-	: 'return' '('(ID | INT | FLOAT )');'
+	: 'return' '('expr ');'
 	;
 	
 
 expr 
 	: ID 
 	| INT
-	| expr addictiveOperator expr
-	| expr multiOperater expr
+	| expr arithOperator expr
 	| FLOAT
 	| CharacterLiteral
 	| StringLiteral
@@ -52,44 +46,37 @@ expr
 	| defExpr
 	;
 	
+
+	
 addressExpr: '&' ID;
-defExpr : '*' ID;
+defExpr : POINTER ID;
 
 	
-
-
-
 	
-callExpr : ID '(' (ID | FLOAT | INT )* ')';
+callExpr : ID arguments;
+
+arguments:
+	'(' (expr(',' expr)*)? ')';
+
+
 
 type
 	: Int
 	| Char
 	| Float
+	| Double
+	| String
 	;
 
+arithOperator: ADDCTIVE | DEDUCTIVE | MULTIPLY | DIVIDE | MOD;
+assiginOperator : ADDSELF | DEDUCTSELF | MODSELF | MULTISELF | DIVIDESELF | ASSIGN;
 	
 	
 
-addictiveOperator
-	: '+'
-	| '-'
-	;
-	
-multiOperater
-	: '*'
-	| '/'
-	| '%'
-	;
 
-comparator
-	: '>'
-	| '>='
-	| '<'
-	| '<='
-	| '=='
-	| '!='
-	;
+
+comparator : LT | GT | EQ | NEQ | LE | GE; 
+
 
 Int : 'int';
 
@@ -97,11 +84,43 @@ Char : 'char';
 
 Float : 'float';
 
+String : 'char*';
 
-ID : ('a'..'z' |'A'..'Z'|'_'|'|')('a'..'z' |'A'..'Z'|'_' | '0'..'9')*;
+Double : 'double';
 
-INT: ('0'..'9')+;
-FLOAT: ('0'..'9')+('.')('0'..'9')+;
+ASSIGN : '=';
+POINTER : '*';
+
+INT : '0'..'9'+;
+FLOAT : ('0'..'9')+ '.' ('0'..'9')*;
+STRING : '"' ('a'..'z'|'A'..'Z'|'_'|' ')* '"';
+ID : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+OR : '||';
+AND: '&&';
+LPAREN : '(';
+RPAREN : ')';
+ADDCTIVE : '+';
+DEDUCTIVE : '-';
+MULTIPLY : '*';
+DIVIDE : '/';
+MOD : '%';
+INCRE: '++';
+DECRE: '--';
+ADDSELF: '+=';
+DEDUCTSELF: '-=';
+MODSELF: '%=';
+MULTISELF: '*=';
+DIVIDESELF: '/=';
+
+
+
+LT : '<';
+LE : '<=';
+GT : '>';
+GE : '>=';
+EQ : '==';
+NEQ : '!=';
+
 
 WS : [ \t\r\n]+ -> skip;
 
@@ -115,5 +134,20 @@ StringLiteral
 	: '"' (Character)* '"' 
 	;
 
-
+fragment
 Character : [0-9|a-z|A-Z];
+
+fragment   
+SCharSequence
+    :   SChar+
+    ;
+ fragment
+ SChar
+    :   ~["\\\r\n]
+    |   EscapeSequence
+    ;
+fragment
+EscapeSequence:  '\\' ['"?abfnrtv\\];
+
+
+

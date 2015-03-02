@@ -184,9 +184,9 @@ public class StringMethodTranslator {
 		return constraints;
 	}
 	
-	public static String getStrlenConstraints(String left, String srcConstent)
+	public static String getStrlenConstraints(String srcConstent)
 	{
-		String constraint = "(assert (= " + left + " (length " + srcConstent + ")))";
+		String constraint =  " (length " + srcConstent + ")";
 		return constraint;
 	}
 	

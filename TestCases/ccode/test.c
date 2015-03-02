@@ -12,6 +12,7 @@ char grades(int score){
 
 
 int smallest(int a, int b, int c){
+    int d = a + (b * c) + a * a * b;
 	if(a < b && a < c){
         strcpy(a, b);
 		return a;

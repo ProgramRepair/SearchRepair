@@ -39,7 +39,7 @@ public class EntryTranslator {
 
 	private void translateWithSSA() {
 		for(String path : method.getPath()){
-			PathTranslator pathTranslator = new PathTranslator(path);
+			PathTranslator pathTranslator = new PathTranslator(path, method.getPathToInput().get(path));
 			List<String> constraints = new ArrayList<String>();
 			StringBuilder constraintString = new StringBuilder();
 			for(String line : constraints){
