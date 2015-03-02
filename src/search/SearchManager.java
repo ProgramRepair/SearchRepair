@@ -18,6 +18,7 @@ import java.util.Map;
 import lookups.ClassType;
 import lookups.TypeTable;
 import Database.DataBaseManager;
+import Database.DataHandler;
 import Library.Utility;
 
 public class SearchManager {
@@ -51,44 +52,11 @@ public class SearchManager {
 		return finding;
 	}
 	
-	public static List<String> search(SSATranslator translator) throws SQLException{
-		DataBaseManager.connect();
-		ResultSet result = DataBaseManager.query(SEARCHPROTOTYPE);
-		List<String> list = new ArrayList<String>();
-		while(result.next()){
-			String constraint = result.getString(2);
-			String[] inputs = result.getString(3).split("\n");
-			Map<String, String> variables = translator.getVariableTypeTrack();
-			String source = result.getString(1);
-			List<Map<String, String>> permutations = new ArrayList<Map<String, String>>();
-			
 
-		}
-		return list;
-	}
 	
-	private static void loadVariableFromInput(BufferedWriter bw, String input) throws IOException {
-		String[] vars = input.split("\n");
-		for(String var : vars){
-			String[] re = var.split(":");
-			String type = TypeTable.getInstance().getType(re[1]);
-			String declare = "(declare " + re[0]  + " " + type + ")\n";
-			bw.write(declare);
-			bw.flush();
-		}
-		
-	}
 
-	private static void loadAllVariable(SSATranslator translator,
-			BufferedWriter bw) throws IOException {
-		for(String v : translator.getVariableTypeTrack().keySet()){
-			String type = TypeTable.getInstance().getType(translator.getVariableTypeTrack().get(v));
-			String declare = "(declare " + v  + " " + type + ")\n";
-			bw.write(declare);
-			bw.flush();
-		}
-		
-	}
+
+
 
 	private static void loadSearchOver(BufferedWriter bw,
 			List<String> searchOver) throws IOException {
@@ -127,7 +95,7 @@ public class SearchManager {
 	//check type 
 	
 	public static void loadPrototype(BufferedWriter bw) throws IOException {
-		File dir = new File("smt/prototype");
+		File dir = new File(DataHandler.PROTOTYPE);
 		for(File file : dir.listFiles()){
 			if(file.isFile()){
 				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));

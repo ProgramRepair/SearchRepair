@@ -1,5 +1,6 @@
 package search;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ResultObject {
@@ -48,6 +49,14 @@ public class ResultObject {
 	}
 	public void setPathVariableMap(Map<String, String> pathVariableMap) {
 		this.pathVariableMap = pathVariableMap;
+	}
+	public void clear() {
+		source = "";
+		path = "";
+		pathVariablesTypes = new HashMap<String, String>();
+		pathVariableTrack= new HashMap<String, String>();
+		pathVariableMap= new HashMap<String, String>();
+		
 	}
 	
 	

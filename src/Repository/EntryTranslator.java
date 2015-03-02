@@ -76,6 +76,18 @@ public class EntryTranslator {
 			
 			
 			this.entryObject.getPathVariablesTypes().put(path, typeString.toString());
+			
+			
+			Map<String, String> formals = pathTranslator.getFormalVariables();
+			StringBuilder formalString = new StringBuilder();
+			for(String var : formals.keySet()){
+				String one = DataHandler.concat(var, formals.get(var));
+				formalString.append(one);
+			}			
+			
+			
+			this.entryObject.getPathFormalVariables().put(path, formalString.toString());
+			
 		}
 
 		

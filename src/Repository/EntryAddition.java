@@ -6,24 +6,24 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import Database.EntryHandler;
 import Database.EntryObject;
+import Library.Utility;
 
 public class EntryAddition {
 	
 	public static void addOneFile(String filePath){
 		File file = new File(filePath);
 		if(!file.exists()) return;
+		//asssume only one method
 		List<Method> methods = parse(filePath);
 		for(Method method : methods){
 			EntryObject object = covertMethodToEntry(method);
-			//EntryHandler.save(object);
-			for(String path : method.getPath())
-			{
-				//System.out.println(path);
-				//System.out.println(method.getPathToInput().get(path));
-			}
+			EntryHandler.save(object);
+			System.out.println(method.getName());
+			System.out.println(method.getSource());
 		}
 	}
 	
@@ -48,6 +48,7 @@ public class EntryAddition {
 
 	
 	private static List<Method> parse(String fileName){
+		//assume only one method
 		List<Method> methods = new ArrayList<Method>();
 		try {
 			String com = "./executors/pathgen " + fileName;
@@ -133,6 +134,31 @@ public class EntryAddition {
 		} catch (IOException e) {
 			
 			e.printStackTrace();
+		}
+		
+		String fileString = Utility.getStringFromFile(fileName);
+		List<String> sources = new ArrayList<String>();
+		int start = -1;
+		int end = -1;
+		Stack<Character> stack = new Stack<Character>();
+		for(int i = 0; i < fileString.length(); i++)
+		{
+			char c = fileString.charAt(i);
+			if(c == '{' && stack.isEmpty()){
+				start = i;
+				stack.add(c);
+			}
+			else if(c == '}'){
+				stack.pop();
+				if(stack.isEmpty()){
+					end = i;
+					sources.add(fileString.substring(start+1, end));
+				}				
+			}
+		}
+		
+		for(int i = 0; i < sources.size(); i++){
+			methods.get(i).setSource(sources.get(i));
 		}
 		return methods;
 		

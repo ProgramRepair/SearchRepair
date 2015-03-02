@@ -10,6 +10,7 @@ public class EntryObject {
 	private Map<String, String> pathVariablesTypes;
 	private Map<String, String> pathVariableTrack;
 	private Map<String, String> pathVariableMap;
+	private Map<String, String> pathFormalVariables;
 	public String getSource() {
 		return source;
 	}
@@ -17,16 +18,20 @@ public class EntryObject {
 		this.source = source;
 	}
 
-	
-	
 
-
+	public Map<String, String> getPathFormalVariables() {
+		return pathFormalVariables;
+	}
+	public void setPathFormalVariables(Map<String, String> pathFormalVariables) {
+		this.pathFormalVariables = pathFormalVariables;
+	}
 	public EntryObject() {
 		source = "";
 		this.pathConstraint = new HashMap<String, String>();
 		this.pathVariablesTypes = new HashMap<String, String>();
 		this.pathVariableTrack = new HashMap<String, String>();
 		this.pathVariableMap = new HashMap<String, String>();
+		this.pathFormalVariables = new HashMap<String, String>();
 	}
 	public Map<String, String> getPathVariablesTypes() {
 		return pathVariablesTypes;

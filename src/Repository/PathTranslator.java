@@ -33,7 +33,7 @@ import antlr.preprocess.PathParser.StatementContext;
 public class PathTranslator {
 	
 	private String path;
-	private String[] formalVariables;
+	private Map<String, String> formalVariables;
 	private Map<String, String> variableTrack;
 	private Map<String, String> variableType;
 	private Map<String, String> variableMap;
@@ -52,13 +52,16 @@ public class PathTranslator {
 		this.path = path;
 		//System.out.println(formalVariables);
 		System.out.println(path);
-		this.formalVariables = formalVariables.split("\n");
 		this.count = 0;
 		this.fileName = "_test_";
 		this.ssa = new ArrayList<String>();
 		this.variableMap = new HashMap<String, String>();
 		this.variableTrack = new HashMap<String, String>();
 		this.variableType = new HashMap<String, String>();
+		this.formalVariables = new HashMap<String, String>();
+		for(String var : formalVariables.split("\n")){
+			this.formalVariables.put(var.split(" ")[1], var.split(" ")[0]);
+		}
 		applySSA();
 	}
 	
@@ -92,9 +95,8 @@ public class PathTranslator {
 
 
 	private void trackFormal() {
-		for(String formal : this.formalVariables){
-			String type = formal.split(" ")[0];
-			String id = formal.split(" ")[1];
+		for(String id : this.formalVariables.keySet()){
+			String type = this.formalVariables.get(id);
 			this.variableMap.put(id, id);
 			this.variableTrack.put(id, id);
 			this.variableType.put(id, type);
@@ -500,7 +502,13 @@ public class PathTranslator {
 
 	
 	
-	public String[] getFormalVariables() {
+
+
+
+
+
+
+	public Map<String, String> getFormalVariables() {
 		return formalVariables;
 	}
 
@@ -508,7 +516,7 @@ public class PathTranslator {
 
 
 
-	public void setFormalVariables(String[] formalVariables) {
+	public void setFormalVariables(Map<String, String> formalVariables) {
 		this.formalVariables = formalVariables;
 	}
 

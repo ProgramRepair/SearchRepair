@@ -25,7 +25,10 @@ public class StringRepresentation {
 
 
 
-
+	/**
+	 * be careful, there is no declaration cosntraint in this set
+	 * @return
+	 */
 	public List<String> getConstraints() {
 		return constraints;
 	}
@@ -73,7 +76,7 @@ public class StringRepresentation {
 
 
 	private void generateConstraints(){
-		constraints.add(getDeclareConstraint(name));
+		//constraints.add(getDeclareConstraint(name));
 		constraints.add(getLengthConstraints(name, content));
 		for(int i = 0; i < content.length(); i++){
 			constraints.add(getCharOfConstraint(name, content,i));

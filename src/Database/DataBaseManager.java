@@ -105,9 +105,9 @@ public class DataBaseManager {
 	
 	public static void main(String[] args){
 		connect(DataBaseManager.USER, DataBaseManager.PASSWORD, DataBaseManager.DATABASE);
-		String createTableURL = "create table srcConstraints ( path text, source text, methodName varchar(50), constraints text, input varchar(200))";
+		String auto = "create table autobugfix (source text, constraints text, variableType text, variableTrack text, variableMap text, variableFormal text)";
 		String url = "create table prototype (source text, constraints text, variableType text, variableTrack text, variableMap text)";
-		System.out.println(DataBaseManager.createTable(url));
+		System.out.println(DataBaseManager.createTable(auto));
 		
 //		String dropTableURL = "drop table srcConstraints";
 //		System.out.println(DataBaseManager.delete(dropTableURL));
