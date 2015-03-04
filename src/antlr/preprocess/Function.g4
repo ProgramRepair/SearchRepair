@@ -10,6 +10,7 @@ type
 	| Char
 	| Float
 	| String
+	| Double
 	;
 	
 parameters 

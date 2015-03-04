@@ -42,3 +42,7 @@
 /PathLexer.tokens
 /PathListener.java
 /PathParser.java
+/FunctionExtractorBaseVisitor.java
+/FunctionExtractorVisitor.java
+/SnippetBaseVisitor.java
+/SnippetVisitor.java

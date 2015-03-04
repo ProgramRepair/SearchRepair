@@ -69,17 +69,18 @@ public class SearchCase {
 		String IOFileName = this.casePrefix + "_TS";
 		parse(IOFileName);
 		fillSearchCase();
-		info.print();
+		//info.print();
 		search();
-		printResult();
-		
-		
+		printResult();		
 	}
 	
 	
 	private void printResult() {
+		int i = 0;
 		for(String source : info.getResult().getSource())
 		{
+			i++;
+			System.out.println("result" + i + "\n--------------------");
 			System.out.println(source);
 			System.out.println(info.getResult().getSearchMapping().get(source));
 		}
@@ -113,7 +114,7 @@ public class SearchCase {
 			String command2 = "./" + this.casePrefix + " " +  input;
 			String s1 = CTest.runCProgram(command1);
 			String s2 = CTest.runCProgram(command2);
-			System.out.println(s2);
+			//System.out.println(s2);
 			if(s2.trim().isEmpty()) return;
 			int index1 = s2.indexOf("input");
 			int index2 = s2.indexOf("output");
@@ -139,7 +140,7 @@ public class SearchCase {
 			String command2 = "./" + this.casePrefix + " " +  input;
 			String s1 = CTest.runCProgram(command1);
 			String s2 = CTest.runCProgram(command2);
-			//System.out.println(s2);
+			System.out.println(s2);
 			int index1 = s2.indexOf("input");
 			int index2 = s2.indexOf("output");
 			
@@ -301,6 +302,8 @@ public class SearchCase {
 		// formals
 		List<FormalParameterContext> fpc = function.parameters().formalParameter();
 		for(FormalParameterContext fp : fpc){
+			String type = fp.type().getText();
+			String id = fp.ID().getText();
 			variables.put(fp.ID().getText(), fp.type().getText());
 		}
 		

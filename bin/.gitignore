@@ -1,12 +1,5 @@
-/Database
-/InputAndOuput
-/Library
 /antlr
-/search.class
-/searcj
-/search
-/translators
-/lookups
-/test
+/InputAndOuput
 /Repository
-/executors
+/search
+/test

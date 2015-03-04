@@ -189,7 +189,7 @@ public class EntryAddition {
 	
 	public static void main(String[] args){
 		String filePath = "./repository";
-		EntryAddition.addOneFolder(filePath);;
-		//EntryAddition.addOneFile("./repository/file2");
+		//EntryAddition.addOneFolder(filePath);;
+		EntryAddition.addOneFile("./repository/file1");
 	}
 }

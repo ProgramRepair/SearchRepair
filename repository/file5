@@ -1,0 +1,9 @@
+int testChar(char c, int g){
+	
+	if(c == 'a' || c == 'b' || c == 'c') {
+		g = 1;
+		
+	}
+	else g = 0;
+	return g;
+}

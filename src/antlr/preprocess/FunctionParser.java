@@ -158,6 +158,7 @@ public class FunctionParser extends Parser {
 
 	public static class TypeContext extends ParserRuleContext {
 		public TerminalNode String() { return getToken(FunctionParser.String, 0); }
+		public TerminalNode Double() { return getToken(FunctionParser.Double, 0); }
 		public TerminalNode Char() { return getToken(FunctionParser.Char, 0); }
 		public TerminalNode Float() { return getToken(FunctionParser.Float, 0); }
 		public TerminalNode Int() { return getToken(FunctionParser.Int, 0); }
@@ -184,7 +185,7 @@ public class FunctionParser extends Parser {
 			{
 			setState(67);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Int) | (1L << Char) | (1L << Float) | (1L << String))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Int) | (1L << Char) | (1L << Float) | (1L << String) | (1L << Double))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			consume();
@@ -234,7 +235,7 @@ public class FunctionParser extends Parser {
 			setState(69); match(LPAREN);
 			setState(78);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Int) | (1L << Char) | (1L << Float) | (1L << String))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Int) | (1L << Char) | (1L << Float) | (1L << String) | (1L << Double))) != 0)) {
 				{
 				setState(70); formalParameter();
 				setState(75);
@@ -340,7 +341,7 @@ public class FunctionParser extends Parser {
 			setState(89);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__2) | (1L << Int) | (1L << Char) | (1L << Float) | (1L << String) | (1L << ID) | (1L << POINTER))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__2) | (1L << Int) | (1L << Char) | (1L << Float) | (1L << String) | (1L << Double) | (1L << ID) | (1L << POINTER))) != 0)) {
 				{
 				{
 				setState(86); stat();
@@ -507,6 +508,7 @@ public class FunctionParser extends Parser {
 			case Char:
 			case Float:
 			case String:
+			case Double:
 			case ID:
 			case POINTER:
 				{
@@ -539,6 +541,7 @@ public class FunctionParser extends Parser {
 					case Char:
 					case Float:
 					case String:
+					case Double:
 					case ID:
 					case POINTER:
 						{
@@ -573,6 +576,7 @@ public class FunctionParser extends Parser {
 				case Char:
 				case Float:
 				case String:
+				case Double:
 				case ID:
 				case POINTER:
 					{
@@ -1818,7 +1822,7 @@ public class FunctionParser extends Parser {
 		"\32\u00ff\13\32\3\33\3\33\3\33\3\33\3\33\5\33\u0106\n\33\3\34\3\34\3\35"+
 		"\3\35\3\36\3\36\3\36\3\36\3\36\5\36\u0111\n\36\3\37\3\37\3\37\2\2 \2\4"+
 		"\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\668:<\2\b\3\2\20"+
-		"\23\3\2$%\3\2&*\3\2\35\36\3\2\37!\3\2+\60\u0117\2>\3\2\2\2\4@\3\2\2\2"+
+		"\24\3\2$%\3\2&*\3\2\35\36\3\2\37!\3\2+\60\u0117\2>\3\2\2\2\4@\3\2\2\2"+
 		"\6E\3\2\2\2\bG\3\2\2\2\nT\3\2\2\2\fW\3\2\2\2\16p\3\2\2\2\20r\3\2\2\2\22"+
 		"\u0094\3\2\2\2\24\u0096\3\2\2\2\26\u0099\3\2\2\2\30\u00b0\3\2\2\2\32\u00b2"+
 		"\3\2\2\2\34\u00b5\3\2\2\2\36\u00b8\3\2\2\2 \u00ba\3\2\2\2\"\u00ca\3\2"+

@@ -1,0 +1,5 @@
+positive:
+input:apples apples output:1
+negative:
+input:applesauce applebeef output:0
+buggy lines:21-21
