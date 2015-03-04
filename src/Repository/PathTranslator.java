@@ -51,7 +51,7 @@ public class PathTranslator {
 		super();
 		this.path = path;
 		//System.out.println(formalVariables);
-		System.out.println(path);
+		//System.out.println(path);
 		this.count = 0;
 		this.fileName = "_test_";
 		this.ssa = new ArrayList<String>();
@@ -201,7 +201,7 @@ public class PathTranslator {
 		if(operator.equals("!=")){
 			constraint = "(assert(not (= " + leftExpr +" "+ rightExpr + ")))";
 		}
-		if(operator.equals("==")){
+		else if(operator.equals("==")){
 			constraint = "(assert(= " + leftExpr +" "+ rightExpr + "))";
 		}
 		else{
@@ -275,7 +275,7 @@ public class PathTranslator {
 		String id = this.variableTrack.get(c.ID().getText());
 		String newId = generateNewName(id);
 		String constraint = "";
-		if(c.assiginOperator().getText() .equals('=') ){
+		if(c.assiginOperator().getText() .equals("=") ){
 			constraint = "(assert(= " + newId + " " + expr + "))";
 		}
 		else{
@@ -457,6 +457,9 @@ public class PathTranslator {
 				String ch = expr.CharacterLiteral().getText();
 				int value = ch.charAt(1);
 				return Integer.toString(value);
+			}
+			else if(expr.convertExpr() != null){
+				return expr.convertExpr().ID().getText();
 			}
 
 		} else {

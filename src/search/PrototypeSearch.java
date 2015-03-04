@@ -12,11 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 import lookups.TypeTable;
-import test.Test;
 import Database.DataHandler;
 import Database.EntryHandler;
 import InputAndOuput.CaseInfo;
-import InputAndOuput.SearchCase;
 import Library.StringRepresentation;
 import Library.Utility;
 
@@ -28,6 +26,7 @@ public class PrototypeSearch {
 		ResultSet result = Database.DataBaseManager.query(SEARCHPAUTOBUGFIX);
 		while(result.next()){
 			String source = result.getString(1);
+			//System.out.println(source);
 			String[] pathconstraint = result.getString(2).split(EntryHandler.PATH_SEPERATOR);
 			String[] pathtypes = result.getString(3).split(EntryHandler.PATH_SEPERATOR);			
 			String[] pathtracks= result.getString(4).split(EntryHandler.PATH_SEPERATOR);
@@ -44,29 +43,86 @@ public class PrototypeSearch {
 			String[] pathtypes, String source, CaseInfo info,
 			String[] pathtracks, String[] pathmapping, String[] pathformals) {
 		// only one path can succeed
-		int success = 0;
 		if(!(pathconstraint.length == pathtypes.length && pathtypes.length == pathtracks.length && pathtracks.length == pathmapping.length && pathmapping.length == pathformals.length)) return;
 		
-		for(int i = 0; i < pathconstraint.length; i++){
-			String[] pathAndCon = pathconstraint[i].split(EntryHandler.PATH_CONSTRAINT);
-			String[] pathAndType = pathtypes[i].split(EntryHandler.PATH_VARIABLE_TYPE);
-			String[] pathAndTrack = pathtracks[i].split(EntryHandler.PATH_VARIABLE_TRACK);
-			String[] pathAndMap = pathmapping[i].split(EntryHandler.PATH_VARIABLE_MAP);
-			String[] pathAndFormal = pathformals[i].split(EntryHandler.PATH_VARIABLE_Formal);
-			String path = pathAndCon[0];
-			String constraint = pathAndCon[1];
-			String[] variableTypes = pathAndType[1].split(DataHandler.VARIABLE_END);
-			String[] variableTracks = pathAndTrack[1].split(DataHandler.VARIABLE_END);
-			String[] mapping = pathAndMap[1].split(DataHandler.VARIABLE_END);
-			String[] formals = pathAndFormal[1].split(DataHandler.VARIABLE_END);
-			if(searchWithMapping(path, constraint, variableTypes, source, info, variableTracks, mapping, formals)){
-				if(success == 1){
-					info.getResult().clear();
-					return;
+		
+		String[] variableTyp = pathtypes[0].split(EntryHandler.PATH_VARIABLE_TYPE)[1].split(DataHandler.VARIABLE_END);
+		String[] variableTra = pathtracks[0].split(EntryHandler.PATH_VARIABLE_TRACK)[1].split(DataHandler.VARIABLE_END);
+		String[] variableFor = pathformals[0].split(EntryHandler.PATH_VARIABLE_Formal)[1].split(DataHandler.VARIABLE_END);
+		List<Map<String, String>> mapp = getValidateMapping(variableTyp, info, variableTra, variableFor);
+		
+		for(Map<String, String> map : mapp){
+			boolean passAllPositive = true;
+			for(List<String> pInputs : info.getPositives().keySet()){				
+				List<String> states = new ArrayList<String>();
+				List<String> pOutputs = info.getPositives().get(pInputs);
+				states.addAll(getStateConstraint(pInputs, "_in"));
+				states.addAll(getStateConstraint(pOutputs, "_out"));
+				boolean passOnePath = false;
+				for(int i = 0; i < pathconstraint.length; i++){
+					passOnePath = false;
+					String[] pathAndCon = pathconstraint[i].split(EntryHandler.PATH_CONSTRAINT);
+					String[] pathAndType = pathtypes[i].split(EntryHandler.PATH_VARIABLE_TYPE);
+					String[] pathAndTrack = pathtracks[i].split(EntryHandler.PATH_VARIABLE_TRACK);
+					String[] pathAndMap = pathmapping[i].split(EntryHandler.PATH_VARIABLE_MAP);
+					String[] pathAndFormal = pathformals[i].split(EntryHandler.PATH_VARIABLE_Formal);
+					String path = pathAndCon[0];
+					String constraint = pathAndCon[1];
+					String[] variableTypes = pathAndType[1].split(DataHandler.VARIABLE_END);
+					String[] variableTracks = pathAndTrack[1].split(DataHandler.VARIABLE_END);
+					String[] mapping = pathAndMap[1].split(DataHandler.VARIABLE_END);
+					String[] formals = pathAndFormal[1].split(DataHandler.VARIABLE_END);
+					if(searchWithMapping(constraint, variableTypes, info, variableTracks, mapping, formals, map, pInputs, pOutputs)){
+						passOnePath = true;
+						break;
+					}						
 				}
-				else{
-					success += 1;
+				
+				if(passOnePath) continue;
+				else {
+					passAllPositive = false;
+					break;
 				}
+			}
+			
+			if(!passAllPositive) continue;
+			boolean passAllNegative = true;
+			for(List<String> pInputs : info.getNegatives().keySet()){				
+//				List<String> states = new ArrayList<String>();
+				List<String> pOutputs = info.getNegatives().get(pInputs);
+//				states.addAll(getStateConstraint(pInputs, "_in"));
+//				states.addAll(getStateConstraint(pOutputs, "_out"));
+				boolean passOnePath = true;
+				for(int i = 0; i < pathconstraint.length; i++){
+					passOnePath = true;
+					String[] pathAndCon = pathconstraint[i].split(EntryHandler.PATH_CONSTRAINT);
+					String[] pathAndType = pathtypes[i].split(EntryHandler.PATH_VARIABLE_TYPE);
+					String[] pathAndTrack = pathtracks[i].split(EntryHandler.PATH_VARIABLE_TRACK);
+					String[] pathAndMap = pathmapping[i].split(EntryHandler.PATH_VARIABLE_MAP);
+					String[] pathAndFormal = pathformals[i].split(EntryHandler.PATH_VARIABLE_Formal);
+					String path = pathAndCon[0];
+					String constraint = pathAndCon[1];
+					String[] variableTypes = pathAndType[1].split(DataHandler.VARIABLE_END);
+					String[] variableTracks = pathAndTrack[1].split(DataHandler.VARIABLE_END);
+					String[] mapping = pathAndMap[1].split(DataHandler.VARIABLE_END);
+					String[] formals = pathAndFormal[1].split(DataHandler.VARIABLE_END);
+					if(searchWithMapping(constraint, variableTypes, info, variableTracks, mapping, formals, map, pInputs, pOutputs)){
+						passOnePath = false;
+						break;
+					}						
+				}
+				
+				if(passOnePath) continue;
+				else {
+					passAllNegative = false;
+					break;
+				}
+			}
+			
+			if(passAllNegative) {
+				System.out.println("----------");
+				info.getResult().setSource(source);
+				info.getResult().setSearchMapping(map);
 			}
 			
 		}
@@ -75,41 +131,28 @@ public class PrototypeSearch {
 
 
 
-	private static boolean searchWithMapping(String path, String constraint, String[] variableTypes,
-			String source, CaseInfo info, String[] variableTracks, String[] mapping, String[] formals) {
+	private static boolean searchWithMapping( String constraint, String[] variableTypes,
+			CaseInfo info, String[] variableTracks, String[] mapping, String[] formals, Map<String, String> map, List<String> pInputs, List<String> pOutputs) {
 		//wait
-		List<Map<String, String>> list = getValidateMapping(variableTypes, info, variableTracks, formals);
-		if(list.isEmpty()) return false;
+		//List<Map<String, String>> list = getValidateMapping(variableTypes, info, variableTracks, formals);
+		//if(list.isEmpty()) return false;
 		
 		List<String> delcarations = getVariableTypeConstraint(variableTypes);
 		//
-		for(Map<String, String> map : list){
 			boolean pass = true;
-			String mappingConstraint = getMapping(map);
+			Map<String, String> tracks = PrototypeSearch.getVariableTrack(variableTracks);
+			String mappingConstraint = getMapping(map, tracks);
 			//System.out.println(mappingConstraint);
-			for(List<String> pInputs : info.getPositives().keySet()){
-				List<String> states = new ArrayList<String>();
-				List<String> pOutputs = info.getPositives().get(pInputs);
-				states.addAll(getStateConstraint(pInputs, "_in"));
-				states.addAll(getStateConstraint(pOutputs, "_out"));
-				if(!validate(delcarations, mappingConstraint, constraint, states)) pass = false;
+
+			List<String> states = new ArrayList<String>();
+			states.addAll(getStateConstraint(pInputs, "_in"));
+			states.addAll(getStateConstraint(pOutputs, "_out"));
+			if(!validate(delcarations, mappingConstraint, constraint, states)) {
+				pass = false;
+				return false;
 			}
-			if(!pass) continue;
 			
-			for(List<String> pInputs : info.getNegatives().keySet()){
-				List<String> states = new ArrayList<String>();
-				List<String> pOutputs = info.getNegatives().get(pInputs);
-				states.addAll(getStateConstraint(pInputs, "_in"));
-				states.addAll(getStateConstraint(pOutputs, "_out"));
-				if(validate(delcarations, mappingConstraint, constraint, states)) pass = false;
-			}
-			if(!pass) continue;
-			
-			
-			recordOnePath(path, source, map, variableTypes, variableTracks, info, mapping, formals);						
 			return true;
-		}
-		return false;	
 		
 	}
 
@@ -131,13 +174,17 @@ public class PrototypeSearch {
 
 
 
-	private static String getMapping(Map<String, String> m) {
+	private static String getMapping(Map<String, String> m, Map<String, String> variableTrack) {
 		String temp = "(assert (and ";
 		for(String s : m.keySet()){
-			temp = temp + "(= " + s +  " " + m.get(s) + ")";
+			temp = temp + "(= " + s +  "_in " + m.get(s) + ")";
+			temp = temp + "(= " + s +  "_out " + variableTrack.get(m.get(s)) + ")";
 		}
+		
 		temp = temp + "))";
 		return temp;
+		
+		//map.put(in[0]+"_out", track.get(var));
 	}
 
 //	private static void search(String constraint, String[] variableTypes,
@@ -217,8 +264,8 @@ public class PrototypeSearch {
 						val = false;
 						break;
 					}
-					map.put(in[0]+"_in", var);
-					map.put(in[0]+"_out", track.get(var));
+					map.put(in[0], var);
+					//map.put(in[0]+"_out", track.get(var));
 				}
 				if(!val) continue;
 				list.add(map);
@@ -235,8 +282,8 @@ public class PrototypeSearch {
 						val = false;
 						break;
 					}
-					map.put(in[0]+"_in", var);
-					map.put(in[0]+"_out", track.get(var));
+					map.put(in[0], var);
+					//map.put(in[0]+"_out", track.get(var));
 				}
 				if(!val) continue;
 				list.add(map);
@@ -316,6 +363,10 @@ public class PrototypeSearch {
 		List<String> list = new ArrayList<String>();
 		for(String s : states){
 			String[] con = s.split(":");
+			if(con[2].equals("char")){
+				int value = con[1].charAt(0);
+				con[1] =  Integer.toString(value);;
+			}
 			String type = TypeTable.getInstance().getType(con[2]);
 			String id = con[0] + prefix;
 			String value = con[1];
@@ -326,7 +377,7 @@ public class PrototypeSearch {
 				list.add(delcare);
 				list.add(assign);
 			}
-			else{
+			else if(type.equals("char*")){
 				//StringRepresentation rep = new StringRepresentation(id, value.substring(1, value.length() - 1));
 				StringRepresentation rep = new StringRepresentation(id, value);
 				list.addAll(rep.getConstraints());

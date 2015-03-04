@@ -16,6 +16,7 @@ public class EntryTranslator {
 		super();
 		this.method = method;
 		this.entryObject = new EntryObject();
+		this.entryObject.setSource(method.getSource());
 		
 		initEntryObject();
 		
@@ -43,7 +44,8 @@ public class EntryTranslator {
 				constraintString.append("\n");
 			}
 			
-			System.out.println(constraintString.toString());
+			
+			//System.out.println(constraintString.toString());
 			this.entryObject.getPathConstraint().put(path, constraintString.toString());
 			
 			Map<String, String> mapping = pathTranslator.getVariableMap();

@@ -10,8 +10,20 @@ public class ResultObject {
 	private Map<String, String> pathVariablesTypes;
 	private Map<String, String> pathVariableTrack;
 	private Map<String, String> pathVariableMap;
-	
 	private Map<String, String> searchMapping;
+	
+	public ResultObject(){
+		this.source ="";
+		this.path = "";
+		this.pathVariablesTypes = new HashMap<String, String>();
+		this.pathVariableMap  = new HashMap<String, String>();
+		this.pathVariableTrack = new HashMap<String, String>();
+		this.searchMapping = new HashMap<String, String>();
+
+	}
+	
+
+	
 	
 	
 	public Map<String, String> getSearchMapping() {

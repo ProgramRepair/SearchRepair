@@ -1,0 +1,7 @@
+positive:
+input:a output:1
+input:d output:0
+negative:
+input:b output:1
+input:c output:1
+buggy lines:20-22

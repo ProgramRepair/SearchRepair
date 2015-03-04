@@ -20,10 +20,18 @@ public class EntryAddition {
 		//asssume only one method
 		List<Method> methods = parse(filePath);
 		for(Method method : methods){
+			
 			EntryObject object = covertMethodToEntry(method);
 			EntryHandler.save(object);
 			System.out.println(method.getName());
 			System.out.println(method.getSource());
+			for(String path : object.getPathConstraint().keySet())
+			{
+				System.out.println("path:\n" + path);
+				System.out.println("constraint:\n" + object.getPathConstraint().get(path));
+				System.out.println("variable:\n" + object.getPathFormalVariables().get(path));
+				System.out.println("track:\n" + object.getPathVariablesTypes().get(path));
+			}
 		}
 	}
 	
@@ -41,7 +49,7 @@ public class EntryAddition {
 		File dir = new File(dirPath);
 		if(!dir.exists()) return;
 		for(String path : dir.list()){
-			addOneFile(path);
+			addOneFile(dirPath + "/" + path);
 		}
 	}
 	
@@ -60,8 +68,10 @@ public class EntryAddition {
 			StringBuilder path = new StringBuilder();
 			StringBuilder input = new StringBuilder();
 			Method method = new Method();
+			boolean startParsing = false;
 			while((s = ls_in.readLine()) != null)
 			{
+				
 				s = s.trim();
 				if(s.startsWith("Processing:")){
 					if(method.getName() != null){
@@ -95,8 +105,13 @@ public class EntryAddition {
 					method.getPathToInput().put(path.toString(), input.toString());					
 					path = new StringBuilder();
 					input = new StringBuilder();
+					startParsing = false;
 				}
-				else if(s.equals("Paths:") || s.startsWith("path_enumeration")){
+				else if(s.equals("Paths:")){
+					startParsing = true;
+					continue;
+				}
+				else if( s.startsWith("path_enumeration") || s.startsWith("postprocess")){
 					continue;
 				}
 				else if(s.startsWith("STMT(")){
@@ -122,8 +137,10 @@ public class EntryAddition {
 					continue;
 				}
 				else {
-					path.append(s);
-					path.append("\n");
+					if(startParsing){
+						path.append(s);
+						path.append("\n");
+					}
 				}
 			}
 			if(method.getName() != null)
@@ -171,7 +188,8 @@ public class EntryAddition {
 	
 	
 	public static void main(String[] args){
-		String filePath = "./testcases/ccode/source.c";
-		EntryAddition.addOneFile(filePath);;
+		String filePath = "./repository";
+		EntryAddition.addOneFolder(filePath);;
+		//EntryAddition.addOneFile("./testcases/ccode/source.c");
 	}
 }

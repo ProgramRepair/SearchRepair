@@ -26,7 +26,7 @@ public class EntryHandler {
 		String formals = formatFormals(object.getPathFormalVariables());
 		String sql = "insert into autobugfix (source, constraints, variableType, variableTrack, variableMap, variableFormal) " +
 				"values(?, ?, ?, ?, ?, ?)";
-		System.out.println(formals);
+		//System.out.println(formals);
 		PreparedStatement  statement = null;
 		try{
 			statement = DataBaseManager.conn.prepareStatement(sql);

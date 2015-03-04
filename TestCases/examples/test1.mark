@@ -1,0 +1,26 @@
+
+int testInt(int a);
+
+int main(int argc, char** argv)
+{
+    
+    int a = atoi(argv[1]);
+    testInt(a);
+    return 1;
+}
+
+
+
+int testInt(int a)
+{
+    int b = 0;
+_yalin_mark("input");
+    if(a == 1) {
+        b = 1;
+    }
+_yalin_mark("output");
+    return b;
+    
+}
+
+

@@ -31,6 +31,8 @@ assignStat
 	| ID assiginOperator callExpr ';'
 	| ID assiginOperator StringLiteral ';'
 	;
+
+
 		
 returnStat
 	: 'return' '('expr ')' ';'
@@ -46,7 +48,11 @@ expr
 	//| StringLiteral
 	| addressExpr
 	| defExpr
+	| convertExpr
 	;
+	
+convertExpr: '(' type ')' ID;
+
 	
 
 	
@@ -56,6 +62,8 @@ defExpr : '*' ID;
 	
 	
 callExpr : ID arguments;
+
+
 
 arguments:
 	'(' (formalArgument(',' formalArgument)*)? ')';

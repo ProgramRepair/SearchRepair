@@ -1,11 +1,14 @@
 
 
-int a(int g)
+int a(int g, char c)
 {
     
-    char* a = "abc";
-    char* b = "ab";
-    char* c = "abcab";
-    strcat(a, b);
-    return 0;
+    if(c == 'a' || c == 'b' || c == 'c')
+    {
+        g = 1;
+    }
+    else g = 0;
+    
+    return g;
+    
 }

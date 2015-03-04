@@ -69,7 +69,13 @@ public class SearchCase {
 		String IOFileName = this.casePrefix + "_TS";
 		parse(IOFileName);
 		fillSearchCase();
+		info.print();
 		search();
+		
+		System.out.println(info.getResult().getSource());
+		for(String s : info.getResult().getSearchMapping().keySet()){
+			System.out.println(s + ":" + info.getResult().getSearchMapping().get(s));
+		}
 	}
 	
 	
@@ -554,7 +560,7 @@ public class SearchCase {
 	}
 	
 	public static void main(String[] args){
-		SearchCase case1 = new SearchCase("TestCases/test/case1");
+		SearchCase case1 = new SearchCase("TestCases/examples/test3");
 		//case1.print();
 	}
 
