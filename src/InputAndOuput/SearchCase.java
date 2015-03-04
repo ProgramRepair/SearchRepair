@@ -71,14 +71,21 @@ public class SearchCase {
 		fillSearchCase();
 		info.print();
 		search();
+		printResult();
 		
-		System.out.println(info.getResult().getSource());
-		for(String s : info.getResult().getSearchMapping().keySet()){
-			System.out.println(s + ":" + info.getResult().getSearchMapping().get(s));
-		}
+		
 	}
 	
 	
+	private void printResult() {
+		for(String source : info.getResult().getSource())
+		{
+			System.out.println(source);
+			System.out.println(info.getResult().getSearchMapping().get(source));
+		}
+		
+	}
+
 	private void search() {
 		try {
 			PrototypeSearch.search(info);
@@ -171,6 +178,7 @@ public class SearchCase {
 //			System.out.println(s);
 //		}
 		return writeStatesStatement(states);
+
 		
 	}
 
@@ -560,7 +568,7 @@ public class SearchCase {
 	}
 	
 	public static void main(String[] args){
-		SearchCase case1 = new SearchCase("TestCases/examples/test3");
+		SearchCase case1 = new SearchCase("TestCases/examples/test2");
 		//case1.print();
 	}
 

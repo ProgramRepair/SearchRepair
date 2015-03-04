@@ -28,7 +28,7 @@ public class EntryAddition {
 			for(String path : object.getPathConstraint().keySet())
 			{
 				System.out.println("path:\n" + path);
-				System.out.println("constraint:\n" + object.getPathConstraint().get(path));
+				//System.out.println("constraint:\n" + object.getPathConstraint().get(path));
 				System.out.println("variable:\n" + object.getPathFormalVariables().get(path));
 				System.out.println("track:\n" + object.getPathVariablesTypes().get(path));
 			}
@@ -190,6 +190,6 @@ public class EntryAddition {
 	public static void main(String[] args){
 		String filePath = "./repository";
 		EntryAddition.addOneFolder(filePath);;
-		//EntryAddition.addOneFile("./testcases/ccode/source.c");
+		//EntryAddition.addOneFile("./repository/file2");
 	}
 }

@@ -20,6 +20,7 @@ int testCmp(char* g, int h){
     char* h1 = "abc";
     char* h2 = "def";
     int d = 0;
+printf("input state:g:%s:char*,d:%d:int,h1:%s:char*,h:%d:int,h2:%s:char*\n", g, d, h1, h, h2);
     if(strcmp(g, h1) == 0) {
         d = 1;
     }else if (strcmp(g, h2) == 0){
@@ -35,5 +36,6 @@ int testCmp(char* g, int h){
             
         }
     }
+printf("output state:g:%s:char*,d:%d:int,h1:%s:char*,h:%d:int,h2:%s:char*\n", g, d, h1, h, h2);
     return d;
 }

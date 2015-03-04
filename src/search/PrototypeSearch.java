@@ -54,10 +54,7 @@ public class PrototypeSearch {
 		for(Map<String, String> map : mapp){
 			boolean passAllPositive = true;
 			for(List<String> pInputs : info.getPositives().keySet()){				
-				List<String> states = new ArrayList<String>();
 				List<String> pOutputs = info.getPositives().get(pInputs);
-				states.addAll(getStateConstraint(pInputs, "_in"));
-				states.addAll(getStateConstraint(pOutputs, "_out"));
 				boolean passOnePath = false;
 				for(int i = 0; i < pathconstraint.length; i++){
 					passOnePath = false;
@@ -90,8 +87,7 @@ public class PrototypeSearch {
 			for(List<String> pInputs : info.getNegatives().keySet()){				
 //				List<String> states = new ArrayList<String>();
 				List<String> pOutputs = info.getNegatives().get(pInputs);
-//				states.addAll(getStateConstraint(pInputs, "_in"));
-//				states.addAll(getStateConstraint(pOutputs, "_out"));
+
 				boolean passOnePath = true;
 				for(int i = 0; i < pathconstraint.length; i++){
 					passOnePath = true;
@@ -121,8 +117,9 @@ public class PrototypeSearch {
 			
 			if(passAllNegative) {
 				System.out.println("----------");
-				info.getResult().setSource(source);
-				info.getResult().setSearchMapping(map);
+				info.getResult().addSource(source);
+				info.getResult().addSearchMapping(source, map);;
+				break;
 			}
 			
 		}
@@ -136,6 +133,7 @@ public class PrototypeSearch {
 		//wait
 		//List<Map<String, String>> list = getValidateMapping(variableTypes, info, variableTracks, formals);
 		//if(list.isEmpty()) return false;
+		//System.out.println(constraint);
 		
 		List<String> delcarations = getVariableTypeConstraint(variableTypes);
 		//
@@ -143,7 +141,7 @@ public class PrototypeSearch {
 			Map<String, String> tracks = PrototypeSearch.getVariableTrack(variableTracks);
 			String mappingConstraint = getMapping(map, tracks);
 			//System.out.println(mappingConstraint);
-
+			//if(!mappingConstraint.trim().equals("(assert (and (= g g_in )(= g g_out )(= h h_in )(= h h_out )))")) return false;
 			List<String> states = new ArrayList<String>();
 			states.addAll(getStateConstraint(pInputs, "_in"));
 			states.addAll(getStateConstraint(pOutputs, "_out"));
@@ -156,29 +154,14 @@ public class PrototypeSearch {
 		
 	}
 
-	private static void recordOnePath(String path, String source, Map<String, String> map,
-			String[] variableTypes, String[] variableTracks, CaseInfo info,
-			String[] mapping, String[] formals) {
-			info.getResult().setSource(source);
-			info.getResult().setPath(path);
-			Map<String, String> types = getVariableTrack(variableTypes);
-			Map<String, String> tracks = getVariableTrack(variableTracks);
-			Map<String, String> backTracking = getVariableTrack(mapping);
-			
-			info.getResult().setPathVariablesTypes(types);
-			info.getResult().setPathVariableMap(tracks);
-			info.getResult().setSearchMapping(map);
-			info.getResult().setPathVariableMap(backTracking);
-		
-	}
 
 
 
 	private static String getMapping(Map<String, String> m, Map<String, String> variableTrack) {
 		String temp = "(assert (and ";
 		for(String s : m.keySet()){
-			temp = temp + "(= " + s +  "_in " + m.get(s) + ")";
-			temp = temp + "(= " + s +  "_out " + variableTrack.get(m.get(s)) + ")";
+			temp = temp + "(= " + s + " "  + m.get(s) + "_in " + ")";
+			temp = temp + "(= " + variableTrack.get(s) +  " " + m.get(s) + "_out " + ")";
 		}
 		
 		temp = temp + "))";
@@ -226,7 +209,7 @@ public class PrototypeSearch {
 	//get validate mapping by variableTracks
 	private static List<Map<String, String>> getValidateMapping(
 			String[] variableTypes, CaseInfo info, String[] variableTracks, String[] formals) {
-		Map<String, String> track = getVariableTrack(variableTracks);
+		//Map<String, String> track = getVariableTrack(variableTracks);
 		Map<String, String> typeTrack = getVariableTrack(variableTypes);
 		Map<String, String> formalTypes = getVariableTrack(formals);
 		
@@ -264,7 +247,7 @@ public class PrototypeSearch {
 						val = false;
 						break;
 					}
-					map.put(in[0], var);
+					map.put(var, in[0]);
 					//map.put(in[0]+"_out", track.get(var));
 				}
 				if(!val) continue;
@@ -282,7 +265,7 @@ public class PrototypeSearch {
 						val = false;
 						break;
 					}
-					map.put(in[0], var);
+					map.put(var, in[0]);
 					//map.put(in[0]+"_out", track.get(var));
 				}
 				if(!val) continue;
@@ -377,9 +360,11 @@ public class PrototypeSearch {
 				list.add(delcare);
 				list.add(assign);
 			}
-			else if(type.equals("char*")){
+			else if(type.equals("String")){
 				//StringRepresentation rep = new StringRepresentation(id, value.substring(1, value.length() - 1));
+				
 				StringRepresentation rep = new StringRepresentation(id, value);
+				list.add(rep.getDeclareConstraint(id));
 				list.addAll(rep.getConstraints());
 			}
 		}
@@ -512,64 +497,6 @@ public class PrototypeSearch {
 	}
 
 	
-	private static List<Map<String, String>> getValidateMapping(
-			String[] variableTypes, CaseInfo info, String[] variableTracks) {
-		Map<String, String> track = getVariableTrack(variableTracks);
-		Map<String, String> typeTrack = getVariableTrack(variableTypes);
-		//Map<String, String> formalTypes = getVariableTrack(formals);
-		
-		List<String> inputs = new ArrayList<String>();
-		for(List<String> l : info.getPositives().keySet()){
-			inputs = l;
-			break;
-		}
-		//state
-		List<String> variables = new ArrayList<String>();
-		for(String s : track.keySet()){
-			variables.add(s);
-		}
-		
-		List<List<String>> inputPerms = getPermutation(inputs);
-		List<List<String>> varPerms = getPermutation(variables);
-		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-		if(inputs.size() > variables.size()){
-			for(List<String> input : inputPerms){
-				Map<String, String> map = new HashMap<String, String>();
-				boolean val = true;
-				for(int i = 0; i < variables.size(); i++){
-					String[] in = input.get(i).split(":");
-					String var = variables.get(i);
-					if(!in[in.length - 1].equals(typeTrack.get(var))) {
-						val = false;
-						break;
-					}
-					map.put(in[0]+"_in", var);
-					map.put(in[0]+"_out", track.get(var));
-				}
-				if(!val) continue;
-				list.add(map);
-			}
-		}
-		else{
-			for(List<String> variable : varPerms){
-				Map<String, String> map = new HashMap<String, String>();
-				boolean val = true;
-				for(int i = 0; i < inputs.size(); i++){
-					String[] in = inputs.get(i).split(":");
-					String var = variable.get(i);
-					if(!in[in.length - 1].equals(typeTrack.get(var))) {
-						val = false;
-						break;
-					}
-					map.put(in[0]+"_in", var);
-					map.put(in[0]+"_out", track.get(var));
-				}
-				if(!val) continue;
-				list.add(map);
-			}
-		}
-		
-		return list;
-	}
+
 
 }

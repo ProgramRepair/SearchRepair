@@ -1,0 +1,6 @@
+positive:
+input:abc 15 output:1
+negative:
+input:apple 7 output:1
+input:ghi 6 output:-1
+buggy lines:23-37

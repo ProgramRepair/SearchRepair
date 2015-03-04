@@ -1,24 +1,26 @@
 package search;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ResultObject {
 	
-	private String source;
+	private List<String> source;
 	private String path;
 	private Map<String, String> pathVariablesTypes;
 	private Map<String, String> pathVariableTrack;
 	private Map<String, String> pathVariableMap;
-	private Map<String, String> searchMapping;
+	private Map<String, Map<String, String>> searchMapping;
 	
 	public ResultObject(){
-		this.source ="";
+		this.source = new ArrayList<String>();
 		this.path = "";
 		this.pathVariablesTypes = new HashMap<String, String>();
 		this.pathVariableMap  = new HashMap<String, String>();
 		this.pathVariableTrack = new HashMap<String, String>();
-		this.searchMapping = new HashMap<String, String>();
+		this.searchMapping = new HashMap<String, Map<String, String>>();
 
 	}
 	
@@ -26,18 +28,7 @@ public class ResultObject {
 	
 	
 	
-	public Map<String, String> getSearchMapping() {
-		return searchMapping;
-	}
-	public void setSearchMapping(Map<String, String> searchMapping) {
-		this.searchMapping = searchMapping;
-	}
-	public String getSource() {
-		return source;
-	}
-	public void setSource(String source) {
-		this.source = source;
-	}
+
 	public String getPath() {
 		return path;
 	}
@@ -62,14 +53,64 @@ public class ResultObject {
 	public void setPathVariableMap(Map<String, String> pathVariableMap) {
 		this.pathVariableMap = pathVariableMap;
 	}
-	public void clear() {
-		source = "";
-		path = "";
-		pathVariablesTypes = new HashMap<String, String>();
-		pathVariableTrack= new HashMap<String, String>();
-		pathVariableMap= new HashMap<String, String>();
+
+
+
+
+
+
+	public void addSource(String source2) {
+		this.source.add(source2);
+		//this.searchMapping.
 		
 	}
+
+
+
+
+
+
+	public List<String> getSource() {
+		return source;
+	}
+
+
+
+
+
+
+	public void setSource(List<String> source) {
+		this.source = source;
+	}
+
+
+
+
+
+
+	public Map<String, Map<String, String>> getSearchMapping() {
+		return searchMapping;
+	}
+
+
+
+
+
+
+	public void setSearchMapping(Map<String, Map<String, String>> searchMapping) {
+		this.searchMapping = searchMapping;
+	}
+
+
+
+
+
+
+	public void addSearchMapping(String source, Map<String, String> map) {
+		this.searchMapping.put(source, map);
+		
+	}
+
 	
 	
 

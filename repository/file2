@@ -1,0 +1,6 @@
+int testIntAvg(int first, int second, int third, int avg){
+	int sum = first + second + third;
+	//int sum = first + second;
+	avg = sum / 3;
+	return avg;
+}

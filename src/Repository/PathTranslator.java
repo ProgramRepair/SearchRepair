@@ -60,7 +60,14 @@ public class PathTranslator {
 		this.variableType = new HashMap<String, String>();
 		this.formalVariables = new HashMap<String, String>();
 		for(String var : formalVariables.split("\n")){
-			this.formalVariables.put(var.split(" ")[1], var.split(" ")[0]);
+			String id  = var.split(" ")[1];
+			String type = var.split(" ")[0];
+			if(id.charAt(0) == '*') {
+				type = type + '*';
+				id = id.substring(1);
+			}
+			
+			this.formalVariables.put(id, type);
 		}
 		applySSA();
 	}

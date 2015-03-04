@@ -13,6 +13,7 @@ public class StringRepresentation {
 	private String name;
 	private String content;
 	private List<String> constraints;
+	private String declareConstraint;
 	public StringRepresentation(String name, String content){
 		this.name = name;
 		this.content = content;
@@ -76,6 +77,7 @@ public class StringRepresentation {
 
 
 	private void generateConstraints(){
+		this.declareConstraint = getDeclareConstraint(name);
 		//constraints.add(getDeclareConstraint(name));
 		constraints.add(getLengthConstraints(name, content));
 		for(int i = 0; i < content.length(); i++){
@@ -83,7 +85,8 @@ public class StringRepresentation {
 		}
 	}
 	
-	public static String getDeclareConstraint(String name){
+	
+	public  String getDeclareConstraint(String name){
 		String constraint = "(declare-fun " + name + " () String)";
 		return constraint;
 	}

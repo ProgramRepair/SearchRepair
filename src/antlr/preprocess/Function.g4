@@ -93,7 +93,7 @@ expr : atom | LPAREN add_expression RPAREN;
 addOperator : ADDCTIVE | DEDUCTIVE;
 multiOperator : MULTIPLY | DIVIDE | MOD;
 
-atom : ID | INT | FLOAT | CharacterLiteral;
+atom : ID | INT | FLOAT | CharacterLiteral | callExpr;
 operator : LT | GT | EQ | NEQ | LE | GE;
 
 
@@ -130,7 +130,7 @@ String : 'char*';
 
 Double : 'double';
 
-INT : '0'..'9'+;
+INT : '-'?'0'..'9'+;
 FLOAT : ('0'..'9')+ '.' ('0'..'9')*;
 STRING : '"' ('a'..'z'|'A'..'Z'|'_'|' ')* '"';
 ID : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;

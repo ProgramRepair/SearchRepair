@@ -12,3 +12,9 @@ int a(int g, char c)
     return g;
     
 }
+
+int examine(int a, int b)
+{
+    if(a == 1 || a == 2 || a == 3) b = 1;
+    else b = 0;
+}
