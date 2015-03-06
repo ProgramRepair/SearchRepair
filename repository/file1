@@ -1,21 +1,21 @@
 
-int testCmp(char* g, int h, int d){
+int testCmp(char* g, int d, int h){
     char* h1 = "abc";
     char* h2 = "def";
     if(strcmp(g, h1) == 0) {
-        d = 1;
+        h = 1;
     }else if (strcmp(g, h2) == 0){
-        d = 2;
+        h = 2;
     }else {
-        if(h > 1) {
-            int tmp = h % 2;
+        if(d > 1) {
+            int tmp = d % 2;
             			if(tmp > 0) {
-                            d = tmp - 1;
+                            h = tmp - 1;
             			}else {
-                            d = tmp;
+                            h = tmp;
             			}
             
         }
     }
-    return d;
+    return h;
 }

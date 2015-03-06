@@ -1,10 +1,7 @@
 grammar Snippet;
 
 
-
-
 prog : stat*;
-
 
 
 type
@@ -12,13 +9,10 @@ type
 	| Char
 	| Float
 	| Double
+	| String
 	;
-	
-
  
  block : '{' stat* '}';
-
-
 
  stat
  	: declarationStat ';' 
@@ -61,7 +55,7 @@ callStat
 assignStat
 	: POINTER? ID ASSIGN assign_expression
 	| type POINTER? ID ASSIGN assign_expression
-	| POINTER? ID arithmAssignOperator assign_expression
+	|  ID arithmAssignOperator assign_expression
 	;
 	
 	
@@ -131,6 +125,7 @@ Float : 'float';
 
 String : 'char*';
 
+
 Double : 'double';
 
 INT : '-'?'0'..'9'+;
@@ -148,7 +143,7 @@ DIVIDE : '/';
 MOD : '%';
 
 ASSIGN : '=';
-POINTER : '*';
+
 
 
 INCRE: '++';
@@ -167,6 +162,7 @@ EQ : '==';
 NEQ : '!=';
 
 
+POINTER : '*';
 
 WS : [ \t\r\n]+ -> skip;
 

@@ -79,13 +79,18 @@ public class SearchCase {
 		int i = 0;
 		for(String source : info.getResult().getSource())
 		{
+			
 			i++;
 			System.out.println("result" + i + "\n--------------------");
 			System.out.println(source);
 			System.out.println(info.getResult().getSearchMapping().get(source));
+			String input =Restore.getMappingString(source, info.getResult().getSearchMapping().get(source));
+			System.out.println(input);
 		}
 		
 	}
+
+
 
 	private void search() {
 		try {

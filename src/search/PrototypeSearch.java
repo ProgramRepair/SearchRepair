@@ -120,6 +120,7 @@ public class PrototypeSearch {
 				info.getResult().addSource(source);
 				info.getResult().addSearchMapping(source, map);;
 				break;
+				
 			}
 			
 		}

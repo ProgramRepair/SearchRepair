@@ -11,19 +11,25 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import antlr.preprocess.SnippetLexer;
 import antlr.preprocess.SnippetParser;
+import antlr.preprocess.SnippetParser.Add_expressionContext;
 import antlr.preprocess.SnippetParser.And_expressionContext;
+import antlr.preprocess.SnippetParser.ArgumentsContext;
+import antlr.preprocess.SnippetParser.Arith_expressionContext;
 import antlr.preprocess.SnippetParser.AssignStatContext;
 import antlr.preprocess.SnippetParser.Assign_expressionContext;
 import antlr.preprocess.SnippetParser.AtomContext;
 import antlr.preprocess.SnippetParser.BlockContext;
+import antlr.preprocess.SnippetParser.CallExprContext;
 import antlr.preprocess.SnippetParser.CondExprContext;
 import antlr.preprocess.SnippetParser.DeclarationStatContext;
 import antlr.preprocess.SnippetParser.ElseifblockContext;
 import antlr.preprocess.SnippetParser.ElseifpartContext;
 import antlr.preprocess.SnippetParser.ElsepartContext;
+import antlr.preprocess.SnippetParser.ExprContext;
 import antlr.preprocess.SnippetParser.If_statContext;
 import antlr.preprocess.SnippetParser.IfblockContext;
 import antlr.preprocess.SnippetParser.IfpartContext;
+import antlr.preprocess.SnippetParser.Multi_expressionContext;
 import antlr.preprocess.SnippetParser.Or_expressionContext;
 import antlr.preprocess.SnippetParser.StatContext;
 import antlr.preprocess.SnippetParser.TermContext;
@@ -113,8 +119,62 @@ public class Restore {
 
 	private static String getMappingString(
 			Assign_expressionContext assign_expression, Map<String, String> map) {
-		
+		StringBuilder sb = new StringBuilder();
+		if(assign_expression.arith_expression() != null){
+			sb.append(getMappingString(assign_expression.arith_expression(), map));
+		}
+		else{
+			sb.append(assign_expression.getText());
+		}
+		return sb.toString();
 	}
+
+	private static String getMappingString(
+			Arith_expressionContext arith_expression, Map<String, String> map) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(getMappingString(arith_expression.add_expression(), map));
+		return sb.toString();
+	}
+
+	private static String getMappingString(
+			Add_expressionContext add_expression, Map<String, String> map) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(getMappingString(add_expression.multi_expression(), map) + " ");
+		for(int i = 0; i < add_expression.addOperator().size(); i++){
+			sb.append(add_expression.addOperator(i).getText() + " ");
+			sb.append(getMappingString(add_expression.add_expression(i), map));
+		}
+		return sb.toString();
+	}
+
+	private static String getMappingString(
+			Multi_expressionContext multi_expression, Map<String, String> map) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(getMappingString(multi_expression.expr(0), map) + " ");
+		for(int i = 0; i < multi_expression.multiOperator().size(); i++){
+			sb.append(multi_expression.multiOperator(i).getText() + " ");
+			sb.append(getMappingString(multi_expression.expr(i + 1), map));
+		}
+		return sb.toString();
+	}
+
+
+
+	private static String getMappingString(ExprContext expr,
+			Map<String, String> map) {
+		StringBuilder sb = new StringBuilder();
+		if(expr.atom() != null){
+			sb.append(getMappingString(expr.atom(), map));
+		}
+		else{
+			sb.append("(");
+			sb.append(getMappingString(expr.add_expression(), map));
+			sb.append(")");
+		}
+		return sb.toString();
+	}
+
+	
 
 	private static String getMappingString(If_statContext ifstat,
 			Map<String, String> map) {
@@ -229,7 +289,7 @@ public class Restore {
 		return sb.toString();
 	}
 
-	private static Object getMappingString(AtomContext atom,
+	private static String getMappingString(AtomContext atom,
 			Map<String, String> map) {
 		StringBuilder sb = new StringBuilder();
 		if(atom.ID() != null){
@@ -241,9 +301,35 @@ public class Restore {
 				sb.append(atom.ID().getText());
 			}
 		}
-		else{
-			sb.append(atom.ID().getText());
+		else if(atom.callExpr() != null){
+			sb.append(getMappingString(atom.callExpr(), map));
 		}
+		else sb.append(atom.getText());
+		return sb.toString();
+	}
+
+	private static String getMappingString(CallExprContext callExpr,
+			Map<String, String> map) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(callExpr.ID().getText());
+		sb.append(getMappingString(callExpr.arguments(), map));
+		return sb.toString();
+	}
+
+
+
+	private static String getMappingString(ArgumentsContext arguments,
+			Map<String, String> map) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("(");
+		String s = "";
+		for(Assign_expressionContext con : arguments.assign_expression()){
+			s += getMappingString(con, map);
+			s += ", ";
+		}
+		if(s.endsWith(", ")) s = s.substring(0, s.length() - 2);
+		sb.append(s);
+		sb.append(")");
 		return sb.toString();
 	}
 
