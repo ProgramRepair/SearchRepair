@@ -5,6 +5,7 @@ antlr4.listener=true
 antlr4.visitor=true
 antlr4.vmArgs=
 autobuilding=true
+com.github.jknack.antlr4ide.Antlr4.useProjectSettings=true
 eclipse.preferences.version=1
 is_project_specific=true
 outlet.DEFAULT_OUTPUT.cleanupDerived=true
