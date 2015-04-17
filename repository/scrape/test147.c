@@ -1,2 +1,2 @@
-int test(int str, int sum){
+void test(int str, int sum){
 sum +=  str   [     ;}

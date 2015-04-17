@@ -72,7 +72,7 @@ public class SearchCase {
 		String IOFileName = this.casePrefix + "_TS";
 		parse(IOFileName);
 		fillSearchCase();
-		info.print();
+		//info.print();
 		search();
 		printResult();
 		ruleOutFalsePositive();
@@ -102,14 +102,15 @@ public class SearchCase {
 	private void ruleOutFalsePositive() {
 		for(String source : info.getResult().getSource()){
 			//if(!source.contains("maxlen")) return;
+			//if(!source.startsWith("a=b")) continue;
 			String input =Restore.getMappingString(source, info.getResult().getSearchMapping().get(source));
 			String outputFile = generateOutputFile(input);
-			testAllResults(source, outputFile, info);
+			testAllResults(source, outputFile);
 		}
 		
 	}
 
-	private void testAllResults(String source, String outputFile, CaseInfo info2) {
+	private void testAllResults(String source, String outputFile) {
 		boolean pass = true;
 		//File file = new File();
 		//if(!source.trim().startsWith("if ( len >")) return;
@@ -120,6 +121,10 @@ public class SearchCase {
 			String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
 			String command2 = "./" + this.casePrefix + " " +  input;
 			String s1 = CTest.runCProgram(command1);
+			if(!new File(this.casePrefix).exists()){
+				pass=false;
+				break;
+			}
 			String s2 = CTest.runCProgram(command2);
 			
 			if(s2.isEmpty() ){
@@ -138,7 +143,6 @@ public class SearchCase {
 						//info.getPositives().put(inputList, outputList);
 		}
 		if(!pass){
-			//info2.getResult().getFalsePositve().add(source);
 			return;
 		}
 		
@@ -150,6 +154,10 @@ public class SearchCase {
 			String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
 			String command2 = "./" + this.casePrefix + " " +  input;
 			String s1 = CTest.runCProgram(command1);
+			if(!new File(this.casePrefix).exists()){
+				pass=false;
+				break;
+			}
 			String s2 = CTest.runCProgram(command2);
 			if(s2.isEmpty() ){
 				pass = false;
@@ -165,12 +173,16 @@ public class SearchCase {
 			}
 						//info.getPositives().put(inputList, outputList);
 		}
+		if(!pass){
+			return;
+		}
+		
 		if(count == this.getNegatives().size()) {
-			info2.getResult().getFalsePositve().add(source);
+			info.getResult().getFalsePositve().add(source);
 			return;
 		}
 		else if(count == 0){
-			info2.getResult().getPositive().add(source);
+			info.getResult().getPositive().add(source);
 		}
 		else info.getResult().getPartial().put(source, count * 1.0 / this.getNegatives().size());
 		

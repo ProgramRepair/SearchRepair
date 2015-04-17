@@ -1,2 +1,2 @@
-int test(int base, int n){
+void test(int base, int n){
 n /=  base       ;}

@@ -1,2 +1,2 @@
-int test(int next, int publish){
+void test(int next, int publish){
 publish = next       ;}

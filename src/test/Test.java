@@ -104,7 +104,7 @@ public class Test {
 	
 	@org.junit.Test
 	public void test10(){
-		String filePath = "testCases/all/3median";
+		String filePath = "testCases/examples/medianBug";
 		SearchCase case1 = new SearchCase(filePath);
 	}
 	

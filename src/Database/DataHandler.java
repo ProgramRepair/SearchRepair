@@ -3,10 +3,12 @@ package Database;
 import java.util.HashMap;
 
 public class DataHandler {
-	public static String VARIABLE_MID = ":";
-	public static String VARIABLE_END = ",";
-	public static String z3TempFile = "./temp";
-	public static String PROTOTYPE = "./RESOURCE";
+	public static final String PROTOTYPE_STRING = "./RESOURCE/STRING";
+	public static final String PROTOTYPE_TYPES = "./RESOURCE/pointer";
+	public static final String VARIABLE_MID = ":";
+	public static final String VARIABLE_END = ",";
+	public static final String z3TempFile = "./temp";
+	public static final String PROTOTYPE = "./RESOURCE";
 
 	
 	public static String concat(String left, String right){

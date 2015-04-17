@@ -1,2 +1,2 @@
-int test(int msg){
+void test(int msg){
 if ( msg     )     {  print  STDERR  msg ;   undef  msg ;  }    }

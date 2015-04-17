@@ -1,6 +1,6 @@
 positive:
-input:2 6 8 output:2
-input:8 3 4 output:3
+input:2 6 8 output:6
+input:8 3 4 output:4
 negative:
 input:3 3 3 output:3
 input:2 2 2 output:2

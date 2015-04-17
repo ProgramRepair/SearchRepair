@@ -1,2 +1,2 @@
-int test(int short_refname){
+void test(int short_refname){
 short_refname = {  ;}

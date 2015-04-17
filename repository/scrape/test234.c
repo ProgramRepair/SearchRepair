@@ -1,2 +1,2 @@
-int test(int s, int sum, int i){
+void test(int s, int sum, int i){
 if ( i  ==  s     )     { sum +=  s        ;  }    }

@@ -1,2 +1,2 @@
-int test(int topic){
+void test(int topic){
 topic = "refs/heads/$2"  ;}

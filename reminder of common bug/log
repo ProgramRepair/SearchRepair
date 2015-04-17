@@ -1,1 +1,2 @@
-put libz3.dylib in /usr/local/lib, otherwise pathgen wont work in eclipse because of not able to find libz3.dylib
+1.put libz3.dylib in /usr/local/lib, otherwise pathgen wont work in eclipse because of not able to find libz3.dylib
+2.install antlr IDE plugin and antlr SDK plugin in eclipse in order to build the project in eclipse. These two plugins can be found through eclipse markplace

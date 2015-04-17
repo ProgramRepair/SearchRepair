@@ -27,8 +27,9 @@ public class PrototypeSearch {
 		Database.DataBaseManager.connect();
 		ResultSet result = Database.DataBaseManager.query(SEARCHPAUTOBUGFIX);
 		while(result.next()){
-			String source = result.getString(1);
+			String source = result.getString(1).trim();
 			//System.out.println(source);
+			//if(!source.startsWith("if(((a>=b)&&(a<=c))")) continue;
 			String[] pathconstraint = result.getString(2).split(EntryHandler.PATH_SEPERATOR);
 			String[] pathtypes = result.getString(3).split(EntryHandler.PATH_SEPERATOR);			
 			String[] pathtracks= result.getString(4).split(EntryHandler.PATH_SEPERATOR);
@@ -58,7 +59,7 @@ public class PrototypeSearch {
 		for(Map<String, String> map : mapp){
 			String s = map.toString();
 			//System.out.println(s);
-			//if(!s.equals("{len=a, imax=b, maxlen=c, i=d}")) continue;
+			//if(!s.equals("{b=b, c=c, a=a, m=m}")) continue;
 			boolean passAllPositive = true;
 			for(List<String> pInputs : info.getPositives().keySet()){				
 				List<String> pOutputs = info.getPositives().get(pInputs);
@@ -305,7 +306,8 @@ public class PrototypeSearch {
 			String mapping, String constraint, List<String> stateConstraint, List<String> output, boolean isReturn, boolean loadString) {
 		try{
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(DataHandler.z3TempFile)));
-			if(loadString)SearchManager.loadPrototype(bw);
+			SearchManager.loadPrototypeTypes(bw);
+			if(loadString)SearchManager.loadPrototypeString(bw);
 			bw.flush();
 			for(String s : variableConstraint){
 				bw.write(s);
@@ -389,7 +391,7 @@ public class PrototypeSearch {
 		list.add("2");
 		list.add("3");
 		List<List<String>> permutation = getPermutation(list);
-		System.out.println("size:" + permutation.size());
+		//System.out.println("size:" + permutation.size());
 		for(List<String> t : permutation){
 			for(String s : t){
 				System.out.print(s + " ");
@@ -466,10 +468,10 @@ public class PrototypeSearch {
 		List<Map<String, String>> mapp = getValidateMapping(variableTyp, info, variableTra, variableFor);
 		if(mapp.isEmpty()) return;
 		
-		if(source.contains("if(a == 1) result = 1;")){
-			
-			System.out.println();
-		}
+//		if(source.contains("if(a == 1) result = 1;")){
+//			
+//			System.out.println();
+//		}
 		for(Map<String, String> map : mapp){
 			
 			if(!searchOverPositive(map, pathconstraint, info, pathtracks, pathmapping, pathformals, pathtypes)) continue;

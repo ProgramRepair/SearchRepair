@@ -58,6 +58,18 @@ public class SearchManager {
 
 
 
+	private static void loadPrototype(BufferedWriter bw) {
+		try{
+			loadPrototypeTypes(bw);
+			loadPrototypeString(bw);
+		}catch(Exception e){
+			System.out.println(e);
+		}
+		
+	}
+
+
+
 	private static void loadSearchOver(BufferedWriter bw,
 			List<String> searchOver) throws IOException {
 		for(String s : searchOver){
@@ -94,19 +106,31 @@ public class SearchManager {
 
 	//check type 
 	
-	public static void loadPrototype(BufferedWriter bw) throws IOException {
-		File dir = new File(DataHandler.PROTOTYPE);
-		for(File file : dir.listFiles()){
-			if(file.isFile()){
-				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-				String s;
-				while((s = br.readLine()) != null){
-					bw.write(s);
-					bw.write('\n');
-				}
+	public static void loadPrototypeTypes(BufferedWriter bw) throws IOException{
+		File file = new File(DataHandler.PROTOTYPE_TYPES);
+		if(file.isFile()){
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+			String s;
+			while((s = br.readLine()) != null){
+				bw.write(s);
+				bw.write('\n');
 			}
+			br.close();
 		}
 		
+	}
+	
+	public static void loadPrototypeString(BufferedWriter bw) throws IOException {
+		File file = new File(DataHandler.PROTOTYPE_STRING);
+		if(file.isFile()){
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+			String s;
+			while((s = br.readLine()) != null){
+				bw.write(s);
+				bw.write('\n');
+			}
+			br.close();
+		}	
 	}
 
 	private static boolean CheckInputType(String[] input1, Object[] input2){

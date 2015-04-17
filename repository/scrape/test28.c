@@ -1,2 +1,2 @@
-int test(int zero){
+void test(int zero){
 zero = "0000000000000000000000000000000000000000"  ;}

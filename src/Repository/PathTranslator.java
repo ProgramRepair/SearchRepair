@@ -22,10 +22,12 @@ import antlr.preprocess.PathParser.AssignStatContext;
 import antlr.preprocess.PathParser.AssumeStatContext;
 import antlr.preprocess.PathParser.CallExprContext;
 import antlr.preprocess.PathParser.CallStatContext;
+import antlr.preprocess.PathParser.CondExprContext;
 import antlr.preprocess.PathParser.DeclarationStatContext;
 import antlr.preprocess.PathParser.DefExprContext;
 import antlr.preprocess.PathParser.ExprContext;
 import antlr.preprocess.PathParser.FormalArgumentContext;
+import antlr.preprocess.PathParser.NotExprContext;
 import antlr.preprocess.PathParser.ProgContext;
 import antlr.preprocess.PathParser.ReturnStatContext;
 import antlr.preprocess.PathParser.StatementContext;
@@ -50,7 +52,7 @@ public class PathTranslator {
 	public PathTranslator(String path, String formalVariables) {
 		super();
 		this.path = path;
-		System.out.println(formalVariables);
+		//System.out.println(formalVariables);
 		//System.out.println(path);
 		this.count = 0;
 		this.fileName = "_test_";
@@ -216,24 +218,57 @@ public class PathTranslator {
 
 
 	private void convert(AssumeStatContext assum) {
-		String operator = assum.comparator().getText();
-		String leftExpr = this.getExpr(assum.expr(0));
-		String rightExpr = this.getExpr(assum.expr(1));
-		String constraint = "";
-		if(operator.equals("!=")){
-			constraint = "(assert(not (= " + leftExpr +" "+ rightExpr + ")))";
+		String expr = "";
+		if(assum.notExpr() != null){
+			expr = getNotExprInAssum(assum.notExpr());
 		}
-		else if(operator.equals("==")){
-			constraint = "(assert(= " + leftExpr +" "+ rightExpr + "))";
+		else if(assum.condExpr() != null){
+			expr = getCondExprInAssum(assum.condExpr());
 		}
-		else{
-			constraint = "(assert( " + operator + " " + leftExpr + " " + rightExpr +  " ))";
-		}
-		ssa.add(constraint);		
+		String constraint = "(assert " + expr + ")";
+		ssa.add(constraint);
 	}
 
 
 
+
+	private String getNotExprInAssum(NotExprContext notExpr) {
+		String expr = getCondExprInAssum(notExpr.condExpr());
+		expr = "( not " + expr + ")";  
+		return expr;
+	}
+
+
+
+
+
+	private String getCondExprInAssum(CondExprContext condExpr) {
+		String left = this.getExpr(condExpr.expr(0));
+		String right = this.getExpr(condExpr.expr(1));
+		String output = "";
+		if(condExpr.comparator() != null){
+			String op = condExpr.comparator().getText();
+			if(op.equals("==")){
+				output = "(= " + left + " " + right + ")";
+			}
+			else if(op.equals("!=")){
+				output = "(not (= " + left + " " + right + "))";						
+			}
+			else{
+				output = "( " + op + " " + left + " " + right + ")";
+			}
+		}
+		else if(condExpr.booleanOperator() != null){
+			String op = condExpr.booleanOperator().getText();
+			if(op.equals("&&")){
+				output = "(and " + "(= " + left + " 1)" + " (= " + right + " 1))";
+			}
+			else if(op.equals("||")){
+				output = "(or " + "(= " + left + " 1)" + " (= " + right + " 1))";
+			}
+		}
+		return output;
+	}
 
 
 
@@ -285,11 +320,78 @@ public class PathTranslator {
 		if(assign.StringLiteral() != null){
 			convertString(assign);
 		}
+		else if(assign.condExpr() != null){
+			convertCondAssign(assign);
+		}
 		else{
 			converNonString(assign);
 		}
 		
 	}
+
+
+	private void convertCondAssign(AssignStatContext assign) {
+		String condExpr = getCondExprInAssign(assign.condExpr());
+		String id = this.variableTrack.get(assign.ID().getText());
+		String newId = generateNewName(id);
+		String constraint = "";
+		if(assign.assiginOperator().getText() .equals("=") ){
+			constraint = "(assert(= " + newId + " " + condExpr + "))";
+		}
+		else{
+			char operater = assign.assiginOperator().getText().charAt(0);
+			constraint = "(assert(= " + newId + "( " + operater + " " + id + " " + condExpr + " )))";
+		}
+		ssa.add(constraint);
+	}
+
+
+
+
+
+	private String getCondExprInAssign(CondExprContext condExpr) {
+		String left = this.getExpr(condExpr.expr(0));
+		String right = this.getExpr(condExpr.expr(1));
+		String output = "";
+		if(condExpr.comparator() != null){
+			String operator = condExpr.comparator().getText();
+			if(operator.equals("==")){
+				output = "(ite (= " + left + " " + right + ") 1 0)";
+			}
+			else if(operator.equals("!=")){
+				output = "(ite (= " + left + " " + right + ") 0 1)";
+			}
+			else{
+				output = "(ite (" + operator + " " + left + " " + right + ") 1 0)";
+			}
+		}
+		else if(condExpr.booleanOperator() != null){
+			String operator = condExpr.booleanOperator().getText();
+			if(operator.equals("&&")){
+				output = "(ite (and " + " (= " + left + " 1)" + " (= " + right + " 1)" + ") 1 0)";
+			}
+			else if(operator.equals("||")){
+				output = "(ite (or " + " (= " + left + " 1)" + " (= " + right + " 1)" + ") 1 0)";
+			}
+		}
+		return output;
+	}
+
+
+
+
+
+//	private String getTerm(TermContext term) {
+//		String output = "";
+//		if(term.ID() != null){
+//			output = this.variableTrack.get(term.ID().getText());
+//		}
+//		else output = term.getText();
+//		return output;
+//	}
+
+
+
 
 
 	private void converNonString(AssignStatContext c) {

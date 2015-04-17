@@ -1,2 +1,2 @@
-int test(int basebranch){
+void test(int basebranch){
 basebranch = "$1"  ;}

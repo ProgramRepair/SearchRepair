@@ -1,3 +1,4 @@
+(declare-sort Void 0)
 (declare-sort  IntPointer 0)
 (declare-sort  FloatPointer 0)
 

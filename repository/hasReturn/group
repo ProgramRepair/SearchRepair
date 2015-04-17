@@ -21,8 +21,6 @@ int smallest(int a, int b, int c){
     int d = a + (b * c) + a * a * b;
     a += a;
 	if(a < b && a < c){
-        strcpy(a, b);
-        int a = strncpy(a, b, c);
 		return a;
 	}
 	else if(b < a && b < c){
@@ -64,22 +62,7 @@ int test1(int a){
 	return d;
 }
 
-int test2(int a){
-	int b = 0;
-	int c = 0;
-	int* p = &a;
-	//char* s = "abc";
-	if(a < 3){
-		b = a + 1;
-		c = b * 2;
-	}
-	else{
-		c = 2 * c;
-		*p = c;
-	}
-	int d = b * c;
-	return d;
-}
+
 
 
 int max(int a, int b, int c){

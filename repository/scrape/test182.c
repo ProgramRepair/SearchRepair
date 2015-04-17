@@ -1,2 +1,2 @@
-int test(int imax){
+void test(int imax){
 imax = 0       ;}

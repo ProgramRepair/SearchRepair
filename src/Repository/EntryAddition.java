@@ -14,12 +14,15 @@ import Library.Utility;
 
 public class EntryAddition {
 	
+	private static int count = 0;
+	private static int save = 0;
 	public static void addOneFile(String filePath){
 		File file = new File(filePath);
 		if(!file.exists()) return;
 		//asssume only one method
 		List<Method> methods = parse(filePath);
 		for(Method method : methods){
+			count++;
 			EntryObject object;
 			try{
 				object = covertMethodToEntry(method);
@@ -27,18 +30,20 @@ public class EntryAddition {
 				System.out.println(e);
 				continue;
 			}
-			//EntryHandler.save(object);
-//			System.out.println(method.getName());
-//			System.out.println(method.getSource());
+			EntryHandler.save(object);
+			System.out.println(method.getName());
+			save++;
+			System.out.println(method.getSource());
 
-//			for(String path : object.getPathConstraint().keySet())
-//			{
-//				System.out.println("path:\n" + path);
-//				System.out.println("constraint:\n" + object.getPathConstraint().get(path));
-//				//System.out.println("variable:\n" + object.getPathFormalVariables().get(path));
-//				//System.out.println("track:\n" + object.getPathVariablesTypes().get(path));
-//			}
+			for(String path : object.getPathConstraint().keySet())
+			{
+				System.out.println("path:\n" + path);
+				System.out.println("constraint:\n" + object.getPathConstraint().get(path));
+				System.out.println("variable:\n" + object.getPathFormalVariables().get(path));
+				System.out.println("track:\n" + object.getPathVariablesTypes().get(path));
+			}
 		}
+		System.out.println("count: " + count + "save: " + save);
 	}
 	
 
@@ -54,10 +59,13 @@ public class EntryAddition {
 	public static void addOneFolder(String dirPath){
 		File dir = new File(dirPath);
 		if(!dir.exists()) return;
-		for(String path : dir.list()){
-			//if(path.startsWith("recursion2")){
-			addOneFile(dirPath + "/" + path);
-			//}
+		for(File file : dir.listFiles()){
+			if(file.isDirectory()){
+				addOneFolder(file.getAbsolutePath());
+			}
+			else{
+				addOneFile(file.getAbsolutePath());
+			}
 			
 		}
 	}
@@ -76,7 +84,7 @@ public class EntryAddition {
 					p.getInputStream()));
 //			BufferedReader ls_error = new BufferedReader(new InputStreamReader(
 //					p.getErrorStream()));
-			//System.out.println(ls_error.readLine());
+//			System.out.println(ls_error.readLine());
 			String s = null;
 			StringBuilder path = new StringBuilder();
 			StringBuilder input = new StringBuilder();
@@ -238,8 +246,8 @@ public class EntryAddition {
 
 
 	public static void main(String[] args){
-		String filePath = "./repository/scrape";
-		//EntryAddition.addOneFolder(filePath);;
-		EntryAddition.addOneFile("./repository/median");
+		String filePath = "./repository";
+		EntryAddition.addOneFolder(filePath);;
+		//EntryAddition.addOneFile("./repository/hasReturn/medianvoid");
 	}
 }

@@ -1,2 +1,2 @@
-int test(int allowdeletetag, int git){
+void test(int allowdeletetag, int git){
 allowdeletetag = ( git          ;}

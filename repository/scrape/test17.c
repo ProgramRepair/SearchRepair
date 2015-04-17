@@ -1,2 +1,2 @@
-int test(int refname){
+void test(int refname){
 refname = "$1"  ;}

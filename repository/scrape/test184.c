@@ -1,2 +1,2 @@
-int test(int len, int imax, int maxlen, int i){
+void test(int len, int imax, int maxlen, int i){
 if ( len  >  maxlen     )     { maxlen = len        ;  imax = i        ;  }    }

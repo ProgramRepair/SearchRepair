@@ -1,2 +1,2 @@
-int test(int topic, int ref, int git){
+void test(int topic, int ref, int git){
 topic = git   symbolic  -  ref        ;}

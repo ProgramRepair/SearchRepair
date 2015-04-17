@@ -1,2 +1,2 @@
-int test(int missing, int xists){
+void test(int missing, int xists){
 if ( xists     <missing ')'>        }

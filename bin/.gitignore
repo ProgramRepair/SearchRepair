@@ -1,9 +1,11 @@
 /scraper
 /antlr
-/lookups
 /Database
 /InputAndOuput
 /Library
 /LoopAndResursion
 /ProcessIntroClass
 /Repository
+/search
+/lookups
+/test

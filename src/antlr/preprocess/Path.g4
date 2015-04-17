@@ -17,8 +17,20 @@ callStat
 	
 
 assumeStat
-	: expr comparator expr ';'
+	: notExpr';'
+	| condExpr';'
 	;
+	
+notExpr: '!' '(' condExpr ')';
+
+condExpr
+	:	expr  booleanOperator expr
+	|	expr comparator expr
+	;
+	
+
+
+
 	
 declarationStat
 	: type ID ';'
@@ -30,12 +42,13 @@ assignStat
 	| '*' ID assiginOperator expr  ';'
 	| ID assiginOperator callExpr ';'
 	| ID assiginOperator StringLiteral ';'
+	| ID assiginOperator condExpr ';'
 	;
 
 
 		
 returnStat
-	: 'return' '('expr ')' ';'
+	: 'return' ('('expr ')' )?';'
 	;
 	
 
@@ -88,7 +101,7 @@ assiginOperator : ADDSELF | DEDUCTSELF | MODSELF | MULTISELF | DIVIDESELF | ASSI
 	
 	
 
-
+booleanOperator : OR | AND;
 
 comparator : LT | GT | EQ | NEQ | LE | GE; 
 

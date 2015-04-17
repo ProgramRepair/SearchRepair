@@ -1,2 +1,2 @@
-int test(int git, int allowunannotated){
+void test(int git, int allowunannotated){
 allowunannotated = ( git          ;}

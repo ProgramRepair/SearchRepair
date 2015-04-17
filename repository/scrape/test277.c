@@ -1,2 +1,2 @@
-int test(int l){
+void test(int l){
 l = strlen ( s       )         ;}

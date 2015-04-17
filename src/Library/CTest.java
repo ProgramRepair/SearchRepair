@@ -109,8 +109,8 @@ public class CTest {
 					sb.append(ls_str);
 				}
 				if (isAlive(ls_proc)) {
-				ls_proc.destroy();
-				sb.append("unknown - killed");
+					ls_proc.destroy();
+				//sb.append("unknown - killed");
 				}
 			} catch (IOException e) {
 				out = "";

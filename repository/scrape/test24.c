@@ -1,2 +1,2 @@
-int test(int git, int denycreatebranch){
+void test(int git, int denycreatebranch){
 denycreatebranch = ( git          ;}

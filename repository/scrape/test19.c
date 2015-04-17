@@ -1,2 +1,2 @@
-int test(int newrev){
+void test(int newrev){
 newrev = "$3"  ;}
