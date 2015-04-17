@@ -3,6 +3,7 @@ package Repository;
 import java.util.List;
 import java.util.Map;
 
+import lookups.TypeTable;
 import Database.DataHandler;
 import Database.EntryObject;
 
@@ -35,10 +36,13 @@ public class EntryTranslator {
 
 
 	private void translateWithSSA() {
+		// deal with two situations, one is path with return statement, one is path without return statement
 		for(String path : method.getPath()){
 			PathTranslator pathTranslator = new PathTranslator(path, method.getPathToInput().get(path));
 			List<String> constraints = pathTranslator.getSsa();
 			StringBuilder constraintString = new StringBuilder();
+			String declare = "(declare-fun _output_  () " + TypeTable.getInstance().getType(method.getReturnType()) + " )\n";
+			constraintString.append(declare);
 			for(String line : constraints){
 				constraintString.append(line);
 				constraintString.append("\n");

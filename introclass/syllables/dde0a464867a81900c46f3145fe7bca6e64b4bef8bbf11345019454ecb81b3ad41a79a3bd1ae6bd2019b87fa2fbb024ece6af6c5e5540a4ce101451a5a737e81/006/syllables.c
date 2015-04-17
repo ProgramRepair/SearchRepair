@@ -1,0 +1,39 @@
+//
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int main() {
+
+char array[20];
+char vowels[] = "aeiouy";
+//
+int i, count,d;
+//
+//
+
+printf("Please enter a string > ");
+fgets(array,20,stdin);
+//////
+//
+
+
+for (i=0;i<strlen(array)-1;i++) {
+//
+
+	for (d=0;d<=5;d++){
+//
+		//
+		if ((char)array[i] == (char)vowels[d]) {
+		count++;
+//
+		break;
+		}
+	}
+}
+
+printf("The number of syllables is %.0d.\n", count);
+
+return 0;
+}

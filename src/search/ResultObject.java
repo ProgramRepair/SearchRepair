@@ -13,6 +13,10 @@ public class ResultObject {
 	private Map<String, String> pathVariableTrack;
 	private Map<String, String> pathVariableMap;
 	private Map<String, Map<String, String>> searchMapping;
+	private Map<String, Double> partial;
+	
+	private List<String> falsePositve;
+	private List<String> positive;
 	
 	public ResultObject(){
 		this.source = new ArrayList<String>();
@@ -21,13 +25,82 @@ public class ResultObject {
 		this.pathVariableMap  = new HashMap<String, String>();
 		this.pathVariableTrack = new HashMap<String, String>();
 		this.searchMapping = new HashMap<String, Map<String, String>>();
-
+		this.falsePositve = new ArrayList<String>();
+		this.positive = new ArrayList<String>();
+		this.partial = new HashMap<String, Double>();
 	}
 	
+	
+	
+	
+	
 
-	
-	
-	
+
+
+
+
+
+
+	public Map<String, Double> getPartial() {
+		return partial;
+	}
+
+
+
+
+
+
+
+
+
+	public void setPartial(Map<String, Double> partial) {
+		this.partial = partial;
+	}
+
+
+
+
+
+
+
+
+
+
+	public List<String> getFalsePositve() {
+		return falsePositve;
+	}
+
+
+
+
+
+
+	public void setFalsePositve(List<String> falsePositve) {
+		this.falsePositve = falsePositve;
+	}
+
+
+
+
+
+
+	public List<String> getPositive() {
+		return positive;
+	}
+
+
+
+
+
+
+	public void setPositive(List<String> positive) {
+		this.positive = positive;
+	}
+
+
+
+
+
 
 	public String getPath() {
 		return path;

@@ -1,0 +1,3 @@
+int recursion(int a, int b){
+	if(a == 1) b = 1;
+}

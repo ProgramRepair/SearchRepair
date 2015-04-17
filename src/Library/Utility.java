@@ -89,4 +89,28 @@ public class Utility {
 			return true;
 		}
 	}
+
+	public static String getStringFromFile1(String absolutePath) {
+		BufferedReader reader = null;
+		StringBuilder sb = new StringBuilder();
+		try {
+			reader = new BufferedReader(new InputStreamReader(new FileInputStream(absolutePath)));
+			String s = null;
+			
+			while((s = reader.readLine()) != null){
+				String temp= s.trim();
+				if(temp.startsWith("#") || temp.startsWith("*") || temp.startsWith("//") ) continue;
+				int index = temp.indexOf("/*");
+				if(index != -1) temp = temp.substring(0, index);
+				index = temp.lastIndexOf("*/");
+				if(index != -1) temp = temp.substring(index+2);
+				sb.append(temp);
+				sb.append('\n');
+			}
+			return sb.toString();
+		} catch (Exception e) {
+			
+		}
+		return sb.toString();
+	}
 }

@@ -50,7 +50,7 @@ public class PathTranslator {
 	public PathTranslator(String path, String formalVariables) {
 		super();
 		this.path = path;
-		//System.out.println(formalVariables);
+		System.out.println(formalVariables);
 		//System.out.println(path);
 		this.count = 0;
 		this.fileName = "_test_";
@@ -59,6 +59,7 @@ public class PathTranslator {
 		this.variableTrack = new HashMap<String, String>();
 		this.variableType = new HashMap<String, String>();
 		this.formalVariables = new HashMap<String, String>();
+		//init formalVariables
 		for(String var : formalVariables.split("\n")){
 			String id  = var.split(" ")[1];
 			String type = var.split(" ")[0];
@@ -127,8 +128,8 @@ public class PathTranslator {
 					convert(c);
 				} else if (child instanceof ReturnStatContext) {
 					//do nothing
-//					ReturnStatContext c = (ReturnStatContext) child;
-//					convert(c);
+					ReturnStatContext c = (ReturnStatContext) child;
+					convert(c);
 				} else if (child instanceof AssumeStatContext) {
 					AssumeStatContext c = (AssumeStatContext) child;
 					convert(c);
@@ -142,6 +143,20 @@ public class PathTranslator {
 		}
 		
 	}
+
+
+
+
+	private void convert(ReturnStatContext c) {
+		ExprContext con = c.expr();
+		//String delcare = "(declare-fun _output_ " + 
+		if(con != null){
+			String constraint = "(assert ( = _output_ " + this.getExpr(con) + "))";
+			ssa.add(constraint);
+		}
+						
+	}
+
 
 
 
@@ -445,6 +460,7 @@ public class PathTranslator {
 		String output = "";
 		/////
 		// float, int, char, char*
+
 		if (expr.getChildCount() == 1) {
 			if ( expr.FLOAT() != null || expr.INT() != null) {
 				return expr.getText().toString();

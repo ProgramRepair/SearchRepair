@@ -20,6 +20,7 @@ import antlr.preprocess.SnippetParser.Assign_expressionContext;
 import antlr.preprocess.SnippetParser.AtomContext;
 import antlr.preprocess.SnippetParser.BlockContext;
 import antlr.preprocess.SnippetParser.CallExprContext;
+import antlr.preprocess.SnippetParser.CallStatContext;
 import antlr.preprocess.SnippetParser.CondExprContext;
 import antlr.preprocess.SnippetParser.DeclarationStatContext;
 import antlr.preprocess.SnippetParser.ElseifblockContext;
@@ -31,6 +32,7 @@ import antlr.preprocess.SnippetParser.IfblockContext;
 import antlr.preprocess.SnippetParser.IfpartContext;
 import antlr.preprocess.SnippetParser.Multi_expressionContext;
 import antlr.preprocess.SnippetParser.Or_expressionContext;
+import antlr.preprocess.SnippetParser.ReturnStatContext;
 import antlr.preprocess.SnippetParser.StatContext;
 import antlr.preprocess.SnippetParser.TermContext;
 
@@ -83,10 +85,33 @@ public class Restore {
 				sb.append(getMappingString(ifstat, map));
 				sb.append("\n");
 			}
+			else if(child instanceof ReturnStatContext){
+				ReturnStatContext returnStat = (ReturnStatContext) child;
+				sb.append(getMappingString(returnStat, map));
+				sb.append("\n");
+			}
+			else if(child instanceof CallStatContext){
+				CallStatContext call = (CallStatContext) child;
+				sb.append(getMappingString(call, map));
+			}
 			return sb.toString();
 	}
 	
 	
+
+	private static Object getMappingString(CallStatContext call,
+			Map<String, String> map) {
+		return getMappingString(call.callExpr(), map);
+	}
+
+	private static String getMappingString(ReturnStatContext returnStat,
+			Map<String, String> map) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("return ");
+		sb.append(getMappingString(returnStat.arith_expression(), map));
+		sb.append(";");
+		return sb.toString();
+	}
 
 	private static String getMappingString(AssignStatContext assign,
 			Map<String, String> map) {
@@ -212,7 +237,7 @@ public class Restore {
 	private static String getMappingString(ElseifblockContext con,
 			Map<String, String> map) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(con.getChild(0).getText());
+		sb.append(con.getChild(0).getText() + " ");
 		sb.append(con.getChild(1).getText());
 		sb.append(getMappingString((CondExprContext) con.getChild(2), map));
 		sb.append(getMappingString((IfblockContext) con.getChild(3), map));

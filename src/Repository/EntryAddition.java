@@ -20,18 +20,24 @@ public class EntryAddition {
 		//asssume only one method
 		List<Method> methods = parse(filePath);
 		for(Method method : methods){
-			
-			EntryObject object = covertMethodToEntry(method);
-			EntryHandler.save(object);
-			System.out.println(method.getName());
-			System.out.println(method.getSource());
-			for(String path : object.getPathConstraint().keySet())
-			{
-				System.out.println("path:\n" + path);
-				//System.out.println("constraint:\n" + object.getPathConstraint().get(path));
-				System.out.println("variable:\n" + object.getPathFormalVariables().get(path));
-				System.out.println("track:\n" + object.getPathVariablesTypes().get(path));
+			EntryObject object;
+			try{
+				object = covertMethodToEntry(method);
+			}catch(Exception e){
+				System.out.println(e);
+				continue;
 			}
+			//EntryHandler.save(object);
+//			System.out.println(method.getName());
+//			System.out.println(method.getSource());
+
+//			for(String path : object.getPathConstraint().keySet())
+//			{
+//				System.out.println("path:\n" + path);
+//				System.out.println("constraint:\n" + object.getPathConstraint().get(path));
+//				//System.out.println("variable:\n" + object.getPathFormalVariables().get(path));
+//				//System.out.println("track:\n" + object.getPathVariablesTypes().get(path));
+//			}
 		}
 	}
 	
@@ -49,7 +55,10 @@ public class EntryAddition {
 		File dir = new File(dirPath);
 		if(!dir.exists()) return;
 		for(String path : dir.list()){
+			//if(path.startsWith("recursion2")){
 			addOneFile(dirPath + "/" + path);
+			//}
+			
 		}
 	}
 	
@@ -59,16 +68,21 @@ public class EntryAddition {
 		//assume only one method
 		List<Method> methods = new ArrayList<Method>();
 		try {
+			//if(!fileName.equals("./repository/scrape/test41.c")) return methods;
 			String com = "./executors/pathgen " + fileName;
 
  			Process p = Runtime.getRuntime().exec(com);
 			BufferedReader ls_in = new BufferedReader(new InputStreamReader(
 					p.getInputStream()));
-			String s;
+//			BufferedReader ls_error = new BufferedReader(new InputStreamReader(
+//					p.getErrorStream()));
+			//System.out.println(ls_error.readLine());
+			String s = null;
 			StringBuilder path = new StringBuilder();
 			StringBuilder input = new StringBuilder();
 			Method method = new Method();
 			boolean startParsing = false;
+			boolean correct = true;
 			while((s = ls_in.readLine()) != null)
 			{
 				
@@ -141,44 +155,68 @@ public class EntryAddition {
 						path.append(s);
 						path.append("\n");
 					}
+					if(s.contains("error")){
+						correct = false;
+						break;
+					}
 				}
+			}
+			if(!correct){
+				methods.clear();
+				return methods;
 			}
 			if(method.getName() != null)
 			{
 				methods.add(method);
 			}
+			
 			ls_in.close();
 		} catch (IOException e) {
 			
 			e.printStackTrace();
 		}
-		
+		if(methods.isEmpty()) return methods;
 		String fileString = Utility.getStringFromFile(fileName);
 		List<String> sources = new ArrayList<String>();
+		List<String> types = new ArrayList<String>();
 		int start = -1;
 		int end = -1;
 		Stack<Character> stack = new Stack<Character>();
+		Stack<Integer> typeStack = new Stack<Integer>();
+		//Stack<>
 		Stack<Integer> index = new Stack<Integer>();
+//		System.out.println(fileName);
+//		System.out.println(fileString);
 		for(int i = 0; i < fileString.length(); i++)
 		{
 			char c = fileString.charAt(i);
 			if(c == '{'){
+				if(stack.isEmpty()){
+					int g = typeStack.isEmpty() ? 0 : typeStack.pop() + 1;
+					String declare = fileString.substring(g, i);
+					types.add(getType(declare));
+				}
 				index.push(i);
 				stack.add(c);
+				if(!typeStack.isEmpty())typeStack.pop();
+				
 			}
 			else if(c == '}'){
 				stack.pop();
+				typeStack.push(i);
 				int temp = index.pop();
 				if(stack.isEmpty()){
 					start = temp;
 					end = i;
-					sources.add(fileString.substring(start+1, end));
+					String body = fileString.substring(start+1, end);
+					sources.add(body);
 				}				
 			}
 		}
 		
-		for(int i = 0; i < sources.size(); i++){
+		for(int i = 0; i < methods.size(); i++){
 			methods.get(i).setSource(sources.get(i));
+			methods.get(i).setReturnType(types.get(i));
 		}
 		return methods;
 		
@@ -187,9 +225,21 @@ public class EntryAddition {
 	
 	
 	
+	private static String getType(String declare) {
+		declare = declare.trim();
+		if(declare.startsWith("int")) return "int";
+		else if(declare.startsWith("double")) return "double";
+		else if(declare.startsWith("char")) return "char";
+		else if(declare.startsWith("float")) return "float";
+		else if(declare.startsWith("char*")) return "char*";
+		else return "void";
+	}
+
+
+
 	public static void main(String[] args){
-		String filePath = "./repository";
+		String filePath = "./repository/scrape";
 		//EntryAddition.addOneFolder(filePath);;
-		EntryAddition.addOneFile("./repository/file1");
+		EntryAddition.addOneFile("./repository/median");
 	}
 }

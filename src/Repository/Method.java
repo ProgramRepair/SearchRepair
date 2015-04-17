@@ -10,9 +10,16 @@ public class Method {
 	private String name;
 	private List<String> path;
 	private Map<String, String> pathToInput;
+	private String returnType;
 	
 	
 	
+	public String getReturnType() {
+		return returnType;
+	}
+	public void setReturnType(String returnType) {
+		this.returnType = returnType;
+	}
 	public Method(){
 		source = null;
 		name = null;

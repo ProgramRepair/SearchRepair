@@ -1,0 +1,27 @@
+
+int returnRecursion(int a);
+
+int main(int argc, char** argv)
+{
+    
+    int a = atoi(argv[1]);
+    int output = returnRecursion(a);
+    printf("return:%d\n", output);
+    return 1;
+}
+
+
+
+int returnRecursion(int a)
+{
+    
+    if(a == 0) return 1;
+_yalin_mark("input");
+    if(a == 1) return 2;
+_yalin_mark("output");
+    
+    return returnRecursion(a - 1) + returnRecursion(a - 2);
+    
+}
+
+

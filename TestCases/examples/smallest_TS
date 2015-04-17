@@ -1,0 +1,6 @@
+positive:
+input:1 2 3 output:1
+input:2 3 4 output:2
+negative:
+input:0 0 0 output:0
+buggy lines:23-28

@@ -23,6 +23,7 @@ public class TypeTable {
 		map.put("int*", "IntPointer");
 		map.put("char*", "String");
 		map.put("double", "Real");
+		map.put("unsigned", "int");
 	}
 	
 	public static TypeTable getInstance(){

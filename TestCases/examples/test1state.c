@@ -8,7 +8,8 @@ int main(int argc, char** argv)
 {
     
     int a = atoi(argv[1]);
-    testInt(a);
+    int output = testInt(a);
+    printf("return:%d\n", output);
     return 1;
 }
 

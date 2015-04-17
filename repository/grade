@@ -1,0 +1,16 @@
+char grade1(int score, char result){
+    char a = 'A';
+    char b = 'B';
+    char c = 'C';
+    if(score > 90) {
+    result = a;
+    }
+    else if(score > 80) 
+    {
+    result = b;
+    }
+    else if(score > 50){
+    	result = c;
+    }
+    return result;
+}

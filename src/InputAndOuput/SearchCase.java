@@ -3,6 +3,7 @@ package InputAndOuput;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,6 +24,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import search.PrototypeSearch;
 import Library.CTest;
 import Library.Utility;
+import LoopAndResursion.LRCaseInfo;
 import antlr.preprocess.FunctionLexer;
 import antlr.preprocess.FunctionParser;
 import antlr.preprocess.FunctionParser.AssignStatContext;
@@ -45,6 +47,7 @@ public class SearchCase {
 	
 	public static final String MARKINPUT = "_yalin_mark(\"input\");";
 	public static final String MARKOUTPUT = "_yalin_mark(\"output\");";
+	public String outputType = "";
 	
 	private String casePrefix;
 	private Map<String, String> positives;
@@ -69,12 +72,145 @@ public class SearchCase {
 		String IOFileName = this.casePrefix + "_TS";
 		parse(IOFileName);
 		fillSearchCase();
-		//info.print();
+		info.print();
 		search();
-		printResult();		
+		printResult();
+		ruleOutFalsePositive();
+		printSearchingResult();
 	}
 	
 	
+	private void printSearchingResult() {
+		System.out.println("True fix:\n");
+		for(String source : info.getResult().getPositive()){
+			System.out.println(source);
+		}
+		
+		System.out.println("not a fix:\n");
+		for(String source : info.getResult().getFalsePositve()){
+			System.out.println(source);
+		}
+		
+		System.out.println("partial fix:\n");
+		for(String source : info.getResult().getPartial().keySet()){
+			System.out.println(source);
+			System.out.println("success: " + info.getResult().getPartial().get(source));
+		}
+		
+	}
+
+	private void ruleOutFalsePositive() {
+		for(String source : info.getResult().getSource()){
+			//if(!source.contains("maxlen")) return;
+			String input =Restore.getMappingString(source, info.getResult().getSearchMapping().get(source));
+			String outputFile = generateOutputFile(input);
+			testAllResults(source, outputFile, info);
+		}
+		
+	}
+
+	private void testAllResults(String source, String outputFile, CaseInfo info2) {
+		boolean pass = true;
+		//File file = new File();
+		//if(!source.trim().startsWith("if ( len >")) return;
+		for(String input : this.positives.keySet()){
+			String output = this.positives.get(input);
+			File file = new File( this.casePrefix);
+			if(file.exists()) file.delete();
+			String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
+			String command2 = "./" + this.casePrefix + " " +  input;
+			String s1 = CTest.runCProgram(command1);
+			String s2 = CTest.runCProgram(command2);
+			
+			if(s2.isEmpty() ){
+				pass = false;
+				break;
+			}
+			//System.out.println(s2);
+			int index3 = s2.indexOf("return");
+			//int index1 = s2.indexOf("input");
+			//int index2 = s2.indexOf("output");
+			
+			if(!output.equals(s2.substring(index3+7).trim())){
+				pass =false;
+				break;
+			}
+						//info.getPositives().put(inputList, outputList);
+		}
+		if(!pass){
+			//info2.getResult().getFalsePositve().add(source);
+			return;
+		}
+		
+		int count = 0;
+		for(String input : this.negatives.keySet()){
+			File file = new File( this.casePrefix);
+			if(file.exists()) file.delete();
+			String output = this.negatives.get(input);
+			String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
+			String command2 = "./" + this.casePrefix + " " +  input;
+			String s1 = CTest.runCProgram(command1);
+			String s2 = CTest.runCProgram(command2);
+			if(s2.isEmpty() ){
+				pass = false;
+				break;
+			}
+			//System.out.println(s2);
+			int index1 = s2.indexOf("return");
+			int index2 = s2.indexOf("input");
+			int index3 = s2.indexOf("output");
+			
+			if(!output.equals(s2.substring(index1 + 7).trim())){
+				count++;
+			}
+						//info.getPositives().put(inputList, outputList);
+		}
+		if(count == this.getNegatives().size()) {
+			info2.getResult().getFalsePositve().add(source);
+			return;
+		}
+		else if(count == 0){
+			info2.getResult().getPositive().add(source);
+		}
+		else info.getResult().getPartial().put(source, count * 1.0 / this.getNegatives().size());
+		
+	}
+
+	private String generateOutputFile(String input) {
+		String outputfile = this.casePrefix + "new.c";
+		try{
+			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputfile)));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(this.casePrefix + ".c")));	
+			String s = null;
+			
+			
+			for(int i = 1; i < buggy[0]; i++){
+				s = reader.readLine();
+				writer.write(s);
+				writer.write("\n");
+				writer.flush();
+			}
+			
+			writer.write(input);
+			
+			for(int i = buggy[0]; i <= buggy[1]; i++){
+				s = reader.readLine();
+				
+			}
+			
+			while((s = reader.readLine()) != null){
+				writer.write(s);
+				writer.write("\n");
+				writer.flush();
+			}
+			reader.close();
+			writer.close();
+		}catch(Exception e){
+			return "";
+		}
+		return outputfile;
+	}
+
 	private void printResult() {
 		int i = 0;
 		for(String source : info.getResult().getSource())
@@ -107,7 +243,9 @@ public class SearchCase {
 	}
 
 	private void fillSearchCase() {
+		System.out.println(this.casePrefix + ".c");
 		insertStateStatements(this.casePrefix + ".c");
+		
 		obtainInputAndOutputStates();
 	}
 
@@ -115,32 +253,50 @@ public class SearchCase {
 		String sourceFile = this.casePrefix + "state.c";
 		for(String input : this.positives.keySet()){
 			//String output = this.positive.get(input);
+			File file = new File( this.casePrefix);
+			if(file.exists()) file.delete();
 			String command1 = "gcc " + sourceFile + " -o " + this.casePrefix;
 			String command2 = "./" + this.casePrefix + " " +  input;
 			String s1 = CTest.runCProgram(command1);
 			String s2 = CTest.runCProgram(command2);
-			//System.out.println(s2);
+			System.out.println(s2);
 			if(s2.trim().isEmpty()) return;
 			int index1 = s2.indexOf("input");
 			int index2 = s2.indexOf("output");
-			//int index3 = s2.indexOf("return");
+			int index3 = s2.indexOf("return");
+			if(index1 == - 1) continue;
 			
 			List<String> inputList = new ArrayList<String>();
 			List<String> outputList = new ArrayList<String>();
 			
-			String[] elems = s2.substring(index1 + 12, index2).split(",");
-			for(String e : elems){
-				if(e.equals("")) continue;
-				inputList.add(e);				
+
+			if(index2 != -1){
+				String[] elems = s2.substring(index1 + 12, index2).split(",");
+				for(String e : elems){
+					if(e.equals("")) continue;
+					inputList.add(e);				
+				}
+				for(String o : s2.substring(index2 + 13, index3).split(",")){
+					if(o.equals("")) continue;
+					outputList.add(o);
+				}
 			}
-			for(String o : s2.substring(index2 + 13).split(",")){
-				if(o.equals("")) continue;
-				outputList.add(o);
+			else{
+				String[] elems = s2.substring(index1 + 12, index3).split(",");
+				for(String e : elems){
+					if(e.equals("")) continue;
+					inputList.add(e);				
+				}
+				String outputValue = s2.substring(index3+7).toString();
+				String outputState = "_result_:" + outputValue + ":" + this.outputType;
+				outputList.add(outputState);
 			}
 			info.getPositives().put(inputList, outputList);
 		}
 		
 		for(String input : this.negatives.keySet()){
+			File file = new File( this.casePrefix);
+			if(file.exists()) file.delete();
 			String command1 = "gcc " + sourceFile + " -o " + this.casePrefix;
 			String command2 = "./" + this.casePrefix + " " +  input;
 			String s1 = CTest.runCProgram(command1);
@@ -148,6 +304,9 @@ public class SearchCase {
 			System.out.println(s2);
 			int index1 = s2.indexOf("input");
 			int index2 = s2.indexOf("output");
+			int index3 = s2.indexOf("return");
+			if(index1 == -1) continue;
+			
 			
 			List<String> inputList = new ArrayList<String>();
 			List<String> outputList = new ArrayList<String>();
@@ -157,9 +316,16 @@ public class SearchCase {
 				if(e.equals("")) continue;
 				inputList.add(e);				
 			}
-			for(String o : s2.substring(index2 + 13).split(",")){
-				if(o.equals("")) continue;
-				outputList.add(o);
+			if(index2 != -1){
+				for(String o : s2.substring(index2 + 13, index3).split(",")){
+					if(o.equals("")) continue;
+					outputList.add(o);
+				}
+			}
+			else{
+				String outputValue = s2.substring(index3+7).toString();
+				String outputState = "_result_:" + outputValue + ":" + this.outputType;
+				outputList.add(outputState);
 			}
 			info.getNegatives().put(inputList, outputList);
 		}
@@ -306,6 +472,7 @@ public class SearchCase {
 			Map<String, String> variables) {
 		// formals
 		List<FormalParameterContext> fpc = function.parameters().formalParameter();
+		this.outputType = function.type().getText().trim();
 		for(FormalParameterContext fp : fpc){
 			String type = fp.type().getText();
 			String id = fp.ID().getText();
@@ -386,9 +553,11 @@ public class SearchCase {
 	 * @return
 	 */
 	private String getFunction(String markFile) {
+		System.out.println(markFile);
 		String output = "";
 		try{
 			String fileString = Utility.getStringFromFile(markFile);
+			//System.out.println(fileString);
 			int start = -1;
 			int end = -1;
 			Stack<Character> stack = new Stack<Character>();
@@ -427,6 +596,7 @@ public class SearchCase {
 	 */
 	private String insertMark(String original) {
 		String output = this.casePrefix + ".mark";
+		System.out.println();
 		try{
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(output)));
 			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(this.casePrefix + ".c")));
@@ -467,6 +637,7 @@ public class SearchCase {
 			reader.close();
 			writer.close();
 		}catch(Exception e){
+			e.printStackTrace();
 			return "";
 		}
 		return output;
@@ -576,7 +747,7 @@ public class SearchCase {
 	}
 	
 	public static void main(String[] args){
-		SearchCase case1 = new SearchCase("TestCases/examples/test2");
+		SearchCase case1 = new SearchCase("TestCases/examples/test1");
 		//case1.print();
 	}
 

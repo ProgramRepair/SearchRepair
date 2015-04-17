@@ -1,0 +1,7 @@
+positive:
+input:60 output:C
+input:70 output:C
+negative:
+input:92 output:A
+input:83 output:B
+buggy lines:20-22

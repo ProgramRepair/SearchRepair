@@ -9,7 +9,8 @@ int main(int argc, char** argv)
     
     int h = atoi(argv[2]);
     char* g = argv[1];
-    testCmp(g, h);
+    int m = testCmp(g, h);
+    printf("return:%d\n", m);
     return 1;
 }
 
@@ -28,7 +29,7 @@ printf("input state:g:%s:char*,d:%d:int,h1:%s:char*,h:%d:int,h2:%s:char*\n", g, 
     }else {
         if(h > 1) {
             int tmp = h % 2;
-            			if(tmp > 0) {
+            			if(tmp <= 0) {
                             d = tmp;
             			}else {
                             d = tmp - 1;

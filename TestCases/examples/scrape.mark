@@ -1,0 +1,30 @@
+
+int scrape(int a, int d);
+
+int main(int argc, char** argv)
+{
+    
+    int a = atoi(argv[1]);
+    int d = atoi(argv[2]);
+    int output = scrape(a, d);
+    printf("return:%d\n", output);
+    return 1;
+}
+
+
+
+int scrape(int a, int d)
+{
+    int b = 2;
+    int c = 4;
+    
+_yalin_mark("input");
+    if(a < c){
+    	c = a;
+    	b = d;
+    }
+_yalin_mark("output");
+    
+    return b + c;
+    
+}

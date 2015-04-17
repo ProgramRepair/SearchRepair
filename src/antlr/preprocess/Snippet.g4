@@ -10,7 +10,10 @@ type
 	| Float
 	| Double
 	| String
+	| UnSigned
 	;
+
+
  
  block : '{' stat* '}';
 
@@ -21,12 +24,16 @@ type
  	| callStat ';'
  	| assignStat ';'
  	| selfIncreStat ';'
+ 	//| forStat
  	;
 
 if_stat
  : ifpart (elseifpart)? elsepart?
  ;
 
+//forStat
+//	: 'for' '(' assignStat ';' condExpr ';' stat ')' block
+//	;
 
  
  ifpart : 'if'  condExpr ifblock;
@@ -124,6 +131,8 @@ Char : 'char';
 Float : 'float';
 
 String : 'char*';
+
+UnSigned: 'unsigned';
 
 
 Double : 'double';

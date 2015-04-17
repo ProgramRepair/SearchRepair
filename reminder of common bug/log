@@ -1,0 +1,1 @@
+put libz3.dylib in /usr/local/lib, otherwise pathgen wont work in eclipse because of not able to find libz3.dylib

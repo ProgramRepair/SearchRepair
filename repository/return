@@ -1,0 +1,4 @@
+int returnTest(int a){
+	if(a == 1 || a == 2 || a == 3) return 1;
+	else return 0;
+}
