@@ -2,25 +2,14 @@ package test;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
 
 import InputAndOuput.SearchCase;
-import Library.Utility;
 import LoopAndResursion.LRSearchCase;
-import antlr.preprocess.ConditionLexer;
-import antlr.preprocess.ConditionParser;
 
 
 
@@ -28,20 +17,7 @@ import antlr.preprocess.ConditionParser;
 public class Test {
 	
 	
-	@org.junit.Test
-	public void test1() throws IOException{
-		String file = Utility.getStringFromFile("TestCases/condition/test");
-		InputStream stream = new ByteArrayInputStream(file.getBytes());
-		ANTLRInputStream input = new ANTLRInputStream(stream);
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("a","b");
-		ConditionLexer lexer = new ConditionLexer(input);
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		ConditionParser parser = new ConditionParser(tokens);
-		//parser.
-		//System.out.println(parser.getTokenType("int"));
-		//p
-	}
+
 	
 	@org.junit.Test
 	public void test2(){

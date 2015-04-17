@@ -1,11 +1,13 @@
 /scraper
-/antlr
+/.gitignore
 /Database
 /InputAndOuput
 /Library
 /LoopAndResursion
 /ProcessIntroClass
 /Repository
-/search
+/antlr
 /lookups
+/search
 /test
+/snippet

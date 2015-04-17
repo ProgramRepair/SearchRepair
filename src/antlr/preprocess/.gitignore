@@ -46,3 +46,9 @@
 /FunctionExtractorVisitor.java
 /SnippetBaseVisitor.java
 /SnippetVisitor.java
+/PathBaseVisitor.java
+/PathVisitor.java
+/FunctionBaseVisitor.java
+/FunctionVisitor.java
+/ConditionBaseVisitor.java
+/ConditionVisitor.java

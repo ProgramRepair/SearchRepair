@@ -1,8 +1,8 @@
 antlr4.antlrRegisteredTools=4.4@/var/folders/jt/8yp69ddd2s5gdr16wwx37qwr0000gn/T/antlr-4.4-complete.jar\:4.4@/Users/keyalin/Documents/coding/workspace/Autobugfix/lib/antlr-4.4-complete.jar
 antlr4.antlrToolPath=/Users/keyalin/Documents/coding/workspace/Autobugfix/lib/antlr-4.4-complete.jar
 antlr4.encoding=UTF-8
-antlr4.listener=true
-antlr4.visitor=true
+antlr4.listener=false
+antlr4.visitor=false
 antlr4.vmArgs=
 autobuilding=true
 com.github.jknack.antlr4ide.Antlr4.useProjectSettings=true
