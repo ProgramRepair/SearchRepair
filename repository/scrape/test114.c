@@ -1,2 +1,2 @@
-int test(int c){
-return c    +  1       ;}
+void test(int n){
+n = n   %  2   == 0     ;}

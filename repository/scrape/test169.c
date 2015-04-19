@@ -1,2 +1,2 @@
-void test(int j){
-j = 0       ;}
+void test(int abundants){
+abundants = malloc ( abundants_count   *  sizeof   *  abundants       )         ;}

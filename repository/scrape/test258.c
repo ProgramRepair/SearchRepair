@@ -1,2 +1,2 @@
-void test(int d){
-d = log10 ( k       )         ;}
+void test(int k, int i){
+k = i       ;}

@@ -1,2 +1,2 @@
-void test(int max_i){
-max_i = 0       ;}
+void test(int max_c){
+max_c = 0   ,     ;}

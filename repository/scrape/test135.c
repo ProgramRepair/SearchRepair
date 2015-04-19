@@ -1,2 +1,2 @@
-void test(int left){
-left = findmax ( triangle       , row    +  1        , col       )         ;}
+int test(int triangle, int N, int row){
+if ( row  ==  N     )     { return triangle   [     <missing ';'>   row ] [   col ] ;  }    }

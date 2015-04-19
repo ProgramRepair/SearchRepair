@@ -1,2 +1,2 @@
-void test(int len){
-len = mpz_sizeinbase ( n       , 10       )         ;}
+void test(int str){
+str = mpz_get_str ( NULL       , 10       , n       )         ;}

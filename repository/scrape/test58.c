@@ -1,2 +1,2 @@
-void test(int a2, int a3){
-a2 = a3       ;}
+void test(int a1, int a2){
+a1 = a2       ;}

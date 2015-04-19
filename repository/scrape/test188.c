@@ -1,2 +1,2 @@
-void test(int bmax){
-bmax = 0       ;}
+void test(int amax){
+amax = 0   ,     ;}

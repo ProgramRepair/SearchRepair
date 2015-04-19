@@ -1,2 +1,2 @@
-void test(int a1, int a2){
-a1 = a2       ;}
+void test(int sum, int a3){
+sum +=  a3   *  a3   %  2   )     ;}

@@ -21,7 +21,6 @@ import LoopAndResursion.LRCaseInfo;
 
 
 public class PrototypeSearch {
-	private static String SEARCHPROTOTYPE = "select * from prototype";
 	private static String SEARCHPAUTOBUGFIX= "select * from autobugfix";
 	public static void search(CaseInfo info) throws SQLException, IOException{
 		Database.DataBaseManager.connect();
@@ -41,6 +40,7 @@ public class PrototypeSearch {
 	}
 	
 
+	
 
 	private static void searchAllPath(String[] pathconstraint,
 			String[] pathtypes, String source, CaseInfo info,
@@ -57,7 +57,7 @@ public class PrototypeSearch {
 		//if(!source.contains("if(((a>=b)&&(a<=c))")) return;
 		
 		for(Map<String, String> map : mapp){
-			String s = map.toString();
+			//String s = map.toString();
 			//System.out.println(s);
 			//if(!s.equals("{b=b, c=c, a=a, m=m}")) continue;
 			boolean passAllPositive = true;
@@ -71,7 +71,6 @@ public class PrototypeSearch {
 					String[] pathAndTrack = pathtracks[i].split(EntryHandler.PATH_VARIABLE_TRACK);
 					String[] pathAndMap = pathmapping[i].split(EntryHandler.PATH_VARIABLE_MAP);
 					String[] pathAndFormal = pathformals[i].split(EntryHandler.PATH_VARIABLE_Formal);
-					String path = pathAndCon[0];
 					String constraint = pathAndCon[1];
 					String[] variableTypes = pathAndType[1].split(DataHandler.VARIABLE_END);
 					String[] variableTracks = pathAndTrack[1].split(DataHandler.VARIABLE_END);
@@ -114,7 +113,6 @@ public class PrototypeSearch {
 		
 		List<String> delcarations = getVariableTypeConstraint(variableTypes);
 		//
-			boolean pass = true;
 			Map<String, String> tracks = PrototypeSearch.getVariableTrack(variableTracks);
 			boolean isReturn = false;
 			if(pOutputs.get(0).contains("_result_")){
@@ -130,7 +128,6 @@ public class PrototypeSearch {
 			states.addAll(getStateConstraint(pInputs, "_in"));
 			List<String> output = getStateConstraint(pOutputs, "_out");
 			if(!validate(delcarations, mappingConstraint, constraint, states, output, isReturn, loadString)) {
-				pass = false;
 				return false;
 			}
 			
@@ -490,6 +487,7 @@ public class PrototypeSearch {
 
 
 
+	@SuppressWarnings("unused")
 	private static boolean searchOverNegative(Map<String, String> map,
 			String[] pathconstraint, LRCaseInfo info, String[] pathtracks,
 			String[] pathmapping, String[] pathformals, String[] pathtypes) {
@@ -551,7 +549,6 @@ public class PrototypeSearch {
 					String[] pathAndTrack = pathtracks[i].split(EntryHandler.PATH_VARIABLE_TRACK);
 					String[] pathAndMap = pathmapping[i].split(EntryHandler.PATH_VARIABLE_MAP);
 					String[] pathAndFormal = pathformals[i].split(EntryHandler.PATH_VARIABLE_Formal);
-					String path = pathAndCon[0];
 					String constraint = pathAndCon[1];
 					String[] variableTypes = pathAndType[1].split(DataHandler.VARIABLE_END);
 					String[] variableTracks = pathAndTrack[1].split(DataHandler.VARIABLE_END);

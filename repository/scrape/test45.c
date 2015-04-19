@@ -1,2 +1,2 @@
-void test(int N){
-N = >  ;}
+void test(int WF){
+WF = 0   V *  >      ;}

@@ -1,2 +1,2 @@
-void test(int sum){
-sum = 0       ;}
+void test(int d, int sizeof){
+unsigned  N = sizeof   d /  sizeof   *  d       ;}

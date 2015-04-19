@@ -1,2 +1,2 @@
-int test(int sq){
-return sq   *  sq   == 1  +  8   *  n   && (     ;}
+void test(int sq){
+sq = sqrt ( 1    +  8   *  n        )         ;}

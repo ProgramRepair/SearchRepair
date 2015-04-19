@@ -1,2 +1,2 @@
-void test(int right){
-right = findmax ( triangle       , row    +  1        , col    +  1        )         ;}
+void test(int left){
+left = findmax ( triangle       , row    +  1        , col       )         ;}

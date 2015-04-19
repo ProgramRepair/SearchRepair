@@ -1,2 +1,2 @@
-void test(int cnt){
-cnt +=  is_triangle ( sum       )         ;}
+void test(int sum, int buf){
+sum +=  buf   [     ;}

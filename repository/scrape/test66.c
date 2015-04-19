@@ -1,2 +1,2 @@
-void test(int reversed){
-reversed = 10   *  reversed    +  ( t   %  10     )       ;}
+void test(int t, int n){
+t = n       ;}

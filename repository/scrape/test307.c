@@ -1,2 +1,2 @@
-void test(int sum, int buf){
-sum +=  buf   [     ;}
+void test(int sum){
+sum = 0       ;}

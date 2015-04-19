@@ -14,6 +14,7 @@ public class ResultObject {
 	private Map<String, String> pathVariableMap;
 	private Map<String, Map<String, String>> searchMapping;
 	private Map<String, Double> partial;
+	private Map<String, String> mappingSource;
 	
 	private List<String> falsePositve;
 	private List<String> positive;
@@ -28,12 +29,36 @@ public class ResultObject {
 		this.falsePositve = new ArrayList<String>();
 		this.positive = new ArrayList<String>();
 		this.partial = new HashMap<String, Double>();
+		this.mappingSource = new HashMap<String, String>();
 	}
 	
 	
-	
-	
-	
+
+
+
+	public Map<String, String> getMappingSource() {
+		return mappingSource;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+	public void setMappingSource(Map<String, String> mappingSource) {
+		this.mappingSource = mappingSource;
+	}
+
+
+
+
+
 
 
 
@@ -44,11 +69,6 @@ public class ResultObject {
 	public Map<String, Double> getPartial() {
 		return partial;
 	}
-
-
-
-
-
 
 
 

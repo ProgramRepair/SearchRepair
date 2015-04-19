@@ -1,2 +1,2 @@
-void test(int u, int UJ, int O){
-u = O   0  +  UJ   6      ;}
+void test(int E, int r, int B){
+E = B   F /  r       ;}

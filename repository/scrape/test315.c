@@ -1,2 +1,2 @@
-void test(int d){
-if ( ( d   [ 1 ] * 100 +      <missing ')'>        }
+void test(int sum){
+sum = 0       ;}

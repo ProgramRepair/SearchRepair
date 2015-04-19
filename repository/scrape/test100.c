@@ -1,2 +1,2 @@
 void test(int n){
-n +=  ++  ;}
+n = 1       ;}

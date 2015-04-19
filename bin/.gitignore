@@ -1,6 +1,7 @@
 /scraper
 /.gitignore
 /Database
+/Experiment
 /InputAndOuput
 /Library
 /LoopAndResursion
@@ -10,4 +11,3 @@
 /lookups
 /search
 /test
-/snippet

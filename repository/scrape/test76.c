@@ -1,2 +1,2 @@
-int test(int p){
-return p   /  gcd ( a       , b       )        ;}
+void test(int p){
+p = (         ;}

@@ -1,2 +1,2 @@
-void test(int sum){
-sum = 0       ;}
+int test(int p){
+if ( p     )     { perror ( "words.txt"  )    ;  return 1       ;  }    }

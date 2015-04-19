@@ -1,2 +1,2 @@
 void test(int d){
-d = pow ( 10       , d       )         ;}
+d = log10 ( k       )         ;}

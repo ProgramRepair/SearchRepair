@@ -1,2 +1,2 @@
-void test(int sieve){
-sieve = prime_sieve ( N       )         ;}
+int test(int n){
+return n   *  ( 2   *  n   -1   )     ;}

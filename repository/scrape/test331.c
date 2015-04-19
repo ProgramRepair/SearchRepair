@@ -1,2 +1,2 @@
-void test(int j){
-j = 0       ;}
+void test(int primes){
+primes = malloc ( sizeof ( unsigned )     *  N       )         ;}

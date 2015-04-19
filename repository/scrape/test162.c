@@ -1,2 +1,2 @@
-void test(int s, int sum, int i){
-sum +=  s   *  ( i    +  1      )      ;}
+void test(int names){
+names = malloc ( 8192   *  sizeof   *  names       )         ;}

@@ -1,2 +1,2 @@
-void test(int r, int q){
-q = r       ;}
+void test(int H_, int yU, int K){
+K = H_   %  yU       ;}

@@ -1,2 +1,2 @@
-void test(int sun){
-sun = 0   ,     ;}
+void test(int wday){
+wday = 0   ,     ;}

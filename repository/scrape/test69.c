@@ -1,2 +1,2 @@
-void test(int ans){
-ans = 1       ;}
+int test(int reversed){
+return reversed   ==    ;}

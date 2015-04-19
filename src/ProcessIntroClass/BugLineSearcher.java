@@ -15,6 +15,7 @@ public class BugLineSearcher {
 	private List<String> linesContent;
 	private Map<Integer, Double> suspiciousness;
 	private int[] buggy;
+	private boolean addBracket;
 	//private 
 
 	public BugLineSearcher(String folder, String fileName) {
@@ -24,16 +25,31 @@ public class BugLineSearcher {
 		this.linesContent = new ArrayList<String>();
 		this.suspiciousness = new HashMap<Integer, Double>();
 		this.buggy = new int[2];
+		this.addBracket = false;
 		init();
 	}
+	
+	
+
+	public boolean isAddBracket() {
+		return addBracket;
+	}
+
+
+
+	public void setAddBracket(boolean addBracket) {
+		this.addBracket = addBracket;
+	}
+
+
 
 	private void init() {
 		initSuspicious();
 		initContent();
 		if(this.linesContent.size() != this.suspiciousness.keySet().size()) return;
 		calculateBuggy();
-		System.out.println(buggy[0]);
-		System.out.println(buggy[1]);
+//		System.out.println(buggy[0]);
+//		System.out.println(buggy[1]);
 	}
 
 	private void calculateBuggy() {
@@ -41,12 +57,20 @@ public class BugLineSearcher {
 		initBuggyRange(lineNumber);
 		
 	}
+	
+	
+
+	public int[] getBuggy() {
+		return buggy;
+	}
+
 
 	private void initBuggyRange(int lineNumber) {
 		String content = this.linesContent.get(lineNumber - 1);
 		if(isStatement(content)){
 			this.buggy[0] = lineNumber;
 			this.buggy[1] = lineNumber;
+			checkBrackState(lineNumber);
 		}
 		else{
 			this.buggy[0] = getLower(lineNumber, content);
@@ -54,12 +78,31 @@ public class BugLineSearcher {
 		}				
 	}
 
+	private void checkBrackState(int lineNumber) {
+		while(lineNumber > 0){
+			String s = this.linesContent.get(lineNumber - 1).trim();
+			if(s.endsWith("{") || s.endsWith(";")){
+				this.addBracket = false;
+				break;
+			}
+			else if(s.startsWith("else") || s.startsWith("if")){
+				this.addBracket = true;
+				break;
+			}
+			lineNumber--;
+		}
+		
+	}
+
 	private int getUpper(int lineNumber, String content) {
 		Stack<Character> stack = new Stack<Character>();
 		int gap = 0;
 		while(lineNumber <= this.linesContent.size()){
 			String s = this.linesContent.get(lineNumber - 1).trim();
-			if(s.isEmpty()) continue;
+			if(s.isEmpty()){
+				lineNumber++;
+				continue;
+			}
 			if(s.startsWith("else")) gap = 0;
 			if(stack.isEmpty() && !s.startsWith("else")) {
 				if(gap > 0) return lineNumber - 1;

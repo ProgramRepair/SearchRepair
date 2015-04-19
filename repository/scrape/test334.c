@@ -1,2 +1,2 @@
-void test(int s, int primes, int i){
-s = ( i    -  primes   [         ;}
+void test(int primes){
+if ( primes   [   <missing ')'>        }

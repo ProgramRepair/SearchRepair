@@ -1,2 +1,2 @@
-void test(int _){
-_ = /  ;}
+void test(int D){
+D = }  ;}

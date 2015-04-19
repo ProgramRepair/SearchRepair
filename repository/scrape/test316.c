@@ -1,2 +1,2 @@
-void test(int p){
-p = 1       ;}
+void test(int d){
+if ( ( d   [ 1 ] * 100 +      <missing ')'>        }

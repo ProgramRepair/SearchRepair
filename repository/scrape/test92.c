@@ -1,2 +1,2 @@
-void test(int sieve){
-sieve = calloc ( n       , sizeof   *  sieve       )         ;}
+void test(int sum){
+sum = 0   ULL     ;}

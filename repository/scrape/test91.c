@@ -1,2 +1,2 @@
-void test(int sum){
-sum = 0   ULL     ;}
+void test(int n){
+n = 2000000       ;}

@@ -1,2 +1,2 @@
 int test(int n){
-if ( n  ==  2     )     { return 1       ;  }    }
+if ( n  <=  1     )     { return 0       ;  }    }

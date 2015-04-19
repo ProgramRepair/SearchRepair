@@ -1,2 +1,2 @@
-int test(int orig){
-return orig   ==    ;}
+void test(int base, int n){
+n /=  base       ;}

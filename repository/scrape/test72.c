@@ -1,2 +1,2 @@
-void test(int b, int a){
-a = b       ;}
+void test(int t, int b, int a){
+if ( a  >  b     )     {  unsigned  long  t = a        ;  a = b        ;  b = t        ;  }    }

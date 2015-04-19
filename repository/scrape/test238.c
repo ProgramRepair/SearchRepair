@@ -1,2 +1,2 @@
-int test(int f){
-return f      ;}
+void test(int f, int n){
+f *=  n   --     ;}

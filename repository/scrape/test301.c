@@ -1,2 +1,2 @@
-int test(int true){
-return true      ;}
+int test(int false){
+return false      ;}

@@ -57,6 +57,7 @@ public class SearchCase {
 	
 	
 	
+	
 
 
 	public SearchCase(String casePrefix) {
@@ -243,12 +244,12 @@ public class SearchCase {
 	private void search() {
 		try {
 			PrototypeSearch.search(info);
-			//PrototypeTest.printResult(info);
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		

@@ -1,2 +1,2 @@
-void test(int count){
-count = 0       ;}
+int test(int f){
+return f      ;}

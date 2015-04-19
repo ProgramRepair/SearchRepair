@@ -1,2 +1,2 @@
-void test(int i){
-i = 1   ,     ;}
+int test(int a){
+return a   >    ;}

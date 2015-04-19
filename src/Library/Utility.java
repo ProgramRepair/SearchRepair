@@ -90,6 +90,11 @@ public class Utility {
 		}
 	}
 
+	/**
+	 * eliminate all of comments
+	 * @param absolutePath
+	 * @return
+	 */
 	public static String getStringFromFile1(String absolutePath) {
 		BufferedReader reader = null;
 		StringBuilder sb = new StringBuilder();

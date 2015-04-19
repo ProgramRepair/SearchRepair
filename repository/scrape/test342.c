@@ -1,2 +1,2 @@
-void test(int j){
-j = 0       ;}
+int test(int sq){
+return sq   *  sq   ==    ;}

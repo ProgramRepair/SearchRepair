@@ -1,2 +1,2 @@
-void test(int str, int sum){
-sum +=  str   [     ;}
+void test(int str){
+str = mpz_get_str ( NULL       , 10       , n       )         ;}

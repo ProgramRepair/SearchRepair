@@ -1,2 +1,2 @@
-void test(int max, int cnt, int p, int maxp){
-if ( cnt  >  max     )     { max = cnt        ;  maxp = p        ;  }    }
+void test(int maxp){
+maxp = 0       ;}

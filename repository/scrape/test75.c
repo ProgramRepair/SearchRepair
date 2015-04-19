@@ -1,2 +1,2 @@
-void test(int p){
-p = (         ;}
+int test(int b){
+return b      ;}

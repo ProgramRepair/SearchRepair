@@ -1,2 +1,2 @@
-void test(int wday){
-wday = 0   ,     ;}
+int test(int triangle){
+return triangle   [    ;}

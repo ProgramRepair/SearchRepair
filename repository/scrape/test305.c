@@ -1,2 +1,2 @@
-int test(int p){
-if ( p     )     { perror ( "words.txt"  )    ;  return 1       ;  }    }
+void test(int fp){
+fp = fopen ( "words.txt"  , "r"  )         ;}

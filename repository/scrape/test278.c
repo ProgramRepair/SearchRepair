@@ -1,2 +1,2 @@
-int test(int l){
-if ( l  !=  9     )     { return 0       ;  }    }
+void test(int l){
+l = strlen ( s       )         ;}

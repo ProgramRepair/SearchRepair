@@ -1,2 +1,2 @@
-void test(int names){
-names = malloc ( 8192   *  sizeof   *  names       )         ;}
+int test(int p, int path){
+if ( p     )     { perror ( path       )    ;  return 1       ;  }    }

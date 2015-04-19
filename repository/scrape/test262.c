@@ -1,2 +1,2 @@
-void test(int sum, int i){
-sum +=  i       ;}
+void test(int d){
+d /=  10       ;}
