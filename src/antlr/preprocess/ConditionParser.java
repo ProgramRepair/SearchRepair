@@ -1,4 +1,4 @@
-// Generated from Condition.g4 by ANTLR 4.4
+// Generated from Condition.g4 by ANTLR 4.2.2
 package antlr.preprocess;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -11,8 +11,6 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class ConditionParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION); }
-
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
@@ -63,14 +61,6 @@ public class ConditionParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arith_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).enterArith_expression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).exitArith_expression(this);
-		}
 	}
 
 	public final Arith_expressionContext arith_expression() throws RecognitionException {
@@ -80,7 +70,7 @@ public class ConditionParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(24); add_expression();
-			setState(25); match(T__0);
+			setState(25); match(1);
 			}
 		}
 		catch (RecognitionException re) {
@@ -101,27 +91,19 @@ public class ConditionParser extends Parser {
 		public Add_expressionContext add_expression(int i) {
 			return getRuleContext(Add_expressionContext.class,i);
 		}
+		public Multi_expressionContext multi_expression() {
+			return getRuleContext(Multi_expressionContext.class,0);
+		}
 		public List<AddOperatorContext> addOperator() {
 			return getRuleContexts(AddOperatorContext.class);
 		}
 		public List<Add_expressionContext> add_expression() {
 			return getRuleContexts(Add_expressionContext.class);
 		}
-		public Multi_expressionContext multi_expression() {
-			return getRuleContext(Multi_expressionContext.class,0);
-		}
 		public Add_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_add_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).enterAdd_expression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).exitAdd_expression(this);
-		}
 	}
 
 	public final Add_expressionContext add_expression() throws RecognitionException {
@@ -135,7 +117,7 @@ public class ConditionParser extends Parser {
 			setState(33);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!=ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -178,14 +160,6 @@ public class ConditionParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_multi_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).enterMulti_expression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).exitMulti_expression(this);
-		}
 	}
 
 	public final Multi_expressionContext multi_expression() throws RecognitionException {
@@ -224,26 +198,18 @@ public class ConditionParser extends Parser {
 	}
 
 	public static class ExprContext extends ParserRuleContext {
-		public Add_expressionContext add_expression() {
-			return getRuleContext(Add_expressionContext.class,0);
-		}
-		public TerminalNode RPAREN() { return getToken(ConditionParser.RPAREN, 0); }
 		public TerminalNode LPAREN() { return getToken(ConditionParser.LPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(ConditionParser.RPAREN, 0); }
 		public AtomContext atom() {
 			return getRuleContext(AtomContext.class,0);
+		}
+		public Add_expressionContext add_expression() {
+			return getRuleContext(Add_expressionContext.class,0);
 		}
 		public ExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).enterExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).exitExpr(this);
-		}
 	}
 
 	public final ExprContext expr() throws RecognitionException {
@@ -284,20 +250,12 @@ public class ConditionParser extends Parser {
 	}
 
 	public static class AddOperatorContext extends ParserRuleContext {
-		public TerminalNode DEDUCTIVE() { return getToken(ConditionParser.DEDUCTIVE, 0); }
 		public TerminalNode ADDCTIVE() { return getToken(ConditionParser.ADDCTIVE, 0); }
+		public TerminalNode DEDUCTIVE() { return getToken(ConditionParser.DEDUCTIVE, 0); }
 		public AddOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_addOperator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).enterAddOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).exitAddOperator(this);
-		}
 	}
 
 	public final AddOperatorContext addOperator() throws RecognitionException {
@@ -327,21 +285,13 @@ public class ConditionParser extends Parser {
 	}
 
 	public static class MultiOperatorContext extends ParserRuleContext {
-		public TerminalNode MULTIPLY() { return getToken(ConditionParser.MULTIPLY, 0); }
 		public TerminalNode DIVIDE() { return getToken(ConditionParser.DIVIDE, 0); }
+		public TerminalNode MULTIPLY() { return getToken(ConditionParser.MULTIPLY, 0); }
 		public TerminalNode MOD() { return getToken(ConditionParser.MOD, 0); }
 		public MultiOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_multiOperator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).enterMultiOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).exitMultiOperator(this);
-		}
 	}
 
 	public final MultiOperatorContext multiOperator() throws RecognitionException {
@@ -378,14 +328,6 @@ public class ConditionParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_condExpr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).enterCondExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).exitCondExpr(this);
-		}
 	}
 
 	public final CondExprContext condExpr() throws RecognitionException {
@@ -395,7 +337,7 @@ public class ConditionParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(56); or_expression();
-			setState(57); match(T__0);
+			setState(57); match(1);
 			}
 		}
 		catch (RecognitionException re) {
@@ -410,15 +352,15 @@ public class ConditionParser extends Parser {
 	}
 
 	public static class Or_expressionContext extends ParserRuleContext {
-		public List<TerminalNode> OR() { return getTokens(ConditionParser.OR); }
-		public And_expressionContext and_expression() {
-			return getRuleContext(And_expressionContext.class,0);
-		}
 		public Or_expressionContext or_expression(int i) {
 			return getRuleContext(Or_expressionContext.class,i);
 		}
+		public List<TerminalNode> OR() { return getTokens(ConditionParser.OR); }
 		public TerminalNode OR(int i) {
 			return getToken(ConditionParser.OR, i);
+		}
+		public And_expressionContext and_expression() {
+			return getRuleContext(And_expressionContext.class,0);
 		}
 		public List<Or_expressionContext> or_expression() {
 			return getRuleContexts(Or_expressionContext.class);
@@ -427,14 +369,6 @@ public class ConditionParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_or_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).enterOr_expression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).exitOr_expression(this);
-		}
 	}
 
 	public final Or_expressionContext or_expression() throws RecognitionException {
@@ -448,7 +382,7 @@ public class ConditionParser extends Parser {
 			setState(64);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!=ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -475,28 +409,20 @@ public class ConditionParser extends Parser {
 	}
 
 	public static class And_expressionContext extends ParserRuleContext {
-		public List<TermContext> term() {
-			return getRuleContexts(TermContext.class);
-		}
-		public List<TerminalNode> AND() { return getTokens(ConditionParser.AND); }
 		public TerminalNode AND(int i) {
 			return getToken(ConditionParser.AND, i);
+		}
+		public List<TermContext> term() {
+			return getRuleContexts(TermContext.class);
 		}
 		public TermContext term(int i) {
 			return getRuleContext(TermContext.class,i);
 		}
+		public List<TerminalNode> AND() { return getTokens(ConditionParser.AND); }
 		public And_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_and_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).enterAnd_expression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).exitAnd_expression(this);
-		}
 	}
 
 	public final And_expressionContext and_expression() throws RecognitionException {
@@ -538,29 +464,21 @@ public class ConditionParser extends Parser {
 		public AtomContext atom(int i) {
 			return getRuleContext(AtomContext.class,i);
 		}
-		public TerminalNode RPAREN() { return getToken(ConditionParser.RPAREN, 0); }
+		public TerminalNode LPAREN() { return getToken(ConditionParser.LPAREN, 0); }
 		public OperatorContext operator() {
 			return getRuleContext(OperatorContext.class,0);
 		}
-		public TerminalNode LPAREN() { return getToken(ConditionParser.LPAREN, 0); }
-		public Or_expressionContext or_expression() {
-			return getRuleContext(Or_expressionContext.class,0);
-		}
+		public TerminalNode RPAREN() { return getToken(ConditionParser.RPAREN, 0); }
 		public List<AtomContext> atom() {
 			return getRuleContexts(AtomContext.class);
+		}
+		public Or_expressionContext or_expression() {
+			return getRuleContext(Or_expressionContext.class,0);
 		}
 		public TermContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_term; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).enterTerm(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).exitTerm(this);
-		}
 	}
 
 	public final TermContext term() throws RecognitionException {
@@ -611,21 +529,13 @@ public class ConditionParser extends Parser {
 	}
 
 	public static class AtomContext extends ParserRuleContext {
-		public TerminalNode FLOAT() { return getToken(ConditionParser.FLOAT, 0); }
-		public TerminalNode INT() { return getToken(ConditionParser.INT, 0); }
 		public TerminalNode ID() { return getToken(ConditionParser.ID, 0); }
+		public TerminalNode INT() { return getToken(ConditionParser.INT, 0); }
+		public TerminalNode FLOAT() { return getToken(ConditionParser.FLOAT, 0); }
 		public AtomContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_atom; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).enterAtom(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).exitAtom(this);
-		}
 	}
 
 	public final AtomContext atom() throws RecognitionException {
@@ -656,23 +566,15 @@ public class ConditionParser extends Parser {
 
 	public static class OperatorContext extends ParserRuleContext {
 		public TerminalNode NEQ() { return getToken(ConditionParser.NEQ, 0); }
-		public TerminalNode LT() { return getToken(ConditionParser.LT, 0); }
-		public TerminalNode LE() { return getToken(ConditionParser.LE, 0); }
-		public TerminalNode GT() { return getToken(ConditionParser.GT, 0); }
 		public TerminalNode GE() { return getToken(ConditionParser.GE, 0); }
+		public TerminalNode LT() { return getToken(ConditionParser.LT, 0); }
+		public TerminalNode GT() { return getToken(ConditionParser.GT, 0); }
+		public TerminalNode LE() { return getToken(ConditionParser.LE, 0); }
 		public TerminalNode EQ() { return getToken(ConditionParser.EQ, 0); }
 		public OperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_operator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).enterOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ConditionListener ) ((ConditionListener)listener).exitOperator(this);
-		}
 	}
 
 	public final OperatorContext operator() throws RecognitionException {

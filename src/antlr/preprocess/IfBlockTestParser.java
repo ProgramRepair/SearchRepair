@@ -1,4 +1,4 @@
-// Generated from IfBlockTest.g4 by ANTLR 4.4
+// Generated from IfBlockTest.g4 by ANTLR 4.2.2
 package antlr.preprocess;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -11,8 +11,6 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class IfBlockTestParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION); }
-
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
@@ -25,7 +23,7 @@ public class IfBlockTestParser extends Parser {
 		ADDSELF=36, DEDUCTSELF=37, MODSELF=38, MULTISELF=39, DIVIDESELF=40, LT=41, 
 		LE=42, GT=43, GE=44, EQ=45, NEQ=46, WS=47;
 	public static final String[] tokenNames = {
-		"<INVALID>", "']'", "','", "'['", "';'", "'{'", "'}'", "'if'", "'else'", 
+		"<INVALID>", "'['", "';'", "','", "']'", "'{'", "'}'", "'if'", "'else'", 
 		"'return'", "BlockComment", "LineComment", "CharacterLiteral", "StringLiteral", 
 		"'int'", "'char'", "'float'", "'char*'", "'double'", "INT", "FLOAT", "STRING", 
 		"ID", "'||'", "'&&'", "'('", "')'", "'+'", "'-'", "MULTIPLY", "'/'", "'%'", 
@@ -78,14 +76,6 @@ public class IfBlockTestParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_prog; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterProg(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitProg(this);
-		}
 	}
 
 	public final ProgContext prog() throws RecognitionException {
@@ -110,11 +100,11 @@ public class IfBlockTestParser extends Parser {
 
 	public static class FunctionContext extends ParserRuleContext {
 		public TerminalNode ID() { return getToken(IfBlockTestParser.ID, 0); }
-		public TypeContext type() {
-			return getRuleContext(TypeContext.class,0);
-		}
 		public ParametersContext parameters() {
 			return getRuleContext(ParametersContext.class,0);
+		}
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
 		}
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
@@ -123,14 +113,6 @@ public class IfBlockTestParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_function; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterFunction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitFunction(this);
-		}
 	}
 
 	public final FunctionContext function() throws RecognitionException {
@@ -157,23 +139,15 @@ public class IfBlockTestParser extends Parser {
 	}
 
 	public static class TypeContext extends ParserRuleContext {
-		public TerminalNode String() { return getToken(IfBlockTestParser.String, 0); }
-		public TerminalNode Double() { return getToken(IfBlockTestParser.Double, 0); }
 		public TerminalNode Char() { return getToken(IfBlockTestParser.Char, 0); }
+		public TerminalNode String() { return getToken(IfBlockTestParser.String, 0); }
 		public TerminalNode Float() { return getToken(IfBlockTestParser.Float, 0); }
 		public TerminalNode Int() { return getToken(IfBlockTestParser.Int, 0); }
+		public TerminalNode Double() { return getToken(IfBlockTestParser.Double, 0); }
 		public TypeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_type; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterType(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitType(this);
-		}
 	}
 
 	public final TypeContext type() throws RecognitionException {
@@ -206,8 +180,8 @@ public class IfBlockTestParser extends Parser {
 		public List<FormalParameterContext> formalParameter() {
 			return getRuleContexts(FormalParameterContext.class);
 		}
-		public TerminalNode RPAREN() { return getToken(IfBlockTestParser.RPAREN, 0); }
 		public TerminalNode LPAREN() { return getToken(IfBlockTestParser.LPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(IfBlockTestParser.RPAREN, 0); }
 		public FormalParameterContext formalParameter(int i) {
 			return getRuleContext(FormalParameterContext.class,i);
 		}
@@ -215,14 +189,6 @@ public class IfBlockTestParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_parameters; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterParameters(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitParameters(this);
-		}
 	}
 
 	public final ParametersContext parameters() throws RecognitionException {
@@ -241,10 +207,10 @@ public class IfBlockTestParser extends Parser {
 				setState(75);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while (_la==T__2) {
+				while (_la==3) {
 					{
 					{
-					setState(71); match(T__2);
+					setState(71); match(3);
 					setState(72); formalParameter();
 					}
 					}
@@ -278,14 +244,6 @@ public class IfBlockTestParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_formalParameter; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterFormalParameter(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitFormalParameter(this);
-		}
 	}
 
 	public final FormalParameterContext formalParameter() throws RecognitionException {
@@ -310,26 +268,18 @@ public class IfBlockTestParser extends Parser {
 	}
 
 	public static class BlockContext extends ParserRuleContext {
+		public TerminalNode RBR() { return getToken(IfBlockTestParser.RBR, 0); }
+		public TerminalNode LBR() { return getToken(IfBlockTestParser.LBR, 0); }
 		public StatContext stat(int i) {
 			return getRuleContext(StatContext.class,i);
 		}
-		public TerminalNode RBR() { return getToken(IfBlockTestParser.RBR, 0); }
 		public List<StatContext> stat() {
 			return getRuleContexts(StatContext.class);
 		}
-		public TerminalNode LBR() { return getToken(IfBlockTestParser.LBR, 0); }
 		public BlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_block; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitBlock(this);
-		}
 	}
 
 	public final BlockContext block() throws RecognitionException {
@@ -368,11 +318,17 @@ public class IfBlockTestParser extends Parser {
 	}
 
 	public static class StatContext extends ParserRuleContext {
-		public CallStatContext callStat() {
-			return getRuleContext(CallStatContext.class,0);
+		public DeclarationStatContext declarationStat() {
+			return getRuleContext(DeclarationStatContext.class,0);
 		}
 		public SelfIncreStatContext selfIncreStat() {
 			return getRuleContext(SelfIncreStatContext.class,0);
+		}
+		public If_statContext if_stat() {
+			return getRuleContext(If_statContext.class,0);
+		}
+		public CallStatContext callStat() {
+			return getRuleContext(CallStatContext.class,0);
 		}
 		public ReturnStatContext returnStat() {
 			return getRuleContext(ReturnStatContext.class,0);
@@ -380,24 +336,10 @@ public class IfBlockTestParser extends Parser {
 		public AssignStatContext assignStat() {
 			return getRuleContext(AssignStatContext.class,0);
 		}
-		public DeclarationStatContext declarationStat() {
-			return getRuleContext(DeclarationStatContext.class,0);
-		}
-		public If_statContext if_stat() {
-			return getRuleContext(If_statContext.class,0);
-		}
 		public StatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_stat; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitStat(this);
-		}
 	}
 
 	public final StatContext stat() throws RecognitionException {
@@ -410,41 +352,46 @@ public class IfBlockTestParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(94); declarationStat();
-				setState(95); match(T__0);
+				setState(95); match(2);
 				}
 				break;
+
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(97); if_stat();
 				}
 				break;
+
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(98); returnStat();
-				setState(99); match(T__0);
+				setState(99); match(2);
 				}
 				break;
+
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(101); callStat();
-				setState(102); match(T__0);
+				setState(102); match(2);
 				}
 				break;
+
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
 				setState(104); assignStat();
-				setState(105); match(T__0);
+				setState(105); match(2);
 				}
 				break;
+
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
 				setState(107); selfIncreStat();
-				setState(108); match(T__0);
+				setState(108); match(2);
 				}
 				break;
 			}
@@ -461,25 +408,22 @@ public class IfBlockTestParser extends Parser {
 	}
 
 	public static class If_statContext extends ParserRuleContext {
-		public TerminalNode ELSE(int i) {
-			return getToken(IfBlockTestParser.ELSE, i);
-		}
-		public List<TerminalNode> IF() { return getTokens(IfBlockTestParser.IF); }
-		public StatContext stat(int i) {
-			return getRuleContext(StatContext.class,i);
+		public CondExprContext condExpr(int i) {
+			return getRuleContext(CondExprContext.class,i);
 		}
 		public List<TerminalNode> ELSE() { return getTokens(IfBlockTestParser.ELSE); }
+		public List<TerminalNode> IF() { return getTokens(IfBlockTestParser.IF); }
 		public TerminalNode IF(int i) {
 			return getToken(IfBlockTestParser.IF, i);
+		}
+		public List<CondExprContext> condExpr() {
+			return getRuleContexts(CondExprContext.class);
 		}
 		public BlockContext block(int i) {
 			return getRuleContext(BlockContext.class,i);
 		}
-		public CondExprContext condExpr(int i) {
-			return getRuleContext(CondExprContext.class,i);
-		}
-		public List<CondExprContext> condExpr() {
-			return getRuleContexts(CondExprContext.class);
+		public StatContext stat(int i) {
+			return getRuleContext(StatContext.class,i);
 		}
 		public List<StatContext> stat() {
 			return getRuleContexts(StatContext.class);
@@ -487,18 +431,13 @@ public class IfBlockTestParser extends Parser {
 		public List<BlockContext> block() {
 			return getRuleContexts(BlockContext.class);
 		}
+		public TerminalNode ELSE(int i) {
+			return getToken(IfBlockTestParser.ELSE, i);
+		}
 		public If_statContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_if_stat; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterIf_stat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitIf_stat(this);
-		}
 	}
 
 	public final If_statContext if_stat() throws RecognitionException {
@@ -536,7 +475,7 @@ public class IfBlockTestParser extends Parser {
 			setState(127);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!=ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -618,23 +557,15 @@ public class IfBlockTestParser extends Parser {
 	}
 
 	public static class DeclarationStatContext extends ParserRuleContext {
-		public TerminalNode INT() { return getToken(IfBlockTestParser.INT, 0); }
 		public TerminalNode ID() { return getToken(IfBlockTestParser.ID, 0); }
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
 		}
+		public TerminalNode INT() { return getToken(IfBlockTestParser.INT, 0); }
 		public DeclarationStatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_declarationStat; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterDeclarationStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitDeclarationStat(this);
-		}
 	}
 
 	public final DeclarationStatContext declarationStat() throws RecognitionException {
@@ -650,15 +581,16 @@ public class IfBlockTestParser extends Parser {
 				setState(138); match(ID);
 				}
 				break;
+
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(140); type();
 				setState(141); match(ID);
 				{
-				setState(142); match(T__1);
+				setState(142); match(1);
 				setState(143); match(INT);
-				setState(144); match(T__3);
+				setState(144); match(4);
 				}
 				}
 				break;
@@ -684,14 +616,6 @@ public class IfBlockTestParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_returnStat; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterReturnStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitReturnStat(this);
-		}
 	}
 
 	public final ReturnStatContext returnStat() throws RecognitionException {
@@ -725,14 +649,6 @@ public class IfBlockTestParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_callStat; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterCallStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitCallStat(this);
-		}
 	}
 
 	public final CallStatContext callStat() throws RecognitionException {
@@ -757,29 +673,21 @@ public class IfBlockTestParser extends Parser {
 
 	public static class AssignStatContext extends ParserRuleContext {
 		public TerminalNode POINTER() { return getToken(IfBlockTestParser.POINTER, 0); }
+		public TerminalNode ID() { return getToken(IfBlockTestParser.ID, 0); }
+		public TerminalNode ASSIGN() { return getToken(IfBlockTestParser.ASSIGN, 0); }
+		public ArithmAssignOperatorContext arithmAssignOperator() {
+			return getRuleContext(ArithmAssignOperatorContext.class,0);
+		}
 		public Assign_expressionContext assign_expression() {
 			return getRuleContext(Assign_expressionContext.class,0);
 		}
-		public TerminalNode ASSIGN() { return getToken(IfBlockTestParser.ASSIGN, 0); }
-		public TerminalNode ID() { return getToken(IfBlockTestParser.ID, 0); }
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
-		}
-		public ArithmAssignOperatorContext arithmAssignOperator() {
-			return getRuleContext(ArithmAssignOperatorContext.class,0);
 		}
 		public AssignStatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_assignStat; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterAssignStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitAssignStat(this);
-		}
 	}
 
 	public final AssignStatContext assignStat() throws RecognitionException {
@@ -796,6 +704,7 @@ public class IfBlockTestParser extends Parser {
 				setState(155); assign_expression();
 				}
 				break;
+
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
@@ -805,6 +714,7 @@ public class IfBlockTestParser extends Parser {
 				setState(159); assign_expression();
 				}
 				break;
+
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
@@ -814,6 +724,7 @@ public class IfBlockTestParser extends Parser {
 				setState(164); assign_expression();
 				}
 				break;
+
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
@@ -824,6 +735,7 @@ public class IfBlockTestParser extends Parser {
 				setState(169); assign_expression();
 				}
 				break;
+
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
@@ -832,6 +744,7 @@ public class IfBlockTestParser extends Parser {
 				setState(173); assign_expression();
 				}
 				break;
+
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
@@ -863,14 +776,6 @@ public class IfBlockTestParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_callExpr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterCallExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitCallExpr(this);
-		}
 	}
 
 	public final CallExprContext callExpr() throws RecognitionException {
@@ -903,14 +808,6 @@ public class IfBlockTestParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_selfIncreStat; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterSelfIncreStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitSelfIncreStat(this);
-		}
 	}
 
 	public final SelfIncreStatContext selfIncreStat() throws RecognitionException {
@@ -935,20 +832,12 @@ public class IfBlockTestParser extends Parser {
 	}
 
 	public static class IncreOperatorContext extends ParserRuleContext {
-		public TerminalNode DECRE() { return getToken(IfBlockTestParser.DECRE, 0); }
 		public TerminalNode INCRE() { return getToken(IfBlockTestParser.INCRE, 0); }
+		public TerminalNode DECRE() { return getToken(IfBlockTestParser.DECRE, 0); }
 		public IncreOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_increOperator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterIncreOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitIncreOperator(this);
-		}
 	}
 
 	public final IncreOperatorContext increOperator() throws RecognitionException {
@@ -981,23 +870,15 @@ public class IfBlockTestParser extends Parser {
 		public Assign_expressionContext assign_expression(int i) {
 			return getRuleContext(Assign_expressionContext.class,i);
 		}
+		public TerminalNode LPAREN() { return getToken(IfBlockTestParser.LPAREN, 0); }
 		public List<Assign_expressionContext> assign_expression() {
 			return getRuleContexts(Assign_expressionContext.class);
 		}
 		public TerminalNode RPAREN() { return getToken(IfBlockTestParser.RPAREN, 0); }
-		public TerminalNode LPAREN() { return getToken(IfBlockTestParser.LPAREN, 0); }
 		public ArgumentsContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arguments; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterArguments(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitArguments(this);
-		}
 	}
 
 	public final ArgumentsContext arguments() throws RecognitionException {
@@ -1016,10 +897,10 @@ public class IfBlockTestParser extends Parser {
 				setState(196);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while (_la==T__2) {
+				while (_la==3) {
 					{
 					{
-					setState(192); match(T__2);
+					setState(192); match(3);
 					setState(193); assign_expression();
 					}
 					}
@@ -1045,23 +926,15 @@ public class IfBlockTestParser extends Parser {
 	}
 
 	public static class Assign_expressionContext extends ParserRuleContext {
-		public TerminalNode CharacterLiteral() { return getToken(IfBlockTestParser.CharacterLiteral, 0); }
-		public TerminalNode StringLiteral() { return getToken(IfBlockTestParser.StringLiteral, 0); }
 		public Arith_expressionContext arith_expression() {
 			return getRuleContext(Arith_expressionContext.class,0);
 		}
+		public TerminalNode StringLiteral() { return getToken(IfBlockTestParser.StringLiteral, 0); }
+		public TerminalNode CharacterLiteral() { return getToken(IfBlockTestParser.CharacterLiteral, 0); }
 		public Assign_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_assign_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterAssign_expression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitAssign_expression(this);
-		}
 	}
 
 	public final Assign_expressionContext assign_expression() throws RecognitionException {
@@ -1076,12 +949,14 @@ public class IfBlockTestParser extends Parser {
 				setState(203); arith_expression();
 				}
 				break;
+
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(204); match(StringLiteral);
 				}
 				break;
+
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
@@ -1102,23 +977,15 @@ public class IfBlockTestParser extends Parser {
 	}
 
 	public static class ArithmAssignOperatorContext extends ParserRuleContext {
-		public TerminalNode DIVIDESELF() { return getToken(IfBlockTestParser.DIVIDESELF, 0); }
-		public TerminalNode DEDUCTSELF() { return getToken(IfBlockTestParser.DEDUCTSELF, 0); }
 		public TerminalNode MULTISELF() { return getToken(IfBlockTestParser.MULTISELF, 0); }
-		public TerminalNode ADDSELF() { return getToken(IfBlockTestParser.ADDSELF, 0); }
 		public TerminalNode MODSELF() { return getToken(IfBlockTestParser.MODSELF, 0); }
+		public TerminalNode DEDUCTSELF() { return getToken(IfBlockTestParser.DEDUCTSELF, 0); }
+		public TerminalNode ADDSELF() { return getToken(IfBlockTestParser.ADDSELF, 0); }
+		public TerminalNode DIVIDESELF() { return getToken(IfBlockTestParser.DIVIDESELF, 0); }
 		public ArithmAssignOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arithmAssignOperator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterArithmAssignOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitArithmAssignOperator(this);
-		}
 	}
 
 	public final ArithmAssignOperatorContext arithmAssignOperator() throws RecognitionException {
@@ -1155,14 +1022,6 @@ public class IfBlockTestParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_condExpr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterCondExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitCondExpr(this);
-		}
 	}
 
 	public final CondExprContext condExpr() throws RecognitionException {
@@ -1186,15 +1045,15 @@ public class IfBlockTestParser extends Parser {
 	}
 
 	public static class Or_expressionContext extends ParserRuleContext {
-		public List<TerminalNode> OR() { return getTokens(IfBlockTestParser.OR); }
-		public And_expressionContext and_expression() {
-			return getRuleContext(And_expressionContext.class,0);
-		}
 		public Or_expressionContext or_expression(int i) {
 			return getRuleContext(Or_expressionContext.class,i);
 		}
+		public List<TerminalNode> OR() { return getTokens(IfBlockTestParser.OR); }
 		public TerminalNode OR(int i) {
 			return getToken(IfBlockTestParser.OR, i);
+		}
+		public And_expressionContext and_expression() {
+			return getRuleContext(And_expressionContext.class,0);
 		}
 		public List<Or_expressionContext> or_expression() {
 			return getRuleContexts(Or_expressionContext.class);
@@ -1203,14 +1062,6 @@ public class IfBlockTestParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_or_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterOr_expression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitOr_expression(this);
-		}
 	}
 
 	public final Or_expressionContext or_expression() throws RecognitionException {
@@ -1224,7 +1075,7 @@ public class IfBlockTestParser extends Parser {
 			setState(217);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,14,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!=ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -1251,28 +1102,20 @@ public class IfBlockTestParser extends Parser {
 	}
 
 	public static class And_expressionContext extends ParserRuleContext {
-		public List<TermContext> term() {
-			return getRuleContexts(TermContext.class);
-		}
-		public List<TerminalNode> AND() { return getTokens(IfBlockTestParser.AND); }
 		public TerminalNode AND(int i) {
 			return getToken(IfBlockTestParser.AND, i);
+		}
+		public List<TermContext> term() {
+			return getRuleContexts(TermContext.class);
 		}
 		public TermContext term(int i) {
 			return getRuleContext(TermContext.class,i);
 		}
+		public List<TerminalNode> AND() { return getTokens(IfBlockTestParser.AND); }
 		public And_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_and_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterAnd_expression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitAnd_expression(this);
-		}
 	}
 
 	public final And_expressionContext and_expression() throws RecognitionException {
@@ -1314,29 +1157,21 @@ public class IfBlockTestParser extends Parser {
 		public AtomContext atom(int i) {
 			return getRuleContext(AtomContext.class,i);
 		}
-		public TerminalNode RPAREN() { return getToken(IfBlockTestParser.RPAREN, 0); }
+		public TerminalNode LPAREN() { return getToken(IfBlockTestParser.LPAREN, 0); }
 		public OperatorContext operator() {
 			return getRuleContext(OperatorContext.class,0);
 		}
-		public TerminalNode LPAREN() { return getToken(IfBlockTestParser.LPAREN, 0); }
-		public Or_expressionContext or_expression() {
-			return getRuleContext(Or_expressionContext.class,0);
-		}
+		public TerminalNode RPAREN() { return getToken(IfBlockTestParser.RPAREN, 0); }
 		public List<AtomContext> atom() {
 			return getRuleContexts(AtomContext.class);
+		}
+		public Or_expressionContext or_expression() {
+			return getRuleContext(Or_expressionContext.class,0);
 		}
 		public TermContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_term; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterTerm(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitTerm(this);
-		}
 	}
 
 	public final TermContext term() throws RecognitionException {
@@ -1395,14 +1230,6 @@ public class IfBlockTestParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arith_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterArith_expression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitArith_expression(this);
-		}
 	}
 
 	public final Arith_expressionContext arith_expression() throws RecognitionException {
@@ -1432,27 +1259,19 @@ public class IfBlockTestParser extends Parser {
 		public Add_expressionContext add_expression(int i) {
 			return getRuleContext(Add_expressionContext.class,i);
 		}
+		public Multi_expressionContext multi_expression() {
+			return getRuleContext(Multi_expressionContext.class,0);
+		}
 		public List<AddOperatorContext> addOperator() {
 			return getRuleContexts(AddOperatorContext.class);
 		}
 		public List<Add_expressionContext> add_expression() {
 			return getRuleContexts(Add_expressionContext.class);
 		}
-		public Multi_expressionContext multi_expression() {
-			return getRuleContext(Multi_expressionContext.class,0);
-		}
 		public Add_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_add_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterAdd_expression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitAdd_expression(this);
-		}
 	}
 
 	public final Add_expressionContext add_expression() throws RecognitionException {
@@ -1466,7 +1285,7 @@ public class IfBlockTestParser extends Parser {
 			setState(248);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,18,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!=ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -1509,14 +1328,6 @@ public class IfBlockTestParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_multi_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterMulti_expression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitMulti_expression(this);
-		}
 	}
 
 	public final Multi_expressionContext multi_expression() throws RecognitionException {
@@ -1555,26 +1366,18 @@ public class IfBlockTestParser extends Parser {
 	}
 
 	public static class ExprContext extends ParserRuleContext {
-		public Add_expressionContext add_expression() {
-			return getRuleContext(Add_expressionContext.class,0);
-		}
-		public TerminalNode RPAREN() { return getToken(IfBlockTestParser.RPAREN, 0); }
 		public TerminalNode LPAREN() { return getToken(IfBlockTestParser.LPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(IfBlockTestParser.RPAREN, 0); }
 		public AtomContext atom() {
 			return getRuleContext(AtomContext.class,0);
+		}
+		public Add_expressionContext add_expression() {
+			return getRuleContext(Add_expressionContext.class,0);
 		}
 		public ExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitExpr(this);
-		}
 	}
 
 	public final ExprContext expr() throws RecognitionException {
@@ -1616,20 +1419,12 @@ public class IfBlockTestParser extends Parser {
 	}
 
 	public static class AddOperatorContext extends ParserRuleContext {
-		public TerminalNode DEDUCTIVE() { return getToken(IfBlockTestParser.DEDUCTIVE, 0); }
 		public TerminalNode ADDCTIVE() { return getToken(IfBlockTestParser.ADDCTIVE, 0); }
+		public TerminalNode DEDUCTIVE() { return getToken(IfBlockTestParser.DEDUCTIVE, 0); }
 		public AddOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_addOperator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterAddOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitAddOperator(this);
-		}
 	}
 
 	public final AddOperatorContext addOperator() throws RecognitionException {
@@ -1659,21 +1454,13 @@ public class IfBlockTestParser extends Parser {
 	}
 
 	public static class MultiOperatorContext extends ParserRuleContext {
-		public TerminalNode MULTIPLY() { return getToken(IfBlockTestParser.MULTIPLY, 0); }
 		public TerminalNode DIVIDE() { return getToken(IfBlockTestParser.DIVIDE, 0); }
+		public TerminalNode MULTIPLY() { return getToken(IfBlockTestParser.MULTIPLY, 0); }
 		public TerminalNode MOD() { return getToken(IfBlockTestParser.MOD, 0); }
 		public MultiOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_multiOperator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterMultiOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitMultiOperator(this);
-		}
 	}
 
 	public final MultiOperatorContext multiOperator() throws RecognitionException {
@@ -1703,22 +1490,14 @@ public class IfBlockTestParser extends Parser {
 	}
 
 	public static class AtomContext extends ParserRuleContext {
-		public TerminalNode FLOAT() { return getToken(IfBlockTestParser.FLOAT, 0); }
+		public TerminalNode ID() { return getToken(IfBlockTestParser.ID, 0); }
 		public TerminalNode INT() { return getToken(IfBlockTestParser.INT, 0); }
 		public TerminalNode CharacterLiteral() { return getToken(IfBlockTestParser.CharacterLiteral, 0); }
-		public TerminalNode ID() { return getToken(IfBlockTestParser.ID, 0); }
+		public TerminalNode FLOAT() { return getToken(IfBlockTestParser.FLOAT, 0); }
 		public AtomContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_atom; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterAtom(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitAtom(this);
-		}
 	}
 
 	public final AtomContext atom() throws RecognitionException {
@@ -1749,23 +1528,15 @@ public class IfBlockTestParser extends Parser {
 
 	public static class OperatorContext extends ParserRuleContext {
 		public TerminalNode NEQ() { return getToken(IfBlockTestParser.NEQ, 0); }
-		public TerminalNode LT() { return getToken(IfBlockTestParser.LT, 0); }
-		public TerminalNode LE() { return getToken(IfBlockTestParser.LE, 0); }
-		public TerminalNode GT() { return getToken(IfBlockTestParser.GT, 0); }
 		public TerminalNode GE() { return getToken(IfBlockTestParser.GE, 0); }
+		public TerminalNode LT() { return getToken(IfBlockTestParser.LT, 0); }
+		public TerminalNode GT() { return getToken(IfBlockTestParser.GT, 0); }
+		public TerminalNode LE() { return getToken(IfBlockTestParser.LE, 0); }
 		public TerminalNode EQ() { return getToken(IfBlockTestParser.EQ, 0); }
 		public OperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_operator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).enterOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof IfBlockTestListener ) ((IfBlockTestListener)listener).exitOperator(this);
-		}
 	}
 
 	public final OperatorContext operator() throws RecognitionException {
@@ -1826,13 +1597,13 @@ public class IfBlockTestParser extends Parser {
 		"\u00fd\3\2\2\2\64\u010b\3\2\2\2\66\u010d\3\2\2\28\u010f\3\2\2\2:\u0111"+
 		"\3\2\2\2<\u0113\3\2\2\2>?\5\4\3\2?\3\3\2\2\2@A\5\6\4\2AB\7\30\2\2BC\5"+
 		"\b\5\2CD\5\f\7\2D\5\3\2\2\2EF\t\2\2\2F\7\3\2\2\2GP\7\33\2\2HM\5\n\6\2"+
-		"IJ\7\4\2\2JL\5\n\6\2KI\3\2\2\2LO\3\2\2\2MK\3\2\2\2MN\3\2\2\2NQ\3\2\2\2"+
+		"IJ\7\5\2\2JL\5\n\6\2KI\3\2\2\2LO\3\2\2\2MK\3\2\2\2MN\3\2\2\2NQ\3\2\2\2"+
 		"OM\3\2\2\2PH\3\2\2\2PQ\3\2\2\2QR\3\2\2\2RS\7\34\2\2S\t\3\2\2\2TU\5\6\4"+
 		"\2UV\7\30\2\2V\13\3\2\2\2W[\7\7\2\2XZ\5\16\b\2YX\3\2\2\2Z]\3\2\2\2[Y\3"+
 		"\2\2\2[\\\3\2\2\2\\^\3\2\2\2][\3\2\2\2^_\7\b\2\2_\r\3\2\2\2`a\5\22\n\2"+
-		"ab\7\6\2\2bq\3\2\2\2cq\5\20\t\2de\5\24\13\2ef\7\6\2\2fq\3\2\2\2gh\5\26"+
-		"\f\2hi\7\6\2\2iq\3\2\2\2jk\5\30\r\2kl\7\6\2\2lq\3\2\2\2mn\5\34\17\2no"+
-		"\7\6\2\2oq\3\2\2\2p`\3\2\2\2pc\3\2\2\2pd\3\2\2\2pg\3\2\2\2pj\3\2\2\2p"+
+		"ab\7\4\2\2bq\3\2\2\2cq\5\20\t\2de\5\24\13\2ef\7\4\2\2fq\3\2\2\2gh\5\26"+
+		"\f\2hi\7\4\2\2iq\3\2\2\2jk\5\30\r\2kl\7\4\2\2lq\3\2\2\2mn\5\34\17\2no"+
+		"\7\4\2\2oq\3\2\2\2p`\3\2\2\2pc\3\2\2\2pd\3\2\2\2pg\3\2\2\2pj\3\2\2\2p"+
 		"m\3\2\2\2q\17\3\2\2\2rs\7\t\2\2sv\5&\24\2tw\5\16\b\2uw\5\f\7\2vt\3\2\2"+
 		"\2vu\3\2\2\2w\u0081\3\2\2\2xy\7\n\2\2yz\7\t\2\2z}\5&\24\2{~\5\16\b\2|"+
 		"~\5\f\7\2}{\3\2\2\2}|\3\2\2\2~\u0080\3\2\2\2\177x\3\2\2\2\u0080\u0083"+
@@ -1841,8 +1612,8 @@ public class IfBlockTestParser extends Parser {
 		"\f\7\2\u0087\u0085\3\2\2\2\u0087\u0086\3\2\2\2\u0088\u008a\3\2\2\2\u0089"+
 		"\u0084\3\2\2\2\u0089\u008a\3\2\2\2\u008a\21\3\2\2\2\u008b\u008c\5\6\4"+
 		"\2\u008c\u008d\7\30\2\2\u008d\u0095\3\2\2\2\u008e\u008f\5\6\4\2\u008f"+
-		"\u0090\7\30\2\2\u0090\u0091\7\5\2\2\u0091\u0092\7\25\2\2\u0092\u0093\7"+
-		"\3\2\2\u0093\u0095\3\2\2\2\u0094\u008b\3\2\2\2\u0094\u008e\3\2\2\2\u0095"+
+		"\u0090\7\30\2\2\u0090\u0091\7\3\2\2\u0091\u0092\7\25\2\2\u0092\u0093\7"+
+		"\6\2\2\u0093\u0095\3\2\2\2\u0094\u008b\3\2\2\2\u0094\u008e\3\2\2\2\u0095"+
 		"\23\3\2\2\2\u0096\u0097\7\13\2\2\u0097\u0098\5.\30\2\u0098\25\3\2\2\2"+
 		"\u0099\u009a\5\32\16\2\u009a\27\3\2\2\2\u009b\u009c\7\30\2\2\u009c\u009d"+
 		"\7\"\2\2\u009d\u00b7\5\"\22\2\u009e\u009f\5\6\4\2\u009f\u00a0\7\30\2\2"+
@@ -1857,7 +1628,7 @@ public class IfBlockTestParser extends Parser {
 		"\31\3\2\2\2\u00b8\u00b9\7\30\2\2\u00b9\u00ba\5 \21\2\u00ba\33\3\2\2\2"+
 		"\u00bb\u00bc\7\30\2\2\u00bc\u00bd\5\36\20\2\u00bd\35\3\2\2\2\u00be\u00bf"+
 		"\t\3\2\2\u00bf\37\3\2\2\2\u00c0\u00c9\7\33\2\2\u00c1\u00c6\5\"\22\2\u00c2"+
-		"\u00c3\7\4\2\2\u00c3\u00c5\5\"\22\2\u00c4\u00c2\3\2\2\2\u00c5\u00c8\3"+
+		"\u00c3\7\5\2\2\u00c3\u00c5\5\"\22\2\u00c4\u00c2\3\2\2\2\u00c5\u00c8\3"+
 		"\2\2\2\u00c6\u00c4\3\2\2\2\u00c6\u00c7\3\2\2\2\u00c7\u00ca\3\2\2\2\u00c8"+
 		"\u00c6\3\2\2\2\u00c9\u00c1\3\2\2\2\u00c9\u00ca\3\2\2\2\u00ca\u00cb\3\2"+
 		"\2\2\u00cb\u00cc\7\34\2\2\u00cc!\3\2\2\2\u00cd\u00d1\5.\30\2\u00ce\u00d1"+

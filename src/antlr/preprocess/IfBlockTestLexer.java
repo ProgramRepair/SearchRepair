@@ -1,4 +1,4 @@
-// Generated from IfBlockTest.g4 by ANTLR 4.4
+// Generated from IfBlockTest.g4 by ANTLR 4.2.2
 package antlr.preprocess;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -11,8 +11,6 @@ import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class IfBlockTestLexer extends Lexer {
-	static { RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION); }
-
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
@@ -29,13 +27,13 @@ public class IfBlockTestLexer extends Lexer {
 	};
 
 	public static final String[] tokenNames = {
-		"'\\u0000'", "'\\u0001'", "'\\u0002'", "'\\u0003'", "'\\u0004'", "'\\u0005'", 
-		"'\\u0006'", "'\\u0007'", "'\b'", "'\t'", "'\n'", "'\\u000B'", "'\f'", 
-		"'\r'", "'\\u000E'", "'\\u000F'", "'\\u0010'", "'\\u0011'", "'\\u0012'", 
-		"'\\u0013'", "'\\u0014'", "'\\u0015'", "'\\u0016'", "'\\u0017'", "'\\u0018'", 
-		"'\\u0019'", "'\\u001A'", "'\\u001B'", "'\\u001C'", "'\\u001D'", "'\\u001E'", 
-		"'\\u001F'", "' '", "'!'", "'\"'", "'#'", "'$'", "'%'", "'&'", "'''", 
-		"'('", "')'", "'*'", "'+'", "','", "'-'", "'.'", "'/'"
+		"<INVALID>",
+		"'['", "';'", "','", "']'", "'{'", "'}'", "'if'", "'else'", "'return'", 
+		"BlockComment", "LineComment", "CharacterLiteral", "StringLiteral", "'int'", 
+		"'char'", "'float'", "'char*'", "'double'", "INT", "FLOAT", "STRING", 
+		"ID", "'||'", "'&&'", "'('", "')'", "'+'", "'-'", "MULTIPLY", "'/'", "'%'", 
+		"'='", "POINTER", "'++'", "'--'", "'+='", "'-='", "'%='", "'*='", "'/='", 
+		"'<'", "'<='", "'>'", "'>='", "'=='", "'!='", "WS"
 	};
 	public static final String[] ruleNames = {
 		"T__3", "T__2", "T__1", "T__0", "LBR", "RBR", "IF", "ELSE", "RETURN", 
@@ -116,8 +114,8 @@ public class IfBlockTestLexer extends Lexer {
 		"\u00f8\3\2\2\2E\u00fa\3\2\2\2G\u00fd\3\2\2\2I\u0100\3\2\2\2K\u0103\3\2"+
 		"\2\2M\u0106\3\2\2\2O\u0109\3\2\2\2Q\u010c\3\2\2\2S\u010f\3\2\2\2U\u0111"+
 		"\3\2\2\2W\u0114\3\2\2\2Y\u0116\3\2\2\2[\u0119\3\2\2\2]\u011c\3\2\2\2_"+
-		"\u0120\3\2\2\2a\u0127\3\2\2\2c\u012d\3\2\2\2e\u012f\3\2\2\2gh\7_\2\2h"+
-		"\4\3\2\2\2ij\7.\2\2j\6\3\2\2\2kl\7]\2\2l\b\3\2\2\2mn\7=\2\2n\n\3\2\2\2"+
+		"\u0120\3\2\2\2a\u0127\3\2\2\2c\u012d\3\2\2\2e\u012f\3\2\2\2gh\7]\2\2h"+
+		"\4\3\2\2\2ij\7=\2\2j\6\3\2\2\2kl\7.\2\2l\b\3\2\2\2mn\7_\2\2n\n\3\2\2\2"+
 		"op\7}\2\2p\f\3\2\2\2qr\7\177\2\2r\16\3\2\2\2st\7k\2\2tu\7h\2\2u\20\3\2"+
 		"\2\2vw\7g\2\2wx\7n\2\2xy\7u\2\2yz\7g\2\2z\22\3\2\2\2{|\7t\2\2|}\7g\2\2"+
 		"}~\7v\2\2~\177\7w\2\2\177\u0080\7t\2\2\u0080\u0081\7p\2\2\u0081\24\3\2"+

@@ -1,4 +1,4 @@
-// Generated from Condition.g4 by ANTLR 4.4
+// Generated from Condition.g4 by ANTLR 4.2.2
 package antlr.preprocess;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -11,8 +11,6 @@ import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class ConditionLexer extends Lexer {
-	static { RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION); }
-
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
@@ -25,10 +23,10 @@ public class ConditionLexer extends Lexer {
 	};
 
 	public static final String[] tokenNames = {
-		"'\\u0000'", "'\\u0001'", "'\\u0002'", "'\\u0003'", "'\\u0004'", "'\\u0005'", 
-		"'\\u0006'", "'\\u0007'", "'\b'", "'\t'", "'\n'", "'\\u000B'", "'\f'", 
-		"'\r'", "'\\u000E'", "'\\u000F'", "'\\u0010'", "'\\u0011'", "'\\u0012'", 
-		"'\\u0013'", "'\\u0014'", "'\\u0015'"
+		"<INVALID>",
+		"';'", "INT", "FLOAT", "STRING", "ID", "'||'", "'&&'", "'('", "')'", "'+'", 
+		"'-'", "'*'", "'/'", "'%'", "'<'", "'<='", "'>'", "'>='", "'=='", "'!='", 
+		"WS"
 	};
 	public static final String[] ruleNames = {
 		"T__0", "INT", "FLOAT", "STRING", "ID", "OR", "AND", "LPAREN", "RPAREN", 
