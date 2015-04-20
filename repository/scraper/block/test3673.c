@@ -1,2 +1,2 @@
-int test(int bsg_fops){
+void test(int bsg_fops){
 bsg_fops = {  ;}

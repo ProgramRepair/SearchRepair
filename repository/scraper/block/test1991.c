@@ -1,2 +1,2 @@
-int test(int tag){
+void test(int tag){
 if ( tag  !=  -1     )        }

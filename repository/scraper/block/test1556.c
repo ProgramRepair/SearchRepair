@@ -1,2 +1,2 @@
-int test(int q, int unaligned){
+void test(int q, int unaligned){
 if ( unaligned    || ( q   - >       <missing ')'>        }

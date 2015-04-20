@@ -1,2 +1,2 @@
-int test(int bcd, int cd){
+void test(int bcd, int cd){
 if ( bcd     )     kref_get ( cd    -  >       ref )    ;    }

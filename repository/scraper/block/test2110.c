@@ -1,2 +1,2 @@
-int test(int wake){
+void test(int wake){
 wake = -  ;}

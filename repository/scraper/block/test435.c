@@ -1,2 +1,2 @@
-int test(int css){
+void test(int css){
 if ( css   && css_tryget_online ( css       )       )        }

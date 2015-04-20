@@ -1,2 +1,2 @@
-int test(int cfqd, int sync_cfqq, int NULL, int cic){
+void test(int cfqd, int sync_cfqq, int NULL, int cic){
 if ( sync_cfqq     )     { cfq_log_cfqq ( cfqd       , sync_cfqq       , "changed cgroup"  )    ;  cic_set_cfqq ( cic       , NULL       , 1       )    ;  cfq_put_queue ( sync_cfqq       )    ;  }    }

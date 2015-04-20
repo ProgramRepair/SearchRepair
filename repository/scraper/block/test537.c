@@ -1,2 +1,2 @@
-int test(int pol, int blkcg_policy){
+void test(int pol, int blkcg_policy){
 pol = blkcg_policy   [     ;}

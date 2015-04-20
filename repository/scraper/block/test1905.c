@@ -1,2 +1,2 @@
-int test(int blk_mq_ktype){
+void test(int blk_mq_ktype){
 blk_mq_ktype = {  ;}

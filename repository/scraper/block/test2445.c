@@ -1,2 +1,2 @@
-int test(int shared){
+void test(int shared){
 if ( shared     )        }

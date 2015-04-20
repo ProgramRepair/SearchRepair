@@ -1,2 +1,2 @@
-int test(int rq, int dout_resid, int bidi_bio, int din_resid){
+void test(int rq, int dout_resid, int bidi_bio, int din_resid){
 if ( rq   - >   next_rq )     {  hdr - >  dout_resid = rq    -  >        resid_len ;   hdr - >  din_resid = rq    -  >        <missing ';'>   next_rq - >   resid_len ;  blk_rq_unmap_user ( bidi_bio       )    ;  blk_put_request ( rq    -  >       next_rq )    ;  }    }

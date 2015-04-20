@@ -1,2 +1,2 @@
-int test(int cic){
+void test(int cic){
 if ( cic   - >   <missing ')'>        }

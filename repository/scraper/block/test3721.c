@@ -1,2 +1,2 @@
-int test(int ttime){
+void test(int ttime){
 ttime = {  ;}

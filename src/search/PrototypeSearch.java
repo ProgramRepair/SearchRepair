@@ -34,8 +34,13 @@ public class PrototypeSearch {
 			String[] pathtracks= result.getString(4).split(EntryHandler.PATH_SEPERATOR);
 			String[] pathmapping = result.getString(5).split(EntryHandler.PATH_SEPERATOR);
 			String[] pathformals = result.getString(6).split(EntryHandler.PATH_SEPERATOR);
+			try{
+				searchAllPath(pathconstraint, pathtypes, source, info, pathtracks, pathmapping, pathformals);
+			}catch(Exception e){
+				System.out.println(source);
+				continue;
+			}
 			
-			searchAllPath(pathconstraint, pathtypes, source, info, pathtracks, pathmapping, pathformals);
 		}
 	}
 	

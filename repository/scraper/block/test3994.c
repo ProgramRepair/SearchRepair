@@ -1,2 +1,2 @@
-int test(int new_weight, int s_leaf_weight, int ctx, int dev_weight){
+void test(int new_weight, int s_leaf_weight, int ctx, int dev_weight){
 if ( s_leaf_weight     )     {  cfqg - >  dev_weight = ctx   v      ;   cfqg - >  new_weight = ctx        <missing ';'>   v  blkcg - >   cfq_weight ;  }    }

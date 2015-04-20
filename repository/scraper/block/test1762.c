@@ -1,2 +1,2 @@
-int test(int NOTIFY_OK){
+void test(int NOTIFY_OK){
 int  ret = NOTIFY_OK       ;}

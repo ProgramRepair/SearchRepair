@@ -1,2 +1,2 @@
-int test(int d, int td_sq){
+void test(int d, int td_sq){
 td_sq = d    -  >       ;}

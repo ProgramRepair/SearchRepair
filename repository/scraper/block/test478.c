@@ -1,0 +1,2 @@
+void test(int ret, int missing, int blkg, int parent){
+if ( blkcg_parent ( blkcg       )       )     {  blkg - >  parent = __blkg_lookup ( blkcg_parent ( blkcg       )         , q       , false       )          ;  if ( WARN_ON_ONCE ( lkg    -        <missing ')'>    >  parent     )  )    { ret = -   EINVAL ;   goto  err_put_css ;  }      blkg_get ( blkg    -  >       parent )    ;  }    }

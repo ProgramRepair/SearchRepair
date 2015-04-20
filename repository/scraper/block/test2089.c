@@ -1,2 +1,2 @@
-int test(int BLK_MQ_TAG_CACHE_MIN, int BLK_MQ_TAG_MIN){
+void test(int BLK_MQ_TAG_CACHE_MIN, int BLK_MQ_TAG_MIN){
 BLK_MQ_TAG_MIN = BLK_MQ_TAG_CACHE_MIN   ,     ;}

@@ -1,2 +1,2 @@
-int test(int cpu, int i){
+void test(int cpu, int i){
 cpu = i       ;}

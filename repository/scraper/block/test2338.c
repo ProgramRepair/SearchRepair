@@ -1,2 +1,2 @@
-int test(int s_flush_fua, int use_plug){
+void test(int s_flush_fua, int use_plug){
 use_plug = s_flush_fua   &&     ;}

@@ -1,2 +1,2 @@
-int test(int fflags){
+void test(int fflags){
 if ( fflags   REQ_FUA   )  )       }

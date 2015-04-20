@@ -1,0 +1,2 @@
+void test(int nr_hw_queues, int queue_depth){
+if ( is_kdump_kernel ( )       )     {  set - >  nr_hw_queues = 1        ;   set - >  queue_depth = min ( 64   U     , set    -  >       queue_depth )          ;  }    }

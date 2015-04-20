@@ -1,0 +1,2 @@
+int test(int EIO, int __func__, int KERN_ERR){
+if ( blk_rq_sectors ( rq       )    >  blk_queue_get_max_sectors ( q       , rq    -  >       cmd_flags )       )     { printk ( KERN_ERR   "%s: over max size limit.\n"     , __func__       )    ;  return   -  EIO        ;  }    }

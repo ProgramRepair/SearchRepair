@@ -1,2 +1,2 @@
-int test(int false, int online){
+void test(int false, int online){
 online = false       ;}

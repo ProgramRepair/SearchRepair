@@ -1,2 +1,2 @@
-int test(int true, int promote_sync){
+void test(int true, int promote_sync){
 promote_sync = true       ;}

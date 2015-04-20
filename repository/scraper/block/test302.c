@@ -1,2 +1,2 @@
-int test(int bytes, int len){
+void test(int bytes, int len){
 len -=  bytes       ;}

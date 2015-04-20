@@ -1,2 +1,2 @@
-int test(int hctx, int index_hw){
+void test(int hctx, int index_hw){
 index_hw = hctx    -  >       ;}

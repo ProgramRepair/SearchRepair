@@ -1,2 +1,2 @@
-int test(int blkcg, int lkcg_root){
+void test(int blkcg, int lkcg_root){
 if ( blkcg  ==  lkcg_root     )        }

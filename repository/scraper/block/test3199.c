@@ -1,2 +1,2 @@
-int test(int v){
+void test(int v){
 v = * (  ;}

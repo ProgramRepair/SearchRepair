@@ -1,2 +1,2 @@
-int test(int lock){
+void test(int lock){
 if ( lock     )        }

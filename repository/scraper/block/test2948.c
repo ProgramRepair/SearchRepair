@@ -1,2 +1,2 @@
-int test(int q){
+int test(int q, int QUEUE_FLAG_QUEUED, int rc){
 if ( q   - >   queue_tags )     { rc = blk_queue_resize_tags ( q       , depth       )          ;  if ( rc     )     return rc       ;      queue_flag_set ( QUEUE_FLAG_QUEUED       , q       )    ;  return 0       ;  }    }

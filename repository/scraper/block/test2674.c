@@ -1,0 +1,2 @@
+int test(int rq, int trigger_softirq, int flags, int q, int cpu, int data, int func, int info){
+if ( cpu_online ( cpu       )       )     {  struct  call_single_data *  data = q    -  >        csd ;   data - >  func = trigger_softirq        ;   data - >  info = rq        ;   data - >  flags = 0        ;  smp_call_function_single_async ( cpu       , data       )    ;  return 0       ;  }    }

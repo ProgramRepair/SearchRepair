@@ -1,2 +1,2 @@
-int test(int REQ_WRITE){
+void test(int REQ_WRITE){
 int  type = REQ_WRITE   REQ_DISCARD     ;}

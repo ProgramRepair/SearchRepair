@@ -1,2 +1,2 @@
-int test(int nbytes, int length){
+void test(int nbytes, int length){
 length +=  nbytes       ;}

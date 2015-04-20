@@ -1,2 +1,2 @@
-int test(int ret, int sector){
+void test(int ret, int sector){
 sector +=  ret   > > 9     ;}

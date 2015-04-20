@@ -1,0 +1,2 @@
+void test(int ic, int fqq){
+if ( cfq_cfqq_sync ( cfqq       )       )     { __cfq_update_io_thinktime ( ic    -  >          <missing ';'>   ttime ,   cfqd - >   cfq_slice_idle ) ;  __cfq_update_io_thinktime ( fqq    -  >          <missing ';'>   service_tree - >   ttime ,   cfqd - >   cfq_slice_idle ) ;  }    }

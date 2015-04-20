@@ -1,2 +1,2 @@
-int test(int BLKG_RWSTAT_NR, int BLKG_RWSTAT_TOTAL){
+void test(int BLKG_RWSTAT_NR, int BLKG_RWSTAT_TOTAL){
 BLKG_RWSTAT_TOTAL = BLKG_RWSTAT_NR   , }     ;}

@@ -1,0 +1,2 @@
+void test(int KERN_ERR){
+if ( unlikely ( )       )     { printk ( KERN_ERR   "generic_make_request: Trying to access " "nonexistent block-device %s (%Lu)\n"     , bdevname ( bio    -  >               bi_bdev ,    <missing ';'>   b ) , (   long  long )   bio - >   bi_iter  bi_sector ) ;   goto  end_io ;  }    }

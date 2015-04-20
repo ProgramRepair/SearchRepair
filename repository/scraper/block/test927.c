@@ -1,0 +1,2 @@
+void test(int missing, int bio, int q, int nr_sectors, int KERN_ERR){
+if ( likely ( bio_is_rw ( bio       )         <missing ')'>     && nr_sectors  >  queue_max_hw_sectors ( q       )       )  )    { printk ( KERN_ERR   "bio too big device %s (%u > %u)\n"     , bdevname ( bio    -  >               bi_bdev ,    <missing ';'>   b ) ,  bio_sectors ( bio       )    ,  queue_max_hw_sectors ( q       )    ) ;   goto  end_io ;  }    }

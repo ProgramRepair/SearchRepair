@@ -1,2 +1,2 @@
-int test(int biotail, int bio){
+void test(int biotail, int bio){
 biotail = bio       ;}

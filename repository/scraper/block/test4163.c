@@ -1,0 +1,2 @@
+void test(int missing, int fqq, int cfqq, int NULL, int p_root){
+if ( cfq_cfqq_on_rr ( cfqq       )     && RB_EMPTY_ROOT ( fqq    -        <missing ')'>    >  sort_list     )  )    { if ( cfqq   - >   p_root )     { rb_erase ( fqq    -  >          <missing ';'>   p_node ,   cfqq - >   p_root ) ;   cfqq - >  p_root = NULL        ;  }      }    }

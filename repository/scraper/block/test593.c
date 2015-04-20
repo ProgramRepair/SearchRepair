@@ -1,2 +1,2 @@
-int test(int ret, int d){
+void test(int ret, int d){
 if ( d     )     { ret = -   ENOMEM ;   goto  out_free ;  }    }

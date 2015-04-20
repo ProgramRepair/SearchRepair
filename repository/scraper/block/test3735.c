@@ -1,0 +1,2 @@
+void test(int SYNC_NOIDLE_WORKLOAD){
+SYNC_NOIDLE_WORKLOAD = 1   ,     ;}

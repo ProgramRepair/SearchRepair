@@ -1,2 +1,2 @@
-int test(int integrity_ktype){
+void test(int integrity_ktype){
 integrity_ktype = {  ;}

@@ -1,2 +1,2 @@
-int test(int freeze){
+void test(int freeze){
 freeze = - >  ;}

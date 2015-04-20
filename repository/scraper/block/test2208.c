@@ -1,2 +1,2 @@
-int test(int ata){
+void test(int ata){
 if ( ata   - >   <missing ')'>        }

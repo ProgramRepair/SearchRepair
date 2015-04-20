@@ -1,0 +1,2 @@
+void test(int QUEUE_FLAG_INIT_DONE, int q){
+if ( lk_queue_init_done ( q       )       )     { queue_flag_set_unlocked ( QUEUE_FLAG_INIT_DONE       , q       )    ;  blk_queue_bypass_end ( q       )    ;  if ( q   - >   mq_ops )     blk_mq_finish_init ( q       )    ;      }    }

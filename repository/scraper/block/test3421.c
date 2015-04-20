@@ -1,2 +1,2 @@
-int test(int reply, int req){
+void test(int reply, int req){
 reply = req    -  >       ;}

@@ -1,2 +1,2 @@
-int test(int rq, int et){
+void test(int rq, int et){
 if ( et   && rq   - >   <missing ')'>        }

@@ -1,2 +1,2 @@
-int test(int throttled, int true){
+void test(int throttled, int true){
 throttled = true       ;}

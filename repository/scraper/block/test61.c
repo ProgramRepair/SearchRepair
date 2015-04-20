@@ -1,2 +1,2 @@
-int test(int start){
+void test(int start){
 start = ( (       unsigned      ;}

@@ -1,2 +1,2 @@
-int test(int dd){
+void test(int ret, int sector, int dd, int bio, int __rq, int ELEVATOR_FRONT_MERGE){
 if ( dd   - >   front_merges )     {  sector_t  sector = bio_end_sector ( bio       )          ;  __rq = elv_rb_find ( d    -  >                <missing ';'>   sort_list [  bio_data_dir ( bio       )    ] ,   sector ) ;  if ( __rq     )     { BUG_ON ( sector   !=        <missing ';'>  blk_rq_pos ( __rq       )    ) ;  if ( elv_rq_merge_ok ( __rq       , bio       )       )     { ret = ELEVATOR_FRONT_MERGE        ;   goto  out ;  }      }      }    }

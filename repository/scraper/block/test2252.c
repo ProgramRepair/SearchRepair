@@ -1,0 +1,2 @@
+void test(int ctx, int q_list){
+if ( ist_empty ( q_list       )       )     { spin_lock ( ctx    -  >       lock )    ;  list_splice ( q_list       , ctx    -  >       dispatch )    ;  spin_unlock ( ctx    -  >       lock )    ;  }    }

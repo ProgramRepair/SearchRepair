@@ -1,2 +1,2 @@
-int test(int force){
+void test(int force){
 if ( force     )        }

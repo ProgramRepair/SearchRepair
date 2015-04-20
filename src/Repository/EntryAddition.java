@@ -186,6 +186,7 @@ public class EntryAddition {
 		} catch (IOException e) {
 			
 			e.printStackTrace();
+			return methods;
 		}
 		if(methods.isEmpty()) return methods;
 		String fileString = Utility.getStringFromFile(fileName);
@@ -252,8 +253,8 @@ public class EntryAddition {
 	public static void main(String[] args) throws FileNotFoundException{
 		//System.setOut(new PrintStream(new FileOutputStream("log")));
 		//System.setErr(new PrintStream(new FileOutputStream("log")));
-		String filePath = "./repository";
-		EntryAddition.addOneFolder(filePath);;
+		String filePath = "./repository/hasReturn";
+		//EntryAddition.addOneFolder(filePath);;
 		//EntryAddition.addOneFile("./repository/hasReturn/medianvoid");
 	}
 }

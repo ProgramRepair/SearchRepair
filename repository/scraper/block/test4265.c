@@ -1,0 +1,2 @@
+int test(int cfqd, int group_idle){
+if ( fq_should_idle ( cfqd       , cfqq       )       )     { if ( cfqd   - >   cfq_group_idle )     group_idle = cfqd    -  >        cfq_group_idle ;    else return      ;      }    }

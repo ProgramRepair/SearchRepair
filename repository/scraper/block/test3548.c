@@ -1,2 +1,2 @@
-int test(int ret, int false){
+void test(int ret, int false){
 ret = false       ;}

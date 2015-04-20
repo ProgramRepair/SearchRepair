@@ -1,2 +1,2 @@
-int test(int entry, int bio_slab_max, int bio_slab_nr){
+void test(int bio_slabs, int ew_bio_slabs, int entry, int bio_slab_max, int new_bio_slabs, int bio_slab_nr, int new_bio_slab_max){
 if ( bio_slab_nr  ==  bio_slab_max   && entry  ==  -1     )     { new_bio_slab_max = bio_slab_max   < < 1      ;  new_bio_slabs = krealloc ( bio_slabs       , new_bio_slab_max   *  sizeof ( struct   bio_slab     )         , GFP_KERNEL       )          ;  if ( ew_bio_slabs     )          goto  out_unlock ;  bio_slab_max = new_bio_slab_max        ;  bio_slabs = new_bio_slabs        ;  }    }

@@ -1,2 +1,2 @@
-int test(int disptime){
+void test(int disptime){
 disptime = disptime       ;}

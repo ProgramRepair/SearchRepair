@@ -1,2 +1,2 @@
-int test(int uarg){
+void test(int uarg){
 uarg = (         ;}

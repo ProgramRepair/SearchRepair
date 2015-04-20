@@ -1,2 +1,2 @@
-int test(int biotail, int next){
+void test(int biotail, int next){
 biotail = next    -  >       ;}

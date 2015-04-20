@@ -1,2 +1,2 @@
-int test(int elapsed, int ttime, int jiffies){
+void test(int elapsed, int ttime, int jiffies){
 elapsed = jiffies    -  ttime     -  >       ;}

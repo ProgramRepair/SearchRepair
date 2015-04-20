@@ -1,2 +1,2 @@
-int test(int slice, int allocated_slice){
+void test(int slice, int allocated_slice){
 allocated_slice = slice       ;}

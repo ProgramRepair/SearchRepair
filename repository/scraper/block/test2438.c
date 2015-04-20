@@ -1,2 +1,2 @@
-int test(int tags, int q, int set, int ctx, int NULL){
+void test(int tags, int q, int set, int ctx, int NULL){
 if ( ctx   - >   nr_ctx )     {  struct  blk_mq_tag_set *  set = q    -  >        tag_set ;  if ( set   - >   <missing ')'>          tags [   i ] ) {  blk_mq_free_rq_map ( set       , set    -  >          <missing ';'>   tags [   i ] ,   i ) ;   set - >   tags [   i ] =   NULL ;   hctx - >  tags = NULL        ;  }    }

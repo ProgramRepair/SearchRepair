@@ -1,2 +1,2 @@
-int test(int end){
+void test(int end){
 end = ( ( (       unsigned    long )      ;}

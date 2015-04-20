@@ -1,2 +1,2 @@
-int test(int nr_queue, int i){
+void test(int nr_queue, int i){
 if ( i  ==  nr_queue     )        }

@@ -1,0 +1,2 @@
+void test(int ret, int bmd, int bio, int current){
+if ( io_flagged ( bio       , BIO_NULL_MAPPED       )       )     { if ( current   - >   <missing ')'>          mm &&  bio_data_dir ( bio       )    ==   READ )  ret = bio_copy_to_iter ( bio       , bmd    -  >       iter )          ;  if ( bmd   - >   is_our_pages )     bio_free_pages ( bio       )    ;      }    }

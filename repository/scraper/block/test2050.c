@@ -1,2 +1,2 @@
-int test(int alloc_policy){
+void test(int alloc_policy){
 alloc_policy = alloc_policy       ;}

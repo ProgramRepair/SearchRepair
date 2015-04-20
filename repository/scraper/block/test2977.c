@@ -1,2 +1,2 @@
-int test(int bqt){
+void test(int bqt){
 int  start = bqt    -  >       ;}

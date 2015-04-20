@@ -1,2 +1,2 @@
-int test(int bsg_write, int write){
+void test(int bsg_write, int write){
 write = bsg_write   ,     ;}

@@ -1,2 +1,2 @@
-int test(int iter){
+void test(int iter){
 int  len = iter    -  >       ;}

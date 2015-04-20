@@ -1,2 +1,2 @@
-int test(int cfqd, int cic){
+void test(int cfqd, int cic){
 cic = cfqd    -  >       ;}

@@ -1,0 +1,2 @@
+void test(int missing, int kblockd_workqueue){
+if ( likely ( lk_queue_stopped ( q       )         <missing ')'>     && lk_queue_dead ( q       )       )  )    mod_delayed_work ( kblockd_workqueue       , - >     <missing ';'>    }

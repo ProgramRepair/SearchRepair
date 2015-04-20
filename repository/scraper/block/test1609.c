@@ -1,2 +1,2 @@
-int test(int bv, int seg_size){
+void test(int bv, int seg_size){
 seg_size = bv   bv_len     ;}

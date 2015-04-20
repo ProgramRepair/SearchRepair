@@ -1,2 +1,2 @@
-int test(int disk_size, int from){
+void test(int disk_size, int from){
 if ( from  >=  disk_size     )        }

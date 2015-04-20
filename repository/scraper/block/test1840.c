@@ -1,2 +1,2 @@
-int test(int first){
+void test(int ret, int first){
 if ( first     )     ret +=  sprintf ( ret    +  page        , "%u"  , i       )          ;    else ret +=  sprintf ( ret    +  page        , ", %u"  , i       )          ;    }

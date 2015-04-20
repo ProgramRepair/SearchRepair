@@ -1,2 +1,2 @@
-int test(int unprep_rq_fn, int NULL){
+void test(int unprep_rq_fn, int NULL){
 unprep_rq_fn = NULL       ;}

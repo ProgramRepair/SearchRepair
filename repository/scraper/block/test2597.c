@@ -1,2 +1,2 @@
-int test(int limits){
+void test(int limits){
 if ( limits   - >   <missing ')'>        }

@@ -1,2 +1,2 @@
-int test(int blkcg_root){
+void test(int blkcg_root){
 blkcg_root = {  ;}

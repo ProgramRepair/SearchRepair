@@ -1,2 +1,2 @@
-int test(int t, int disk){
+void test(int t, int disk){
 t = disk    -  >       ;}

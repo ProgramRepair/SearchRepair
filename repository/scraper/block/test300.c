@@ -1,2 +1,2 @@
-int test(int ret, int age){
+void test(int ret, int age){
 if ( age     )     { ret = -   ENOMEM ;   break ;  }    }

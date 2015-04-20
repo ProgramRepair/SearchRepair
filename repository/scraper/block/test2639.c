@@ -1,2 +1,2 @@
-int test(int b){
+void test(int alignment, int t, int b, int bottom, int discard_misaligned, int top){
 if ( b   - >   discard_granularity )     { alignment = queue_limit_discard_alignment ( b       , start       )          ;  if ( t   - >   <missing ')'>          discard_granularity != 0 &&   t - >   discard_alignment !=   alignment ) {  top = t    -  >        <missing ';'>   discard_granularity +   t - >   discard_alignment ;  bottom = b    -  >        <missing ';'>   discard_granularity +   alignment ;  if ( ( max ( top       , bottom       )     %      <missing ')'>     min ( top       , bottom       )    ) != 0 )       t - >  discard_misaligned = 1        ;  }    }

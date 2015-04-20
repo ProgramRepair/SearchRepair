@@ -1,2 +1,2 @@
-int test(int q, int lock, int true){
+void test(int q, int lock, int true){
 if ( q   - >   mq_ops )     { blk_mq_freeze_queue ( q       )    ;  spin_lock_irq ( lock       )    ;  }    else { spin_lock_irq ( lock       )    ;  __blk_drain_queue ( q       , true       )    ;  }    }

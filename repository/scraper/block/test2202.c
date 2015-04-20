@@ -1,2 +1,2 @@
-int test(int ret, int ops){
+void test(int ret, int ops){
 if ( ops   - >   timeout )     ret = ops    -  >        <missing ';'>    }

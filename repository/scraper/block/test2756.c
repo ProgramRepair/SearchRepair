@@ -1,2 +1,2 @@
-int test(int val){
+void test(int val, int QUEUE_FLAG_SAME_FORCE, int q, int QUEUE_FLAG_SAME_COMP){
 if ( val  ==  2     )     { queue_flag_set ( QUEUE_FLAG_SAME_COMP       , q       )    ;  queue_flag_set ( QUEUE_FLAG_SAME_FORCE       , q       )    ;  }    else if ( val  ==  1     )     { queue_flag_set ( QUEUE_FLAG_SAME_COMP       , q       )    ;  queue_flag_clear ( QUEUE_FLAG_SAME_FORCE       , q       )    ;  }    else if ( val  ==  0     )     { queue_flag_clear ( QUEUE_FLAG_SAME_COMP       , q       )    ;  queue_flag_clear ( QUEUE_FLAG_SAME_FORCE       , q       )    ;  }     }

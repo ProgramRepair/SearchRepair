@@ -1,2 +1,2 @@
-int test(int bytes, int p){
+void test(int bytes, int p){
 p +=  bytes       ;}

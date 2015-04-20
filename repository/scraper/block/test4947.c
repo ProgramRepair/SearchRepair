@@ -1,2 +1,2 @@
-int test(int __VAR){
+void test(int __VAR){
 int  __data = __VAR       ;}

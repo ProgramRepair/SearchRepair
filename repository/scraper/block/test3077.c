@@ -1,2 +1,2 @@
-int test(int force){
+int test(int missing, int force){
 if ( force    || time_after ( sq    -        <missing ')'>    >  first_pending_disptime   ,    jiffies )  )    { throtl_schedule_pending_timer ( sq       , sq    -  >       first_pending_disptime )    ;  return true       ;  }    }

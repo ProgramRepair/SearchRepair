@@ -1,2 +1,2 @@
-int test(int req, int deadline, int jiffies){
+void test(int req, int deadline, int jiffies){
 deadline = jiffies    +  req     -  >       ;}

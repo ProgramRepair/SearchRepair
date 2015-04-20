@@ -1,2 +1,2 @@
-int test(int parent_sq){
+void test(int parent_sq){
 if ( parent_sq   - >   <missing ')'>        }

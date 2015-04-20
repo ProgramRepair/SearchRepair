@@ -1,2 +1,2 @@
-int test(int shared, int ccpu, int cpu){
+void test(int shared, int BLOCK_SOFTIRQ, int ccpu, int cpu, int list, int eq){
 if ( ccpu  ==  cpu    || shared      )     {  struct  list_head *   list ;   do_local  list = this_cpu_ptr ( lk_cpu_done       )          ;  list_add_tail ( eq    -  >          <missing ';'>   ipi_list ,   list ) ;  if ( list   - >   <missing ')'>          next ==   eq - >   ipi_list )  raise_softirq_irqoff ( BLOCK_SOFTIRQ       )    ;  }    }

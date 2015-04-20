@@ -1,2 +1,2 @@
-int test(int NULL, int tg_to_put){
+void test(int NULL, int tg_to_put){
 tg_to_put = NULL       ;}

@@ -1,2 +1,2 @@
-int test(int dispatched, int false){
+void test(int dispatched, int false){
 dispatched = false       ;}

@@ -1,0 +1,2 @@
+void test(int q, int false){
+if ( blk_queue_init_done ( q       )       )     { spin_lock_irq ( q    -  >       queue_lock )    ;  __blk_drain_queue ( q       , false       )    ;  spin_unlock_irq ( q    -  >       queue_lock )    ;  synchronize_rcu ( )    ;  }    }

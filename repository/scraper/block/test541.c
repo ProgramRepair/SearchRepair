@@ -1,2 +1,2 @@
-int test(int off, int void, int rwstat){
+void test(int off, int void, int rwstat){
 rwstat = ( void   *     )  pos_pd  +  off        ;}

@@ -1,2 +1,2 @@
-int test(int rain){
+void test(int rain){
 if ( rain     )        }

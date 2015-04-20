@@ -1,2 +1,2 @@
-int test(int diff, int q){
+void test(int diff, int q){
 diff = q    -  >       ;}

@@ -1,2 +1,2 @@
-int test(int rq){
+void test(int rq){
 if ( rq     )     blk_start_request ( rq       )    ;    }

@@ -1,2 +1,2 @@
-int test(int fifo_batch){
+void test(int fifo_batch){
 fifo_batch = fifo_batch       ;}

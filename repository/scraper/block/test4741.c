@@ -1,2 +1,2 @@
-int test(int isk){
+void test(int isk){
 if ( isk   - >   <missing ')'>        }

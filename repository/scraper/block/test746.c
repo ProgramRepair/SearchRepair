@@ -1,2 +1,2 @@
-int test(int queue_lock, int lock){
+void test(int queue_lock, int lock){
 queue_lock = lock       ;}

@@ -1,2 +1,2 @@
-int test(int bounce_pfn){
+void test(int bounce_pfn){
 bounce_pfn = (         ;}

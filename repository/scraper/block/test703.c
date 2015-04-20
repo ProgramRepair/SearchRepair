@@ -1,2 +1,2 @@
-int test(int q, int lock){
+void test(int q, int lock){
 lock = q    -  >       ;}

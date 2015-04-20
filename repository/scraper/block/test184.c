@@ -1,0 +1,2 @@
+int test(int b, int NULL){
+if ( bio_integrity ( bio       )       )     { int  ret  ;  ret = bio_integrity_clone ( b       , bio       , gfp_mask       )          ;  if ( ret  <  0     )     { bio_put ( b       )    ;  return NULL       ;  }      }    }

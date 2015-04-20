@@ -1,0 +1,2 @@
+void test(int cfqq, int cfqd){
+if ( cfq_should_preempt ( cfqd       , cfqq       , rq       )       )     { cfq_preempt_queue ( cfqd       , cfqq       )    ;  __blk_run_queue ( cfqd    -  >       queue )    ;  }    }

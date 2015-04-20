@@ -1,2 +1,2 @@
-int test(int integrity_ops){
+void test(int integrity_ops){
 integrity_ops = {  ;}

@@ -1,0 +1,2 @@
+void test(int missing, int n){
+if ( list_empty ( n    -        <missing ')'>    >  node     )  )    { list_add_tail ( n    -  >          <missing ';'>   node ,   queued ) ;  blkg_get ( tg_to_blkg ( qn    -  >       tg )         )    ;  }    }

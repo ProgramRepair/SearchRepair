@@ -1,2 +1,2 @@
-int test(int os, int propagate){
+void test(int os, int propagate){
 propagate = os    -  >       ;}

@@ -1,2 +1,2 @@
-int test(int subpart, int parts){
+void test(int subpart, int parts){
 subpart = parts    -  >       ;}

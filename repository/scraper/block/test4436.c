@@ -1,2 +1,2 @@
-int test(int cfqq){
+void test(int cfqq){
 if ( cfqq     )     cfq_mark_cfqq_prio_changed ( cfqq       )    ;    }

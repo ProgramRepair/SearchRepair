@@ -1,2 +1,2 @@
-int test(int ioprio, int IOPRIO_NORM){
+void test(int ioprio, int IOPRIO_NORM){
 ioprio = IOPRIO_NORM       ;}

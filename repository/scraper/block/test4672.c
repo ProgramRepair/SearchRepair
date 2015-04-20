@@ -1,2 +1,2 @@
-int test(int sector_t, int from){
+void test(int sector_t, int from){
 from = ( sector_t     )  ( 0     ;}

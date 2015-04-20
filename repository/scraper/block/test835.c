@@ -1,2 +1,2 @@
-int test(int time_in_queue, int inflight, int now, int cpu, int io_ticks, int part){
+void test(int time_in_queue, int inflight, int now, int cpu, int io_ticks, int part){
 if ( inflight     )     { __part_stat_add ( cpu       , part       , time_in_queue       , inflight   *  ( now    -  part     -  >     stamp )      )    ;  __part_stat_add ( cpu       , part       , io_ticks       , ( now    -  part     -  >     stamp )      )    ;  }    }

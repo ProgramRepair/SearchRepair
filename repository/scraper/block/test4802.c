@@ -1,2 +1,2 @@
-int test(int err){
+void test(int err){
 if ( err     )     { err = -   EFAULT ;   goto  out ;  }    }

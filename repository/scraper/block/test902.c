@@ -1,2 +1,2 @@
-int test(int sync){
+void test(int sync){
 if ( sync     )        }

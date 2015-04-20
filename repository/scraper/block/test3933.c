@@ -1,2 +1,2 @@
-int test(int parent, int pos){
+void test(int parent, int pos){
 pos = parent       ;}

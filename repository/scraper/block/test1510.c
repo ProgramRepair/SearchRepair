@@ -1,2 +1,2 @@
-int test(int sector, int max_write_same_sectors, int bi_size, int nr_sects){
+void test(int sector, int max_write_same_sectors, int bi_size, int nr_sects){
 if ( nr_sects  >  max_write_same_sectors     )     {  bio - >   bi_iter  bi_size = max_write_same_sectors   < < 9      ;  nr_sects -=  max_write_same_sectors        ;  sector +=  max_write_same_sectors        ;  }    }

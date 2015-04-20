@@ -1,2 +1,2 @@
-int test(int ispatched){
+void test(int ispatched){
 if ( ispatched     )        }

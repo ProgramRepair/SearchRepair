@@ -1,0 +1,2 @@
+void test(int bip_slab){
+bip_slab = kmem_cache_create ( "bio_integrity_payload"  , sizeof ( struct   bio_integrity_payload     )      +  sizeof ( struct   bio_vec     )     *  BIP_INLINE_VECS        , 0       , SLAB_HWCACHE_ALIGN   LAB_PANIC     , NULL       )         ;}

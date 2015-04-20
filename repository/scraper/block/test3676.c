@@ -1,2 +1,2 @@
-int test(int poll, int bsg_poll){
+void test(int poll, int bsg_poll){
 poll = bsg_poll   ,     ;}

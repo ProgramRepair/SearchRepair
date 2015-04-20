@@ -1,2 +1,2 @@
-int test(unsigned rq){
+void test(unsigned rq){
 unsigned  tag = rq    -  >       ;}

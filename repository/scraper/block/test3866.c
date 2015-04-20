@@ -1,2 +1,2 @@
-int test(int cfqd, int back_max){
+void test(int cfqd, int back_max){
 back_max = cfqd    -  >       ;}

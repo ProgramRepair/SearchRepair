@@ -1,0 +1,2 @@
+void test(int cfqq, int cfqd){
+if ( cfq_cfqq_on_rr ( cfqq       )       )     { cfq_service_tree_add ( cfqd       , cfqq       , 0       )    ;  cfq_prio_tree_add ( cfqd       , cfqq       )    ;  }    }

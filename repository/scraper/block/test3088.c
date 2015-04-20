@@ -1,2 +1,2 @@
-int test(int bytes_trim, int tmp){
+void test(int bytes_trim, int tmp){
 bytes_trim = tmp       ;}

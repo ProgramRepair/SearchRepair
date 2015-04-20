@@ -1,2 +1,2 @@
-int test(int charge, int c){
+void test(int charge, int c){
 c = charge   < <     ;}

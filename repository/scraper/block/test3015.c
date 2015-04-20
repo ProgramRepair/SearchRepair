@@ -1,2 +1,2 @@
-int test(int mpty){
+void test(int mpty){
 if ( mpty     )        }

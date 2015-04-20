@@ -1,2 +1,2 @@
-int test(int nm){
+void test(int QUEUE_FLAG_NOMERGES, int q, int QUEUE_FLAG_NOXMERGES, int nm){
 if ( nm  ==  2     )     queue_flag_set ( QUEUE_FLAG_NOMERGES       , q       )    ;    else if ( nm     )     queue_flag_set ( QUEUE_FLAG_NOXMERGES       , q       )    ;     }

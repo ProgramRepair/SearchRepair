@@ -1,2 +1,2 @@
-int test(int queue_nonrot_entry){
+void test(int queue_nonrot_entry){
 queue_nonrot_entry = {  ;}

@@ -1,2 +1,2 @@
-int test(int inline_vecs, int nr_iovecs){
+void test(int vl, int saved_gfp, int inline_vecs, int nr_iovecs, int bvl, int bs, int gfp_mask){
 if ( nr_iovecs  >  inline_vecs     )     { bvl = bvec_alloc ( gfp_mask       , nr_iovecs       , dx       , bs    -  >       bvec_pool )          ;  if ( vl   && gfp_mask  !=  saved_gfp     )     { punt_bios_to_rescuer ( bs       )    ;  gfp_mask = saved_gfp        ;  bvl = bvec_alloc ( gfp_mask       , nr_iovecs       , dx       , bs    -  >       bvec_pool )          ;  }      if ( unlikely ( vl       )       )          goto  err_free ;   bio - >   bi_flags 1 < <   BIO_OWNS_VEC ;  }    }

@@ -1,2 +1,2 @@
-int test(int error, int req){
+void test(int error, int req){
 if ( error   && req   - >   <missing ')'>        }

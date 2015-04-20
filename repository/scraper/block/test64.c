@@ -1,0 +1,2 @@
+int test(int EIO, int missing, int buf, int KERN_ERR){
+if ( unlikely ( bip       <missing ')'>    ==  NULL     )  )    { printk ( KERN_ERR   "could not allocate data integrity bioset\n"     )    ;  kfree ( buf       )    ;  return   -  EIO        ;  }    }

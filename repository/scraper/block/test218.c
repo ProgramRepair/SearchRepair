@@ -1,2 +1,2 @@
-int test(int bvec, int io){
+void test(int bvec, int io){
 bvec = io    -  >       ;}

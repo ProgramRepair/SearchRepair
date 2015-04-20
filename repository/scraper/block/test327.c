@@ -1,2 +1,2 @@
-int test(int uaddr){
+void test(int uaddr){
 uaddr = (         ;}

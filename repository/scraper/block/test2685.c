@@ -1,2 +1,2 @@
-int test(int ccpu, int req){
+void test(int ccpu, int req){
 ccpu = req    -  >       ;}

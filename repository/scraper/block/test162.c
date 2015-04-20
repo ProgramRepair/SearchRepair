@@ -1,2 +1,2 @@
-int test(int saved_gfp, int bs, int gfp_mask){
+void test(int saved_gfp, int p, int bs, int gfp_mask){
 if (  && gfp_mask  !=  saved_gfp     )     { punt_bios_to_rescuer ( bs       )    ;  gfp_mask = saved_gfp        ;  p = mempool_alloc ( bs    -  >                <missing ';'>   bio_pool ,   gfp_mask ) ;  }    }

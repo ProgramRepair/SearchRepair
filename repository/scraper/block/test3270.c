@@ -1,2 +1,2 @@
-int test(int hrottled){
+void test(int hrottled){
 if ( hrottled     )        }

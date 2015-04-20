@@ -1,2 +1,2 @@
-int test(int bdev, int inode){
+void test(int bdev, int inode){
 bdev = inode    -  >       ;}

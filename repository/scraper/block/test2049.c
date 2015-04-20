@@ -1,2 +1,2 @@
-int test(int tags){
+void test(int tags){
 int  depth = tags    -  >       ;}

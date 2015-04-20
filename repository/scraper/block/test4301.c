@@ -1,2 +1,2 @@
-int test(int key_valid, int false){
+void test(int key_valid, int false){
 key_valid = false       ;}

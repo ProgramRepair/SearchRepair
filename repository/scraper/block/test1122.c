@@ -1,2 +1,2 @@
-int test(int rq){
+void test(int rq){
 if ( rq   - >   <missing ')'>     cmd_flags ( REQ_FLUSH   REQ_FUA     )    )    }

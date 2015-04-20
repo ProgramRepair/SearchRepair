@@ -1,2 +1,2 @@
-int test(int count, int q, int p, int disk){
+void test(int val, int count, int QUEUE_FLAG_FAIL_IO, int q, int p, int disk){
 if ( count     )     {  struct  request_queue *  q = disk    -  >        queue ;   char *  p = (          <missing ';'>   char * )   buf ;  val = simple_strtoul ( p       ,  , 10       )          ;  spin_lock_irq ( q    -  >       queue_lock )    ;  if ( val     )     queue_flag_set ( QUEUE_FLAG_FAIL_IO       , q       )    ;    else queue_flag_clear ( QUEUE_FLAG_FAIL_IO       , q       )    ;      spin_unlock_irq ( q    -  >       queue_lock )    ;  }    }

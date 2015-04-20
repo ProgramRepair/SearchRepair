@@ -1,2 +1,2 @@
-int test(int bslab){
+void test(int bslab){
 if ( bslab   - >   <missing ')'>        }

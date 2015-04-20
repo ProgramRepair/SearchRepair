@@ -1,0 +1,2 @@
+void test(int child_tg, int rw, int parent_tg){
+if ( throtl_slice_used ( parent_tg       , rw       )       )     { throtl_start_new_slice_with_credit ( parent_tg       , rw       , child_tg    -  >          <missing ';'>   slice_start [   rw ] ) ;  }    }

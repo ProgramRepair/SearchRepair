@@ -1,2 +1,2 @@
-int test(int oot){
+void test(int oot){
 if ( oot   - >   left )        }

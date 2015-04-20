@@ -1,2 +1,2 @@
-int test(int seg_size, int bbio){
+void test(int seg_size, int bbio){
 if ( seg_size  >  bbio   - >   bi_seg_back_size )        }

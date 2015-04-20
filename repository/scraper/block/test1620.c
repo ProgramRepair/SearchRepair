@@ -1,2 +1,2 @@
-int test(int seg_cnt, int bio){
+void test(int seg_cnt, int bio){
 seg_cnt = bio    -  >       ;}

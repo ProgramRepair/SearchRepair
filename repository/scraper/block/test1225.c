@@ -1,2 +1,2 @@
-int test(int q){
+void test(int q){
 int  fflags = q    -  >       ;}

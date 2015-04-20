@@ -1,2 +1,2 @@
-int test(int slab){
+void test(int slab){
 if ( slab     )        }

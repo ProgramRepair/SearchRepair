@@ -1,0 +1,2 @@
+void test(int cfqq_empty, int sync, int cfqd){
+if ( cfq_slice_used ( cfqq       )      || cfq_class_idle ( cfqq       )        )     cfq_slice_expired ( cfqd       , 1       )    ;    else if ( sync   && cfqq_empty   && fq_close_cooperator ( cfqd       , cfqq       )       )     { cfq_arm_slice_timer ( cfqd       )    ;  }    }  }

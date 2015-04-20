@@ -1,2 +1,2 @@
-int test(int q){
+void test(int q){
 if ( q   - >   bsg_job_size )        }

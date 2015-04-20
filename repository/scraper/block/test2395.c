@@ -1,2 +1,2 @@
-int test(unsigned set){
+void test(unsigned set){
 unsigned  flush_start_tag = set    -  >       ;}

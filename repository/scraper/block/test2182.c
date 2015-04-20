@@ -1,0 +1,2 @@
+void test(int missing, int q, int REQ_ATOM_COMPLETE){
+if ( test_bit ( REQ_ATOM_COMPLETE       , q    -        <missing ')'>    >  atomic_flags     )  )    clear_bit ( REQ_ATOM_COMPLETE       , q    -  >       atomic_flags )    ;    }

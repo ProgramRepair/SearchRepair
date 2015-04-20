@@ -1,2 +1,2 @@
-int test(int queued, int false){
+void test(int queued, int false){
 queued = false   ,     ;}

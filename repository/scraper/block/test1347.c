@@ -1,2 +1,2 @@
-int test(int attr){
+void test(int attr){
 attr = {  ;}

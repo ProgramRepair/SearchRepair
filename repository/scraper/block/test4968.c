@@ -1,2 +1,2 @@
-int test(int elevator_name){
+void test(int elevator_name){
 elevator_name = "deadline"  ;}

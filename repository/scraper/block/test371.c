@@ -1,2 +1,2 @@
-int test(int bi_private, int reading, int bio_copy_kern_endio_read, int data, int bi_end_io){
+void test(int bi_private, int reading, int bio_copy_kern_endio_read, int data, int bi_end_io){
 if ( reading     )     {  bio - >  bi_end_io = bio_copy_kern_endio_read        ;   bio - >  bi_private = data        ;  }    }

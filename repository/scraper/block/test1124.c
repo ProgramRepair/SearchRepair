@@ -1,2 +1,2 @@
-int test(int plug, int current){
+void test(int plug, int current){
 if ( plug  ==  current   - >   plug )        }

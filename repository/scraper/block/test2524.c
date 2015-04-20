@@ -1,2 +1,2 @@
-int test(int reserved){
+void test(int reserved){
 reserved = reserved       ;}

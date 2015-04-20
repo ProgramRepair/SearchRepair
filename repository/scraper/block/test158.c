@@ -1,2 +1,2 @@
-int test(int UIO_MAXIOV, int s, int nr_iovecs, int NULL){
+int test(int inline_vecs, int UIO_MAXIOV, int s, int p, int nr_iovecs, int front_pad, int NULL){
 if ( s     )     { if ( nr_iovecs  >  UIO_MAXIOV     )     return NULL       ;      p = kmalloc ( sizeof ( struct   bio     )      +  nr_iovecs   *  sizeof ( struct   bio_vec     )          , gfp_mask       )          ;  front_pad = 0        ;  inline_vecs = nr_iovecs        ;  }    }

@@ -30,6 +30,7 @@ public  class ESearchCase {
 	private String casePrefix;
 	private CaseInfo info;
 	private boolean bracket;
+	private boolean hasPrintf ;
 	
 	public ESearchCase(String folder, String fileName){
 		this.folder = folder;
@@ -40,6 +41,7 @@ public  class ESearchCase {
 		this.casePrefix = this.folder + "/" + fileName.substring(0, fileName.lastIndexOf("."));
 		this.info = new CaseInfo();
 		this.bracket = false;
+		this.hasPrintf = false;
 	}
 	
 
@@ -80,6 +82,7 @@ public  class ESearchCase {
 		if(this.getPositives().size() == 0) return false; 
 		getBugLines();
 		if(this.buggy[0] == 0) return false;
+		if(this.hasPrintf) return false;
 		initPositiveStates();
 		if(this.info.getPositives().isEmpty()) return false;
 		searchOverRepository();
@@ -103,6 +106,13 @@ public  class ESearchCase {
 
 
 	private void recordLog(String path) {
+		if(new File(path).exists()) new File(path).delete();
+		try {
+			new File(path).createNewFile();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try{
 			PrintWriter pw = new PrintWriter(new FileOutputStream(path));
 			pw.println("True fix:" + info.getResult().getFalsePositve().size());
@@ -160,6 +170,7 @@ public  class ESearchCase {
 			//if(!source.contains("maxlen")) return;
 			//if(!source.startsWith("a=b")) continue;
 			String input =Restore.getMappingString(source, info.getResult().getSearchMapping().get(source));
+			System.out.println(input);
 			String outputFile = generateOutputFile(input);
 			testAllResults(source, outputFile);
 			info.getResult().getMappingSource().put(source, input);
@@ -250,15 +261,15 @@ public  class ESearchCase {
 			BufferedReader ls_err = new BufferedReader(new InputStreamReader(
 					ls_proc.getErrorStream()));
 
-//			long now = System.currentTimeMillis();
-//			long timeoutInMillis = 100L * 10; // timeout in seconds
-//			long finish = now + timeoutInMillis;
+			long now = System.currentTimeMillis();
+			long timeoutInMillis = 100L * 10; // timeout in seconds
+			long finish = now + timeoutInMillis;
 
 			try {
-//				while (CTest.isAlive(ls_proc)
-//						&& (System.currentTimeMillis() < finish)) {
-//					Thread.sleep(10);
-//				}
+				while (CTest.isAlive(ls_proc)
+						&& (System.currentTimeMillis() < finish)) {
+					Thread.sleep(10);
+				}
 				while ((ls_str = ls_in.readLine()) != null) {
 					sb.append(ls_str);
 					sb.append("\n");
@@ -352,6 +363,7 @@ public  class ESearchCase {
 		this.getBuggy()[0] = bug.getBuggy()[0];
 		this.getBuggy()[1] = bug.getBuggy()[1];
 		this.bracket = bug.isAddBracket();
+		this.hasPrintf = bug.getHasPrintf();
 	}
 
 

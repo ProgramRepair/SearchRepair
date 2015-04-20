@@ -1,2 +1,2 @@
-int test(int cfqd){
+void test(int cfqd){
 int  base_slice = cfqd    -  >       ;}

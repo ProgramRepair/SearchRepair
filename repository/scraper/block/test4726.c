@@ -1,2 +1,2 @@
-int test(int subpart){
+void test(int subpart){
 if ( subpart   - >   <missing ')'>        }

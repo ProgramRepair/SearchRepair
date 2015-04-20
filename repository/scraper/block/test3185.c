@@ -1,2 +1,2 @@
-int test(int parent_sq, int tg){
+void test(int parent_sq, int sq, int tg){
 if ( parent_sq     )     { if ( tg   - >   <missing ')'>          flags  THROTL_TG_WAS_EMPTY ) {  tg_update_disptime ( tg       )    ;  if ( hrotl_schedule_next_dispatch ( parent_sq       , false       )       )     { sq = parent_sq        ;  tg = sq_to_tg ( sq       )          ;   goto  again ;  }      }    }

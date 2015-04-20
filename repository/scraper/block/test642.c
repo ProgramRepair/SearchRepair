@@ -1,2 +1,2 @@
-int test(int rw){
+void test(int rw){
 if ( rw   REQ_WRITE   )        }

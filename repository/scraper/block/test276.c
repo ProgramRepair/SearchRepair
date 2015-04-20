@@ -1,2 +1,2 @@
-int test(int bmd, int bio){
+void test(int bmd, int bio){
 bmd = bio    -  >       ;}

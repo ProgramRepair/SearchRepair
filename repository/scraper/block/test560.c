@@ -1,0 +1,2 @@
+void test(int missing, int blkg, int q){
+if ( spin_trylock ( q    -        <missing ')'>    >  queue_lock     )  )    { blkg_destroy ( blkg       )    ;  spin_unlock ( q    -  >       queue_lock )    ;  }    }

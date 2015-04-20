@@ -1,2 +1,2 @@
-int test(int missing, int tovec){
+void test(int missing, int tovec){
 if ( tovec     <missing ')'>        }

@@ -1,2 +1,2 @@
-int test(int dxferp, int NULL){
+void test(int dxferp, int NULL){
 dxferp = NULL       ;}

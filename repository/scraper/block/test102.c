@@ -1,2 +1,2 @@
-int test(int __read_mostly){
+void test(int __read_mostly){
 __read_mostly = {  ;}

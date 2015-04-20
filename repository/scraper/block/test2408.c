@@ -1,2 +1,2 @@
-int test(int flags, int set){
+void test(int flags, int set){
 flags = set    -  >       ;}

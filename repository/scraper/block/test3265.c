@@ -1,2 +1,2 @@
-int test(int sq){
+void test(int sq){
 sq = sq    -  >       ;}

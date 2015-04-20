@@ -1,2 +1,2 @@
-int test(int g, int bio, int tg, int rw, int parent_tg){
+void test(int g, int bio, int tg, int rw, int parent_tg){
 if ( parent_tg     )     { throtl_add_bio_tg ( bio       , g    -  >          <missing ';'>   qnode_on_parent [   rw ] ,   parent_tg ) ;  start_parent_slice_with_credit ( tg       , parent_tg       , rw       )    ;  }    }

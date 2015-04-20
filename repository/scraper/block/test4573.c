@@ -1,0 +1,2 @@
+void test(int fqq, int cfqq, int cfqd){
+if ( cfq_cfqq_coop ( cfqq       )     && cfq_cfqq_split_coop ( cfqq       )       )     { cfq_log_cfqq ( cfqd       , cfqq       , "breaking apart cfqq"  )    ;  cfqq = split_cfqq ( cic       , cfqq       )          ;  if ( fqq     )          goto  new_queue ;  }    }

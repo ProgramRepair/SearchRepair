@@ -1,0 +1,2 @@
+int test(int missing, int tag, int __func__, int KERN_ERR){
+if ( unlikely ( est_bit ( tag       , bqt    -                <missing ')'>    >  tag_map     )  ) )    { printk ( KERN_ERR   "%s: attempt to clear non-busy tag (%d)\n"     , __func__       , tag       )    ;  return      ;  }    }

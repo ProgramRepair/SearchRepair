@@ -1,2 +1,2 @@
-int test(int iosched_deadline){
+void test(int iosched_deadline){
 iosched_deadline = {  ;}

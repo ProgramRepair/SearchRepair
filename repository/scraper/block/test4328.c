@@ -1,2 +1,2 @@
-int test(int cfqd, int tmp){
+void test(int cfqd, int tmp){
 tmp = tmp   /  cfqd    -  >       ;}

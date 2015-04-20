@@ -1,2 +1,2 @@
-int test(int rq, int device_status){
+void test(int rq, int device_status){
 device_status = rq    -  >       ;}

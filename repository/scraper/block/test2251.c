@@ -1,2 +1,2 @@
-int test(int queued){
+void test(int queued){
 if ( queued  <  ( 1 < < (     <missing ')'>        }

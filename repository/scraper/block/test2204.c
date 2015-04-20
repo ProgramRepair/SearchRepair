@@ -1,0 +1,2 @@
+int test(int rq, int missing, int errors){
+if ( est_bit ( REQ_ATOM_STARTED       , q    -        <missing ')'>    >  atomic_flags     )  )    { if ( unlikely ( blk_queue_dying ( rq    -                <missing ')'>    >  q     )  ) )    {  rq - >  errors = -   EIO ;  blk_mq_complete_request ( rq       )    ;  }      return      ;  }    }

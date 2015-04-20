@@ -1,2 +1,2 @@
-int test(int ax_segments){
+void test(int ax_segments, int max_segments, int KERN_INFO, int __func__){
 if ( ax_segments     )     { max_segments = 1        ;  printk ( KERN_INFO   "%s: set to minimum %d\n"     , __func__       , max_segments       )    ;  }    }

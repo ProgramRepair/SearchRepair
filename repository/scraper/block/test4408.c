@@ -1,2 +1,2 @@
-int test(int next, int __cfqq){
+void test(int next, int __cfqq){
 next = __cfqq    -  >       ;}

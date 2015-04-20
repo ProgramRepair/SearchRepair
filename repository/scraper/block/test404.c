@@ -1,2 +1,2 @@
-int test(int bi_size, int sectors){
+void test(int bi_size, int sectors){
 bi_size = sectors   < < 9     ;}

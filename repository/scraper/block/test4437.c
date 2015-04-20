@@ -1,2 +1,2 @@
-int test(int ioprio){
+void test(int ioprio){
 ioprio = ioprio       ;}

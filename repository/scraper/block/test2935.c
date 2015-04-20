@@ -1,2 +1,2 @@
-int test(int tag_map){
+void test(int tag_map){
 tag_map = tag_map       ;}

@@ -16,6 +16,7 @@ public class BugLineSearcher {
 	private Map<Integer, Double> suspiciousness;
 	private int[] buggy;
 	private boolean addBracket;
+	private boolean hasPrintf;
 	//private 
 
 	public BugLineSearcher(String folder, String fileName) {
@@ -26,6 +27,7 @@ public class BugLineSearcher {
 		this.suspiciousness = new HashMap<Integer, Double>();
 		this.buggy = new int[2];
 		this.addBracket = false;
+		this.hasPrintf = false;
 		init();
 	}
 	
@@ -71,12 +73,26 @@ public class BugLineSearcher {
 			this.buggy[0] = lineNumber;
 			this.buggy[1] = lineNumber;
 			checkBrackState(lineNumber);
+			
 		}
 		else{
 			this.buggy[0] = getLower(lineNumber, content);
 			this.buggy[1] = getUpper(lineNumber, content);
-		}				
+		}
+		checkPrintf(this.buggy[0], this.buggy[1]);
 	}
+
+	private void checkPrintf(int i, int j) {
+		for(int k = i; k <= j; k++){
+			if(this.linesContent.contains("printf")){
+				this.hasPrintf = true;
+				return;
+			}
+		}
+		
+	}
+
+
 
 	private void checkBrackState(int lineNumber) {
 		while(lineNumber > 0){
@@ -177,6 +193,12 @@ public class BugLineSearcher {
 	
 	public static void main(String[] args){
 		BugLineSearcher bug = new BugLineSearcher("./bughunt/smallest/102", "smallest.c");
+	}
+
+
+
+	public boolean getHasPrintf() {
+		return this.hasPrintf;
 	}
 	
 	

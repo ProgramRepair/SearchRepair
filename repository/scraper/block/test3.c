@@ -1,2 +1,2 @@
-int test(int s){
+void test(int inline_vecs, int s, int bip, int nr_vecs){
 if ( s     )     { bip = kmalloc ( sizeof ( struct   bio_integrity_payload     )      +  sizeof ( struct   bio_vec     )     *  nr_vecs        , gfp_mask       )          ;  inline_vecs = nr_vecs        ;  }    }

@@ -1,0 +1,2 @@
+int test(int missing){
+if ( unlikely ( test_bit ( BLK_MQ_S_STOPPED       , ctx    -                <missing ')'>    >  state     )   || lk_mq_hw_queue_mapped ( hctx       )     ) )     return      ;    }

@@ -1,2 +1,2 @@
-int test(int blkcg, int lkcg_root){
+void test(int missing, int blkg, int blkcg, int lkcg_root){
 if ( blkcg  !=  lkcg_root     )     { if ( blk_init_rl ( lkg    -        <missing ')'>    >  rl   ,   <missing ')'>          q ,   gfp_mask ) )   goto  err_free ;   blkg - >   rl  blkg = blkg        ;  }    }

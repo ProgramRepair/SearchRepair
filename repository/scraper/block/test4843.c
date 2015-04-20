@@ -1,2 +1,2 @@
-int test(int file, int inode){
+void test(int file, int inode){
 inode = file    -  >       ;}

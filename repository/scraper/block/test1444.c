@@ -1,2 +1,2 @@
-int test(int iop, int weight){
+void test(int iop, int weight){
 weight = iop    -  >       ;}

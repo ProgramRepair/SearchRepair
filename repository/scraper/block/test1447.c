@@ -1,2 +1,2 @@
-int test(int work, int budget){
+void test(int work, int budget){
 budget -=  work       ;}

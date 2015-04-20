@@ -1,2 +1,2 @@
-int test(int page, int WRITE, int rw){
+void test(int to, int vfrom, int page, int vto, int WRITE, int rw){
 if ( rw  ==  WRITE     )     {  char *   vto , *   vfrom ;  flush_dcache_page ( page       )    ;  vto = page_address ( to    -  >       bv_page )      +  to     -  >        bv_offset ;  vfrom = kmap_atomic ( page       )      +  to     -  >        bv_offset ;  memcpy ( vto       , vfrom       , to    -  >       bv_len )    ;  kunmap_atomic ( vfrom       )    ;  }    }

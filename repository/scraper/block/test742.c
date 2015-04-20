@@ -1,2 +1,2 @@
-int test(int rfn, int request_fn){
+void test(int rfn, int request_fn){
 request_fn = rfn       ;}

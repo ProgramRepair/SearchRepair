@@ -1,2 +1,2 @@
-int test(int bd_disk, int rq_disk){
+void test(int bd_disk, int rq_disk){
 rq_disk = bd_disk       ;}

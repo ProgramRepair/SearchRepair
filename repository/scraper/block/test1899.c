@@ -1,2 +1,2 @@
-int test(int blk_mq_sysfs_ops){
+void test(int blk_mq_sysfs_ops){
 blk_mq_sysfs_ops = {  ;}

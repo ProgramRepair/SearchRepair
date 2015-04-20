@@ -1,0 +1,2 @@
+void test(int missing){
+if ( est_bit ( BLK_MQ_S_TAG_ACTIVE       , ctx    -        <missing ')'>    >  state     )  && est_and_set_bit ( BLK_MQ_S_TAG_ACTIVE       , ctx    -        <missing ')'>    >  state   ) )    atomic_inc ( ctx    -  >          <missing ';'>    }

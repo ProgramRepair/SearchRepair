@@ -1,0 +1,2 @@
+void test(int missing){
+if ( est_bit ( QUEUE_FLAG_SAME_FORCE       , q    -        <missing ')'>    >  q   - >   queue_flags )  )    shared = cpus_share_cache ( cpu       , ctx    -  >       cpu )          ;    }

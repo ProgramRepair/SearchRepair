@@ -1,2 +1,2 @@
-int test(int hctx){
+void test(int hctx){
 hctx = hctx       ;}

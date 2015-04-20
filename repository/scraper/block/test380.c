@@ -1,2 +1,2 @@
-int test(int page){
+void test(int page){
 if ( page     )     put_page ( page       )    ;    }

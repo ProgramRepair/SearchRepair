@@ -1,2 +1,2 @@
-int test(int file){
+void test(int file){
 if ( file   - >   <missing ')'>        }

@@ -1,2 +1,2 @@
-int test(int set, int mq_ops){
+void test(int set, int mq_ops){
 mq_ops = set    -  >       ;}

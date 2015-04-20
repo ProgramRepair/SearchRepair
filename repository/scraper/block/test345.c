@@ -1,2 +1,2 @@
-int test(int start, int end){
+void test(int start, int end){
 int  nr_pages = end    -  start        ;}

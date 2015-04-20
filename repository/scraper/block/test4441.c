@@ -1,2 +1,2 @@
-int test(int pid){
+void test(int pid){
 pid = pid       ;}

@@ -1,2 +1,2 @@
-int test(int age){
+void test(int age){
 if ( age     )        }

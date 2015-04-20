@@ -1,2 +1,2 @@
-int test(int eading){
+void test(int eading){
 if ( eading     )        }

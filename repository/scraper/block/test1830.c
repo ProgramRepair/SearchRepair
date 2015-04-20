@@ -1,2 +1,2 @@
-int test(int page, int start_page){
+void test(int page, int start_page){
 start_page = page       ;}

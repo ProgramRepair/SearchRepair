@@ -1,2 +1,2 @@
-int test(int vfr, int pos){
+void test(int vfr, int pos){
 vfr = vfr   *  pos    -  >       ;}

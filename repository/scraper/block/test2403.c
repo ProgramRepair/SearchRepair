@@ -1,2 +1,2 @@
-int test(int node, int hctx){
+void test(int node, int hctx){
 node = hctx    -  >       ;}

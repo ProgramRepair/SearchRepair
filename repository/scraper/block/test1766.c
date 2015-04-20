@@ -1,2 +1,2 @@
-int test(int notify, int fn){
+void test(int notify, int fn){
 notify = fn       ;}

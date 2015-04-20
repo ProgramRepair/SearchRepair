@@ -1,2 +1,2 @@
-int test(int dd_data, int void){
+void test(int dd_data, int void){
 dd_data = ( void   *     )      ;}

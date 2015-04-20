@@ -1,2 +1,2 @@
-int test(int open, int bsg_open){
+void test(int open, int bsg_open){
 open = bsg_open   ,     ;}

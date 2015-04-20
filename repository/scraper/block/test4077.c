@@ -1,2 +1,2 @@
-int test(int name){
+void test(int name){
 name = "sectors_recursive"  ;}

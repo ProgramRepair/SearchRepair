@@ -1,0 +1,2 @@
+void test(int data, int s_sync){
+if ( lk_mq_merge_queue_io ( data   hctx     , data   ctx     , rq       , bio       )       )     {  run_queue  blk_mq_run_hw_queue ( data   hctx     , s_sync   ||     is_flush_fua )    ;  }    }

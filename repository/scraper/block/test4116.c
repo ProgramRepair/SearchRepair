@@ -1,2 +1,2 @@
-int test(int cfqg){
+void test(int cfqg){
 cfqg = cfqg       ;}

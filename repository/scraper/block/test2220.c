@@ -1,2 +1,2 @@
-int test(int hecked){
+void test(int hecked){
 if ( hecked   --   )        }

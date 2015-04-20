@@ -1,0 +1,2 @@
+void test(int page, int NULL, int bv_page){
+if ( PageDirty ( page       )      || PageCompound ( page       )        )     { page_cache_release ( page       )    ;   bvec - >  bv_page = NULL        ;  }    else { nr_clean_pages ++   ;  }    }

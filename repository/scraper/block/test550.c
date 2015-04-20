@@ -1,0 +1,2 @@
+int test(int ret, int disk){
+if ( IS_ERR ( blkg       )       )     { ret = PTR_ERR ( blkg       )          ;  rcu_read_unlock ( )    ;  spin_unlock_irq ( disk    -  >          <missing ';'>   queue - >   queue_lock ) ;  put_disk ( disk       )    ;  if ( ret  ==  -     EBUSY )     { msleep ( 10       )    ;  ret = restart_syscall ( )          ;  }      return ret       ;  }    }

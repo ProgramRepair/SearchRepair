@@ -1,0 +1,2 @@
+void test(int CFQ_IDLE_DELAY, int fqq, int rb_key, int parent, int __cfqq, int jiffies){
+if ( cfq_class_idle ( cfqq       )       )     { rb_key = CFQ_IDLE_DELAY        ;  parent = rb_last ( t    -  >       rb )          ;  if ( parent   && parent  !=  fqq   - >   rb_node )     { __cfqq = rb_entry ( parent       , struct   cfq_queue     , rb_node       )          ;  rb_key +=  __cfqq    -  >        rb_key ;  }    else rb_key +=  jiffies        ;      }    }

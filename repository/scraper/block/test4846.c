@@ -1,2 +1,2 @@
-int test(int file, int mode){
+void test(int file, int mode){
 mode = file    -  >       ;}

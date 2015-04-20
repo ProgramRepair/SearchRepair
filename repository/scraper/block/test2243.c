@@ -1,2 +1,2 @@
-int test(int dptr, int list){
+void test(int dptr, int list){
 list = dptr       ;}

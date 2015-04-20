@@ -1,2 +1,2 @@
-int test(int disk){
+void test(int disk){
 if ( disk   - >   <missing ')'>        }

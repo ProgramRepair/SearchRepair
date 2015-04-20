@@ -1,2 +1,2 @@
-int test(int rq, int waiting){
+void test(int rq, int waiting){
 waiting = rq    -  >       ;}

@@ -1,2 +1,2 @@
-int test(int partdef){
+void test(int partdef){
 partdef = ++  ;}

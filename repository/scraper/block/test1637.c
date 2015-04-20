@@ -1,2 +1,2 @@
-int test(int bvec){
+void test(int bvec){
 int  nbytes = bvec    -  >       ;}

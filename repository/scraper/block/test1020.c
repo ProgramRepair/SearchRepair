@@ -1,2 +1,2 @@
-int test(int error_type){
+void test(int error_type){
 error_type = "critical space allocation"  ;}

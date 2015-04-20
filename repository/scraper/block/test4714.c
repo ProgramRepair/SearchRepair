@@ -1,2 +1,2 @@
-int test(int pbuf, int next){
+void test(int pbuf, int next){
 if ( next     )     pbuf = ++   next ;    }

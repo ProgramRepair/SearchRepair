@@ -1,2 +1,2 @@
-int test(int rsp){
+void test(int ret, int rsp){
 if ( rsp   && rsp   - >   bio )     { ret = bsg_map_buffer ( ob    -  >                <missing ';'>   reply_payload ,   rsp ) ;  if ( ret     )          goto  failjob_rls_rqst_payload ;  }    }

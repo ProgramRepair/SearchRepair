@@ -1,2 +1,2 @@
-int test(int next_parts){
+void test(int next_parts){
 next_parts = *  ;}

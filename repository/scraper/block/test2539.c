@@ -1,2 +1,2 @@
-int test(int lim, int max_sectors){
+void test(int lim, int max_sectors){
 max_sectors = lim    -  >       ;}

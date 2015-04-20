@@ -1,0 +1,2 @@
+int test(int ELV_MQUEUE_MUST, int cfqq){
+if ( cfq_cfqq_wait_request ( cfqq       )     && fq_cfqq_must_alloc_slice ( cfqq       )       )     { cfq_mark_cfqq_must_alloc_slice ( cfqq       )    ;  return ELV_MQUEUE_MUST       ;  }    }

@@ -1,2 +1,2 @@
-int test(int sq, int void){
+void test(int sq, int void){
 sq = ( void   *     )  arg     ;}

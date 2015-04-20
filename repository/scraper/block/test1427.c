@@ -1,0 +1,2 @@
+int test(int et, int NULL){
+if ( radix_tree_maybe_preload ( gfp_mask       )    <  0     )     { kmem_cache_free ( et    -  >          <missing ';'>   icq_cache ,   icq ) ;  return NULL       ;  }    }

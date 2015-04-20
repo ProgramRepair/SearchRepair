@@ -1,2 +1,2 @@
-int test(int vdisktime, int st){
+void test(int vdisktime, int st){
 vdisktime = st    -  >       ;}

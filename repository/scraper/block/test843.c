@@ -1,2 +1,2 @@
-int test(int req){
+void test(int req){
 int  flags = req    -  >       ;}
