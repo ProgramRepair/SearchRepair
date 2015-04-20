@@ -1,0 +1,2 @@
+int test(int fqq, int cfqq, int NULL, int p_root){
+if ( cfqq   - >   p_root )     { rb_erase ( fqq    -  >          <missing ';'>   p_node ,   cfqq - >   p_root ) ;   cfqq - >  p_root = NULL        ;  }    }

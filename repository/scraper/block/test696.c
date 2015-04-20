@@ -1,0 +1,2 @@
+int test(int drain_all){
+if ( drain_all     )     {  struct  blk_flush_queue *  fq = blk_get_flush_queue ( q       , NULL       )          ;   drain  ist_empty ( - >    <missing ';'>   queue_head ) ;  for ( i = 0        ; i  <  2      ; i ++   <missing ';'>  ) {  drain  q - >   nr_rqs [   i ] ;   drain  q - >   in_flight [   i ] ;  if ( fq     )          drain  ist_empty ( q    -  >          <missing ';'>   flush_queue [   i ] ) ;  }    }    }

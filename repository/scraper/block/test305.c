@@ -1,0 +1,2 @@
+int test(int map_data, int ap_data, int iter){
+if ( ( ( iter   - >      type    WRITE )  && ( ap_data    || ap_data   - >    null_mapped )  )  || ( map_data   && map_data   - >   from_user )  )     { ret = bio_copy_from_iter ( bio       ,  <missing ')'>     *  iter   )      ;  if ( ret     )          goto  cleanup ;  }    }

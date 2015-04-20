@@ -1,0 +1,2 @@
+int test(int KERN_WARNING, int disk, int state){
+if ( state   - >   access_beyond_eod )     { printk ( KERN_WARNING   "%s: partition table partially beyond EOD, "     , disk    -  >       disk_name )    ;  if ( disk_unlock_native_capacity ( disk       )       )          goto  rescan ;  }    }

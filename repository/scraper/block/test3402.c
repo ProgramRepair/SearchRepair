@@ -1,0 +1,2 @@
+int test(int rsp, int reply_payload_rcv_len){
+if ( rsp     )     { WARN_ON ( reply_payload_rcv_len   >        <missing ';'>   rsp - >   resid_len ) ;   rsp - >  resid_len -=  min ( reply_payload_rcv_len       , rsp    -  >       resid_len )          ;  }    }

@@ -1,0 +1,2 @@
+int test(int info){
+if ( info     )     {  struct  partition_meta_info *  pinfo = alloc_part_info ( disk       )          ;  if ( info     )          goto  out_free_stats ;  memcpy ( pinfo       , info       , sizeof ( <missing ')'>     *  info       )    ) ;   p - >  info = pinfo        ;  }    }

@@ -1,0 +1,2 @@
+int test(int old_ptbl, int rcu_head){
+if ( old_ptbl     )     { rcu_assign_pointer ( old_ptbl    -  >          <missing ';'>   last_lookup ,   NULL ) ;  kfree_rcu ( old_ptbl       , rcu_head       )    ;  }    }

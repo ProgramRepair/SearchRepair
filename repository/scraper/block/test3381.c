@@ -1,0 +1,2 @@
+int test(int pool, int bounce_end_io_read, int READ, int bi_end_io, int rw, int page_pool, int bounce_end_io_write){
+if ( pool  ==  page_pool     )     {  bio - >  bi_end_io = bounce_end_io_write        ;  if ( rw  ==  READ     )          bio - >  bi_end_io = bounce_end_io_read        ;  }    }

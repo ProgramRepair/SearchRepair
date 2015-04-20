@@ -1,0 +1,2 @@
+int test(int blkg, int blkcg, int root_blkg, int et, int lkcg_root){
+if ( et     )     { if ( blkcg  ==  lkcg_root     )     {  q - >  root_blkg = blkg        ;   q - >   root_rl  blkg = blkg        ;  }      return blkg       ;  }    }

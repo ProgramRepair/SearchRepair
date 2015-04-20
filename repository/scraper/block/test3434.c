@@ -1,0 +1,2 @@
+int test(int ret, int errors, int q, int req){
+if ( ret     )     {  req - >  errors = ret        ;  blk_end_request_all ( req       , ret       )    ;  spin_lock_irq ( q    -  >       queue_lock )    ;   continue ;  }    }

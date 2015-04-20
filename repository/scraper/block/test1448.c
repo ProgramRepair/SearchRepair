@@ -1,0 +1,2 @@
+int test(int work, int weight){
+if ( work  >=  weight     )     { if ( blk_iopoll_disable_pending ( iop       )       )     __blk_iopoll_complete ( iop       )    ;    else list_move_tail ( op    -  >          <missing ';'>       list ,   list ) ;  }    }

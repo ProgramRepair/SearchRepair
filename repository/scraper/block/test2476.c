@@ -1,0 +1,2 @@
+int test(int CPU_ONLINE_FROZEN, int CPU_DEAD_FROZEN, int CPU_ONLINE, int NOTIFY_OK, int CPU_DEAD, int action){
+if ( action  !=  CPU_DEAD   && action  !=  CPU_DEAD_FROZEN   && action  !=  CPU_ONLINE   && action  !=  CPU_ONLINE_FROZEN     )     return NOTIFY_OK       ;    }

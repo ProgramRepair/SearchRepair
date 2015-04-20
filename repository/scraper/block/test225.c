@@ -1,0 +1,2 @@
+int test(int bi_sector, int bio, int bi_size, int q, int bi_bdev, int bvm, int bi_rw){
+if ( q   - >   merge_bvec_fn )     {  struct  bvec_merge_data  bvm = {   <missing ';'>  bi_bdev = bio    -  >        <missing ';'>   bi_bdev ,  bi_sector = bio    -  >        <missing ';'>   bi_iter  bi_sector ,  bi_size = bio    -  >        <missing ';'>   bi_iter  bi_size -   len ,  bi_rw = bio    -  >        <missing ';'>   bi_rw ,  }    }

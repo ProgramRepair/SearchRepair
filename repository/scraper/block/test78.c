@@ -1,0 +1,2 @@
+int test(int bio, int error, int bip, int bi_end_io){
+if ( error     )     {  bio - >  bi_end_io = bip    -  >        bip_end_io ;  bio_endio_nodec ( bio       , error       )    ;  return      ;  }    }

@@ -1,0 +1,2 @@
+int test(int propagate, int arent, int children_weight, int pos){
+if ( propagate     )     { cfq_update_group_weight ( pos       )    ;  propagate = arent    -  >        <missing ';'>  nr_active ++   ;   parent - >  children_weight +=  pos    -  >        weight ;  }    }

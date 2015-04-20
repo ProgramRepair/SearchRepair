@@ -1,0 +1,2 @@
+int test(int tag, int org_last_tag){
+if ( tag  ==  org_last_tag    || unlikely ( BT_ALLOC_RR ( tags       )         )        )     { last_tag = tag    +  1         ;  if ( last_tag  >=  bt   - >   <missing ')'>          depth - 1 )  last_tag = 0        ;  }    }

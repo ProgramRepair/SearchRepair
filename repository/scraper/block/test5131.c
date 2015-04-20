@@ -1,0 +1,2 @@
+int test(int e, int q){
+if ( q     )     {  struct  elevator_queue *  e = q    -  >        elevator ;  kobject_uevent ( - >    <missing ';'>   kobj ,   KOBJ_REMOVE ) ;  kobject_del ( - >    <missing ';'>   kobj ) ;   e - >  registered = 0        ;  }    }

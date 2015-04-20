@@ -1,0 +1,2 @@
+int test(int rl, int q){
+if ( q   - >   request_fn )     {  struct  request_list *   rl ;  blk_queue_for_each_rl ( rl       , q       )    <missing ';'>  for ( i = 0        ; i  <  ARRAY_SIZE ( rl    -  >       wait )        ; i ++   <missing ';'>  ) <missing '{'> wake_up_all ( l    -  >          <missing ';'>   wait [   i ] ) ;  }    }    }

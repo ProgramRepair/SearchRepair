@@ -1,0 +1,2 @@
+int test(int depth){
+if ( depth     )     {  unsigned  int  nr ,   tags_per_word ;  tags_per_word = ( 1   < <         <missing ';'>   bt - >   bits_per_word ) ;  if ( depth  >=  4     )     { while ( tags_per_word   *  4   >     depth )    {   bt - >  bits_per_word --   ;  tags_per_word = ( 1   < <         <missing ';'>   bt - >   bits_per_word ) ;  }      }    }

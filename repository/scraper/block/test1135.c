@@ -1,0 +1,2 @@
+int test(int RPM_ACTIVE, int q, int rr, int rpm_status){
+if ( rr     )     {  q - >  rpm_status = RPM_ACTIVE        ;  __blk_run_queue ( q       )    ;  pm_runtime_mark_last_busy ( q    -  >       dev )    ;  pm_request_autosuspend ( q    -  >       dev )    ;  }    }

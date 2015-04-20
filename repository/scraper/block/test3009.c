@@ -1,0 +1,2 @@
+int test(int __tg){
+if ( ( __tg     )    )     { char  __pbuf [ 128 ]  ;  blkg_path ( tg_to_blkg ( __tg       )         , __pbuf       , sizeof ( __pbuf       )         )    ;  blk_add_trace_msg ( __td    -  >          <missing ';'>   queue , "throtl %s "   fmt ,   __pbuf ,   args ) ;  }    }

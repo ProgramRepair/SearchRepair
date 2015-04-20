@@ -1,0 +1,2 @@
+int test(int samples){
+if ( samples     )     { v = blkg_stat_read ( fqg    -  >                <missing ';'>   stats  avg_queue_size_sum ) ;  v = div64_u64 ( v       , samples       )          ;  }    }

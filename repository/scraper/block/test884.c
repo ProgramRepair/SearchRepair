@@ -1,0 +1,2 @@
+int test(int el_ret, int ELEVATOR_FRONT_MERGE){
+if ( el_ret  ==  ELEVATOR_FRONT_MERGE     )     { ret = bio_attempt_front_merge ( q       , rq       , bio       )          ;  if ( ret     )          break ;  }    }

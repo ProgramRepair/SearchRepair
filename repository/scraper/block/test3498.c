@@ -1,0 +1,2 @@
+int test(int dxferp, int hdr, int dxfer_len, int void){
+if ( hdr   - >   dout_xfer_len )     { dxfer_len = hdr    -  >        dout_xfer_len ;  dxferp = ( void   __user *     )  (      <missing ';'>   unsigned  long )   hdr - >   dout_xferp ;  }    }

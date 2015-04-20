@@ -1,0 +1,2 @@
+int test(int v, int disk, int DISK_EVENT_MEDIA_CHANGE, int mask, int bdops){
+if ( v     )     { if ( ( mask   DISK_EVENT_MEDIA_CHANGE   )  && bdops   - >   <missing ')'>          media_changed &&   bdops - >  media_changed ( disk       )    )  return DISK_EVENT_MEDIA_CHANGE       ;  return 0       ;  }    }

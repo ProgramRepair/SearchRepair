@@ -1,0 +1,2 @@
+int test(int ref, int new_cfqq, int new_process_refs, int process_refs){
+if ( new_process_refs  >=  process_refs     )     {  cfqq - >  new_cfqq = new_cfqq        ;   new_cfqq - >  ref +=  process_refs        ;  }    }

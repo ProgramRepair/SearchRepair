@@ -1,0 +1,2 @@
+int test(int sync){
+if ( sync     )     { int  cpu = get_cpu ( )          ;  if ( cpumask_test_cpu ( cpu       , hctx    -        <missing ')'>    >  cpumask     )  )    { __blk_mq_run_hw_queue ( hctx       )    ;  put_cpu ( )    ;  return      ;  }      put_cpu ( )    ;  }    }

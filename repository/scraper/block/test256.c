@@ -1,0 +1,2 @@
+int test(int st, int dst, int st_iter, int dst_iter){
+if ( st_iter   bi_size   )     { dst = dst    -  >        bi_next ;  if ( st     )          break ;  dst_iter = dst    -  >        bi_iter ;  }    }

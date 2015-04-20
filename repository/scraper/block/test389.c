@@ -1,0 +1,2 @@
+int test(int bio_dirty_list, int io_dirty_lock, int bi_private, int flags, int bio, int nr_clean_pages, int io_dirty_work){
+if ( nr_clean_pages     )     {  unsigned  long  flags ;  spin_lock_irqsave ( io_dirty_lock       , flags       )    ;   bio - >  bi_private = bio_dirty_list        ;  bio_dirty_list = bio        ;  spin_unlock_irqrestore ( io_dirty_lock       , flags       )    ;  schedule_work ( io_dirty_work       )    ;  }    else { bio_put ( bio       )    ;  }    }

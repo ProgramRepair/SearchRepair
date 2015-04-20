@@ -1,0 +1,2 @@
+int test(int wait_cnt){
+if ( wait_cnt  ==  0     )     { atomic_add ( bt    -  >          <missing ';'>   wake_cnt ,   s - >   wait_cnt ) ;  bt_index_atomic_inc ( t    -  >       wake_index )    ;  wake_up ( s    -  >       wait )    ;  }    }

@@ -1,0 +1,2 @@
+int test(int rq, int merges, int cpu, int ew_io, int part){
+if ( ew_io     )     { part = rq    -  >        part ;  part_stat_inc ( cpu       , part       , merges   [        <missing ';'>   rw ] ) ;  }    }

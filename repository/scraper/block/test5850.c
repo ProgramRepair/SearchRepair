@@ -1,0 +1,2 @@
+int test(int name, int state){
+if ( name     )     { strlcat ( state    -  >          <missing ';'>   pp_buf , " [" ,   PAGE_SIZE ) ;  strlcat ( state    -  >          <missing ';'>   pp_buf ,   name ,   PAGE_SIZE ) ;  strlcat ( state    -  >          <missing ';'>   pp_buf , "]" ,   PAGE_SIZE ) ;  }    }

@@ -1,0 +1,2 @@
+int test(int id, int start_sect){
+if ( start_sect     )     { switch ( id       )    {   case  PARTITION_RISCIX_SCSI  case  PARTITION_RISCIX_MFM  slot = riscix_partition ( state       , start_sect       , slot       , nr_sects       )          ;   break ;   case  PARTITION_LINUX  slot = linux_partition ( state       , start_sect       , slot       , nr_sects       )          ;   break ;  }    }

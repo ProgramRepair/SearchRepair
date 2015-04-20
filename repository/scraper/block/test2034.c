@@ -1,0 +1,2 @@
+int test(int depth){
+if ( depth     )     { int  i  ;  for ( i = 0        ; i  <  bt   - >    map_nr ; i ++   <missing ';'>  ) {  bt - >   map [   i ]  depth = min ( map_depth       , tags_per_word       )          ;  map_depth -=  bt    -  >        <missing ';'>   map [   i ]   depth ;  }    }    }

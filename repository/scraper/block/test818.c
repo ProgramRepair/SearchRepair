@@ -1,0 +1,2 @@
+int test(int q){
+if ( q   - >   mq_ops )     return blk_mq_alloc_request ( q       , rw       , gfp_mask       , false       )         ;    else return blk_old_get_request ( q       , rw       , gfp_mask       )         ;    }

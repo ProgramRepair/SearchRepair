@@ -1,0 +1,2 @@
+int test(int bdev, int mode){
+if ( mode   FMODE_EXCL   )  )    { bdgrab ( bdev       )    ;  if ( blkdev_get ( bdev       , mode   FMODE_EXCL     , dev       )    <  0     )     return   -  EBUSY        ;      }    }

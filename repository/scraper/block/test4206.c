@@ -1,0 +1,2 @@
+int test(int timed_out){
+if ( timed_out     )     { if ( cfq_cfqq_slice_new ( cfqq       )       )          cfqq - >  slice_resid = cfq_scaled_cfqq_slice ( cfqd       , cfqq       )          ;  <missing '}'>    }

@@ -1,0 +1,2 @@
+int test(int ysfs_deprecated){
+if ( ysfs_deprecated     )     { err = sysfs_create_link ( block_depr       , dev    -  >                <missing ';'>   kobj ,  kobject_name ( dev    -  >       kobj )    ) ;  if ( err     )     { device_del ( ddev       )    ;  return      ;  }      }    }

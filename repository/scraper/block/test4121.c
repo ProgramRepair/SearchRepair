@@ -1,0 +1,2 @@
+int test(int dd_front){
+if ( dd_front     )     { rb_key = cfq_slice_offset ( cfqd       , cfqq       )      +  jiffies         ;  rb_key -=  cfqq    -  >        slice_resid ;   cfqq - >  slice_resid = 0        ;  }    }

@@ -1,0 +1,2 @@
+int test(int q){
+if ( q   - >   mq_ops )     { if ( blk_queue_io_stat ( q       )       )     blk_account_io_start ( rq       , true       )    ;      blk_mq_insert_request ( rq       , false       , true       , true       )    ;  return 0       ;  }    }

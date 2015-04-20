@@ -1,0 +1,2 @@
+int test(int major){
+if ( major  ==  0     )     { for ( index = ARRAY_SIZE ( major_names       )     -1      ; index  >  0      ; index --   <missing ';'>  ) { if ( major_names   [   <missing ')'>          index ] ==   NULL )   break ;  }    if ( index  ==  0     )     { printk ( "register_blkdev: failed to get major for %s\n"  , name       )    ;  ret = -   EBUSY ;   goto  out ;  }      major = index        ;  ret = major        ;  }    }

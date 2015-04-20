@@ -1,0 +1,2 @@
+int test(int dev, int start, int bdevp, int part, int EINVAL, int devp){
+if ( start  !=  part   - >   start_sect )     { mutex_unlock ( devp    -  >       bd_mutex )    ;  mutex_unlock ( dev    -  >       bd_mutex )    ;  bdput ( bdevp       )    ;  disk_put_part ( part       )    ;  return   -  EINVAL        ;  }    }

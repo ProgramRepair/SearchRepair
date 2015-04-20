@@ -1,0 +1,2 @@
+int test(int cb, int b, int unplug, int callback, int data){
+if ( cb     )     {  cb - >  data = data        ;   cb - >  callback = unplug        ;  list_add ( b    -  >          <missing ';'>   list ,   lug - >   cb_list ) ;  }    }

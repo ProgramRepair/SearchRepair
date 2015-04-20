@@ -1,0 +1,2 @@
+int test(int gfp, int q, int ctx, int hctx){
+if ( q   && ( gfp   __GFP_WAIT   )    )     { __blk_mq_run_hw_queue ( hctx       )    ;  blk_mq_put_ctx ( ctx       )    ;  ctx = blk_mq_get_ctx ( q       )          ;  hctx = q    -  >        <missing ';'>   mq_ops - >  map_queue ( q       , ctx    -  >       cpu )    ;  blk_mq_set_alloc_data ( lloc_data       , q       , gfp       , reserved       , ctx       , hctx       )    ;  rq = __blk_mq_alloc_request ( lloc_data       , rw       )          ;  ctx = alloc_data   ctx      ;  }    }

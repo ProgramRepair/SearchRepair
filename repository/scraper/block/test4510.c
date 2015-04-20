@@ -1,0 +1,2 @@
+int test(int cfqq, int cfqd){
+if ( cfqq  ==  cfqd   - >   active_queue )     { if ( cfq_cfqq_wait_request ( cfqq       )       )     { if ( blk_rq_bytes ( rq       )    >  PAGE_CACHE_SIZE    || cfqd   - >    <missing ')'>          busy_queues > 1 ) {  cfq_del_timer ( cfqd       , cfqq       )    ;  cfq_clear_cfqq_wait_request ( cfqq       )    ;  __blk_run_queue ( cfqd    -  >       queue )    ;  }    else { cfqg_stats_update_idle_time ( cfqq    -  >       cfqg )    ;  cfq_mark_cfqq_must_dispatch ( cfqq       )    ;  }      }    }

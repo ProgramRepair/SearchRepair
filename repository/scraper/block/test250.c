@@ -1,0 +1,2 @@
+int test(int v, int ENOMEM, int bv){
+if ( v   - >   bv_page )     { while ( --    <missing ';'>   bv >=   bio - >   bi_io_vec )  __free_page ( bv    -  >       bv_page )    ;  return   -  ENOMEM        ;  }    }

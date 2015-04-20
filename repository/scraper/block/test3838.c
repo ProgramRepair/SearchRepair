@@ -1,0 +1,2 @@
+int test(int st){
+if ( st   - >   left )     { cfqg = rb_entry_cfqg ( st    -  >       left )          ;   st - >  min_vdisktime = max_vdisktime ( st    -  >                <missing ';'>   min_vdisktime ,   cfqg - >   vdisktime ) ;  }    }

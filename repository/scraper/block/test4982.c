@@ -1,0 +1,2 @@
+int test(int try_loading, int lv_list_lock, int name){
+if (  && try_loading     )     { spin_unlock ( lv_list_lock       )    ;  request_module ( "%s-iosched"  , name       )    ;  spin_lock ( lv_list_lock       )    ;  e = elevator_find ( name       )          ;  }    }

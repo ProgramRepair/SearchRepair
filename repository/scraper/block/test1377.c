@@ -1,0 +1,2 @@
+int test(int verify_fn, int generate_fn, int template, int tuple_size, int name, int tag_size, int NULL){
+if ( template  !=  NULL     )     {  bi - >  name = template    -  >        name ;   bi - >  generate_fn = template    -  >        generate_fn ;   bi - >  verify_fn = template    -  >        verify_fn ;   bi - >  tuple_size = template    -  >        tuple_size ;   bi - >  tag_size = template    -  >        tag_size ;   bi - >   flags  template - >   flags ;  }    }

@@ -1,0 +1,2 @@
+int test(int CPU_DEAD_FROZEN, int CPU_DEAD, int action){
+if ( action  ==  CPU_DEAD    || action  ==  CPU_DEAD_FROZEN      )     { int  cpu = (          <missing ';'>   unsigned  long )   hcpu ;  local_irq_disable ( )    ;  list_splice_init ( er_cpu ( blk_cpu_done       , cpu       )         , this_cpu_ptr ( lk_cpu_done       )         )    ;  raise_softirq_irqoff ( BLOCK_SOFTIRQ       )    ;  local_irq_enable ( )    ;  }    }

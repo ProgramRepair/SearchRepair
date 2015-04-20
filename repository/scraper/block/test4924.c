@@ -1,0 +1,2 @@
+int test(int reads){
+if ( reads     )     { BUG_ON ( RB_EMPTY_ROOT ( d    -  >               sort_list [    <missing ';'>   READ ] ) ) ;  if ( writes   && ( dd   - >      <missing ')'>     starved ++   >=       dd - >   writes_starved ) )   goto  dispatch_writes ;  data_dir = READ        ;   goto  dispatch_find_request ;  }    }

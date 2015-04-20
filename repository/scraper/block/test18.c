@@ -1,0 +1,2 @@
+int test(int bip, int bs){
+if ( bs     )     { if ( bip   - >   <missing ')'>          bip_slab !=   BIO_POOL_NONE )  bvec_free ( bs    -  >          <missing ';'>   bvec_integrity_pool ,   bip - >   bip_vec ,   bip - >   bip_slab ) ;  mempool_free ( bip       , bs    -  >       bio_integrity_pool )    ;  }    else { kfree ( bip       )    ;  }    }

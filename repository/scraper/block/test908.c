@@ -1,0 +1,2 @@
+int test(int equest_count, int plug, int BLK_MAX_REQUEST_COUNT, int q, int true, int false, int request_count, int req, int eq){
+if ( plug     )     { if ( equest_count     )     trace_block_plug ( q       )    ;    else { if ( request_count  >=  BLK_MAX_REQUEST_COUNT     )     { blk_flush_plug_list ( plug       , false       )    ;  trace_block_plug ( q       )    ;  }      }      list_add_tail ( eq    -  >          <missing ';'>   queuelist ,   lug - >   list ) ;  blk_account_io_start ( req       , true       )    ;  }    }

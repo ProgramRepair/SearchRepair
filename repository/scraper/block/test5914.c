@@ -1,0 +1,2 @@
+int test(int size){
+if ( size  <  0     )     { size = -   size ;  if ( size  >  1   && adfspart_check_ICSLinux ( state       , start       )       )     { start +=  1        ;  size -=  1        ;  }      }    }

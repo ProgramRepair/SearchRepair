@@ -1,0 +1,2 @@
+int test(int n){
+if ( n     )     { int  foundlvs = 0        ;  for ( i = 0        ; foundlvs  <  numlvs   && i  <  state   - >    limit ; i +=  1        <missing ';'>  ) {  lvip [   i ]  pps_per_lv = be16_to_cpu ( p   [              <missing ';'>   i ]   num_lps ) ;  if ( lvip   [   <missing ')'>          i ]   pps_per_lv )  foundlvs +=  1        ;  }    }    }

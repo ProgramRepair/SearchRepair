@@ -1,0 +1,2 @@
+int test(int rq, int ret, int errors, int BLK_MQ_RQ_QUEUE_ERROR){
+if ( ret  ==  BLK_MQ_RQ_QUEUE_ERROR     )     {  rq - >  errors = -   EIO ;  blk_mq_end_request ( rq       , rq    -  >       errors )    ;   goto  done ;  }    }
