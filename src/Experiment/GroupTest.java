@@ -12,7 +12,7 @@ public class GroupTest {
 		File file = new File("./bughunt/median");
 		for(File root : file.listFiles()){
 			try{
-				String folder = root.getAbsolutePath();
+				String folder = "./bughunt/median/" + root.getName();
 				String fileName = "median.c";
 				ESearchCase searcher = new ESearchCase(folder, fileName);
 				System.out.println(root);

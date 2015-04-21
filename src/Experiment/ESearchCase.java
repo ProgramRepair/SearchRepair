@@ -413,7 +413,7 @@ public  class ESearchCase {
 	}
 	
 	public static void main(String[] args) {
-		ESearchCase instan = new ESearchCase("./bughunt/median/0", "median.c");
+		ESearchCase instan = new ESearchCase("./bughunt/median/11", "median.c");
 		instan.search();
 	}
 

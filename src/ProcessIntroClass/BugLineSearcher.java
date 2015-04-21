@@ -50,8 +50,8 @@ public class BugLineSearcher {
 		initContent();
 		if(this.linesContent.size() != this.suspiciousness.keySet().size()) return;
 		calculateBuggy();
-//		System.out.println(buggy[0]);
-//		System.out.println(buggy[1]);
+		System.out.println(buggy[0]);
+		System.out.println(buggy[1]);
 	}
 
 	private void calculateBuggy() {
@@ -112,17 +112,17 @@ public class BugLineSearcher {
 
 	private int getUpper(int lineNumber, String content) {
 		Stack<Character> stack = new Stack<Character>();
-		int gap = 0;
+		boolean finished = false;
 		while(lineNumber <= this.linesContent.size()){
 			String s = this.linesContent.get(lineNumber - 1).trim();
 			if(s.isEmpty()){
 				lineNumber++;
 				continue;
 			}
-			if(s.startsWith("else")) gap = 0;
+			if(s.startsWith("else")) finished = false;
 			if(stack.isEmpty() && !s.startsWith("else")) {
-				if(gap > 0) return lineNumber - 1;
-				gap++;
+				if(finished) return lineNumber - 1;
+				//gap++;
 			}
 			for(int i = 0; i < s.length(); i++){
 				if(s.charAt(i) == '{') stack.push('{');
@@ -130,6 +130,7 @@ public class BugLineSearcher {
 					stack.pop();
 				}
 			}
+			if(stack.isEmpty() && s.endsWith(";")) finished = true;
 			lineNumber++;
 		}
 		return lineNumber - 1;
@@ -192,7 +193,7 @@ public class BugLineSearcher {
 	}
 	
 	public static void main(String[] args){
-		BugLineSearcher bug = new BugLineSearcher("./bughunt/smallest/102", "smallest.c");
+		BugLineSearcher bug = new BugLineSearcher("./bughunt/median/125", "median.c");
 	}
 
 
