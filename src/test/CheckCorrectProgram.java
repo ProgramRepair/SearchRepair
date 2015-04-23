@@ -13,7 +13,7 @@ public class CheckCorrectProgram {
 	public CheckCorrectProgram(String folder){
 		this.folder = folder;
 		this.paths = new ArrayList<String>();
-		//init();
+		init();
 	}
 
 	private void init() {
@@ -38,11 +38,12 @@ public class CheckCorrectProgram {
 
 	private boolean checkNeg(File subsubDir) {
 		String dirPath = subsubDir.getAbsolutePath();
+		//System.out.println(dirPath);
 		File dir1 = new File(dirPath + "/blackbox/negative");
 		File dir2 = new File(dirPath + "/whitebox/negative");
 		boolean hasNeg = false;
 		if(dir1.exists() && dir1.list().length != 0) hasNeg = true;
-		if(dir2.exists() && dir2.list().length != 0) hasNeg = false;
+		if(dir2.exists() && dir2.list().length != 0) hasNeg = true;
 		return hasNeg;
 	}
 	
@@ -70,9 +71,9 @@ public class CheckCorrectProgram {
 	
 	
 	public static void main(String[] args){
-		CheckCorrectProgram check = new CheckCorrectProgram("./src");
-		System.out.println(check.countLines("./src"));
-		//check.print();
+		CheckCorrectProgram check = new CheckCorrectProgram("./bughunt");
+		//System.out.println(check.countLines("./src"));
+		check.print();
 	}
 	
 	
