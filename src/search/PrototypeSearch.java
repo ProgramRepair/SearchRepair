@@ -28,7 +28,7 @@ public class PrototypeSearch {
 		while(result.next()){
 			String source = result.getString(1).trim();
 			//System.out.println(source);
-			//if(!source.startsWith("if(((a>=b)&&(a<=c))")) continue;
+			//if(!source.startsWith("if(b <= c)")) continue;
 			String[] pathconstraint = result.getString(2).split(EntryHandler.PATH_SEPERATOR);
 			String[] pathtypes = result.getString(3).split(EntryHandler.PATH_SEPERATOR);			
 			String[] pathtracks= result.getString(4).split(EntryHandler.PATH_SEPERATOR);

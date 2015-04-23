@@ -57,6 +57,7 @@ public class GetInputStateAndOutputState {
 				if(inputStates.isEmpty()) continue;
 				runOnBreak(exeFile, this.buggyLines[1] + 1, input);
 				Map<String, String> outputStates = getLocals();
+				if(outputStates.isEmpty()) continue;
 				runOnTypes(exeFile, this.buggyLines[0], input, inputStates);
 				List<String> types = getTypes();
 				mergeToStates(inputStates, outputStates, types);
@@ -128,6 +129,7 @@ public class GetInputStateAndOutputState {
 			writer.println("run");
 			writer.println(input);
 			writer.flush();
+			
 			writer.close();
 			BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			PrintWriter log = new PrintWriter(new FileOutputStream(file));
@@ -173,6 +175,7 @@ public class GetInputStateAndOutputState {
 					else{
 						String[] array = s.split(" ");
 						if(array.length != 3 || !array[1].startsWith("=")) continue;
+						if(array[2].length() > 3) array[2] = "0";
 						list.put(array[0], array[2]);
 					}
 				}

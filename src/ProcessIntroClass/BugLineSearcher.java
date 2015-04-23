@@ -17,6 +17,7 @@ public class BugLineSearcher {
 	private int[] buggy;
 	private boolean addBracket;
 	private boolean hasPrintf;
+	private boolean isWholeBlock;
 	//private 
 
 	public BugLineSearcher(String folder, String fileName) {
@@ -28,6 +29,7 @@ public class BugLineSearcher {
 		this.buggy = new int[2];
 		this.addBracket = false;
 		this.hasPrintf = false;
+		this.isWholeBlock = false;
 		init();
 	}
 	
@@ -70,21 +72,70 @@ public class BugLineSearcher {
 	private void initBuggyRange(int lineNumber) {
 		String content = this.linesContent.get(lineNumber - 1);
 		if(isStatement(content)){
-			this.buggy[0] = lineNumber;
-			this.buggy[1] = lineNumber;
-			checkBrackState(lineNumber);
+			if(checkISAllBlock(lineNumber)){
+				this.buggy[0] = getLowerForStatement(lineNumber);
+				this.buggy[1] = getUpperForStatement(lineNumber);
+			}
+			else{
+				this.buggy[0] = lineNumber;
+				this.buggy[1] = lineNumber;
+				checkBrackState(lineNumber);
+			}
+			
 			
 		}
 		else{
-			this.buggy[0] = getLower(lineNumber, content);
-			this.buggy[1] = getUpper(lineNumber, content);
+			this.buggy[0] = getLower(lineNumber);
+			this.buggy[1] = getUpper(lineNumber);
 		}
 		checkPrintf(this.buggy[0], this.buggy[1]);
 	}
 
+	private int getUpperForStatement(int lineNumber) {
+		int temp = lineNumber;
+		while(lineNumber <= this.linesContent.size()){
+			String s = this.linesContent.get(lineNumber-1);
+			if(s.startsWith("if")) break;
+			else if(s.startsWith("else")){
+				return getUpper(lineNumber);
+			}
+			else {
+				lineNumber++;
+			}
+		}
+		return temp+1;
+		
+	}
+
+
+
+	private int getLowerForStatement(int lineNumber) {
+		return this.getLower(lineNumber);
+	}
+
+
+
+	private boolean checkISAllBlock(int lineNumber) {
+		int temp = lineNumber;
+		//lineNumber is bigger actual index
+		lineNumber--;
+		boolean begin = false;
+		if(this.linesContent.get(lineNumber).startsWith("{") || this.linesContent.get(lineNumber).startsWith("if") || this.linesContent.get(lineNumber).startsWith("else")) 
+			begin = true;
+		else{
+			lineNumber--;
+			while(lineNumber > 0 && this.linesContent.get(lineNumber).isEmpty()) lineNumber--;
+			if(this.linesContent.get(lineNumber).endsWith("{") || this.linesContent.get(lineNumber).startsWith("if") || this.linesContent.get(lineNumber).startsWith("else")) begin = true;
+		}
+		
+		return begin;
+	}
+
+
+
 	private void checkPrintf(int i, int j) {
 		for(int k = i; k <= j; k++){
-			if(this.linesContent.contains("printf")){
+			if(this.linesContent.get(k-1).contains("printf")){
 				this.hasPrintf = true;
 				return;
 			}
@@ -110,7 +161,7 @@ public class BugLineSearcher {
 		
 	}
 
-	private int getUpper(int lineNumber, String content) {
+	private int getUpper(int lineNumber) {
 		Stack<Character> stack = new Stack<Character>();
 		boolean finished = false;
 		while(lineNumber <= this.linesContent.size()){
@@ -130,13 +181,13 @@ public class BugLineSearcher {
 					stack.pop();
 				}
 			}
-			if(stack.isEmpty() && s.endsWith(";")) finished = true;
+			if(stack.isEmpty() && (s.endsWith(";") || s.endsWith("}"))) finished = true;
 			lineNumber++;
 		}
 		return lineNumber - 1;
 	}
 
-	private int getLower(int lineNumber, String content) {
+	private int getLower(int lineNumber) {
 		while(lineNumber > 0){
 			String s = this.linesContent.get(lineNumber - 1).trim();
 			if(s.startsWith("if")) return lineNumber;
@@ -154,10 +205,11 @@ public class BugLineSearcher {
 	private int getBigSupicious() {
 		int lineNumber = 1;
 		double s = -1;
-		for(int i : this.suspiciousness.keySet()){
-			if(this.suspiciousness.get(i) > s){
-				s = this.suspiciousness.get(i);
-				lineNumber = i;
+		
+		for(int i = 0; i < this.suspiciousness.keySet().size(); i++){
+			if(this.suspiciousness.get(i+1) > s) {
+				lineNumber = i+1;
+				s = this.suspiciousness.get(i+1);
 			}
 		}
 		return lineNumber;
@@ -168,7 +220,7 @@ public class BugLineSearcher {
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.folder + "/" + this.fileName)));
 			String s = null;
 			while((s = br.readLine()) != null){
-				this.linesContent.add(s);
+				this.linesContent.add(s.trim());
 			}
 			br.close();
 		}catch(Exception e){
@@ -193,7 +245,7 @@ public class BugLineSearcher {
 	}
 	
 	public static void main(String[] args){
-		BugLineSearcher bug = new BugLineSearcher("./bughunt/median/125", "median.c");
+		BugLineSearcher bug = new BugLineSearcher("./bughunt/median/149", "median.c");
 	}
 
 

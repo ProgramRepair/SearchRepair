@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import search.PrototypeSearch;
+import search.ResultObject;
 import InputAndOuput.CaseInfo;
 import InputAndOuput.Restore;
 import Library.CTest;
@@ -83,15 +84,37 @@ public  class ESearchCase {
 		getBugLines();
 		if(this.buggy[0] == 0) return false;
 		if(this.hasPrintf) return false;
-		initPositiveStates();
-		if(this.info.getPositives().isEmpty()) return false;
-		searchOverRepository();
-		ruleOutFalsePositive();
-		recordResult();
 		return true;
+//		initPositiveStates();
+//		if(this.info.getPositives().isEmpty()) return false;
+//		searchOverRepository();
+//		ruleOutFalsePositive();
+//		recordResult();
+//		if(isEmpty(info.getResult())) return false;
+//		return true;
 	}
 	
 	
+	
+	
+	public boolean isHasPrintf() {
+		return hasPrintf;
+	}
+
+
+
+	public void setHasPrintf(boolean hasPrintf) {
+		this.hasPrintf = hasPrintf;
+	}
+
+
+
+	private boolean isEmpty(ResultObject result) {
+		return result.getPositive().isEmpty();
+	}
+
+
+
 	private void recordResult() {
 		File dir = new File(this.folder + "/result");
 		if(dir.exists()){
@@ -115,7 +138,7 @@ public  class ESearchCase {
 		}
 		try{
 			PrintWriter pw = new PrintWriter(new FileOutputStream(path));
-			pw.println("True fix:" + info.getResult().getFalsePositve().size());
+			pw.println("True fix:" + info.getResult().getPositive().size());
 			int count = 0;
 			for(String source : info.getResult().getPositive()){
 				pw.println();
@@ -413,7 +436,7 @@ public  class ESearchCase {
 	}
 	
 	public static void main(String[] args) {
-		ESearchCase instan = new ESearchCase("./bughunt/median/11", "median.c");
+		ESearchCase instan = new ESearchCase("./bughunt/grade/106", "grade.c");
 		instan.search();
 	}
 
