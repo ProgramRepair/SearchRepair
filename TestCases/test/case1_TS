@@ -1,7 +1,0 @@
-positive:
-input:3 abc output:aabc
-input:2 ab output:aab
-negative:
-input:1 be output:abc
-input:2 bed output:abed
-buggy lines:20-20
