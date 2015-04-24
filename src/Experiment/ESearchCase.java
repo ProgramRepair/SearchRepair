@@ -190,8 +190,6 @@ public  class ESearchCase {
 
 	private void ruleOutFalsePositive() {
 		for(String source : info.getResult().getSource()){
-			//if(!source.contains("maxlen")) return;
-			//if(!source.startsWith("a=b")) continue;
 			String input =Restore.getMappingString(source, info.getResult().getSearchMapping().get(source));
 			System.out.println(input);
 			String outputFile = generateOutputFile(input);
@@ -199,6 +197,13 @@ public  class ESearchCase {
 			info.getResult().getMappingSource().put(source, input);
 		}
 		
+	}
+	
+	public void test(){
+		String outputFile = this.casePrefix + "new.c";
+		boolean pass = passAllPositive("result", outputFile);
+		int count = passNegatives("result", outputFile);
+		System.out.println(count);
 	}
 
 	
@@ -237,6 +242,9 @@ public  class ESearchCase {
 			if(s2.isEmpty() ){
 				continue;
 			}
+			System.out.println(s2);
+			System.out.println(output);
+			System.out.println(output.equals(s2));
 			if(s2.equals(output)) count++;
 		}
 		return count;
@@ -436,8 +444,9 @@ public  class ESearchCase {
 	}
 	
 	public static void main(String[] args) {
-		ESearchCase instan = new ESearchCase("./bughunt/grade/106", "grade.c");
+		ESearchCase instan = new ESearchCase("./bughunt/grade/0", "grade.c");
 		instan.search();
+		//instan.test();
 	}
 
 }

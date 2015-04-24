@@ -8,7 +8,9 @@ public class GroupTest {
 
 	public static void main(String[] args) {
 		//medianTest();
-		smallestTest();
+		//smallestTest();
+		//gradeTest();
+		checkSumTest();
 	}
 	
 	public static void medianTest(){
@@ -43,9 +45,57 @@ public class GroupTest {
 				String folder = "./bughunt/smallest/" + root.getName();
 				String fileName = "smallest.c";
 				ESearchCase searcher = new ESearchCase(folder, fileName);
-				System.out.println(root);
 				if(!searcher.search()){
 					if(searcher.isHasPrintf()) i++;
+					list.add(root.getName());
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+				continue;
+			}
+		}
+		System.out.println(i);
+		for(String s : list){
+			System.out.println(s);
+		}
+	}
+	
+	public static void gradeTest(){
+		List<String> list = new ArrayList<String>();
+		File file = new File("./bughunt/grade");
+		int i = 0;
+		for(File root : file.listFiles()){
+			try{
+				String folder = "./bughunt/grade/" + root.getName();
+				String fileName = "grade.c";
+				ESearchCase searcher = new ESearchCase(folder, fileName);
+				if(searcher.search()){
+					if(searcher.isHasPrintf()) i++;
+					else list.add(root.getName());
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+				continue;
+			}
+		}
+		System.out.println(i);
+		for(String s : list){
+			System.out.println(s);
+		}
+	}
+	
+	public static void checkSumTest(){
+		List<String> list = new ArrayList<String>();
+		File file = new File("./bughunt/checkSum");
+		int i = 0;
+		for(File root : file.listFiles()){
+			try{
+				String folder = "./bughunt/checkSum/" + root.getName();
+				String fileName = "checkSum.c";
+				ESearchCase searcher = new ESearchCase(folder, fileName);
+				if(searcher.search()){
+					if(searcher.isHasPrintf()) i++;
+					else list.add(root.getName());
 				}
 			}catch(Exception e){
 				e.printStackTrace();

@@ -92,14 +92,14 @@ public class CTest {
 			long finish = now + timeoutInMillis;
 
 			try {
-//				while (isAlive(ls_proc)
-//						&& (System.currentTimeMillis() < finish)) {
-//					Thread.sleep(10);
-//				}
-//				if (isAlive(ls_proc)) {
-//					ls_proc.destroy();
-//					sb.append("unknown - killed");
-//				}
+				while (isAlive(ls_proc)
+						&& (System.currentTimeMillis() < finish)) {
+					Thread.sleep(10);
+				}
+				if (isAlive(ls_proc)) {
+					ls_proc.destroy();
+					sb.append("");
+				}
 				while ((ls_str = ls_in.readLine()) != null) {
 					sb.append(ls_str);
 					// System.out.println(ls_str);

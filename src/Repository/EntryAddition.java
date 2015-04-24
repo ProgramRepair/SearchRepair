@@ -253,8 +253,8 @@ public class EntryAddition {
 	public static void main(String[] args) throws FileNotFoundException{
 		//System.setOut(new PrintStream(new FileOutputStream("log")));
 		//System.setErr(new PrintStream(new FileOutputStream("log")));
-		String filePath = "./repository/scraper/block";
+		//String filePath = "./repository/scraper/block";
 		//EntryAddition.addOneFolder(filePath);;
-		//EntryAddition.addOneFile("./repository/scrape/smallest");
+		EntryAddition.addOneFile("./repository/hasReturn/gradenew");
 	}
 }

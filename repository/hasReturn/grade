@@ -1,4 +1,4 @@
-char grade1(int score, char result){
+int grade1(int score, char result){
     char a = 'A';
     char b = 'B';
     char c = 'C';
