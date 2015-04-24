@@ -1,0 +1,12 @@
+void grade(float a, float b, float c, float d, float score, char grade){	
+	
+	if (score >= a)
+		grade= 'A';
+	else if ((score >= b) && (score < a))
+		grade= 'B';
+	else if ((score >= c) && (score < b))
+		grade= 'C';
+	else if ((score >= d) && (score < c))
+		grade= 'D';
+	else grade = 'F';
+}
