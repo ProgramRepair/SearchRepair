@@ -8,17 +8,14 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Stack;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import scraper.ScrapeParser.Arith_expressionContext;
 import scraper.ScrapeParser.AssignStatContext;
 import scraper.ScrapeParser.Assign_expressionContext;
 import scraper.ScrapeParser.AtomContext;
