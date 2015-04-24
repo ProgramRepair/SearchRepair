@@ -60,7 +60,7 @@ public class GetInputStateAndOutputState {
 				if(outputStates.isEmpty()) continue;
 				runOnTypes(exeFile, this.buggyLines[0], input, inputStates);
 				List<String> types = getTypes();
-				mergeToStates(inputStates, outputStates, types);
+			mergeToStates(inputStates, outputStates, types);
 			}catch(Exception e){
 				System.out.println(e);
 				continue;
@@ -174,7 +174,7 @@ public class GetInputStateAndOutputState {
 					else if(s.startsWith("(gdb)")) break;
 					else{
 						String[] array = s.split(" ");
-						if(array.length != 3 || !array[1].startsWith("=")) continue;
+						if(!array[1].startsWith("=")) continue;
 						if(array[2].length() > 3) array[2] = "0";
 						list.put(array[0], array[2]);
 					}

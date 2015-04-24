@@ -31,6 +31,7 @@ public class GcovTest {
 		super();
 		this.folder = folder;
 		this.fileName = fileName;
+		System.out.println(folder);
 		this.positiveExecutions = new HashMap<Integer, Integer>();
 		this.negativeExecutions = new HashMap<Integer, Integer>();
 		this.positives = new HashMap<String, String>();
@@ -158,14 +159,14 @@ public class GcovTest {
 			long finish = now + timeoutInMillis;
 
 			try {
-//				while (isAlive(ls_proc)
-//						&& (System.currentTimeMillis() < finish)) {
-//					Thread.sleep(10);
-//				}
-//				if (isAlive(ls_proc)) {
-//					ls_proc.destroy();
-//					sb.append("unknown - killed");
-//				}
+				while (CTest.isAlive(ls_proc)
+						&& (System.currentTimeMillis() < finish)) {
+					Thread.sleep(10);
+				}
+				if (CTest.isAlive(ls_proc)) {
+					ls_proc.destroy();
+					sb.append("");
+				}
 				while ((ls_str = ls_in.readLine()) != null) {
 					sb.append(ls_str);
 					// System.out.println(ls_str);
@@ -174,10 +175,7 @@ public class GcovTest {
 					//System.out.println(ls_str);
 					sb.append(ls_str);
 				}
-				if (CTest.isAlive(ls_proc)) {
-					ls_proc.destroy();
-					//sb.append("unknown - killed");
-				}
+
 			} catch (IOException e) {
 				out = "";
 				// System.exit(0);
@@ -215,6 +213,8 @@ public class GcovTest {
 
 	private void initNegatives(String dir) {
 		File directory = new File(dir);
+		if(!directory.exists() || !directory.isDirectory()) return;
+		//System.out.println(dir);
 		for(File file : directory.listFiles()){
 			String name = file.getAbsolutePath();
 			if(name.endsWith(".in")){				
@@ -237,6 +237,7 @@ public class GcovTest {
 
 	private void initPositives(String dir) {
 		File directory = new File(dir);
+		if(!directory.exists() || !directory.isDirectory()) return;
 		for(File file : directory.listFiles()){
 			String name = file.getAbsolutePath();
 			if(name.endsWith(".in")){				
@@ -253,22 +254,22 @@ public class GcovTest {
 		try{
 			File dir = new File(root);
 			for(String typeName : dir.list()){
-				if(typeName.equals("smallest")){
-					generate(root + "/smallest", "smallest.c");
-				}
-				else if(typeName.equals("median")){
-					generate(root + "/median", "median.c");
-				}
-				else if(typeName.equals("grade")){
-					generate(root + "/grade", "grade.c");
-				}
-				else if(typeName.equals("checksum")){
-					generate(root + "/checksum", "checksum.c");
-				}
-				else if(typeName.equals("digits")){
-					generate(root + "/digits", "digits.c");
-				}
-				else if(typeName.equals("syllables")){
+//				if(typeName.equals("smallest")){
+//					generate(root + "/smallest", "smallest.c");
+//				}
+//				else if(typeName.equals("median")){
+//					generate(root + "/median", "median.c");
+//				}
+//				else if(typeName.equals("grade")){
+//					generate(root + "/grade", "grade.c");
+//				}
+//				else if(typeName.equals("checksum")){
+//					generate(root + "/checksum", "checksum.c");
+//				}
+//				else if(typeName.equals("digits")){
+//					generate(root + "/digits", "digits.c");
+//				}
+				if(typeName.equals("syllables")){
 					generate(root + "/syllables", "syllables.c");
 				}
 			}
@@ -297,8 +298,8 @@ public class GcovTest {
 	}
 
 	public static void main(String[] args){
-		GcovTest test = new GcovTest("./bughunt/median/0", "median.c");
-		//groupExperiment("./bughunt");
+		//GcovTest test = new GcovTest("./bughunt/syllables/129", "syllables.c");
+		groupExperiment("./bughunt");
 	}
 
 }
