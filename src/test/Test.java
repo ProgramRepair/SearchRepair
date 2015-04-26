@@ -8,7 +8,7 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-import InputAndOuput.SearchCase;
+import Experiment.SearchCase;
 import LoopAndResursion.LRSearchCase;
 
 

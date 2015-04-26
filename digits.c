@@ -1,69 +1,35 @@
 /**/
-
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-
-int
-list_digits(int num){
-
-  int i, j;	//**/
-  int digit;	//**/
- 
-  j = 10;
-
-  if (num == 0)
-    printf("\n0");
-
-  for (i = 10; abs(num) > (i/10); i*=10){
-    
-    digit = num % i;
-
-    if (abs(digit) < 10){
-      printf("\n%d", abs(digit));
-    }
-    else {
-
-	digit = digit/j;
-	digit = floor(digit);
+int find_length(int x) {
+	int length;
+	length = 0;
+	while (x != 0) {
+		x /= 10;
+		length += 1;
+	}
+	return(length);
 	
-	if(abs(num) == num){
-	  
-	  printf("\n%d", digit);
-	  j = j* 10;
-	  
-	}
-	else{
-	  if ( abs(num/10) > (i/10)){
-	  printf("\n%d", abs(digit));
-	  j = j * 10;
-	  }
-	  else
-	    printf("\n%d", digit);
-	  
-	}
-    }
-  }
-
-  return(0);
-
 }
+		
 
+int main() {
+	int n, length, digits;
+	printf("\nEnter an integer > ");
+	scanf("%d", &n);
+	length = find_length(n);
+	while (length != 0) {
+		if (n<0 && length != 1)
+			digits = abs(n) % 10;
+		else
+			digits = n % 10;
+		n = n / 10;
+		length = length - 1;
+		printf("%d\n", digits);
+		}
+	printf("That's all, have a nice day!\n");
 
-int
-main(void){
-
-  int num;	//**/
-
-  //**/
-  printf("\nEnter an integer > ");
-  scanf("%d", &num);
-
-  //**/
-  list_digits(num);
-
-  printf("\nThat's all, have a nice day!\n");
-
-  return(0);
-
+	return 0;
 }
+	

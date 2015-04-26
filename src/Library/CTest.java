@@ -8,7 +8,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import InputAndOuput.CaseInfo;
+import Experiment.CaseInfo;
 
 
 
@@ -72,67 +72,7 @@ public class CTest {
 	}
 	
 	
-	public static String runCProgram(String command){
-		String out = "";
-		String ls_str;
-		StringBuffer sb = new StringBuffer();
-		try {
-			Process ls_proc = Runtime.getRuntime().exec(command);
-//			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(ls_proc.getOutputStream()));
-//			writer.write("3 2 1\n");
-//			writer.flush();
 
-			BufferedReader ls_in = new BufferedReader(new InputStreamReader(
-					ls_proc.getInputStream()));
-			BufferedReader ls_err = new BufferedReader(new InputStreamReader(
-					ls_proc.getErrorStream()));
-
-			long now = System.currentTimeMillis();
-			long timeoutInMillis = 100L * 10; // timeout in seconds
-			long finish = now + timeoutInMillis;
-
-			try {
-				while (isAlive(ls_proc)
-						&& (System.currentTimeMillis() < finish)) {
-					Thread.sleep(10);
-				}
-				if (isAlive(ls_proc)) {
-					ls_proc.destroy();
-					sb.append("");
-				}
-				while ((ls_str = ls_in.readLine()) != null) {
-					sb.append(ls_str);
-					// System.out.println(ls_str);
-				}
-				while((ls_str = ls_err.readLine()) != null){
-					System.out.println(ls_str);
-					sb.append(ls_str);
-				}
-				if (isAlive(ls_proc)) {
-					ls_proc.destroy();
-				//sb.append("unknown - killed");
-				}
-			} catch (IOException e) {
-				out = "";
-				// System.exit(0);
-			} catch (Exception e) {
-				out = "";
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			out= "";
-		}
-		out = sb.toString();
-		return out;
-	}
-	public static boolean isAlive(Process p) {
-		try {
-			p.exitValue();
-			return false;
-		} catch (IllegalThreadStateException e) {
-			return true;
-		}
-	}
 	
 	public static void main(String[] args) throws IOException, InterruptedException{
 		//String command = "gcc ccode/test.c -o test";
@@ -140,8 +80,8 @@ public class CTest {
 		String command = "gcc   ccode/test.c -o test.o";
 		String commands = "gcc -fprofile-arcs -ftest-coverage ./testcases/ccode/median.c";
 		//Test.invokeZ3onFile("ctest/test/temp");
-		CTest.runCProgram(commands);
-		String s = runCProgram("./a.out");
+		Utility.runCProgram(commands);
+		String s = Utility.runCProgram("./a.out");
 		System.out.println(s);
 		//Process p = Runtime.getRuntime().exec(command);
 		//p.waitFor();

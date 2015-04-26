@@ -8,15 +8,42 @@ import Library.Utility;
 
 public class CheckCorrectProgram {
 	private String folder;
-	private List<String> paths;
+	private List<String> pathsForCorrect;
+	private List<String> pathsForRepair;
 	
 	public CheckCorrectProgram(String folder){
 		this.folder = folder;
-		this.paths = new ArrayList<String>();
-		init();
+		this.pathsForCorrect = new ArrayList<String>();
+		this.pathsForRepair = new ArrayList<String>();
+	}
+	
+	public void checkRepairProgram(){
+		File dir = new File(folder);
+		for(File subdir : dir.listFiles()){
+			if(subdir.isDirectory())
+			{
+				for(File subsubDir : subdir.listFiles()){
+					if(subsubDir.isDirectory())
+					{
+						if(checkRepair(subsubDir))
+						{
+							this.pathsForRepair.add(subsubDir.getAbsolutePath());
+						}						
+					}
+				}
+			}
+		}
 	}
 
-	private void init() {
+	private boolean checkRepair(File subsubDir) {
+		String dirPath = subsubDir.getAbsolutePath();
+		//System.out.println(dirPath);
+		File dir1 = new File(dirPath + "/repair");
+		if(dir1.isDirectory() && dir1.list().length != 0) return true;
+		return false;
+	}
+
+	public void checkCorrectProgram() {
 		File dir = new File(folder);
 		for(File subdir : dir.listFiles()){
 			if(subdir.isDirectory())
@@ -26,7 +53,7 @@ public class CheckCorrectProgram {
 					{
 						if(!checkNeg(subsubDir))
 						{
-							this.paths.add(subsubDir.getAbsolutePath());
+							this.pathsForCorrect.add(subsubDir.getAbsolutePath());
 						}
 						
 					}
@@ -47,8 +74,16 @@ public class CheckCorrectProgram {
 		return hasNeg;
 	}
 	
-	public void print(){
-		for(String s : this.paths){
+	public void printCorrect(){
+		System.out.println(this.pathsForCorrect.size());
+		for(String s : this.pathsForCorrect){
+			System.out.println(s);
+		}
+	}
+	
+	public void printRepair(){
+		System.out.println(this.pathsForRepair.size());
+		for(String s : this.pathsForRepair){
 			System.out.println(s);
 		}
 	}
@@ -73,7 +108,10 @@ public class CheckCorrectProgram {
 	public static void main(String[] args){
 		CheckCorrectProgram check = new CheckCorrectProgram("./bughunt");
 		//System.out.println(check.countLines("./src"));
-		check.print();
+//		check.checkRepairProgram();;
+//		check.printRepair();
+		check.checkCorrectProgram();
+		check.printCorrect();
 	}
 	
 	

@@ -10,7 +10,6 @@ import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import Library.CTest;
 import Library.Utility;
 
 public class GcovTest {
@@ -42,9 +41,11 @@ public class GcovTest {
 	}
 
 	private void initExecutions() {
-		compile();
+		if(!compile()) return;
 		initPositiveExecutions();
+		if(this.positiveExecutions.isEmpty()) return;
 		initNegativeExecutions();
+		if(this.negativeExecutions.isEmpty()) return;
 		calculatesuspiciousness();
 //		for(int num : this.suspiciousness.keySet()){
 //			System.out.println("suspiciousness: " + num + " " + this.suspiciousness.get(num));
@@ -87,12 +88,12 @@ public class GcovTest {
 		String functionName = this.fileName.substring(0, this.fileName.lastIndexOf('.'));
 		for(String input : this.negatives.keySet()){
 			String cleanCommand = "rm " + functionName + ".gcda";
-			CTest.runCProgram(cleanCommand);
+			Utility.runCProgram(cleanCommand);
 			//System.out.println(input);
 			String s = runWithUserInput("./a.out", input);
 			//System.out.println(s);
 			String gcovCommand = "gcov " + "./" + fileName;
-			CTest.runCProgram(gcovCommand);
+			Utility.runCProgram(gcovCommand);
 			String gcovFile = this.fileName + ".gcov";
 			GcovFileParse parser = new GcovFileParse(gcovFile);
 			for(int lineNumber : parser.getExecutions().keySet()){
@@ -107,24 +108,26 @@ public class GcovTest {
 		
 	}
 
-	private void compile() {
-		GenerateStandardTestCases.copy(folder + "/" + fileName, "./" + fileName);
+	private boolean compile() {
+		Utility.copy(folder + "/" + fileName, "./" + fileName);
 		String command = "gcc -fprofile-arcs -ftest-coverage " + "./" + fileName;
-		CTest.runCProgram(command);		
+		String s = Utility.runCProgram(command);
+		if(s.equals("failed")) return false;
+		return true;
 		//String cleanCommand = "rm median.gcda";
-		//CTest.runCProgram(cleanCommand);
+		//Utility.runCProgram(cleanCommand);
 	}
 
 	private void initPositiveExecutions() {
 		String functionName = this.fileName.substring(0, this.fileName.lastIndexOf('.'));
 		for(String input : this.positives.keySet()){
 			String cleanCommand = "rm " + functionName + ".gcda";
-			CTest.runCProgram(cleanCommand);
+			Utility.runCProgram(cleanCommand);
 			//System.out.println(input);
 			String s = runWithUserInput("./a.out", input);
 			//System.out.println(s);
 			String gcovCommand = "gcov " + "./" + fileName;
-			CTest.runCProgram(gcovCommand);
+			Utility.runCProgram(gcovCommand);
 			String gcovFile = this.fileName + ".gcov";
 			GcovFileParse parser = new GcovFileParse(gcovFile);
 			for(int lineNumber : parser.getExecutions().keySet()){
@@ -159,11 +162,11 @@ public class GcovTest {
 			long finish = now + timeoutInMillis;
 
 			try {
-				while (CTest.isAlive(ls_proc)
+				while (Utility.isAlive(ls_proc)
 						&& (System.currentTimeMillis() < finish)) {
 					Thread.sleep(10);
 				}
-				if (CTest.isAlive(ls_proc)) {
+				if (Utility.isAlive(ls_proc)) {
 					ls_proc.destroy();
 					sb.append("");
 				}
@@ -254,21 +257,21 @@ public class GcovTest {
 		try{
 			File dir = new File(root);
 			for(String typeName : dir.list()){
-//				if(typeName.equals("smallest")){
-//					generate(root + "/smallest", "smallest.c");
-//				}
-//				else if(typeName.equals("median")){
-//					generate(root + "/median", "median.c");
-//				}
-//				else if(typeName.equals("grade")){
-//					generate(root + "/grade", "grade.c");
-//				}
-//				else if(typeName.equals("checksum")){
-//					generate(root + "/checksum", "checksum.c");
-//				}
-//				else if(typeName.equals("digits")){
-//					generate(root + "/digits", "digits.c");
-//				}
+				if(typeName.equals("smallest")){
+					generate(root + "/smallest", "smallest.c");
+				}
+				else if(typeName.equals("median")){
+					generate(root + "/median", "median.c");
+				}
+				else if(typeName.equals("grade")){
+					generate(root + "/grade", "grade.c");
+				}
+				else if(typeName.equals("checksum")){
+					generate(root + "/checksum", "checksum.c");
+				}
+				else if(typeName.equals("digits")){
+					generate(root + "/digits", "digits.c");
+				}
 				if(typeName.equals("syllables")){
 					generate(root + "/syllables", "syllables.c");
 				}

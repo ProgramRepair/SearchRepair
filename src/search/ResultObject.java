@@ -6,43 +6,65 @@ import java.util.List;
 import java.util.Map;
 
 public class ResultObject {
+	public enum ResultState {SUCCESS, CORRECT, NOPOSITIVE, FAILED};
 	
-	private List<String> source;
-	private String path;
-	private Map<String, String> pathVariablesTypes;
-	private Map<String, String> pathVariableTrack;
-	private Map<String, String> pathVariableMap;
-	private Map<String, Map<String, String>> searchMapping;
+//	private Map<String, String> pathVariablesTypes;
+//	private Map<String, String> pathVariableTrack;
+//	private Map<String, String> pathVariableMap;
+	//source to mapping variables
+	private Map<String, List<Map<String, String>>> searchMapping;
 	private Map<String, Double> partial;
-	private Map<String, String> mappingSource;
 	
+	//original source to applicable code after variable update
+	private Map<String, String> mappingSource;	
 	private List<String> falsePositve;
 	private List<String> positive;
+	private ResultState state;
 	
 	public ResultObject(){
-		this.source = new ArrayList<String>();
-		this.path = "";
-		this.pathVariablesTypes = new HashMap<String, String>();
-		this.pathVariableMap  = new HashMap<String, String>();
-		this.pathVariableTrack = new HashMap<String, String>();
-		this.searchMapping = new HashMap<String, Map<String, String>>();
+//		this.pathVariablesTypes = new HashMap<String, String>();
+//		this.pathVariableMap  = new HashMap<String, String>();
+//		this.pathVariableTrack = new HashMap<String, String>();
+		this.searchMapping = new HashMap<String, List<Map<String, String>>>();
 		this.falsePositve = new ArrayList<String>();
 		this.positive = new ArrayList<String>();
 		this.partial = new HashMap<String, Double>();
 		this.mappingSource = new HashMap<String, String>();
+		this.state = ResultState.FAILED;
 	}
 	
 	
+	
+	
+
+	public Map<String, List<Map<String, String>>> getSearchMapping() {
+		return searchMapping;
+	}
+
+
+
+	public void setSearchMapping(
+			Map<String, List<Map<String, String>>> searchMapping) {
+		this.searchMapping = searchMapping;
+	}
+
+
+
+	public ResultState getState() {
+		return state;
+	}
+
+
+
+	public void setState(ResultState state) {
+		this.state = state;
+	}
 
 
 
 	public Map<String, String> getMappingSource() {
 		return mappingSource;
 	}
-
-
-
-
 
 
 
@@ -101,15 +123,9 @@ public class ResultObject {
 
 
 
-
-
-
 	public List<String> getPositive() {
 		return positive;
 	}
-
-
-
 
 
 
@@ -119,90 +135,25 @@ public class ResultObject {
 
 
 
-
-
-
-	public String getPath() {
-		return path;
-	}
-	public void setPath(String path) {
-		this.path = path;
-	}
-	public Map<String, String> getPathVariablesTypes() {
-		return pathVariablesTypes;
-	}
-	public void setPathVariablesTypes(Map<String, String> pathVariablesTypes) {
-		this.pathVariablesTypes = pathVariablesTypes;
-	}
-	public Map<String, String> getPathVariableTrack() {
-		return pathVariableTrack;
-	}
-	public void setPathVariableTrack(Map<String, String> pathVariableTrack) {
-		this.pathVariableTrack = pathVariableTrack;
-	}
-	public Map<String, String> getPathVariableMap() {
-		return pathVariableMap;
-	}
-	public void setPathVariableMap(Map<String, String> pathVariableMap) {
-		this.pathVariableMap = pathVariableMap;
-	}
-
-
-
-
-
-
-	public void addSource(String source2) {
-		this.source.add(source2);
-		//this.searchMapping.
-		
-	}
-
-
-
-
-
-
-	public List<String> getSource() {
-		return source;
-	}
-
-
-
-
-
-
-	public void setSource(List<String> source) {
-		this.source = source;
-	}
-
-
-
-
-
-
-	public Map<String, Map<String, String>> getSearchMapping() {
-		return searchMapping;
-	}
-
-
-
-
-
-
-	public void setSearchMapping(Map<String, Map<String, String>> searchMapping) {
-		this.searchMapping = searchMapping;
-	}
-
-
-
-
-
-
 	public void addSearchMapping(String source, Map<String, String> map) {
-		this.searchMapping.put(source, map);
+		if(this.searchMapping.containsKey(source)){
+			List<Map<String, String>> list = this.searchMapping.get(source);
+			list.add(map);
+		}
+		else{
+			List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+			list.add(map);
+			this.searchMapping.put(source, list);
+		}
 		
 	}
+
+
+
+
+
+
+
 
 	
 	

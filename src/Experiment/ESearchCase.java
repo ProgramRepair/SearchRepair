@@ -15,8 +15,7 @@ import java.util.Map;
 
 import search.PrototypeSearch;
 import search.ResultObject;
-import InputAndOuput.CaseInfo;
-import InputAndOuput.Restore;
+import search.ResultObject.ResultState;
 import Library.CTest;
 import Library.Utility;
 import ProcessIntroClass.BugLineSearcher;
@@ -33,6 +32,8 @@ public  class ESearchCase {
 	private boolean bracket;
 	private boolean hasPrintf ;
 	
+	
+	
 	public ESearchCase(String folder, String fileName){
 		this.folder = folder;
 		this.fileName = fileName;
@@ -45,8 +46,23 @@ public  class ESearchCase {
 		this.hasPrintf = false;
 	}
 	
-
 	
+	
+	
+	protected CaseInfo getInfo() {
+		return info;
+	}
+
+
+
+
+	protected void setInfo(CaseInfo info) {
+		this.info = info;
+	}
+
+
+
+
 	public String getFolder() {
 		return folder;
 	}
@@ -78,20 +94,41 @@ public  class ESearchCase {
 		return fileName;
 	}
 	
-	public  boolean search(){
+	public  void search(){
 		initInputAndOutput();
-		if(this.getPositives().size() == 0) return false; 
+		if(this.getPositives().size() == 0) {
+			this.info.getResult().setState(ResultState.NOPOSITIVE);
+			return;
+		}
+		if(this.negatives.size() == 0){
+			this.info.getResult().setState(ResultState.CORRECT);
+			return;
+		}
 		getBugLines();
-		if(this.buggy[0] == 0) return false;
-		if(this.hasPrintf) return false;
-		return true;
-//		initPositiveStates();
-//		if(this.info.getPositives().isEmpty()) return false;
-//		searchOverRepository();
-//		ruleOutFalsePositive();
-//		recordResult();
-//		if(isEmpty(info.getResult())) return false;
-//		return true;
+		if(this.buggy[0] == 0) {
+			this.info.getResult().setState(ResultState.FAILED);
+			return;
+		}
+		if(this.hasPrintf) {
+			this.info.getResult().setState(ResultState.FAILED);
+			return;
+		}
+		initPositiveStates();
+		if(this.info.getPositives().isEmpty()) {
+			this.info.getResult().setState(ResultState.FAILED);
+			return;
+		}
+		searchOverRepository();
+		ruleOutFalsePositive();		
+		if(isEmpty(info.getResult())) {
+			this.info.getResult().setState(ResultState.FAILED);
+			return;
+		}
+		else{
+			this.info.getResult().setState(ResultState.SUCCESS);
+			return;
+		}
+		
 	}
 	
 	
@@ -109,19 +146,18 @@ public  class ESearchCase {
 
 
 
-	private boolean isEmpty(ResultObject result) {
+	protected boolean isEmpty(ResultObject result) {
 		return result.getPositive().isEmpty();
 	}
 
 
 
-	private void recordResult() {
-		File dir = new File(this.folder + "/result");
-		if(dir.exists()){
-			dir.delete();
+	public void recordResult() {
+		File dir = new File(this.folder + "/repair");
+		if(!dir.exists()){
+			dir.mkdir();
 		}
-		dir.mkdir();
-		recordLog(this.folder + "/result/log");
+		recordLog(this.folder + "/repair/semantic");
 		
 		
 	}
@@ -133,49 +169,61 @@ public  class ESearchCase {
 		try {
 			new File(path).createNewFile();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
+			
 			e1.printStackTrace();
 		}
 		try{
 			PrintWriter pw = new PrintWriter(new FileOutputStream(path));
-			pw.println("True fix:" + info.getResult().getPositive().size());
-			int count = 0;
-			for(String source : info.getResult().getPositive()){
-				pw.println();
-				pw.println();
-				pw.println("True fix " + ++count);
-				pw.println("From: ");
-				pw.println(source);
-				pw.println("To: ");
-				pw.print(info.getResult().getMappingSource().get(source));
+			if(info.getResult().getState() == ResultState.FAILED){
+				pw.println("failed");
 			}
-			
-			
-			
-			pw.println("Partial fix:" + info.getResult().getPartial().keySet().size());
-			count = 0;
-			for(String source : info.getResult().getPartial().keySet()){
+			else if(info.getResult().getState() == ResultState.CORRECT){
+				pw.println("correct");
+			}
+			else if(info.getResult().getState() == ResultState.NOPOSITIVE){
+				pw.println("no positive");
+			}
+			else if(info.getResult().getState() == ResultState.SUCCESS){
+				pw.println("success");
+				pw.println("True fix:" + info.getResult().getPositive().size());
+				int count = 0;
+				for(String source : info.getResult().getPositive()){
+					pw.println();
+					pw.println();
+					pw.println("True fix " + ++count);
+					pw.println("From: ");
+					pw.println(source);
+					pw.println("To: ");
+					pw.print(info.getResult().getMappingSource().get(source));
+				}
 				
-				pw.println();
-				pw.println();
-				pw.println("Partial fix " + ++count);
-				pw.println("success: " + info.getResult().getPartial().get(source));
-				pw.println("From: ");
-				pw.println(source);
-				pw.println("To: ");
-				pw.print(info.getResult().getMappingSource().get(source));
-			}
-			
-			pw.println("Not a fix:" + info.getResult().getFalsePositve().size());
-			count = 0;
-			for(String source : info.getResult().getFalsePositve()){
 				
-				pw.println();
-				pw.println();
-				pw.println("Not a fix " + ++count);
-				pw.println(source);
+				
+				pw.println("Partial fix:" + info.getResult().getPartial().keySet().size());
+				count = 0;
+				for(String source : info.getResult().getPartial().keySet()){
+					
+					pw.println();
+					pw.println();
+					pw.println("Partial fix " + ++count);
+					pw.println("success: " + info.getResult().getPartial().get(source));
+					pw.println("From: ");
+					pw.println(source);
+					pw.println("To: ");
+					pw.print(info.getResult().getMappingSource().get(source));
+				}
+				
+				pw.println("Not a fix:" + info.getResult().getFalsePositve().size());
+				count = 0;
+				for(String source : info.getResult().getFalsePositve()){
+					
+					pw.println();
+					pw.println();
+					pw.println("Not a fix " + ++count);
+					pw.println(source);
+				}
+				pw.close();
 			}
-			pw.close();
 			
 		}catch(Exception e){
 			e.printStackTrace();
@@ -189,12 +237,16 @@ public  class ESearchCase {
 
 
 	private void ruleOutFalsePositive() {
-		for(String source : info.getResult().getSource()){
-			String input =Restore.getMappingString(source, info.getResult().getSearchMapping().get(source));
-			System.out.println(input);
-			String outputFile = generateOutputFile(input);
-			testAllResults(source, outputFile);
-			info.getResult().getMappingSource().put(source, input);
+		for(String source : info.getResult().getSearchMapping().keySet()){
+			for(Map<String, String> map : info.getResult().getSearchMapping().get(source)){
+				String input = Restore.getMappingString(source, map);
+				String outputFile = generateOutputFile(input);
+				if(testAllResults(source, outputFile)){
+					info.getResult().getMappingSource().put(source, input);
+					break;
+				}
+				else continue;
+			}
 		}
 		
 	}
@@ -206,28 +258,30 @@ public  class ESearchCase {
 		System.out.println(count);
 	}
 
-	
-	private void testAllResults(String source, String outputFile) {
+	private boolean testAllResults(String source, String outputFile) {
 		boolean pass = passAllPositive(source, outputFile);
-		if(!pass) return;
+		if(!pass) return false;
 		int count = passNegatives(source, outputFile);
 		if(count == this.getNegatives().size()) {
 			info.getResult().getPositive().add(source);
-			return;
+			return true;
 		}
 		else if(count == 0){
 			info.getResult().getFalsePositve().add(source);
+			return false;
 		}
-		else info.getResult().getPartial().put(source, count * 1.0 / this.getNegatives().size());
+		else {
+			info.getResult().getPartial().put(source, count * 1.0 / this.getNegatives().size());
+			return false;
+		}
 	}
-
 
 
 	private int passNegatives(String source, String outputFile) {
 		File file = new File( this.casePrefix);
 		if(file.exists()) file.delete();
 		String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
-		CTest.runCProgram(command1);
+		Utility.runCProgram(command1);
 		if(!new File(this.casePrefix).exists()){
 			return 0;
 		}
@@ -237,7 +291,7 @@ public  class ESearchCase {
 			
 			String command2 = "./" + this.casePrefix;
 			
-			String s2 = runCProgramWithInput(command2, input);
+			String s2 = Utility.runCProgramWithInput(command2, input);
 			
 			if(s2.isEmpty() ){
 				continue;
@@ -256,7 +310,7 @@ public  class ESearchCase {
 		File file = new File( this.casePrefix);
 		if(file.exists()) file.delete();
 		String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
-		CTest.runCProgram(command1);
+		Utility.runCProgram(command1);
 		if(!new File(this.casePrefix).exists()){
 			return false;
 		}
@@ -265,7 +319,7 @@ public  class ESearchCase {
 			
 			String command2 = "./" + this.casePrefix;
 			
-			String s2 = runCProgramWithInput(command2, input);
+			String s2 = Utility.runCProgramWithInput(command2, input);
 			
 			if(s2.isEmpty() ){
 				return false;
@@ -277,56 +331,7 @@ public  class ESearchCase {
 
 
 
-	private String runCProgramWithInput(String command2, String input) {
-		String out = "";
-		String ls_str;
-		StringBuffer sb = new StringBuffer();
-		try {
-			Process ls_proc = Runtime.getRuntime().exec(command2);
-			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(ls_proc.getOutputStream()));
-			writer.write(input);
-			writer.flush();
 
-			BufferedReader ls_in = new BufferedReader(new InputStreamReader(
-					ls_proc.getInputStream()));
-			BufferedReader ls_err = new BufferedReader(new InputStreamReader(
-					ls_proc.getErrorStream()));
-
-			long now = System.currentTimeMillis();
-			long timeoutInMillis = 100L * 10; // timeout in seconds
-			long finish = now + timeoutInMillis;
-
-			try {
-				while (CTest.isAlive(ls_proc)
-						&& (System.currentTimeMillis() < finish)) {
-					Thread.sleep(10);
-				}
-				while ((ls_str = ls_in.readLine()) != null) {
-					sb.append(ls_str);
-					sb.append("\n");
-					// System.out.println(ls_str);
-				}
-//				while((ls_str = ls_err.readLine()) != null){
-//					System.out.println(ls_str);
-//					sb.append(ls_str);
-//				}
-				if (CTest.isAlive(ls_proc)) {
-					ls_proc.destroy();
-				//sb.append("unknown - killed");
-				}
-			} catch (IOException e) {
-				out = "";
-				// System.exit(0);
-			} catch (Exception e) {
-				out = "";
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			out= "";
-		}
-		out = sb.toString();
-		return out;
-	}
 
 
 
@@ -368,7 +373,7 @@ public  class ESearchCase {
 	}
 
 
-	private void searchOverRepository() {
+	protected void searchOverRepository() {
 		try {
 			PrototypeSearch.search(info);
 			
@@ -382,7 +387,7 @@ public  class ESearchCase {
 		
 	}
 
-	private void initPositiveStates() {
+	protected void initPositiveStates() {
 		GetInputStateAndOutputState instan = new GetInputStateAndOutputState(this.getFolder(), this.getFileName(), this.getBuggy(), this.getPositives().keySet());
 		info.setPositives(instan.getStates());;
 	}

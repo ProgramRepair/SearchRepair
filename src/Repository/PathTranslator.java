@@ -381,17 +381,6 @@ public class PathTranslator {
 
 
 
-//	private String getTerm(TermContext term) {
-//		String output = "";
-//		if(term.ID() != null){
-//			output = this.variableTrack.get(term.ID().getText());
-//		}
-//		else output = term.getText();
-//		return output;
-//	}
-
-
-
 
 
 	private void converNonString(AssignStatContext c) {
@@ -588,7 +577,9 @@ public class PathTranslator {
 			}
 
 		} else {
-			return "(" + expr.getChild(1).getText() + " "
+			String operator = expr.getChild(1).getText();
+			if(operator.equals("%")) operator = "mod";
+			return "(" + operator + " "
 					+ getExpr(expr.expr(0)) + " " + getExpr(expr.expr(1)) + ")";
 		}
 		return output;

@@ -79,7 +79,11 @@ assign_expression
 	: arith_expression
 	| StringLiteral
 	| CharacterLiteral
+	| convertExpr
 	;
+	
+convertExpr: '(' type ')' assign_expression;
+
 
 arithmAssignOperator : ADDSELF | DEDUCTSELF | MODSELF | MULTISELF | DIVIDESELF;	
 

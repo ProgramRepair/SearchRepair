@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import Library.CTest;
+import Library.Utility;
 
 public class GetInputStateAndOutputState {
 	private String folder;
@@ -48,7 +48,7 @@ public class GetInputStateAndOutputState {
 	private void compileGDB() {
 		String exeFile =  this.folder + "/a.out";
 		String command = "gcc -g " + this.folder + "/" + this.fileName + " -o " + exeFile;
-		CTest.runCProgram(command);
+		Utility.runCProgram(command);
 		
 		for(String input : inputs){
 			try{

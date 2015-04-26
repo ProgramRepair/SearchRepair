@@ -1,9 +1,13 @@
 package Library;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 public class Utility {
 	
@@ -112,10 +116,132 @@ public class Utility {
 				sb.append(temp);
 				sb.append('\n');
 			}
+			reader.close();
 			return sb.toString();
-		} catch (Exception e) {
 			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return sb.toString();
 	}
+	
+	public static void writeTOFile(String path, String input){
+		try{
+			PrintWriter pw = new PrintWriter(new FileOutputStream(path));
+			pw.print(input);
+			pw.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public static void copy(String file1, String file2){
+		try{
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file1)));
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file2)));
+			String s = null;
+			while((s = br.readLine()) != null){
+				bw.write(s);
+				bw.write("\n");
+			}
+			bw.close();
+			br.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}		
+	}
+	
+	public  static String runCProgramWithInput(String command2, String input) {
+		String out = "";
+		String ls_str;
+		StringBuffer sb = new StringBuffer();
+		try {
+			Process ls_proc = Runtime.getRuntime().exec(command2);
+			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(ls_proc.getOutputStream()));
+			writer.write(input);
+			writer.flush();
+
+			BufferedReader ls_in = new BufferedReader(new InputStreamReader(
+					ls_proc.getInputStream()));
+
+			long now = System.currentTimeMillis();
+			long timeoutInMillis = 100L * 10; // timeout in seconds
+			long finish = now + timeoutInMillis;
+
+			try {
+				while (isAlive(ls_proc)
+						&& (System.currentTimeMillis() < finish)) {
+					Thread.sleep(10);
+				}
+				
+				if (isAlive(ls_proc)) {
+					ls_proc.destroy();
+				}
+				
+				while ((ls_str = ls_in.readLine()) != null) {
+					sb.append(ls_str);
+					sb.append("\n");
+					// System.out.println(ls_str);
+				}
+				
+			} catch (IOException e) {
+				out = "";
+				// System.exit(0);
+			} catch (Exception e) {
+				out = "";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			out= "";
+		}
+		out = sb.toString();
+		return out;
+	}
+	
+	public static String runCProgram(String command){
+		String out = "";
+		String ls_str;
+		StringBuffer sb = new StringBuffer();
+		try {
+			Process ls_proc = Runtime.getRuntime().exec(command);
+
+			BufferedReader ls_in = new BufferedReader(new InputStreamReader(
+					ls_proc.getInputStream()));
+			BufferedReader ls_err = new BufferedReader(new InputStreamReader(
+					ls_proc.getErrorStream()));
+
+			long now = System.currentTimeMillis();
+			long timeoutInMillis = 100L * 10; // timeout in seconds
+			long finish = now + timeoutInMillis;
+
+			try {
+				while (isAlive(ls_proc)
+						&& (System.currentTimeMillis() < finish)) {
+					Thread.sleep(10);
+				}
+				if (isAlive(ls_proc)) {
+					ls_proc.destroy();
+					sb.append("failed");
+				}
+				while ((ls_str = ls_in.readLine()) != null) {
+					sb.append(ls_str);
+					// System.out.println(ls_str);
+				}
+				while((ls_str = ls_err.readLine()) != null){
+					sb.append("failed");
+				}
+				
+			} catch (IOException e) {
+				sb.append("failed");
+			} catch (Exception e) {
+				sb.append("failed");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			sb.append("failed");
+		}
+		out = sb.toString();
+		return out;
+	}
+
 }

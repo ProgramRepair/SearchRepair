@@ -14,7 +14,7 @@ import java.util.Map;
 import lookups.TypeTable;
 import Database.DataHandler;
 import Database.EntryHandler;
-import InputAndOuput.CaseInfo;
+import Experiment.CaseInfo;
 import Library.StringRepresentation;
 import Library.Utility;
 import LoopAndResursion.LRCaseInfo;
@@ -97,11 +97,7 @@ public class PrototypeSearch {
 			if(!passAllPositive) continue;
 			System.out.println("----------");
 
-			info.getResult().addSource(source);
-			info.getResult().addSearchMapping(source, map);;
-			break;
-				
-//			}
+			info.getResult().addSearchMapping(source, map);;			
 			
 		}
 		
@@ -111,12 +107,8 @@ public class PrototypeSearch {
 
 	private static boolean searchWithMapping( String constraint, String[] variableTypes,
 			 String[] variableTracks, String[] mapping, String[] formals, Map<String, String> map, List<String> pInputs, List<String> pOutputs) {
-		//wait
-		//List<Map<String, String>> list = getValidateMapping(variableTypes, info, variableTracks, formals);
-		//if(list.isEmpty()) return false;
-		//System.out.println(constraint);
 		
-		List<String> delcarations = getVariableTypeConstraint(variableTypes);
+			List<String> delcarations = getVariableTypeConstraint(variableTypes);
 		//
 			Map<String, String> tracks = PrototypeSearch.getVariableTrack(variableTracks);
 			boolean isReturn = false;
@@ -479,9 +471,7 @@ public class PrototypeSearch {
 			if(!searchOverPositive(map, pathconstraint, info, pathtracks, pathmapping, pathformals, pathtypes)) continue;
 			//if(!searchOverNegative(map, pathconstraint, info, pathtracks, pathmapping, pathformals, pathtypes)) continue;
 			System.out.println("----------");
-			info.getResult().addSource(source);
-			info.getResult().addSearchMapping(source, map);;
-			break;
+			info.getResult().addSearchMapping(source, map);
 				
 		}
 		

@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import search.ResultObject.ResultState;
+
 public class GroupTest {
 
 	public static void main(String[] args) {
@@ -21,8 +23,9 @@ public class GroupTest {
 				String folder = "./bughunt/median/" + root.getName();
 				String fileName = "median.c";
 				ESearchCase searcher = new ESearchCase(folder, fileName);
-				System.out.println(root);
-				if(searcher.search()){
+				searcher.search();
+				searcher.recordResult();
+				if(searcher.getInfo().getResult().getState() == ResultState.SUCCESS){
 					list.add(folder);
 				}
 			}catch(Exception e){
@@ -45,9 +48,10 @@ public class GroupTest {
 				String folder = "./bughunt/smallest/" + root.getName();
 				String fileName = "smallest.c";
 				ESearchCase searcher = new ESearchCase(folder, fileName);
-				if(!searcher.search()){
-					if(searcher.isHasPrintf()) i++;
-					list.add(root.getName());
+				searcher.search();
+				searcher.recordResult();
+				if(searcher.getInfo().getResult().getState() == ResultState.SUCCESS){
+					list.add(folder);
 				}
 			}catch(Exception e){
 				e.printStackTrace();
@@ -69,9 +73,10 @@ public class GroupTest {
 				String folder = "./bughunt/grade/" + root.getName();
 				String fileName = "grade.c";
 				ESearchCase searcher = new ESearchCase(folder, fileName);
-				if(searcher.search()){
-					if(searcher.isHasPrintf()) i++;
-					else list.add(root.getName());
+				searcher.search();
+				searcher.recordResult();
+				if(searcher.getInfo().getResult().getState() == ResultState.SUCCESS){
+					list.add(folder);
 				}
 			}catch(Exception e){
 				e.printStackTrace();
@@ -93,9 +98,9 @@ public class GroupTest {
 				String folder = "./bughunt/checkSum/" + root.getName();
 				String fileName = "checkSum.c";
 				ESearchCase searcher = new ESearchCase(folder, fileName);
-				if(searcher.search()){
-					if(searcher.isHasPrintf()) i++;
-					else list.add(root.getName());
+				searcher.search();
+				if(searcher.getInfo().getResult().getState() == ResultState.SUCCESS){
+					list.add(folder);
 				}
 			}catch(Exception e){
 				e.printStackTrace();

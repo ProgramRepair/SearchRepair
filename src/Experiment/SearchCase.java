@@ -1,4 +1,4 @@
-package LoopAndResursion;
+package Experiment;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -6,6 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -21,7 +22,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import search.PrototypeSearch;
-import Experiment.Restore;
+import search.ResultObject.ResultState;
+import Library.CTest;
 import Library.Utility;
 import antlr.preprocess.FunctionLexer;
 import antlr.preprocess.FunctionParser;
@@ -41,39 +43,47 @@ import antlr.preprocess.FunctionParser.StatContext;
  * @author keyalin
  *
  */
-public class LRSearchCase {
+public class SearchCase {
 	
 	public static final String MARKINPUT = "_yalin_mark(\"input\");";
 	public static final String MARKOUTPUT = "_yalin_mark(\"output\");";
+	public String outputType = "";
 	
 	private String casePrefix;
 	private Map<String, String> positives;
 	private Map<String, String> negatives;
 	private int[] buggy;
-	private LRCaseInfo info;
+	private CaseInfo info;
+	
 	
 	
 	
 
 
-	public LRSearchCase(String casePrefix) {
+	public SearchCase(String casePrefix) {
 		this.casePrefix = casePrefix;
 		this.positives = new HashMap<String, String>();
 		this.negatives = new HashMap<String, String>();
-		this.info = new LRCaseInfo();
+		this.info = new CaseInfo();
 		this.buggy = new int[2];
-		init();
 	}
 
-	private void init() {
-		String IOFileName = this.casePrefix + "_TS";
-		parse(IOFileName);
-		fillSearchCase();
-		//info.print();
+	public void init() {
+		EndToEndProcess();
 		search();
+	}
+	
+	private void EndToEndProcess(){
+		String IOFileName = this.casePrefix + "_TS";
+		parse(IOFileName);		
+	}
+	
+	public void search(){
+		fillSearchCase();
+		searchOverRepository();
 		//printResult();
 		ruleOutFalsePositive();
-		printSearchingResult();
+		//printSearchingResult();
 	}
 	
 	
@@ -91,88 +101,98 @@ public class LRSearchCase {
 		System.out.println("partial fix:\n");
 		for(String source : info.getResult().getPartial().keySet()){
 			System.out.println(source);
-			System.out.println(info.getResult().getPartial().get(source));
+			System.out.println("success: " + info.getResult().getPartial().get(source));
 		}
 		
 	}
 
 	private void ruleOutFalsePositive() {
 		for(String source : info.getResult().getSearchMapping().keySet()){
-			for(Map<String, String> map : info.getResult().getSearchMapping().get(source))
-			{
+			for(Map<String, String> map : info.getResult().getSearchMapping().get(source)){
 				String input = Restore.getMappingString(source, map);
 				String outputFile = generateOutputFile(input);
-				testAllResults(source, outputFile, info);
+				if(testAllResults(source, outputFile)){
+					info.getResult().getMappingSource().put(source, input);
+					info.getResult().setState(ResultState.SUCCESS);
+					break;
+				}
+				else continue;
 			}
 		}
 		
 	}
 
-	private void testAllResults(String source, String outputFile, LRCaseInfo info2) {
-		boolean pass = true;
-		//File file = new File();
-		for(String input : this.positives.keySet()){
-			String output = this.positives.get(input);
-			File file = new File( this.casePrefix);
-			if(file.exists()) file.delete();
-			String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
-			String command2 = "./" + this.casePrefix + " " +  input;
-			String s1 = Utility.runCProgram(command1);
-			String s2 = Utility.runCProgram(command2);
-			
-			if(s2.isEmpty() ){
-				pass = false;
-				break;
-			}
-			//System.out.println(s2);
-			int index3 = s2.indexOf("return");
-			//int index1 = s2.indexOf("input");
-			//int index2 = s2.indexOf("output");
-			
-			if(!output.equals(s2.substring(index3+7).trim())){
-				pass =false;
-				break;
-			}
-						//info.getPositives().put(inputList, outputList);
+
+		
+
+
+	private boolean testAllResults(String source, String outputFile) {
+		boolean pass = passAllPositive(source, outputFile);
+		if(!pass) return false;
+		int count = passNegatives(source, outputFile);
+		if(count == this.getNegatives().size()) {
+			info.getResult().getPositive().add(source);
+			return true;
 		}
-		if(!pass){
-			//info2.getResult().getFalsePositve().add(source);
-			return;
+		else if(count == 0){
+			info.getResult().getFalsePositve().add(source);
+			return false;
+		}
+		else {
+			info.getResult().getPartial().put(source, count * 1.0 / this.getNegatives().size());
+			return false;
+		}
+	}
+
+
+
+	private int passNegatives(String source, String outputFile) {
+		File file = new File( this.casePrefix);
+		if(file.exists()) file.delete();
+		String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
+		Utility.runCProgram(command1);
+		if(!new File(this.casePrefix).exists()){
+			return 0;
 		}
 		int count = 0;
 		for(String input : this.negatives.keySet()){
-			File file = new File( this.casePrefix);
-			if(file.exists()) file.delete();
 			String output = this.negatives.get(input);
-			String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
-			String command2 = "./" + this.casePrefix + " " +  input;
-			String s1 = Utility.runCProgram(command1);
-			String s2 = Utility.runCProgram(command2);
-			if(s2.isEmpty() ){
-				pass = false;
-				break;
-			}
-			//System.out.println(s2);
-			int index1 = s2.indexOf("return");
-			int index2 = s2.indexOf("input");
-			int index3 = s2.indexOf("output");
 			
-			if(!output.equals(s2.substring(index1 + 7).trim())){
-				count++;
-				
+			String command2 = "./" + this.casePrefix;
+			
+			String s2 = Utility.runCProgramWithInput(command2, input);
+			
+			if(s2.isEmpty() ){
+				continue;
 			}
-						//info.getPositives().put(inputList, outputList);
+			if(s2.equals(output)) count++;
 		}
-		if(count == this.getNegatives().size()) {
-			info2.getResult().getFalsePositve().add(source);
-			return;
+		return count;
+	}
+
+
+
+	private boolean passAllPositive(String source, String outputFile) {
+		File file = new File( this.casePrefix);
+		if(file.exists()) file.delete();
+		String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
+		Utility.runCProgram(command1);
+		if(!new File(this.casePrefix).exists()){
+			return false;
 		}
-		else if(count == 0){
-			info2.getResult().getPositive().add(source);
+		for(String input : this.positives.keySet()){
+			String output = this.positives.get(input);
+			
+			String command2 = "./" + this.casePrefix;
+			
+			String s2 = Utility.runCProgramWithInput(command2, input);
+			
+			if(s2.isEmpty() ){
+				return false;
+			}
+			if(!s2.equals(output)) return false;
 		}
-		else info.getResult().getPartial().put(source, count * 1.0 / this.getNegatives().size());
-		
-		
+		return true;
 	}
 
 	private String generateOutputFile(String input) {
@@ -212,105 +232,76 @@ public class LRSearchCase {
 
 	private void printResult() {
 		int i = 0;
-//		for(String source : info.getResult().getSource())
-//		{
-//			
-//			i++;
-//			System.out.println("result" + i + "\n--------------------");
-//			System.out.println(source);
-//			System.out.println(info.getResult().getSearchMapping().get(source));
-//			String input =Restore.getMappingString(source, info.getResult().getSearchMapping().get(source));
-//			System.out.println(input);
-//		}
+		for(String source : info.getResult().getSearchMapping().keySet())
+		{
+			
+			i++;
+			System.out.println("result" + i + "\n--------------------");
+			System.out.println(source);
+			System.out.println(info.getResult().getSearchMapping().get(source));
+			String input = info.getResult().getMappingSource().get(source);
+			System.out.println(input);
+		}
 		
 	}
 
 
 
-	private void search() {
+	private void searchOverRepository() {
 		try {
 			PrototypeSearch.search(info);
-			//PrototypeTest.printResult(info);
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
-		} 
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
 		
 	}
 
 	private void fillSearchCase() {
-		insertStateStatements(this.casePrefix + ".c");
-		obtainInputAndOutputStates();
+		System.out.println(this.casePrefix + ".c");
+		insertStateStatements(this.casePrefix + ".c");		
+		obtainPositiveStates();
 	}
 
-	private void obtainInputAndOutputStates() {
+	private void obtainPositiveStates() {
 		String sourceFile = this.casePrefix + "state.c";
 		for(String input : this.positives.keySet()){
 			//String output = this.positive.get(input);
 			File file = new File( this.casePrefix);
 			if(file.exists()) file.delete();
 			String command1 = "gcc " + sourceFile + " -o " + this.casePrefix;
-			String command2 = "./" + this.casePrefix + " " +  input;
+			String command2 = "./" + this.casePrefix;
 			String s1 = Utility.runCProgram(command1);
-			String s2 = Utility.runCProgram(command2);
+			String s2 = Utility.runCProgramWithInput(command2, input);
 			System.out.println(s2);
 			if(s2.trim().isEmpty()) return;
-			int index1 = s2.indexOf("input");
-			//int index2 = s2.indexOf("output");
-			int index2 = s2.indexOf("return");
-			String[] states = s2.substring(index1, index2).split("input state:");
-			Map<List<String>, List<String>> map = new HashMap<List<String>, List<String>>();
-			for(String state : states){
-				if(state.isEmpty()) continue;
-				String[] temp = state.split("output state:");
-				List<String> inputList = new ArrayList<String>();
-				List<String> outputList = new ArrayList<String>();
-				for(String e : temp[0].trim().split(",")){
-					if(e.equals("")) continue;
-					inputList.add(e);					
-				}
-				for(String e : temp[1].trim().split(",")){
-					if(e.equals("")) continue;
-					outputList.add(e);
-				}
-				map.put(inputList, outputList);
-			}
+			int inputStart = s2.indexOf("inputStart:");
+			int inputEnd = s2.indexOf("inputEnd");
+			int outputStart = s2.indexOf("outputStart:");
+			int outputEnd = s2.indexOf("outputEnd");
+			if(inputStart == - 1) continue;
+			if(outputStart == - 1) continue;
 			
-			this.info.getPositives().add(map);
-		}
-		
-		for(String input : this.negatives.keySet()){
-			File file = new File( this.casePrefix);
-			if(file.exists()) file.delete();
-			String command1 = "gcc " + sourceFile + " -o " + this.casePrefix;
-			String command2 = "./" + this.casePrefix + " " +  input;
-			String s1 = Utility.runCProgram(command1);
-			String s2 = Utility.runCProgram(command2);
-			System.out.println(s2);
-			if(s2.trim().isEmpty()) return;
-			int index1 = s2.indexOf("input");
-			//int index2 = s2.indexOf("output");
-			int index2 = s2.indexOf("return");
-			String[] states = s2.substring(index1, index2).split("input state:");
-			Map<List<String>, List<String>> map = new HashMap<List<String>, List<String>>();
-			for(String state : states){
-				if(state.isEmpty()) continue;
-				String[] temp = state.split("output state:");
-				List<String> inputList = new ArrayList<String>();
-				List<String> outputList = new ArrayList<String>();
-				for(String e : temp[0].trim().split(",")){
-					if(e.equals("")) continue;
-					inputList.add(e);					
-				}
-				for(String e : temp[1].trim().split(",")){
-					if(e.equals("")) continue;
-					outputList.add(e);
-				}
-				map.put(inputList, outputList);
-			}
+			List<String> inputList = new ArrayList<String>();
+			List<String> outputList = new ArrayList<String>();
 			
-			this.info.getNegatives().add(map);
+
+			String[] elems = s2.substring(inputStart + 11, inputEnd).split(",");
+			for(String e : elems){
+				if(e.equals("")) continue;
+				inputList.add(e);				
+			}
+			for(String o : s2.substring(outputStart + 12, outputEnd).split(",")){
+				if(o.equals("")) continue;
+				outputList.add(o);
+			}
+			info.getPositives().put(inputList, outputList);
 		}
+
 		
 	}
 
@@ -326,11 +317,7 @@ public class LRSearchCase {
 		String markFile = insertMark(original);
 		
 		String target = getFunction(markFile);
-		//System.out.println(target);
 		String[] states = getStatesStatement(target);
-//		for(String s : states){
-//			System.out.println(s);
-//		}
 		return writeStatesStatement(states);
 
 		
@@ -382,7 +369,6 @@ public class LRSearchCase {
 		String[] states = null;
 		Map<String, String> variables = new HashMap<String, String>();
 		try{
-			//target = Utility.getStringFromFile(this.casePrefix + ".c");
 			InputStream stream = new ByteArrayInputStream(target.getBytes());
 			ANTLRInputStream input = new ANTLRInputStream(stream);
 			FunctionLexer lexer = new FunctionLexer(input);
@@ -404,9 +390,9 @@ public class LRSearchCase {
 
 	private String[] configureStatStatment(Map<String, String> variables) {
 		String[] states = new String[2];
-		String inputbegin = "printf(\"input state:";
+		String inputbegin = "printf(\"inputStart:";
 		String inputend = "";
-		String outputbegin = "printf(\"output state:";
+		String outputbegin = "printf(\"outputStart:";
 		String outputend = "";
 		
 		for(String id : variables.keySet()){
@@ -420,7 +406,7 @@ public class LRSearchCase {
 				outputend += end;
 			}
 			else if(type.equals("char")){
-				String begin = id + ":%c:char,";
+				String begin = id + ":%d:char,";
 				String end = id + ", ";
 				inputbegin += begin;
 				inputend += end;
@@ -445,8 +431,8 @@ public class LRSearchCase {
 			}
 		}
 		
-		states[0] = inputbegin.subSequence(0, inputbegin.length() - 1) + "\\n\", " + inputend.substring(0, inputend.length() - 2) + ");";
-		states[1] = outputbegin.subSequence(0, outputbegin.length() - 1) + "\\n\", " + outputend.substring(0, outputend.length() - 2) + ");";
+		states[0] = inputbegin.subSequence(0, inputbegin.length() - 1) + "inputEnd\", " + inputend.substring(0, inputend.length() - 2) + ");";
+		states[1] = outputbegin.subSequence(0, outputbegin.length() - 1) + "outputEnd\", " + outputend.substring(0, outputend.length() - 2) + ");";
 		return states;
 	}
 
@@ -454,6 +440,7 @@ public class LRSearchCase {
 			Map<String, String> variables) {
 		// formals
 		List<FormalParameterContext> fpc = function.parameters().formalParameter();
+		this.outputType = function.type().getText().trim();
 		for(FormalParameterContext fp : fpc){
 			String type = fp.type().getText();
 			String id = fp.ID().getText();
@@ -534,9 +521,11 @@ public class LRSearchCase {
 	 * @return
 	 */
 	private String getFunction(String markFile) {
+		System.out.println(markFile);
 		String output = "";
 		try{
 			String fileString = Utility.getStringFromFile(markFile);
+			//System.out.println(fileString);
 			int start = -1;
 			int end = -1;
 			Stack<Character> stack = new Stack<Character>();
@@ -575,6 +564,7 @@ public class LRSearchCase {
 	 */
 	private String insertMark(String original) {
 		String output = this.casePrefix + ".mark";
+		System.out.println();
 		try{
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(output)));
 			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(this.casePrefix + ".c")));
@@ -593,7 +583,7 @@ public class LRSearchCase {
 				writer.flush();
 			}
 			
-			writer.write(LRSearchCase.MARKINPUT);
+			writer.write(SearchCase.MARKINPUT);
 			writer.write("\n");
 			writer.flush();
 			
@@ -603,7 +593,7 @@ public class LRSearchCase {
 				writer.write("\n");
 				writer.flush();
 			}
-			writer.write(LRSearchCase.MARKOUTPUT);
+			writer.write(SearchCase.MARKOUTPUT);
 			writer.write("\n");
 			writer.flush();
 			
@@ -615,6 +605,7 @@ public class LRSearchCase {
 			reader.close();
 			writer.close();
 		}catch(Exception e){
+			e.printStackTrace();
 			return "";
 		}
 		return output;
@@ -691,11 +682,11 @@ public class LRSearchCase {
 
 	
 
-	public LRCaseInfo getInfo() {
+	public CaseInfo getInfo() {
 		return info;
 	}
 
-	public void setInfo(LRCaseInfo info) {
+	public void setInfo(CaseInfo info) {
 		this.info = info;
 	}
 
@@ -706,6 +697,8 @@ public class LRSearchCase {
 	public void setBuggy(int[] buggy) {
 		this.buggy = buggy;
 	}
+	
+	
 	
 	public void print(){
 		System.out.println("positive:");
@@ -724,7 +717,7 @@ public class LRSearchCase {
 	}
 	
 	public static void main(String[] args){
-		LRSearchCase case1 = new LRSearchCase("TestCases/examples/test6");
+		SearchCase case1 = new SearchCase("TestCases/examples/test1");
 		//case1.print();
 	}
 

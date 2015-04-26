@@ -255,6 +255,6 @@ public class EntryAddition {
 		//System.setErr(new PrintStream(new FileOutputStream("log")));
 		//String filePath = "./repository/scraper/block";
 		//EntryAddition.addOneFolder(filePath);;
-		EntryAddition.addOneFile("./repository/hasReturn/gradenew");
+		EntryAddition.addOneFile("./repository/hasReturn/checksum1");
 	}
 }
