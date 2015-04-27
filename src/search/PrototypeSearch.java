@@ -95,7 +95,6 @@ public class PrototypeSearch {
 			}
 			
 			if(!passAllPositive) continue;
-			System.out.println("----------");
 
 			info.getResult().addSearchMapping(source, map);;			
 			

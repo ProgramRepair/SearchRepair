@@ -79,9 +79,10 @@ public class SearchCase {
 	}
 	
 	public void search(){
-		fillSearchCase();
+		boolean pass = fillSearchCase();
+		if(!pass) return;
 		searchOverRepository();
-		//printResult();
+		printResult();
 		ruleOutFalsePositive();
 		//printSearchingResult();
 	}
@@ -109,15 +110,24 @@ public class SearchCase {
 	private void ruleOutFalsePositive() {
 		for(String source : info.getResult().getSearchMapping().keySet()){
 			for(Map<String, String> map : info.getResult().getSearchMapping().get(source)){
-				String input = Restore.getMappingString(source, map);
-				String outputFile = generateOutputFile(input);
-				if(testAllResults(source, outputFile)){
-					info.getResult().getMappingSource().put(source, input);
-					info.getResult().setState(ResultState.SUCCESS);
-					break;
+				try{
+					String input = Restore.getMappingString(source, map);
+					String outputFile = generateOutputFile(input);
+					if(testAllResults(source, outputFile)){
+						info.getResult().getMappingSource().put(source, input);
+						info.getResult().setState(ResultState.SUCCESS);
+						break;
+					}
+					else continue;
+				}catch(Exception e){
+					System.out.println(e);
+					continue;
 				}
-				else continue;
 			}
+			if(info.getResult().getState() == ResultState.SUCCESS){
+				break;
+			}
+			
 		}
 		
 	}
@@ -239,8 +249,7 @@ public class SearchCase {
 			System.out.println("result" + i + "\n--------------------");
 			System.out.println(source);
 			System.out.println(info.getResult().getSearchMapping().get(source));
-			String input = info.getResult().getMappingSource().get(source);
-			System.out.println(input);
+
 		}
 		
 	}
@@ -261,23 +270,26 @@ public class SearchCase {
 		
 	}
 
-	private void fillSearchCase() {
-		System.out.println(this.casePrefix + ".c");
-		insertStateStatements(this.casePrefix + ".c");		
-		obtainPositiveStates();
+	private boolean fillSearchCase() {
+		if(insertStateStatements(this.casePrefix + ".c")){
+			obtainPositiveStates();
+			return true;
+		}
+		else return false;
+		
 	}
 
 	private void obtainPositiveStates() {
 		String sourceFile = this.casePrefix + "state.c";
 		for(String input : this.positives.keySet()){
-			//String output = this.positive.get(input);
 			File file = new File( this.casePrefix);
 			if(file.exists()) file.delete();
 			String command1 = "gcc " + sourceFile + " -o " + this.casePrefix;
 			String command2 = "./" + this.casePrefix;
 			String s1 = Utility.runCProgram(command1);
+			if(s1.equals("failed")) continue;
 			String s2 = Utility.runCProgramWithInput(command2, input);
-			System.out.println(s2);
+			//System.out.println(s2);
 			if(s2.trim().isEmpty()) return;
 			int inputStart = s2.indexOf("inputStart:");
 			int inputEnd = s2.indexOf("inputEnd");
@@ -313,12 +325,14 @@ public class SearchCase {
 	 * make a copy prefix_copy.c of original source file, and insert input and put statements
 	 * @return
 	 */
-	private String insertStateStatements(String original) {
+	private boolean insertStateStatements(String original) {
 		String markFile = insertMark(original);
 		
 		String target = getFunction(markFile);
 		String[] states = getStatesStatement(target);
-		return writeStatesStatement(states);
+		if(states == null) return false;
+		writeStatesStatement(states);
+		return true;
 
 		
 	}
@@ -374,16 +388,13 @@ public class SearchCase {
 			FunctionLexer lexer = new FunctionLexer(input);
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			FunctionParser parser = new FunctionParser(tokens);
-			//System.out.println(parser.prog().function().block().getText());
 			
 			getStatesVariables(parser.prog().function(), variables);
-//			for(String s : variables.keySet()){
-//				System.out.println(s + ":" + variables.get(s));
-//			}
-//			
+
 		}catch(Exception e){
-			
+			return null;
 		}
+		if(variables.isEmpty()) return null;
 		states = configureStatStatment(variables);
 		return states;
 	}
@@ -508,11 +519,13 @@ public class SearchCase {
 
 	private void add(DeclarationStatContext decl, Map<String, String> variables) {
 		String type = decl.type().getText();
-		String id = decl.ID().getText();
 		if(decl.INT() != null){
 			type = type + '*';
 		}
-		variables.put(id, type);
+		for(int i = 0; i < decl.ID().size(); i++)
+		{
+			variables.put(decl.ID(i).getText(), type);
+		}
 	}
 
 	/**
@@ -521,7 +534,6 @@ public class SearchCase {
 	 * @return
 	 */
 	private String getFunction(String markFile) {
-		System.out.println(markFile);
 		String output = "";
 		try{
 			String fileString = Utility.getStringFromFile(markFile);
@@ -551,7 +563,7 @@ public class SearchCase {
 			output = fileString.substring(start + 1, end + 1);
 			
 		}catch(Exception e){
-			e.printStackTrace();
+			System.out.println(e);
 			return "";
 		}
 		return output;
@@ -564,7 +576,6 @@ public class SearchCase {
 	 */
 	private String insertMark(String original) {
 		String output = this.casePrefix + ".mark";
-		System.out.println();
 		try{
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(output)));
 			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(this.casePrefix + ".c")));
@@ -699,22 +710,6 @@ public class SearchCase {
 	}
 	
 	
-	
-	public void print(){
-		System.out.println("positive:");
-		for(String s : this.positives.keySet()){
-			System.out.println("input: " + s + ";");
-			System.out.println("output: " + this.positives.get(s) + ";");
-		}
-		System.out.println("negative:");
-		for(String s : this.negatives.keySet()){
-			System.out.println("input: " + s + ";");
-			System.out.println("output: " + this.negatives.get(s) + ";");
-		}
-		
-		System.out.println("buggy lines:");
-		System.out.println("" + buggy[0] + "-" + buggy[1]);
-	}
 	
 	public static void main(String[] args){
 		SearchCase case1 = new SearchCase("TestCases/examples/test1");

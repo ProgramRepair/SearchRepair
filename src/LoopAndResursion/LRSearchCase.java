@@ -521,11 +521,13 @@ public class LRSearchCase {
 
 	private void add(DeclarationStatContext decl, Map<String, String> variables) {
 		String type = decl.type().getText();
-		String id = decl.ID().getText();
 		if(decl.INT() != null){
 			type = type + '*';
 		}
-		variables.put(id, type);
+		for(int i = 0; i < decl.ID().size(); i++)
+		{
+			variables.put(decl.ID(i).getText(), type);
+		}
 	}
 
 	/**

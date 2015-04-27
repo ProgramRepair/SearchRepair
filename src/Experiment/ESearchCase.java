@@ -222,8 +222,9 @@ public  class ESearchCase {
 					pw.println("Not a fix " + ++count);
 					pw.println(source);
 				}
-				pw.close();
+				
 			}
+			pw.close();
 			
 		}catch(Exception e){
 			e.printStackTrace();
@@ -251,11 +252,14 @@ public  class ESearchCase {
 		
 	}
 	
-	public void test(){
-		String outputFile = this.casePrefix + "new.c";
+	public boolean test(){
+		this.initInputAndOutput();
+		String outputFile = this.casePrefix + ".c";
 		boolean pass = passAllPositive("result", outputFile);
+		if(!pass) return false;
 		int count = passNegatives("result", outputFile);
-		System.out.println(count);
+		if(count == 0) return true;
+		return false;
 	}
 
 	private boolean testAllResults(String source, String outputFile) {

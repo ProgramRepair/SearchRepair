@@ -225,10 +225,12 @@ public class Utility {
 				}
 				while ((ls_str = ls_in.readLine()) != null) {
 					sb.append(ls_str);
+					sb.append("\n");
 					// System.out.println(ls_str);
 				}
 				while((ls_str = ls_err.readLine()) != null){
 					sb.append("failed");
+					break;
 				}
 				
 			} catch (IOException e) {

@@ -41,10 +41,10 @@ public class EntryAddition {
 
 			for(String path : object.getPathConstraint().keySet())
 			{
-				System.out.println("path:\n" + path);
 				System.out.println("constraint:\n" + object.getPathConstraint().get(path));
 				System.out.println("variable:\n" + object.getPathFormalVariables().get(path));
 				System.out.println("track:\n" + object.getPathVariablesTypes().get(path));
+				System.out.println("path:\n" + path);
 			}
 		}
 		System.out.println("count: " + count + "save: " + save);
@@ -251,10 +251,8 @@ public class EntryAddition {
 
 
 	public static void main(String[] args) throws FileNotFoundException{
-		//System.setOut(new PrintStream(new FileOutputStream("log")));
-		//System.setErr(new PrintStream(new FileOutputStream("log")));
-		//String filePath = "./repository/scraper/block";
+		String filePath = "./repository/syllables/syllable1";
 		//EntryAddition.addOneFolder(filePath);;
-		EntryAddition.addOneFile("./repository/hasReturn/checksum1");
+		EntryAddition.addOneFile(filePath);
 	}
 }

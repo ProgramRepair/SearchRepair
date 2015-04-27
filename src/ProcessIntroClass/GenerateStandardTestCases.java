@@ -1,16 +1,9 @@
 package ProcessIntroClass;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import Experiment.ESearchCase;
 import Library.Utility;
 
 
@@ -35,18 +28,18 @@ public class GenerateStandardTestCases {
 				else if(typeName.equals("median")){
 					generate(introPath + "/median", outputFolderPath + "/median");
 				}
-				else if(typeName.equals("grade")){
-					generate(introPath + "/grade", outputFolderPath + "/grade");
-				}
-				else if(typeName.equals("checksum")){
-					generate(introPath + "/checksum", outputFolderPath + "/checksum");
-				}
-				else if(typeName.equals("digits")){
-					generate(introPath + "/digits", outputFolderPath + "/digits");
-				}
-				else if(typeName.equals("syllables")){
-					generate(introPath + "/syllables", outputFolderPath + "/syllables");
-				}
+//				else if(typeName.equals("grade")){
+//					generate(introPath + "/grade", outputFolderPath + "/grade");
+//				}
+//				else if(typeName.equals("checksum")){
+//					generate(introPath + "/checksum", outputFolderPath + "/checksum");
+//				}
+//				else if(typeName.equals("digits")){
+//					generate(introPath + "/digits", outputFolderPath + "/digits");
+//				}
+//				else if(typeName.equals("syllables")){
+//					generate(introPath + "/syllables", outputFolderPath + "/syllables");
+//				}
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -96,6 +89,8 @@ public class GenerateStandardTestCases {
 		System.out.println(inputFolder + "\n" + outputFolder);
 	
 		Utility.copy(inputFolder + "/" + functionName + ".c", outputFolder + "/" + functionName + ".c");
+		Transform trans = new Transform(outputFolder, functionName + ".c");
+		trans.tranform();
 		Utility.writeTOFile(outputFolder + "/original", inputFolder);
 		generateWhiteAndBlack(outputFolder, inputFolder, functionName + ".c");
 		getOtherTechInfo(inputFolder, outputFolder);
@@ -188,6 +183,7 @@ public class GenerateStandardTestCases {
 		}
 		
 	}
+	
 
 
 

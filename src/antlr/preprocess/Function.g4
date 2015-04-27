@@ -40,7 +40,7 @@ if_stat
  ;
  
  declarationStat
-	: type ID 
+	: type (ID)(',' ID)*
 	| type ID ('[' INT ']') 
 	//| type POINTER ID
 	;
