@@ -8,6 +8,7 @@ import Library.Utility;
 
 
 public class GenerateStandardTestCases {
+	private static int count = 0;
 	
 	private String introPath;
 	private String outputFolderPath;
@@ -16,6 +17,12 @@ public class GenerateStandardTestCases {
 		this.introPath = introPath;
 		this.outputFolderPath = outputFolderPath;
 		new File(outputFolderPath).mkdir();
+		this.list = new ArrayList<String>();
+	}
+	private List<String> list;
+	
+	public void printFailed(){
+		System.out.println(list);
 	}
 	
 	public void generate(){
@@ -28,18 +35,18 @@ public class GenerateStandardTestCases {
 				else if(typeName.equals("median")){
 					generate(introPath + "/median", outputFolderPath + "/median");
 				}
-//				else if(typeName.equals("grade")){
-//					generate(introPath + "/grade", outputFolderPath + "/grade");
-//				}
-//				else if(typeName.equals("checksum")){
-//					generate(introPath + "/checksum", outputFolderPath + "/checksum");
-//				}
-//				else if(typeName.equals("digits")){
-//					generate(introPath + "/digits", outputFolderPath + "/digits");
-//				}
-//				else if(typeName.equals("syllables")){
-//					generate(introPath + "/syllables", outputFolderPath + "/syllables");
-//				}
+				if(typeName.equals("grade")){
+					generate(introPath + "/grade", outputFolderPath + "/grade");
+				}
+				else if(typeName.equals("checksum")){
+					generate(introPath + "/checksum", outputFolderPath + "/checksum");
+				}
+				else if(typeName.equals("digits")){
+					generate(introPath + "/digits", outputFolderPath + "/digits");
+				}
+				else if(typeName.equals("syllables")){
+					generate(introPath + "/syllables", outputFolderPath + "/syllables");
+				}
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -89,8 +96,6 @@ public class GenerateStandardTestCases {
 		System.out.println(inputFolder + "\n" + outputFolder);
 	
 		Utility.copy(inputFolder + "/" + functionName + ".c", outputFolder + "/" + functionName + ".c");
-		Transform trans = new Transform(outputFolder, functionName + ".c");
-		trans.tranform();
 		Utility.writeTOFile(outputFolder + "/original", inputFolder);
 		generateWhiteAndBlack(outputFolder, inputFolder, functionName + ".c");
 		getOtherTechInfo(inputFolder, outputFolder);
@@ -103,9 +108,38 @@ public class GenerateStandardTestCases {
 			String name = file.getName();
 			if(name.endsWith("log") && name.startsWith("gp")){
 				String fileString = Utility.getStringFromFile(file.getAbsolutePath());
-				if(fileString.contains("Repair Found")){
-					Utility.writeTOFile(outputFolder + "/repair/gp", "success");
-					break;
+				if(fileString.contains("Repair Found") || fileString.contains("repair found")){
+					if(name.contains("wb"))
+					{
+						Utility.writeTOFile(outputFolder + "/repair/gp-wb", "success");
+					}
+					else if(name.contains("bb")){
+						Utility.writeTOFile(outputFolder + "/repair/gp-bb", "success");
+					}
+				}
+			}
+			else if(name.endsWith("log") && name.startsWith("ae")){
+				String fileString = Utility.getStringFromFile(file.getAbsolutePath());
+				if(fileString.contains("Repair Found") || fileString.contains("repair found")){
+					if(name.contains("wb"))
+					{
+						Utility.writeTOFile(outputFolder + "/repair/ae-wb", "success");
+					}
+					else if(name.contains("bb")){
+						Utility.writeTOFile(outputFolder + "/repair/ae-bb", "success");
+					}
+				}
+			}
+			else if(name.endsWith("log") && name.startsWith("tsp")){
+				String fileString = Utility.getStringFromFile(file.getAbsolutePath());
+				if(fileString.contains("Repair Found") || fileString.contains("repair found")){
+					if(name.contains("-wb-"))
+					{
+						Utility.writeTOFile(outputFolder + "/repair/tsp-wb", "success");
+					}
+					else if(name.contains("-bb-")){
+						Utility.writeTOFile(outputFolder + "/repair/tsp-bb", "success");
+					}
 				}
 			}
 		}
@@ -114,7 +148,7 @@ public class GenerateStandardTestCases {
 
 	private void generateWhiteAndBlack(String outputFolder, String inputFolder, String fileName) {
 		String whiteboxPath = inputFolder + "/../../tests/whitebox";
-		String blackboxPath = inputFolder + "/../../tests/blackbox";;
+		String blackboxPath = inputFolder + "/../../tests/blackbox";
 		new File(outputFolder + "/whitebox").mkdir();
 		new File(outputFolder + "/whitebox/positive").mkdir();
 		new File(outputFolder + "/whitebox/negative").mkdir();
@@ -189,8 +223,9 @@ public class GenerateStandardTestCases {
 
 	
 	public static void main(String[] args){
-		GenerateStandardTestCases test = new GenerateStandardTestCases("./introclass", "./bughunt");
+		GenerateStandardTestCases test = new GenerateStandardTestCases("/users/yke/documents/coding/project/introclass-may-2015", "./bughunt");
 		test.generate();
+		test.printFailed();
 	}
 
 }

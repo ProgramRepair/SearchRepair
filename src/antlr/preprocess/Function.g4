@@ -9,7 +9,6 @@ type
 	: Int
 	| Char
 	| Float
-	| String
 	| Double
 	;
 	
@@ -42,7 +41,7 @@ if_stat
  declarationStat
 	: type (ID)(',' ID)*
 	| type ID ('[' INT ']') 
-	//| type POINTER ID
+	| type '*' ID
 	;
 	
 returnStat
@@ -56,10 +55,10 @@ callStat
 assignStat
 	: ID ASSIGN assign_expression
 	| type ID ASSIGN assign_expression
-	| POINTER ID ASSIGN assign_expression
+	| '*' ID ASSIGN assign_expression
 	//| type POINTER ID ASSIGN assign_expression
 	| ID arithmAssignOperator assign_expression
-	| POINTER ID arithmAssignOperator assign_expression
+	| '*' ID arithmAssignOperator assign_expression
 	;
 	
 	
@@ -76,6 +75,7 @@ assign_expression
 	: arith_expression
 	| StringLiteral
 	| CharacterLiteral
+	| '&' ID
 	;
 
 arithmAssignOperator : ADDSELF | DEDUCTSELF | MODSELF | MULTISELF | DIVIDESELF;	
@@ -127,7 +127,6 @@ Char : 'char';
 
 Float : 'float';
 
-String : 'char*';
 
 Double : 'double';
 
@@ -146,6 +145,7 @@ DIVIDE : '/';
 MOD : '%';
 
 ASSIGN : '=';
+fragment
 POINTER : '*';
 
 

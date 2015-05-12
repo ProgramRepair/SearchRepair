@@ -15,6 +15,7 @@ import antlr.preprocess.SnippetParser.Add_expressionContext;
 import antlr.preprocess.SnippetParser.And_expressionContext;
 import antlr.preprocess.SnippetParser.ArgumentsContext;
 import antlr.preprocess.SnippetParser.Arith_expressionContext;
+import antlr.preprocess.SnippetParser.ArrayExprContext;
 import antlr.preprocess.SnippetParser.AssignStatContext;
 import antlr.preprocess.SnippetParser.Assign_expressionContext;
 import antlr.preprocess.SnippetParser.AtomContext;
@@ -343,7 +344,31 @@ public class Restore {
 		else if(atom.callExpr() != null){
 			sb.append(getMappingString(atom.callExpr(), map));
 		}
+		else if(atom.arrayExpr() != null){
+			sb.append(getMappingString(atom.arrayExpr(), map));
+		}
 		else sb.append(atom.getText());
+		return sb.toString();
+	}
+
+	private static String getMappingString(ArrayExprContext arrayExpr,
+			Map<String, String> map) {
+		StringBuilder sb = new StringBuilder();
+		if(map.containsKey(arrayExpr.getChild(0).getText())){
+			sb.append(map.get(arrayExpr.getChild(0).getText()));
+		}
+		else{
+			sb.append(arrayExpr.getChild(0).getText());
+		}
+		
+		sb.append('[');
+		if(map.containsKey(arrayExpr.getChild(2).getText())){
+			sb.append(map.get(arrayExpr.getChild(2).getText()));
+		}
+		else{
+			sb.append(arrayExpr.getChild(2).getText());
+		}
+		sb.append(']');
 		return sb.toString();
 	}
 

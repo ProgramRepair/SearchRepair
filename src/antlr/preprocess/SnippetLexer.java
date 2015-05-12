@@ -1,4 +1,4 @@
-// Generated from Snippet.g4 by ANTLR 4.2.2
+// Generated from Snippet.g4 by ANTLR 4.4
 package antlr.preprocess;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -11,6 +11,8 @@ import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class SnippetLexer extends Lexer {
+	static { RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION); }
+
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
@@ -27,13 +29,13 @@ public class SnippetLexer extends Lexer {
 	};
 
 	public static final String[] tokenNames = {
-		"<INVALID>",
-		"'else'", "'return'", "'['", "';'", "'{'", "','", "']'", "'}'", "'if'", 
-		"BlockComment", "LineComment", "CharacterLiteral", "StringLiteral", "'int'", 
-		"'char'", "'float'", "'char*'", "'unsigned'", "'double'", "INT", "FLOAT", 
-		"STRING", "ID", "'||'", "'&&'", "'('", "')'", "'+'", "'-'", "MULTIPLY", 
-		"'/'", "'%'", "'='", "'++'", "'--'", "'+='", "'-='", "'%='", "'*='", "'/='", 
-		"'<'", "'<='", "'>'", "'>='", "'=='", "'!='", "POINTER", "WS"
+		"'\\u0000'", "'\\u0001'", "'\\u0002'", "'\\u0003'", "'\\u0004'", "'\\u0005'", 
+		"'\\u0006'", "'\\u0007'", "'\b'", "'\t'", "'\n'", "'\\u000B'", "'\f'", 
+		"'\r'", "'\\u000E'", "'\\u000F'", "'\\u0010'", "'\\u0011'", "'\\u0012'", 
+		"'\\u0013'", "'\\u0014'", "'\\u0015'", "'\\u0016'", "'\\u0017'", "'\\u0018'", 
+		"'\\u0019'", "'\\u001A'", "'\\u001B'", "'\\u001C'", "'\\u001D'", "'\\u001E'", 
+		"'\\u001F'", "' '", "'!'", "'\"'", "'#'", "'$'", "'%'", "'&'", "'''", 
+		"'('", "')'", "'*'", "'+'", "','", "'-'", "'.'", "'/'", "'0'"
 	};
 	public static final String[] ruleNames = {
 		"T__8", "T__7", "T__6", "T__5", "T__4", "T__3", "T__2", "T__1", "T__0", 

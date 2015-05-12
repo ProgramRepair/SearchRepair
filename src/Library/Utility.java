@@ -242,6 +242,7 @@ public class Utility {
 			e.printStackTrace();
 			sb.append("failed");
 		}
+		
 		out = sb.toString();
 		return out;
 	}

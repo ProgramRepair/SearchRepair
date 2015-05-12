@@ -1,4 +1,4 @@
-// Generated from Path.g4 by ANTLR 4.2.2
+// Generated from Path.g4 by ANTLR 4.4
 package antlr.preprocess;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -11,6 +11,8 @@ import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class PathLexer extends Lexer {
+	static { RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION); }
+
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
@@ -25,12 +27,12 @@ public class PathLexer extends Lexer {
 	};
 
 	public static final String[] tokenNames = {
-		"<INVALID>",
-		"'!'", "'&'", "'return'", "';'", "','", "'int'", "'char'", "'float'", 
-		"'double'", "'='", "INT", "FLOAT", "ID", "'||'", "'&&'", "'('", "')'", 
-		"'+'", "'-'", "'*'", "'/'", "'%'", "'++'", "'--'", "'+='", "'-='", "'%='", 
-		"'*='", "'/='", "'<'", "'<='", "'>'", "'>='", "'=='", "'!='", "WS", "CharacterLiteral", 
-		"StringLiteral"
+		"'\\u0000'", "'\\u0001'", "'\\u0002'", "'\\u0003'", "'\\u0004'", "'\\u0005'", 
+		"'\\u0006'", "'\\u0007'", "'\b'", "'\t'", "'\n'", "'\\u000B'", "'\f'", 
+		"'\r'", "'\\u000E'", "'\\u000F'", "'\\u0010'", "'\\u0011'", "'\\u0012'", 
+		"'\\u0013'", "'\\u0014'", "'\\u0015'", "'\\u0016'", "'\\u0017'", "'\\u0018'", 
+		"'\\u0019'", "'\\u001A'", "'\\u001B'", "'\\u001C'", "'\\u001D'", "'\\u001E'", 
+		"'\\u001F'", "' '", "'!'", "'\"'", "'#'", "'$'", "'%'", "'&'"
 	};
 	public static final String[] ruleNames = {
 		"T__4", "T__3", "T__2", "T__1", "T__0", "Int", "Char", "Float", "Double", 

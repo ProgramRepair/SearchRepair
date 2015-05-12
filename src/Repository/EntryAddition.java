@@ -27,6 +27,10 @@ public class EntryAddition {
 		List<Method> methods = parse(filePath);
 		for(Method method : methods){
 			count++;
+
+//			String g = Utility.getStringFromFile("./repository/paths/path");
+//			method.getPath().add(g);
+//			method.getPathToInput().put(g, method.getPathToInput().get(method.getPath().get(0)));
 			EntryObject object;
 			try{
 				object = covertMethodToEntry(method);
@@ -35,6 +39,12 @@ public class EntryAddition {
 				continue;
 			}
 			EntryHandler.save(object);
+			try {
+				System.setOut(new PrintStream("log"));
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			System.out.println(method.getName());
 			save++;
 			System.out.println(method.getSource());
@@ -43,7 +53,8 @@ public class EntryAddition {
 			{
 				System.out.println("constraint:\n" + object.getPathConstraint().get(path));
 				System.out.println("variable:\n" + object.getPathFormalVariables().get(path));
-				System.out.println("track:\n" + object.getPathVariablesTypes().get(path));
+				System.out.println("track:\n" + object.getPathVariableTrack().get(path));
+				System.out.println("type:\n" + object.getPathVariablesTypes().get(path));
 				System.out.println("path:\n" + path);
 			}
 		}
@@ -97,7 +108,7 @@ public class EntryAddition {
 			boolean correct = true;
 			while((s = ls_in.readLine()) != null)
 			{
-				
+				System.out.println(s);
 				s = s.trim();
 				if(s.startsWith("Processing:")){
 					if(method.getName() != null){
@@ -128,10 +139,11 @@ public class EntryAddition {
 					path.append("\n");
 					
 					method.getPath().add(path.toString());
-					method.getPathToInput().put(path.toString(), input.toString());					
+					method.getPathToInput().put(path.toString(), input.toString());		
+					System.out.println(input.toString());
 					path = new StringBuilder();
 					input = new StringBuilder();
-					startParsing = false;
+					//startParsing = false;
 				}
 				else if(s.equals("Paths:")){
 					startParsing = true;
@@ -196,10 +208,7 @@ public class EntryAddition {
 		int end = -1;
 		Stack<Character> stack = new Stack<Character>();
 		Stack<Integer> typeStack = new Stack<Integer>();
-		//Stack<>
 		Stack<Integer> index = new Stack<Integer>();
-//		System.out.println(fileName);
-//		System.out.println(fileString);
 		for(int i = 0; i < fileString.length(); i++)
 		{
 			char c = fileString.charAt(i);
@@ -251,8 +260,8 @@ public class EntryAddition {
 
 
 	public static void main(String[] args) throws FileNotFoundException{
-		String filePath = "./repository/syllables/syllable1";
-		//EntryAddition.addOneFolder(filePath);;
-		EntryAddition.addOneFile(filePath);
+		String filePath = "./repository/median";
+		EntryAddition.addOneFolder(filePath);;
+		//EntryAddition.addOneFile(filePath);
 	}
 }

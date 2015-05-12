@@ -1,4 +1,4 @@
-int median(int a, int b, int c, int m)
+void median(float a, float b, float c, float m)
 {
     if(((a>=b)&&(a<=c))||((a<=b)&&(a>=c)))
         m = a;
@@ -6,6 +6,5 @@ int median(int a, int b, int c, int m)
         m = b;
     else if (((c>=a)&&(c<=b))||((c<=a)&&(c>=b)))
         m = c;
-	return m;
     
 }

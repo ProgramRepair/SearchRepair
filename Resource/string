@@ -1,5 +1,7 @@
 (declare-sort String 0)
 
+(declare-fun valueOf (String) Int)
+
 (declare-fun _a_ () Int)
 (declare-fun _b_ () Int)
 (declare-fun _c_ () Int)

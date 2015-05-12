@@ -1,30 +1,35 @@
 package ProcessIntroClass;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import Library.Utility;
 
 public class Transform {
-	String folder;
-	String originalFile;
-	String transformFile;
+	private String folder;
+	private String originalFile;
+	private String typeParameter;
 	
-	public Transform(String folder, String originalFile){
+	public Transform(String folder, String originalFile, String type){
 		this.folder = folder;
 		this.originalFile = originalFile;
+		this.typeParameter = type;
 	}
 	
-	public boolean tranform(){
-		String command = "./executors/transform " + this.folder + "/" + this.originalFile;
+	public String tranform(){
+		String command = "./executors/transform " + this.typeParameter + " " +  this.folder + "/" + this.originalFile;
 		String output = Utility.runCProgram(command);
-		if(output.equals("failed")) return false;
+		if(output.equals("failed")) return null;
+		if(output.endsWith("failed")) {
+			output = output.substring(0, output.length() - 6);
+		}
 		output = cropPre(output);
 		output = addPrefix(Utility.getStringFromFile(this.folder + "/" + this.originalFile), output);
-		Utility.copy(this.folder + "/" + this.originalFile, this.folder + "/backup");
-		Utility.writeTOFile(this.folder + "/" + this.originalFile, output);
+		String pass = this.folder + "/" + this.originalFile.substring(0, this.originalFile.lastIndexOf(".")) + "T.c";
+		Utility.writeTOFile(pass, output);
 		
-		return true;
+		return pass;
 	}
 	
 
@@ -63,7 +68,7 @@ public class Transform {
 	}
 
 	public static void main(String[] args){
-		Transform form = new Transform("./bughunt/median/110", "median.c");
+		Transform form = new Transform("./bughunt/median/110", "median.c", "");
 		form.tranform();
 	}
 

@@ -25,11 +25,13 @@ public class GcovTest {
 	private Map<Integer, Integer> positiveExecutions;
 	private Map<Integer, Integer> negativeExecutions;
 	private Map<Integer, Double> suspiciousness;
+	private boolean wb;
 
-	public GcovTest(String folder, String fileName) {
+	public GcovTest(String folder, String fileName, boolean wb) {
 		super();
 		this.folder = folder;
 		this.fileName = fileName;
+		this.wb = wb;
 		System.out.println(folder);
 		this.positiveExecutions = new HashMap<Integer, Integer>();
 		this.negativeExecutions = new HashMap<Integer, Integer>();
@@ -74,13 +76,26 @@ public class GcovTest {
 	private void calculatesuspiciousness() {
 		int totalFail = this.negatives.size();
 		for(int num : this.negativeExecutions.keySet()){
+			
+			
 			int failed = this.negativeExecutions.get(num);
 			int success = this.positiveExecutions.get(num);
 			int denom = totalFail * (failed + success);
+			
+			//one way
+//			if(denom == 0) this.suspiciousness.put(num, 0.0);
+//			else{
+//				this.suspiciousness.put(num, failed * 1.0 / denom);
+//			}
+			
+			//the other way
+			double left = failed * 1.0 / totalFail;
+			double right = failed * 1.0 / (failed + success);
 			if(denom == 0) this.suspiciousness.put(num, 0.0);
 			else{
-				this.suspiciousness.put(num, failed * 1.0 / denom);
+				this.suspiciousness.put(num, Math.sqrt(left * right));
 			}
+			
 		}
 	}
 
@@ -208,10 +223,13 @@ public class GcovTest {
 
 	private void initNegatives() {
 		
-		String dir = this.folder + "/whitebox/negative";
-		initNegatives(dir);
-		String blackdir = this.folder + "/blackbox/negative";
-		initNegatives(blackdir);
+		if(wb){
+			String dir = this.folder + "/whitebox/negative";
+			initNegatives(dir);
+		}else{
+			String blackdir = this.folder + "/blackbox/negative";
+			initNegatives(blackdir);
+		}
 	}
 
 	private void initNegatives(String dir) {
@@ -232,10 +250,14 @@ public class GcovTest {
 
 	private void initPositives() {
 		//fetch from whitebox
-		String dir = this.folder + "/whitebox/positive";
-		initPositives(dir);
-		String blackdir = this.folder + "/blackbox/positive";
-		initPositives(blackdir);
+		if(wb){
+			String dir = this.folder + "/whitebox/positive";
+			initPositives(dir);
+		}
+		else{
+			String blackdir = this.folder + "/blackbox/positive";
+			initPositives(blackdir);
+		}
 	}
 
 	private void initPositives(String dir) {
@@ -253,28 +275,28 @@ public class GcovTest {
 		
 	}
 	
-	public static void groupExperiment(String root){
+	public static void groupExperiment(String root, boolean wb){
 		try{
 			File dir = new File(root);
 			for(String typeName : dir.list()){
 				if(typeName.equals("smallest")){
-					generate(root + "/smallest", "smallest.c");
+					generate(root + "/smallest", "smallest.c", wb);
 				}
 				else if(typeName.equals("median")){
-					generate(root + "/median", "median.c");
+					generate(root + "/median", "median.c", wb);
 				}
-				else if(typeName.equals("grade")){
-					generate(root + "/grade", "grade.c");
-				}
-				else if(typeName.equals("checksum")){
-					generate(root + "/checksum", "checksum.c");
-				}
-				else if(typeName.equals("digits")){
-					generate(root + "/digits", "digits.c");
-				}
-				if(typeName.equals("syllables")){
-					generate(root + "/syllables", "syllables.c");
-				}
+//				else if(typeName.equals("grade")){
+//					generate(root + "/grade", "grade.c");
+//				}
+//				else if(typeName.equals("checksum")){
+//					generate(root + "/checksum", "checksum.c");
+//				}
+//				else if(typeName.equals("digits")){
+//					generate(root + "/digits", "digits.c");
+//				}
+//				if(typeName.equals("syllables")){
+//					generate(root + "/syllables", "syllables.c");
+//				}
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -283,13 +305,13 @@ public class GcovTest {
 	
 	
 	
-	private static void generate(String root, String fileName) {
+	private static void generate(String root, String fileName, boolean wb) {
 		try{
 			File dir = new File(root);
 			for(File file : dir.listFiles()){
 				if(file.isDirectory()){
 					String path = file.getAbsolutePath();
-					GcovTest test = new GcovTest(path, fileName);
+					GcovTest test = new GcovTest(path, fileName, wb);
 					//test.
 				}
 			}
@@ -301,8 +323,8 @@ public class GcovTest {
 	}
 
 	public static void main(String[] args){
-		//GcovTest test = new GcovTest("./bughunt/syllables/129", "syllables.c");
-		groupExperiment("./bughunt");
+		GcovTest test = new GcovTest("./bughunt/median/0", "median.c", false);
+		//groupExperiment("./bughunt");
 	}
 
 }

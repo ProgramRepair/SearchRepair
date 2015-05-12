@@ -17,6 +17,16 @@ public class DataBaseManager {
 	public static Connection connect(){
 		return connect(USER, PASSWORD, DATABASE);
 	}
+	
+	public static void close(){
+		try {
+			connected = false;
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	public static Connection connect(String user, String password, String database) {
 		if(!connected){
@@ -96,6 +106,7 @@ public class DataBaseManager {
 //				}catch(Exception e){
 //					e.printStackTrace();
 //				}
+				//state.close();
 				return set;
 			}
 		}catch(Exception e){

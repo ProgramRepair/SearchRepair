@@ -1,4 +1,4 @@
-// Generated from Scrape.g4 by ANTLR 4.2.2
+// Generated from Scrape.g4 by ANTLR 4.4
 package scraper;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class ScrapeParser extends Parser {
+	static { RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION); }
+
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
@@ -92,7 +94,7 @@ public class ScrapeParser extends Parser {
 			setState(69);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 2) | (1L << 9) | (1L << 10) | (1L << Int) | (1L << Char) | (1L << Float) | (1L << String) | (1L << UnSigned) | (1L << Double) | (1L << ID) | (1L << POINTER))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__8) | (1L << T__1) | (1L << T__0) | (1L << Int) | (1L << Char) | (1L << Float) | (1L << String) | (1L << UnSigned) | (1L << Double) | (1L << ID) | (1L << POINTER))) != 0)) {
 				{
 				{
 				setState(66); stat();
@@ -174,11 +176,11 @@ public class ScrapeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(74); match(5);
+			setState(74); match(T__5);
 			setState(78);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 2) | (1L << 9) | (1L << 10) | (1L << Int) | (1L << Char) | (1L << Float) | (1L << String) | (1L << UnSigned) | (1L << Double) | (1L << ID) | (1L << POINTER))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__8) | (1L << T__1) | (1L << T__0) | (1L << Int) | (1L << Char) | (1L << Float) | (1L << String) | (1L << UnSigned) | (1L << Double) | (1L << ID) | (1L << POINTER))) != 0)) {
 				{
 				{
 				setState(75); stat();
@@ -188,7 +190,7 @@ public class ScrapeParser extends Parser {
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(81); match(8);
+			setState(81); match(T__2);
 			}
 		}
 		catch (RecognitionException re) {
@@ -240,49 +242,43 @@ public class ScrapeParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(83); declarationStat();
-				setState(84); match(4);
+				setState(84); match(T__6);
 				}
 				break;
-
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(86); if_stat();
 				}
 				break;
-
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(87); returnStat();
-				setState(88); match(4);
+				setState(88); match(T__6);
 				}
 				break;
-
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(90); callStat();
-				setState(91); match(4);
+				setState(91); match(T__6);
 				}
 				break;
-
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
 				setState(93); assignStat();
-				setState(94); match(4);
+				setState(94); match(T__6);
 				}
 				break;
-
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
 				setState(96); selfIncreStat();
-				setState(97); match(4);
+				setState(97); match(T__6);
 				}
 				break;
-
 			case 7:
 				enterOuterAlt(_localctx, 7);
 				{
@@ -379,12 +375,12 @@ public class ScrapeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(109); match(10);
+			setState(109); match(T__0);
 			setState(110); match(LPAREN);
 			setState(111); assignStat();
-			setState(112); match(4);
+			setState(112); match(T__6);
 			setState(113); condExpr();
-			setState(114); match(4);
+			setState(114); match(T__6);
 			setState(115); stat();
 			setState(116); match(RPAREN);
 			setState(117); block();
@@ -420,7 +416,7 @@ public class ScrapeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(119); match(9);
+			setState(119); match(T__1);
 			setState(120); condExpr();
 			setState(121); ifblock();
 			}
@@ -474,7 +470,7 @@ public class ScrapeParser extends Parser {
 				setState(126); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
-			} while ( _alt!=2 && _alt!=ATN.INVALID_ALT_NUMBER );
+			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
 			}
 		}
 		catch (RecognitionException re) {
@@ -504,7 +500,7 @@ public class ScrapeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(128); match(1);
+			setState(128); match(T__9);
 			setState(129); ifblock();
 			}
 		}
@@ -538,8 +534,8 @@ public class ScrapeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(131); match(1);
-			setState(132); match(9);
+			setState(131); match(T__9);
+			setState(132); match(T__1);
 			setState(133); condExpr();
 			setState(134); ifblock();
 			}
@@ -574,9 +570,9 @@ public class ScrapeParser extends Parser {
 		try {
 			setState(138);
 			switch (_input.LA(1)) {
-			case 2:
-			case 9:
-			case 10:
+			case T__8:
+			case T__1:
+			case T__0:
 			case Int:
 			case Char:
 			case Float:
@@ -590,7 +586,7 @@ public class ScrapeParser extends Parser {
 				setState(136); stat();
 				}
 				break;
-			case 5:
+			case T__5:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(137); block();
@@ -637,13 +633,12 @@ public class ScrapeParser extends Parser {
 				setState(140); type();
 				setState(141); match(ID);
 				{
-				setState(142); match(3);
+				setState(142); match(T__7);
 				setState(143); match(INT);
-				setState(144); match(7);
+				setState(144); match(T__3);
 				}
 				}
 				break;
-
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
@@ -688,7 +683,7 @@ public class ScrapeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(154); match(2);
+			setState(154); match(T__8);
 			{
 			setState(155); arith_expression();
 			}
@@ -777,7 +772,6 @@ public class ScrapeParser extends Parser {
 				setState(164); assign_expression();
 				}
 				break;
-
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
@@ -795,7 +789,6 @@ public class ScrapeParser extends Parser {
 				setState(171); assign_expression();
 				}
 				break;
-
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
@@ -947,10 +940,10 @@ public class ScrapeParser extends Parser {
 				setState(193);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while (_la==6) {
+				while (_la==T__4) {
 					{
 					{
-					setState(189); match(6);
+					setState(189); match(T__4);
 					setState(190); assign_expression();
 					}
 					}
@@ -999,14 +992,12 @@ public class ScrapeParser extends Parser {
 				setState(200); arith_expression();
 				}
 				break;
-
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(201); match(StringLiteral);
 				}
 				break;
-
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
@@ -1125,7 +1116,7 @@ public class ScrapeParser extends Parser {
 			setState(214);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,15,_ctx);
-			while ( _alt!=2 && _alt!=ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -1335,7 +1326,7 @@ public class ScrapeParser extends Parser {
 			setState(245);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
-			while ( _alt!=2 && _alt!=ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -1565,28 +1556,24 @@ public class ScrapeParser extends Parser {
 				setState(268); match(ID);
 				}
 				break;
-
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(269); match(INT);
 				}
 				break;
-
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(270); match(FLOAT);
 				}
 				break;
-
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(271); match(CharacterLiteral);
 				}
 				break;
-
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{

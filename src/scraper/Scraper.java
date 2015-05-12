@@ -20,6 +20,7 @@ import scraper.ScrapeParser.AssignStatContext;
 import scraper.ScrapeParser.Assign_expressionContext;
 import scraper.ScrapeParser.AtomContext;
 import scraper.ScrapeParser.DeclarationStatContext;
+import scraper.ScrapeParser.ElseifblockContext;
 import scraper.ScrapeParser.If_statContext;
 import scraper.ScrapeParser.ProgContext;
 import scraper.ScrapeParser.ReturnStatContext;
@@ -37,10 +38,13 @@ public class Scraper {
 	public Scraper(String folder) {
 		super();
 		this.folder = folder;
-		this.projecName = this.folder.substring(this.folder.lastIndexOf("/") + 1);
+		int temp = this.folder.substring(0, this.folder.lastIndexOf("/")).lastIndexOf("/");
+		this.projecName = this.folder.substring(temp + 1);
 		this.returnType = "void";
 		File dir = new File(scrapRoot + "/" + projecName);
-		if(!dir.exists() || !dir.isDirectory()) dir.mkdir();
+		if(!dir.exists() || !dir.isDirectory()) {
+			dir.mkdir();
+		}
 		//scrape(new File(folder));
 	}
 	
@@ -53,6 +57,14 @@ public class Scraper {
 		for(File file : dir.listFiles()){
 			getSupport(file, list);
 		}
+		return list;
+	}
+	
+	public  List<String> scrape(String filePath){
+		List<String> list = new ArrayList<String>();
+//		for(File file : dir.listFiles()){
+			getSupport(new File(filePath), list);
+//		}
 		return list;
 	}
 	
@@ -69,7 +81,7 @@ public class Scraper {
 	}
 
 	private  void parse(File file, List<String> list) {
-		//if(!file.getAbsolutePath().endsWith(".c")) return;
+		if(!file.getAbsolutePath().endsWith(".c")) return;
 		String fileString = Utility.getStringFromFile1(file.getAbsolutePath());
 		List<String> array = new ArrayList<String>();
 		
@@ -124,7 +136,7 @@ public class Scraper {
 					}
 					else if(child instanceof If_statContext) {
 						If_statContext ifstat = (If_statContext) child;
-						list.add(getTreeString(child));
+						list.add(getTreeString(ifstat));
 					}
 					else if(child instanceof ReturnStatContext){
 						ReturnStatContext returnStat = (ReturnStatContext) child;
@@ -172,6 +184,27 @@ public class Scraper {
 	}
 
 	
+	public String getTreeString(If_statContext ifstat){
+		StringBuilder sb = new StringBuilder();
+		sb.append(getTreeString(ifstat.ifpart()));
+		if(ifstat.elseifpart() != null){
+			sb.append(getTreeString(ifstat.elseifpart().elseifblock()));
+		}
+		
+		if(ifstat.elsepart() != null){
+			sb.append(getTreeString(ifstat.elsepart()));
+		}
+		return sb.toString();
+	}
+	
+	private Object getTreeString(List<ElseifblockContext> elseifblock) {
+		StringBuilder sb = new StringBuilder();
+		for(ElseifblockContext block : elseifblock){
+			sb.append(getTreeString(block));
+		}
+		return sb.toString();
+	}
+
 	public   void generate(String file, String s){
 		Map<String, String> variables = getUndeclaredVariable(s);
 		//if(!s.trim().startsWith("publish")) return;
@@ -394,7 +427,7 @@ public class Scraper {
 	}
 
 	public static void main(String[] args){
-		List<String> list = new Scraper("./block").scrape();
+		List<String> list = new Scraper("./bughunt/syllables/33").scrape("./bughunt/syllables/33/syllables.c");
 		for(String s : list){
 			System.out.println("------------");
 			System.out.println(s);

@@ -9,7 +9,13 @@ statement
 	| returnStat
 	| assumeStat
 	| callStat
+	| selfIncreStat
 	;
+selfIncreStat: ID selfOperator ';';
+
+selfOperator: '++' | '--';
+
+
 	
 callStat
 	: callExpr ';'

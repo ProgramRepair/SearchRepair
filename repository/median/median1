@@ -1,4 +1,4 @@
-void median(int a, int b, int c, int m)
+void median(double a, double b, double c, double m)
 {
     if(((a>=b)&&(a<=c))||((a<=b)&&(a>=c)))
         m = a;

@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 import Experiment.SearchCase;
-import LoopAndResursion.LRSearchCase;
 
 
 
@@ -53,7 +52,7 @@ public class Test {
 	@org.junit.Test
 	public void testRecursion(){
 		String filePath = "TestCases/examples/test6";
-		LRSearchCase case1 = new LRSearchCase(filePath);
+		SearchCase case1 = new SearchCase(filePath);
 	}
 	
 	@org.junit.Test
@@ -66,7 +65,7 @@ public class Test {
 	@org.junit.Test
 	public void test8(){
 		String filePath = "testCases/examples/returnRecursion";
-		LRSearchCase case1 = new LRSearchCase(filePath);
+		SearchCase case1 = new SearchCase(filePath);
 	}
 	
 	

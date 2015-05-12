@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +23,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import search.PrototypeSearch;
+import search.ResultObject;
 import search.ResultObject.ResultState;
-import Library.CTest;
 import Library.Utility;
 import antlr.preprocess.FunctionLexer;
 import antlr.preprocess.FunctionParser;
@@ -54,6 +55,7 @@ public class SearchCase {
 	private Map<String, String> negatives;
 	private int[] buggy;
 	private CaseInfo info;
+	private Map<String, String> verifications;
 	
 	
 	
@@ -66,6 +68,7 @@ public class SearchCase {
 		this.negatives = new HashMap<String, String>();
 		this.info = new CaseInfo();
 		this.buggy = new int[2];
+		this.verifications = new HashMap<String, String>();
 	}
 
 	public void init() {
@@ -85,9 +88,28 @@ public class SearchCase {
 		printResult();
 		ruleOutFalsePositive();
 		//printSearchingResult();
+		
+		if(isEmpty(info.getResult())) {
+			this.info.getResult().setState(ResultState.FAILED);
+			return;
+		}
+		else{
+			if(!info.getResult().getPositive().isEmpty())
+			{
+				this.info.getResult().setState(ResultState.SUCCESS);
+			}
+			else{
+				this.info.getResult().setState(ResultState.PARTIAL);
+			}
+		}
 	}
 	
 	
+
+	private boolean isEmpty(ResultObject result) {
+		return info.getResult().getPartial().isEmpty() && info.getResult().getPositive().isEmpty();
+	}
+
 	private void printSearchingResult() {
 		System.out.println("True fix:\n");
 		for(String source : info.getResult().getPositive()){
@@ -115,7 +137,8 @@ public class SearchCase {
 					String outputFile = generateOutputFile(input);
 					if(testAllResults(source, outputFile)){
 						info.getResult().getMappingSource().put(source, input);
-						info.getResult().setState(ResultState.SUCCESS);
+						int extraPass = this.passTestSuite(source, outputFile, this.verifications);
+						this.info.getResult().getExtraPass().put(source, extraPass);
 						break;
 					}
 					else continue;
@@ -123,9 +146,6 @@ public class SearchCase {
 					System.out.println(e);
 					continue;
 				}
-			}
-			if(info.getResult().getState() == ResultState.SUCCESS){
-				break;
 			}
 			
 		}
@@ -150,13 +170,18 @@ public class SearchCase {
 		}
 		else {
 			info.getResult().getPartial().put(source, count * 1.0 / this.getNegatives().size());
-			return false;
+			return true;
 		}
 	}
 
 
 
 	private int passNegatives(String source, String outputFile) {
+		return this.passTestSuite(source, outputFile, this.negatives);
+	}
+
+	
+	private int passTestSuite(String source, String outputFile, Map<String, String> suite){
 		File file = new File( this.casePrefix);
 		if(file.exists()) file.delete();
 		String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
@@ -165,8 +190,8 @@ public class SearchCase {
 			return 0;
 		}
 		int count = 0;
-		for(String input : this.negatives.keySet()){
-			String output = this.negatives.get(input);
+		for(String input : suite.keySet()){
+			String output = suite.get(input);
 			
 			String command2 = "./" + this.casePrefix;
 			
@@ -179,7 +204,8 @@ public class SearchCase {
 		}
 		return count;
 	}
-
+	
+	
 
 
 	private boolean passAllPositive(String source, String outputFile) {
@@ -241,6 +267,7 @@ public class SearchCase {
 	}
 
 	private void printResult() {
+		System.out.println(this.casePrefix);
 		int i = 0;
 		for(String source : info.getResult().getSearchMapping().keySet())
 		{
@@ -248,7 +275,6 @@ public class SearchCase {
 			i++;
 			System.out.println("result" + i + "\n--------------------");
 			System.out.println(source);
-			System.out.println(info.getResult().getSearchMapping().get(source));
 
 		}
 		
@@ -271,11 +297,17 @@ public class SearchCase {
 	}
 
 	private boolean fillSearchCase() {
-		if(insertStateStatements(this.casePrefix + ".c")){
-			obtainPositiveStates();
+		System.out.println("---"+Arrays.toString(this.buggy));
+		try{
+			if(insertStateStatements(this.casePrefix + ".c")){
+				obtainPositiveStates();
+				return true;
+			}
+			else return false;
+		}catch(Exception e){
+			e.printStackTrace();
 			return true;
 		}
-		else return false;
 		
 	}
 
@@ -291,27 +323,30 @@ public class SearchCase {
 			String s2 = Utility.runCProgramWithInput(command2, input);
 			//System.out.println(s2);
 			if(s2.trim().isEmpty()) return;
-			int inputStart = s2.indexOf("inputStart:");
-			int inputEnd = s2.indexOf("inputEnd");
-			int outputStart = s2.indexOf("outputStart:");
-			int outputEnd = s2.indexOf("outputEnd");
-			if(inputStart == - 1) continue;
-			if(outputStart == - 1) continue;
-			
-			List<String> inputList = new ArrayList<String>();
-			List<String> outputList = new ArrayList<String>();
-			
-
-			String[] elems = s2.substring(inputStart + 11, inputEnd).split(",");
-			for(String e : elems){
-				if(e.equals("")) continue;
-				inputList.add(e);				
+			String[] entries = s2.split("_nextloop_");
+			for(String entry : entries){
+				int inputStart = entry.indexOf("inputStart:");
+				int inputEnd = entry.indexOf("inputEnd");
+				int outputStart = entry.indexOf("outputStart:");
+				//int outputEnd = s2.indexOf("outputEnd");
+				if(inputStart == - 1) continue;
+				if(outputStart == - 1) continue;
+				
+				List<String> inputList = new ArrayList<String>();
+				List<String> outputList = new ArrayList<String>();
+				
+	
+				String[] elems = entry.substring(inputStart + 11, inputEnd).split("_VBC_");
+				for(String e : elems){
+					if(e.equals("")) continue;
+					inputList.add(e);				
+				}
+				for(String o : entry.substring(outputStart + 12).split("_VBC_")){
+					if(o.equals("")) continue;
+					outputList.add(o);
+				}
+				info.getPositives().put(inputList, outputList);
 			}
-			for(String o : s2.substring(outputStart + 12, outputEnd).split(",")){
-				if(o.equals("")) continue;
-				outputList.add(o);
-			}
-			info.getPositives().put(inputList, outputList);
 		}
 
 		
@@ -381,6 +416,7 @@ public class SearchCase {
 
 	private String[] getStatesStatement(String target) {
 		String[] states = null;
+		
 		Map<String, String> variables = new HashMap<String, String>();
 		try{
 			InputStream stream = new ByteArrayInputStream(target.getBytes());
@@ -390,6 +426,7 @@ public class SearchCase {
 			FunctionParser parser = new FunctionParser(tokens);
 			
 			getStatesVariables(parser.prog().function(), variables);
+			//stream.close();
 
 		}catch(Exception e){
 			return null;
@@ -409,7 +446,7 @@ public class SearchCase {
 		for(String id : variables.keySet()){
 			String type = variables.get(id);
 			if(type.equals("int")){
-				String begin = id + ":%d:int,";
+				String begin = id + ":%d:int_VBC_";
 				String end = id + ", ";
 				inputbegin += begin;
 				inputend += end;
@@ -417,7 +454,7 @@ public class SearchCase {
 				outputend += end;
 			}
 			else if(type.equals("char")){
-				String begin = id + ":%d:char,";
+				String begin = id + ":%d:char_VBC_";
 				String end = id + ", ";
 				inputbegin += begin;
 				inputend += end;
@@ -425,7 +462,7 @@ public class SearchCase {
 				outputend += end;
 			}
 			else if(type.equals("float") || type.equals("double")){
-				String begin = id + ":%f:float,";
+				String begin = id + ":%f:float_VBC_";
 				String end = id + ", ";
 				inputbegin += begin;
 				inputend += end;
@@ -433,7 +470,7 @@ public class SearchCase {
 				outputend += end;
 			}
 			else if(type.equals("char*")){
-				String begin = id + ":%s:char*,";
+				String begin = id + ":%s:char*_VBC_";
 				String end = id + ", ";
 				inputbegin += begin;
 				inputend += end;
@@ -441,9 +478,9 @@ public class SearchCase {
 				outputend += end;
 			}
 		}
-		
-		states[0] = inputbegin.subSequence(0, inputbegin.length() - 1) + "inputEnd\", " + inputend.substring(0, inputend.length() - 2) + ");";
-		states[1] = outputbegin.subSequence(0, outputbegin.length() - 1) + "outputEnd\", " + outputend.substring(0, outputend.length() - 2) + ");";
+		System.out.println(inputend);
+		states[0] = inputbegin.subSequence(0, inputbegin.length()) + "inputEnd\", " + inputend.substring(0, inputend.length() - 2) + ");";
+		states[1] = outputbegin.subSequence(0, outputbegin.length()) + "_nextloop_\", " + outputend.substring(0, outputend.length() - 2) + ");";
 		return states;
 	}
 
@@ -519,7 +556,7 @@ public class SearchCase {
 
 	private void add(DeclarationStatContext decl, Map<String, String> variables) {
 		String type = decl.type().getText();
-		if(decl.INT() != null){
+		if(decl.getText().contains("[") || decl.getText().contains("*")){
 			type = type + '*';
 		}
 		for(int i = 0; i < decl.ID().size(); i++)
@@ -581,14 +618,12 @@ public class SearchCase {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(this.casePrefix + ".c")));
 			String s = null;
 			
-			boolean find = false;
-			String function = " " + this.casePrefix.substring(this.casePrefix.lastIndexOf("/") + 1) + "(";
 			
 			for(int i = 1; i < buggy[0]; i++){
 				s = reader.readLine();
 				if(s.trim().startsWith("#")) continue;
 				//if(!find && !s.contains(function)) continue;
-				find = true;
+				//find = true;
 				writer.write(s);
 				writer.write("\n");
 				writer.flush();
@@ -711,9 +746,31 @@ public class SearchCase {
 	
 	
 	
+	
+	
+	public Map<String, String> getVerifications() {
+		return verifications;
+	}
+
+	public void setVerifications(Map<String, String> verifications) {
+		this.verifications = verifications;
+	}
+
 	public static void main(String[] args){
 		SearchCase case1 = new SearchCase("TestCases/examples/test1");
 		//case1.print();
+	}
+
+	public void searchJustOnMap() {
+		try{
+			info.setResult(new ResultObject());
+			PrototypeSearch.searchOnlyMatchType(info);
+			this.printResult();
+			this.ruleOutFalsePositive();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 	}
 
 }

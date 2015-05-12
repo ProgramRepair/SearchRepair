@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ResultObject {
-	public enum ResultState {SUCCESS, CORRECT, NOPOSITIVE, FAILED};
+	public enum ResultState {SUCCESS, CORRECT, NOPOSITIVE, FAILED, PARTIAL};
 	
 //	private Map<String, String> pathVariablesTypes;
 //	private Map<String, String> pathVariableTrack;
@@ -20,6 +20,7 @@ public class ResultObject {
 	private List<String> falsePositve;
 	private List<String> positive;
 	private ResultState state;
+	private Map<String, Integer> extraPass;
 	
 	public ResultObject(){
 //		this.pathVariablesTypes = new HashMap<String, String>();
@@ -31,11 +32,27 @@ public class ResultObject {
 		this.partial = new HashMap<String, Double>();
 		this.mappingSource = new HashMap<String, String>();
 		this.state = ResultState.FAILED;
+		this.extraPass = new HashMap<String, Integer>();
 	}
 	
 	
 	
 	
+	
+
+	public Map<String, Integer> getExtraPass() {
+		return extraPass;
+	}
+
+
+	public void setExtraPass(Map<String, Integer> extraPass) {
+		this.extraPass = extraPass;
+	}
+
+
+
+
+
 
 	public Map<String, List<Map<String, String>>> getSearchMapping() {
 		return searchMapping;
@@ -153,9 +170,15 @@ public class ResultObject {
 
 
 
+	public int getBigExtra() {
+		int count = 0;
+		for(String s : this.extraPass.keySet()){
+			if(this.extraPass.get(s) > count) count = this.extraPass.get(s);
+		}
+		return count;
+	}
 
 
-	
 	
 
 }
