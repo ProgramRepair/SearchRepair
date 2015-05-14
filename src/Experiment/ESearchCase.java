@@ -10,7 +10,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import search.PrototypeSearch;
@@ -40,6 +42,8 @@ public  class ESearchCase {
 	private boolean hasPrintf ;
 	private String runDir;
 	private String transformFile;
+	private int repo;
+	private List<String> content;
 	
 	
 	
@@ -50,7 +54,8 @@ public  class ESearchCase {
 
 
 
-	public ESearchCase(String folder, String fileName){
+	public ESearchCase(String folder, String fileName, int repo){
+		this.repo = repo;
 		this.folder = folder;
 		this.fileName = fileName;
 		this.whitePositives = new HashMap<String, String>();
@@ -67,11 +72,40 @@ public  class ESearchCase {
 		this.hasPrintf = false;
 		this.suspiciousness = new HashMap<Integer, Double>();
 		this.runDir = this.folder + "/temp";
+		this.content = new ArrayList<String>();
+	}
+	
+	protected void initContent() {
+		try{
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.folder + "/" + this.transformFile)));
+			String s = null;
+			while((s = br.readLine()) != null){
+				this.content.add(s.trim());
+			}
+			br.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 	}
 	
 	
 	
 	
+	public List<String> getContent() {
+		return content;
+	}
+
+
+
+
+	public void setContent(List<String> content) {
+		this.content = content;
+	}
+
+
+
+
 	protected CaseInfo getInfo() {
 		return info;
 	}
@@ -106,7 +140,7 @@ public  class ESearchCase {
 		return fileName;
 	}
 	
-	protected void transformAndInitRunDir(boolean transform){
+	protected void transformAndInitRunDir(boolean transform, String typeParameter){
 		runDir = this.getFolder() + "/temp";
 		if(!new File(runDir).exists()) new File(runDir).mkdir();
 		if(!transform) {
@@ -114,7 +148,7 @@ public  class ESearchCase {
 			Utility.copy(this.folder + "/" + this.fileName, runDir + "/" + this.getFileName());
 			return;
 		}
-		Transform trans = new Transform(this.getFolder(), this.getFileName(), "--type grade");
+		Transform trans = new Transform(this.getFolder(), this.getFileName(), typeParameter);
 		String pass = trans.tranform();
 		
 		//transform here, if there is a true transform, no need to copy
@@ -213,10 +247,10 @@ public  class ESearchCase {
 	public void recordResult(boolean wb) {
 		String filec;
 		if(wb){
-			filec="wb";
+			filec="searchfix-wb" + repo;
 		}
 		else{
-			filec="bb";
+			filec="searchfix-bb" + repo;
 		}
 		File dir = new File(this.folder + "/repair");
 		if(!dir.exists()){
@@ -671,7 +705,7 @@ public  class ESearchCase {
 
 
 	public static void main(String[] args) {
-		ESearchCase instan = new ESearchCase("./bughunt/grade/110", "gradeT.c");
+		ESearchCase instan = new ESearchCase("./bughunt/median/48", "median.c", 2);
 		//instan.search();
 		//instan.recordResult();
 		System.out.println(instan.test());

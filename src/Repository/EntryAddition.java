@@ -260,7 +260,7 @@ public class EntryAddition {
 
 
 	public static void main(String[] args) throws FileNotFoundException{
-		String filePath = "./repository/median";
+		String filePath = "./repository/syllables";
 		EntryAddition.addOneFolder(filePath);;
 		//EntryAddition.addOneFile(filePath);
 	}

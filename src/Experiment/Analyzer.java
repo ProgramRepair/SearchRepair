@@ -1,12 +1,16 @@
 package Experiment;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
 import Library.Utility;
 
 public class Analyzer {
+	
+	
 	
 	public static final String MEDIAN = "median";
 	public static final String SMALLEST = "smallest";
@@ -17,43 +21,81 @@ public class Analyzer {
 	public static final String CORRECT = "correct";
 	public static final String FAILED = "failed";
 	public static final String SUCCESS = "success";
+	public static final String NOPOSITIVE = "NOPOSITIVE";
+	public static final String SUCCESSANDPARTIAL = "successAndPartial";
+	public static final String PARTIAL = "partial";
 	
-	
+	//program, tech, version, status
 	private Map<String, Map<String, Map<String, String>>> table;
 	private String root;
 	private boolean wb;
 	private int repo;
+	private Map<String, Integer> extraSuiteSize;
 	
 	
 	
-	//statistics: program and fixed number
+	// tech, program and fixed number
 	private Map<String, Map<String, Integer>> fixedTable;
-	private Map<String, Integer> genprogfix;
-	private Map<String, Integer> aefix;
-	private Map<String, Integer> tspfix;
-	private Map<String, Integer> searchfix;
 	private Map<String, Integer> correctProgram;
+	private Map<String, Integer> extraPass;
+	private Map<String, Integer> extraComplete;
+	private Map<String, Integer> searchAndGenprog;
+	private Map<String, Integer> searchAndTSP;
+	private Map<String, Integer> searchAndAE;
+	private Map<String, Integer> searchOnly;
+	private Map<String, Integer> nopositive;
+	//private Map
 
 	public Analyzer(String root, boolean wb, int repo) {
 		this.root = root;
 		this.wb = wb;
 		this.table = new HashMap<String, Map<String, Map<String, String>>>();
+		this.extraSuiteSize = this.generateExtraTable();
 		initTable();
 		resetStatics();
 	}
 	
 	
+	private Map<String, Integer> generateExtraTable() {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		if(wb){
+			map.put(Analyzer.MEDIAN, 7);
+			map.put(Analyzer.SMALLEST, 8);
+			map.put(Analyzer.SYLLABLES, 6);
+			map.put(Analyzer.GRADE, 9);
+			map.put(Analyzer.DIGITS, 6);
+			map.put(Analyzer.CHECKSUM, 6);
+		}
+		else{
+			map.put(Analyzer.MEDIAN, 6);
+			map.put(Analyzer.SMALLEST, 8);
+			map.put(Analyzer.SYLLABLES, 9);
+			map.put(Analyzer.GRADE, 9);
+			map.put(Analyzer.DIGITS, 9);
+			map.put(Analyzer.CHECKSUM, 9);
+		}
+		return map;
+	}
+
+
 	private void resetStatics() {
+		this.nopositive = this.initOneProgramFix();
 		this.correctProgram = this.initOneProgramFix();
+		this.extraPass = this.initOneProgramFix();
+		this.extraComplete = this.initOneProgramFix();
 		this.fixedTable = new HashMap<String, Map<String, Integer>>();
-		this.genprogfix = initOneProgramFix();
-		this.aefix = initOneProgramFix();
-		this.tspfix = initOneProgramFix();
-		this.searchfix = initOneProgramFix();
+		Map<String, Integer> genprogfix = initOneProgramFix();
+		Map<String, Integer> aefix = initOneProgramFix();
+		Map<String, Integer> tspfix = initOneProgramFix();
+		Map<String, Integer> searchfix = initOneProgramFix();
 		this.fixedTable.put("genprog", genprogfix);
-		this.fixedTable.put("ae", this.aefix);
-		this.fixedTable.put("tsp", this.tspfix);
-		this.fixedTable.put("searchfix", this.searchfix);
+		this.fixedTable.put("ae", aefix);
+		this.fixedTable.put("tsp", tspfix);
+		this.fixedTable.put("searchfix", searchfix);
+		this.searchAndAE = initOneProgramFix();
+		this.searchOnly = initOneProgramFix();
+		this.searchAndGenprog = initOneProgramFix();
+		this.searchAndTSP = initOneProgramFix();
 	}
 
 
@@ -65,6 +107,12 @@ public class Analyzer {
 		map.put(Analyzer.GRADE, 0);
 		map.put(Analyzer.SYLLABLES, 0);
 		map.put(Analyzer.CHECKSUM, 0);
+		map.put(Analyzer.MEDIAN + "p", 0);
+		map.put(Analyzer.SMALLEST + "p", 0);
+		map.put(Analyzer.DIGITS + "p", 0);
+		map.put(Analyzer.GRADE + "p", 0);
+		map.put(Analyzer.SYLLABLES + "p", 0);
+		map.put(Analyzer.CHECKSUM + "p", 0);
 		return map;
 	}
 
@@ -80,11 +128,17 @@ public class Analyzer {
 	}
 	
 	
+	
+	
 
 	private void fetch(File dir, String name) {
 		for(File version : dir.listFiles()){
 			if(checkIsCorrect(version)){
 				initCorrectForAll(version, name);
+				continue;
+			}
+			if(this.checkNopositve(version)){
+				initNopositive(version, name);
 				continue;
 			}
 			initSearchFix(version, name);
@@ -95,6 +149,16 @@ public class Analyzer {
 	}
 
 
+
+
+	private void initNopositive(File version, String program) {
+		this.table.get(program).get("genprog").put(version.getName(), Analyzer.NOPOSITIVE);
+		this.table.get(program).get("ae").put(version.getName(), Analyzer.NOPOSITIVE);
+		this.table.get(program).get("tsp").put(version.getName(), Analyzer.NOPOSITIVE);
+		this.table.get(program).get("searchfix").put(version.getName(), Analyzer.NOPOSITIVE);
+		this.nopositive.put(program, this.nopositive.get(program) + 1);
+		
+	}
 
 
 	private void initGenprog(File version, String name) {
@@ -150,9 +214,19 @@ public class Analyzer {
 	}
 
 
+	private boolean checkNopositve(File version){
+		String checkDir;
+		if(wb){
+			checkDir = version.getAbsolutePath() + "/whitebox/positive";
+		}
+		else checkDir = version.getAbsolutePath() + "/blackbox/positive";
+		
+		return !new File(checkDir).exists() || new File(checkDir).list().length == 0;
+	}
+	
 	private boolean checkIsCorrect(File version) {
 		String checkDir;
-		if(!wb){
+		if(wb){
 			checkDir = version.getAbsolutePath() + "/whitebox/negative";
 		}
 		else checkDir = version.getAbsolutePath() + "/blackbox/negative";
@@ -162,12 +236,51 @@ public class Analyzer {
 
 
 	private void initSearchFix(File version, String name) {
-		// TODO Auto-generated method stub
-		this.table.get(name).get("searchfix").put(version.getName(), Analyzer.FAILED);
+		//if(!name.equals(Analyzer.CHECKSUM)) return;
+		//if(!version.getName().equals("8")) return;
+		String path;
+		if(wb) path = version.getAbsolutePath() + "/repair/searchfix-wb2";
+		else path = version.getAbsolutePath() + "/repair/searchfix-bb2";
+		
+		String content = Utility.getStringFromFile(path).trim();
+		if(content.isEmpty()) {
+			this.table.get(name).get("searchfix").put(version.getName(), Analyzer.FAILED);
+			return;
+		}
+		String[] lines = content.split("\n");
+		String firstline = lines[0].trim();
+		//System.out.println(firstline);
+		if(firstline.startsWith("success"))
+		{
+
+//			if(firstline.endsWith("partial"))
+//			{
+//				this.table.get(name).get("searchfix").put(version.getName(), Analyzer.SUCCESSANDPARTIAL);
+//			}
+//			else{
+				this.table.get(name).get("searchfix").put(version.getName(), Analyzer.SUCCESS);
+//			}
+			String secondline = lines[1].trim();
+			int value = Integer.parseInt(secondline.substring(secondline.lastIndexOf(":") + 1));
+			System.out.println(value);
+			this.extraPass.put(name, this.extraPass.get(name) + value);
+			if(value == this.extraSuiteSize.get(name)){
+				this.extraComplete.put(name, this.extraComplete.get(name) + 1);
+			}
+		}
+		else if(firstline.startsWith("partial")){
+			this.table.get(name).get("searchfix").put(version.getName(), Analyzer.PARTIAL);
+		}
+		else if(firstline.startsWith("no positive")){
+			this.table.get(name).get("searchfix").put(version.getName(), Analyzer.NOPOSITIVE);
+		}
+		else{
+			this.table.get(name).get("searchfix").put(version.getName(), Analyzer.FAILED);
+		}
 		
 	}
 
-
+	//program ,tech, versionnumber, correct
 	private void initTable() {
 		
 		table.put(Analyzer.MEDIAN, generateTable());
@@ -204,6 +317,8 @@ public class Analyzer {
 	
 
 	
+
+	
 	public  int checkVersions(String root){
 		int count = 0;
 		File dir = new File(root);
@@ -224,7 +339,7 @@ public class Analyzer {
 	}
 
 	public static void main(String[] args){
-		Analyzer ana = new Analyzer("./bughunt", false, 1);
+		Analyzer ana = new Analyzer("./bughunt", false, 2);
 		ana.fetch();
 		ana.initStatics();
 		ana.printFormat();
@@ -246,6 +361,25 @@ public class Analyzer {
 				for(String version : this.table.get(program).get(tech).keySet()){
 					if(this.table.get(program).get(tech).get(version).equals(Analyzer.SUCCESS)){
 						this.fixedTable.get(tech).put(program, this.fixedTable.get(tech).get(program) + 1);
+						if(tech.equals("searchfix")){
+							if(this.table.get(program).get("ae").get(version).equals(Analyzer.SUCCESS)){
+								this.searchAndAE.put(program, searchAndAE.get(program) + 1);
+							}
+							if(this.table.get(program).get("genprog").get(version).equals(Analyzer.SUCCESS)){
+								this.searchAndGenprog.put(program, this.searchAndGenprog.get(program) + 1);
+							}
+							if(this.table.get(program).get("tsp").get(version).equals(Analyzer.SUCCESS)){
+								this.searchAndTSP.put(program, this.searchAndTSP.get(program) + 1);
+							}
+							if(this.table.get(program).get("tsp").get(version).equals(Analyzer.FAILED) && this.table.get(program).get("ae").get(version).equals(Analyzer.FAILED) && this.table.get(program).get("genprog").get(version).equals(Analyzer.FAILED)){
+								this.searchOnly.put(program, this.searchOnly.get(program) + 1);
+							}
+						}
+					}
+					else{					
+						if(this.table.get(program).get(tech).get(version).equals(Analyzer.PARTIAL)){
+							this.fixedTable.get(tech).put(program + "p", this.fixedTable.get(tech).get(program) + 1);
+						}
 					}
 				}
 			}
@@ -255,8 +389,67 @@ public class Analyzer {
 
 
 	private void printFormat() {
+		try {
+			System.setOut(new PrintStream("log"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for(String tech : this.fixedTable.keySet()){
+			System.out.println(tech);
+			for(String program : this.fixedTable.get(tech).keySet()){
+				if(program.endsWith("p")) continue;
+				System.out.print(program + '\t');	
+				
+			}
+			System.out.println();
+			for(String program : this.fixedTable.get(tech).keySet()){
+				if(program.endsWith("p")) continue;
+				System.out.print(this.fixedTable.get(tech).get(program) + "\t\t\t");
+			}
+			System.out.println();
+		}
+		
+		System.out.println("total");
+		for(String program : this.correctProgram.keySet()){
+			if(program.endsWith("p")) continue;
+			System.out.println(program + "" + (this.table.get(program).get("searchfix").keySet().size() - this.correctProgram.get(program)));
+		}
 		System.out.println(this.fixedTable);
 		System.out.println(this.correctProgram);
+		System.out.println("------------------------------------");
+		System.out.println("extra");
+		for(String program: this.extraPass.keySet()){
+			if(program.endsWith("p")) continue;
+			System.out.print(program + this.extraPass.get(program) + " " + this.extraPass.get(program) * 1.0 / this.fixedTable.get("searchfix").get(program));
+		}
+		
+		System.out.println();
+		System.out.println("extracomplete");
+		for(String program: this.extraComplete.keySet()){
+			if(program.endsWith("p")) continue;
+			System.out.print(program + this.extraComplete.get(program) + " ");
+		}
+		
+		System.out.println();
+		System.out.println("------------------------------------");
+		System.out.println("combine");
+		for(String program : this.searchAndAE.keySet()){
+			if(program.endsWith("p")) continue;
+			System.out.println(program + " search&genprog: " + this.searchAndGenprog.get(program) + " tsp " + this.searchAndTSP.get(program) + " ae " + this.searchAndAE.get(program) + " only " + this.searchOnly.get(program));
+			
+		}
+		
+		System.out.println();
+		System.out.println("------------------------------------");
+		System.out.println("partial");
+		for(String program : this.searchAndAE.keySet()){
+			if(program.endsWith("p")) continue;
+			System.out.println(program + " search&genprog: " + this.searchAndGenprog.get(program) + " tsp " + this.searchAndTSP.get(program) + " ae " + this.searchAndAE.get(program) + " only " + this.searchOnly.get(program));
+			
+		}
+		
+		System.out.println("no positive: " + this.nopositive);
 		
 	}
 	

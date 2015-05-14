@@ -9,8 +9,8 @@ import search.ResultObject.ResultState;
 public class CheckSumSearchCase extends ESearchCase {
 	
 
-	public CheckSumSearchCase(String folder, String fileName) {
-		super(folder, fileName);
+	public CheckSumSearchCase(String folder, String fileName, int repo) {
+		super(folder, fileName, repo);
 		
 	}
 
@@ -97,8 +97,8 @@ public class CheckSumSearchCase extends ESearchCase {
 	
 	
 	public static void main(String[] args){
-		CheckSumSearchCase instan = new CheckSumSearchCase("./bughunt/checksum/6", "checksum.c");
-		instan.transformAndInitRunDir(false);
+		CheckSumSearchCase instan = new CheckSumSearchCase("./bughunt/checksum/8", "checksum.c", 2);
+		instan.transformAndInitRunDir(false, "");
 		instan.initInputAndOutput();
 		instan.search(true);
 		instan.recordResult(true);

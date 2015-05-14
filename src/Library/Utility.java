@@ -29,9 +29,9 @@ public class Utility {
 				sb.append(s);
 				sb.append('\n');
 			}
+			reader.close();
 			return sb.toString();
 		} catch (Exception e) {
-			
 		}
 		return sb.toString();
 	}

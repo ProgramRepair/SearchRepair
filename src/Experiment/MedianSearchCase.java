@@ -11,8 +11,8 @@ import Library.Utility;
 import ProcessIntroClass.BugLineSearcher;
 
 public class MedianSearchCase extends ESearchCase {
-	public MedianSearchCase(String folder, String fileName) {
-		super(folder, fileName);
+	public MedianSearchCase(String folder, String fileName, int repo) {
+		super(folder, fileName,  repo);
 		
 	}
 
@@ -42,8 +42,8 @@ public class MedianSearchCase extends ESearchCase {
 
 	
 	public static void main(String[] args){
-		MedianSearchCase instan = new MedianSearchCase("./bughunt/median/0", "median.c");
-		instan.transformAndInitRunDir(true);
+		MedianSearchCase instan = new MedianSearchCase("./bughunt/smallest/10", "smallest.c",  2);
+		instan.transformAndInitRunDir(true, "");
 		instan.initInputAndOutput();
 		instan.search(true);
 		instan.recordResult(true);

@@ -1,207 +1,44 @@
-median
+tsp
+median	syllables	smallest	grade	checksum	digits	
+80			11			82			2			0			6			
+genprog
+median	syllables	smallest	grade	checksum	digits	
+83			11			82			2			5			13			
+searchfix
+median	syllables	smallest	grade	checksum	digits	
+52			3			50			5			0			0			
+ae
+median	syllables	smallest	grade	checksum	digits	
+33			10			44			2			0			5			
+total
+median163
+syllables105
+smallest149
+grade238
+checksum25
+digits175
+{tsp={smallestp=0, median=80, syllables=11, digitsp=0, smallest=82, syllablesp=0, gradep=0, grade=2, medianp=0, checksum=0, digits=6, checksump=0}, genprog={smallestp=0, median=83, syllables=11, digitsp=0, smallest=82, syllablesp=0, gradep=0, grade=2, medianp=0, checksum=5, digits=13, checksump=0}, searchfix={smallestp=0, median=52, syllables=3, digitsp=0, smallest=50, syllablesp=0, gradep=6, grade=5, medianp=40, checksum=0, digits=0, checksump=0}, ae={smallestp=0, median=33, syllables=10, digitsp=0, smallest=44, syllablesp=0, gradep=0, grade=2, medianp=0, checksum=0, digits=5, checksump=0}}
+{smallestp=0, median=62, syllables=48, digitsp=0, smallest=18, syllablesp=0, gradep=0, grade=23, medianp=0, checksum=42, digits=59, checksump=0}
+------------------------------------
+extra
+median312 6.0syllables0 0.0smallest400 8.0grade45 9.0checksum0 NaNdigits0 NaN
+extracomplete
+median52 syllables0 smallest50 grade5 checksum0 digits0 
+------------------------------------
+combine
+median search&genprog: 38 tsp 40 ae 17 only 12
+syllables search&genprog: 3 tsp 3 ae 3 only 0
+smallest search&genprog: 50 tsp 50 ae 23 only 0
+grade search&genprog: 0 tsp 0 ae 0 only 5
+checksum search&genprog: 0 tsp 0 ae 0 only 0
+digits search&genprog: 0 tsp 0 ae 0 only 0
 
-    if((x <= y && x >= z) || (x >= y && x <=z)) 
-    	m = x;
-    else if((y <= x && y >= z) || (y >= x && y <= z))
-    	m = y;
-    else
-    	m = z;
-    
-
-constraint:
-(declare-fun _output_  () Void )
-(assert ( <= x y))
-(assert ( < x z))
-(assert ( < x y))
-(assert ( > y x))
-(assert ( >= y x))
-(assert ( > y z))
-(assert(= __test__0 z))
-
-variable:
-m:int,z:int,y:int,x:int,
-track:
-m:__test__0,z:z,y:y,x:x,
-type:
-__test__0:int,m:int,z:int,y:int,x:int,
-path:
-
-int m;
-int x;
-int y;
-int z;
-x <= y;
-x < z;
-x < y;
-y > x;
-y >= x;
-y > z;
-m = z;
-return;
-
-constraint:
-(declare-fun _output_  () Void )
-(assert ( <= x y))
-(assert ( < x z))
-(assert ( < x y))
-(assert ( > y x))
-(assert ( >= y x))
-(assert ( <= y z))
-(assert(= __test__0 y))
-
-variable:
-m:int,z:int,y:int,x:int,
-track:
-m:__test__0,z:z,y:y,x:x,
-type:
-__test__0:int,m:int,z:int,y:int,x:int,
-path:
-
-int m;
-int x;
-int y;
-int z;
-x <= y;
-x < z;
-x < y;
-y > x;
-y >= x;
-y <= z;
-m = y;
-return;
-
-constraint:
-(declare-fun _output_  () Void )
-(assert ( <= x y))
-(assert ( < x z))
-(assert ( >= x y))
-(assert ( <= x z))
-(assert(= __test__0 x))
-
-variable:
-m:int,z:int,y:int,x:int,
-track:
-m:__test__0,z:z,y:y,x:x,
-type:
-__test__0:int,m:int,z:int,y:int,x:int,
-path:
-
-int m;
-int x;
-int y;
-int z;
-x <= y;
-x < z;
-x >= y;
-x <= z;
-m = x;
-return;
-
-constraint:
-(declare-fun _output_  () Void )
-(assert ( > x y))
-(assert ( >= x y))
-(assert ( <= x z))
-(assert(= __test__0 x))
-
-variable:
-m:int,z:int,y:int,x:int,
-track:
-m:__test__0,z:z,y:y,x:x,
-type:
-__test__0:int,m:int,z:int,y:int,x:int,
-path:
-
-int m;
-int x;
-int y;
-int z;
-x > y;
-x >= y;
-x <= z;
-m = x;
-return;
-
-constraint:
-(declare-fun _output_  () Void )
-(assert ( > x y))
-(assert ( >= x y))
-(assert ( > x z))
-(assert ( <= y x))
-(assert ( < y z))
-(assert ( < y x))
-(assert(= __test__0 z))
-
-variable:
-m:int,z:int,y:int,x:int,
-track:
-m:__test__0,z:z,y:y,x:x,
-type:
-__test__0:int,m:int,z:int,y:int,x:int,
-path:
-
-int m;
-int x;
-int y;
-int z;
-x > y;
-x >= y;
-x > z;
-y <= x;
-y < z;
-y < x;
-m = z;
-return;
-
-constraint:
-(declare-fun _output_  () Void )
-(assert ( <= x y))
-(assert ( >= x z))
-(assert(= __test__0 x))
-
-variable:
-m:int,z:int,y:int,x:int,
-track:
-m:__test__0,z:z,y:y,x:x,
-type:
-__test__0:int,m:int,z:int,y:int,x:int,
-path:
-int m;
-int x;
-int y;
-int z;
-x <= y;
-x >= z;
-m = x;
-return;
-
-constraint:
-(declare-fun _output_  () Void )
-(assert ( > x y))
-(assert ( >= x y))
-(assert ( > x z))
-(assert ( <= y x))
-(assert ( >= y z))
-(assert(= __test__0 y))
-
-variable:
-m:int,z:int,y:int,x:int,
-track:
-m:__test__0,z:z,y:y,x:x,
-type:
-__test__0:int,m:int,z:int,y:int,x:int,
-path:
-
-int m;
-int x;
-int y;
-int z;
-x > y;
-x >= y;
-x > z;
-y <= x;
-y >= z;
-m = y;
-return;
-
-count: 4save: 4
+------------------------------------
+partial
+median search&genprog: 38 tsp 40 ae 17 only 12
+syllables search&genprog: 3 tsp 3 ae 3 only 0
+smallest search&genprog: 50 tsp 50 ae 23 only 0
+grade search&genprog: 0 tsp 0 ae 0 only 5
+checksum search&genprog: 0 tsp 0 ae 0 only 0
+digits search&genprog: 0 tsp 0 ae 0 only 0
+no positive: {smallestp=0, median=44, syllables=18, digitsp=0, smallest=36, syllablesp=0, gradep=0, grade=101, medianp=0, checksum=10, digits=73, checksump=0}

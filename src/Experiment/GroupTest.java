@@ -9,11 +9,11 @@ import search.ResultObject.ResultState;
 public class GroupTest {
 
 	public static void main(String[] args) {
-//		medianTest();
-//		smallestTest();
+		//medianTest();
+		//smallestTest();
 		//gradeTest();
-		//checkSumTest();
-		syllablesTest();
+		checkSumTest();
+		//syllablesTest();
 	}
 	
 	public static void checkSumTest(){
@@ -21,10 +21,11 @@ public class GroupTest {
 		File file = new File("./bughunt/checkSum");
 		for(File root : file.listFiles()){
 			try{
+				//if(!root.getName().equals("8"))
 				String folder = "./bughunt/checkSum/" + root.getName();
 				String fileName = "checkSum.c";
-				CheckSumSearchCase searcher = new CheckSumSearchCase(folder, fileName);
-				searcher.transformAndInitRunDir(false);
+				CheckSumSearchCase searcher = new CheckSumSearchCase(folder, fileName, 2);
+				searcher.transformAndInitRunDir(false, "");
 				searcher.initInputAndOutput();
 				searcher.search(true);
 				searcher.recordResult(true);
@@ -52,10 +53,11 @@ public class GroupTest {
 				String folder = "./bughunt/median/" + root.getName();
 				String fileName = "median.c";
 				System.out.println(folder);
-				MedianSearchCase searcher = new MedianSearchCase(folder, fileName);
+				MedianSearchCase searcher = new MedianSearchCase(folder, fileName, 2);
+				searcher.transformAndInitRunDir(true, "");
 				searcher.initInputAndOutput();
-//				searcher.search(true);
-//				searcher.recordResult(true);
+				searcher.search(true);
+				searcher.recordResult(true);
 				searcher.search(false);
 				searcher.recordResult(false);
 				if(searcher.getInfo().getResult().getState() == ResultState.SUCCESS){
@@ -80,10 +82,11 @@ public class GroupTest {
 				String folder = "./bughunt/smallest/" + root.getName();
 				String fileName = "smallest.c";
 				System.out.println(folder);
-				MedianSearchCase searcher = new MedianSearchCase(folder, fileName);
+				MedianSearchCase searcher = new MedianSearchCase(folder, fileName, 2);
+				searcher.transformAndInitRunDir(true, "");
 				searcher.initInputAndOutput();
-//				searcher.search(true);
-//				searcher.recordResult(true);
+				searcher.search(true);
+				searcher.recordResult(true);
 				searcher.search(false);
 				searcher.recordResult(false);
 				if(searcher.getInfo().getResult().getState() == ResultState.SUCCESS){
@@ -108,8 +111,9 @@ public class GroupTest {
 			try{
 				String folder = "./bughunt/grade/" + root.getName();
 				String fileName = "grade.c";
-				GradeSearchCase instan = new GradeSearchCase(folder, fileName);
-				instan.transformAndInitRunDir(true);
+				//System.out.println(folder);
+				GradeSearchCase instan = new GradeSearchCase(folder, fileName, 2);
+				instan.transformAndInitRunDir(true, "--type grade");
 				instan.initInputAndOutput();
 				instan.search(true);
 				instan.recordResult(true);
@@ -129,35 +133,35 @@ public class GroupTest {
 		}
 	}
 	
-	public static void syllablesTest(){
-		List<String> list = new ArrayList<String>();
-		File file = new File("./bughunt/syllables");
-		int i = 0;
-		for(File root : file.listFiles()){
-			try{
-				//if(root.getName().charAt(0) < '5') continue;
-				String folder = "./bughunt/syllables/" + root.getName();
-				String fileName = "syllables.c";
-				SyllableSearchCase searcher = new SyllableSearchCase(folder, fileName);
-				searcher.transformAndInitRunDir(false);
-				searcher.initInputAndOutput();
-				searcher.search(true);
-				searcher.recordResult(true);
-				searcher.search(false);
-				searcher.search(false);
-				if(searcher.getInfo().getResult().getState() == ResultState.SUCCESS){
-					list.add(folder);
-				}
-			}catch(Exception e){
-				e.printStackTrace();
-				continue;
-			}
-		}
-		System.out.println(i);
-		for(String s : list){
-			System.out.println(s);
-		}
-	}
+//	public static void syllablesTest(){
+//		List<String> list = new ArrayList<String>();
+//		File file = new File("./bughunt/syllables");
+//		int i = 0;
+//		for(File root : file.listFiles()){
+//			try{
+//				//if(root.getName().charAt(0) < '5') continue;
+//				String folder = "./bughunt/syllables/" + root.getName();
+//				String fileName = "syllables.c";
+//				SyllableSearchCase searcher = new SyllableSearchCase(folder, fileName);
+//				searcher.transformAndInitRunDir(false);
+//				searcher.initInputAndOutput();
+//				searcher.search(true);
+//				searcher.recordResult(true);
+//				searcher.search(false);
+//				searcher.search(false);
+//				if(searcher.getInfo().getResult().getState() == ResultState.SUCCESS){
+//					list.add(folder);
+//				}
+//			}catch(Exception e){
+//				e.printStackTrace();
+//				continue;
+//			}
+//		}
+//		System.out.println(i);
+//		for(String s : list){
+//			System.out.println(s);
+//		}
+//	}
 	
 
 

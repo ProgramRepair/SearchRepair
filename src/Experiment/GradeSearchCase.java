@@ -11,8 +11,8 @@ import ProcessIntroClass.Transform;
 
 public class GradeSearchCase extends ESearchCase {
 
-	public GradeSearchCase(String folder, String fileName) {
-		super(folder, fileName);
+	public GradeSearchCase(String folder, String fileName, int repo) {
+		super(folder, fileName, repo);
 	}
 
 	@Override
@@ -49,8 +49,8 @@ public class GradeSearchCase extends ESearchCase {
 	
 
 	public static void main(String[] args){
-		GradeSearchCase instan = new GradeSearchCase("./bughunt/grade/110", "grade.c");
-		instan.transformAndInitRunDir(true);
+		GradeSearchCase instan = new GradeSearchCase("./bughunt/grade/117", "grade.c", 2);
+		instan.transformAndInitRunDir(true, "--type grade");
 		instan.initInputAndOutput();
 		instan.search(true);
 		instan.recordResult(true);
