@@ -6,15 +6,38 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import Library.Utility;
+
 public class DataBaseManager {
 	private static boolean connected = false;
-	public static Connection conn;
-	public final static String USER = "root";
-	public final static String PASSWORD = "3125703";
-	public final static String DATABASE = "test";
+	public 	static Connection conn;
+	public  static String USER;
+	public  static String PASSWORD;
+	public  static String DATABASE;
+	public final static String TABLEFUTURE1 = "future1";
+	public final static String TABLEFUTURE2 = "future2";
+	public final static String TABLEALL = "introclass";
+	public final static String TABLELINUX = "linux";
 	
+	
+	public static void setParamters(String user, String password, String database){
+		DataBaseManager.USER = user;
+		DataBaseManager.PASSWORD = password;
+		DataBaseManager.DATABASE =  database;
+	}
 	
 	public static Connection connect(){
+		if(connected) return conn;
+		try{
+			String s = Utility.getStringFromFile("./configuration/configuration");
+			String[] data = s.split("\n");
+			String user = data[0].split(":")[1];
+			String password = data[1].split(":")[1];
+			String database = data[2].split(":")[1];
+			setParamters(user, password, database);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		return connect(USER, PASSWORD, DATABASE);
 	}
 	
@@ -23,7 +46,6 @@ public class DataBaseManager {
 			connected = false;
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -97,16 +119,6 @@ public class DataBaseManager {
 			else {
 				Statement state = conn.createStatement();
 				ResultSet set = state.executeQuery(sql);
-//				try{
-//					while(set.next()){
-//						String url = set.getString(1);
-//						int id = set.getInt(2);
-//						System.out.println("url: " + url + "id: " + id);
-//					}
-//				}catch(Exception e){
-//					e.printStackTrace();
-//				}
-				//state.close();
 				return set;
 			}
 		}catch(Exception e){
@@ -114,14 +126,46 @@ public class DataBaseManager {
 		}
 	}
 	
+	
+	
+	
+	public static boolean isConnected() {
+		return connected;
+	}
+	
+	public static void clean(){
+		String deletefuture1 = "delete  from " + DataBaseManager.TABLEFUTURE1;
+		String deletefuture2 = "delete  from " + DataBaseManager.TABLEFUTURE2;
+		String deleteall = "delete  from " + DataBaseManager.TABLEALL;
+		String deletelinux = "delete  from " + DataBaseManager.TABLELINUX;
+		DataBaseManager.excute(deletefuture1);
+		DataBaseManager.excute(deletefuture2);
+		DataBaseManager.excute(deleteall);
+		DataBaseManager.excute(deletelinux);
+	}
+	
+	public static void createTables(){
+		String autofuture1 = "create table " + DataBaseManager.TABLEFUTURE1  + " (source text, constraints text, variableType text, variableTrack text, variableMap text, variableFormal text)";
+		String autofuture2 = "create table " + DataBaseManager.TABLEFUTURE2  + " (source text, constraints text, variableType text, variableTrack text, variableMap text, variableFormal text)";
+		String autoall = "create table " + DataBaseManager.TABLEALL  + " (source text, constraints text, variableType text, variableTrack text, variableMap text, variableFormal text)";
+		String autolinux = "create table " + DataBaseManager.TABLELINUX  + " (source text, constraints text, variableType text, variableTrack text, variableMap text, variableFormal text)";
+		DataBaseManager.excute(autofuture1);
+		DataBaseManager.excute(autofuture2);
+		DataBaseManager.excute(autoall);
+		DataBaseManager.excute(autolinux);
+	}
+	
+	public static void rebuildTables(){
+		createTables();
+		clean();
+	}
+
+
 	public static void main(String[] args){
+		DataBaseManager.setParamters("root", "3125703", "test");
 		connect(DataBaseManager.USER, DataBaseManager.PASSWORD, DataBaseManager.DATABASE);
-		String auto = "create table autobugfix (source text, constraints text, variableType text, variableTrack text, variableMap text, variableFormal text)";
-		//String url = "create table prototype (source text, constraints text, variableType text, variableTrack text, variableMap text)";
-		System.out.println(DataBaseManager.createTable(auto));
+		rebuildTables();
 		
-//		String dropTableURL = "drop table srcConstraints";
-//		System.out.println(DataBaseManager.delete(dropTableURL));
 	}
 
 

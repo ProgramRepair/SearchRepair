@@ -1,2 +1,0 @@
-void test(int missing){
-if ( time_after ( cfqd    -        <missing ')'>    >  workload_expires   ,   jiffies )  )    {  cfqg - >  saved_wl_slice = cfqd    -  >        <missing ';'>   workload_expires -   jiffies ;   cfqg - >  saved_wl_type = cfqd    -  >        serving_wl_type ;   cfqg - >  saved_wl_class = cfqd    -  >        serving_wl_class ;  }    }

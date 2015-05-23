@@ -1,2 +1,0 @@
-int test(int rq, int q, int end_io, int mq_flush_data_end_io, int fq, int REQ_FSEQ_ACTIONS){
-if ( q   - >   mq_ops )     {  rq - >  end_io = mq_flush_data_end_io        ;  spin_lock_irq ( q    -  >       mq_flush_lock )    ;  blk_flush_complete_seq ( rq       , fq       , REQ_FSEQ_ACTIONS   policy     , 0       )    ;  spin_unlock_irq ( q    -  >       mq_flush_lock )    ;  return      ;  }    }

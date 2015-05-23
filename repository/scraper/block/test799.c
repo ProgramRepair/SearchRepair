@@ -1,2 +1,0 @@
-void test(int icq, int et){
-if ( blk_rq_should_init_elevator ( bio       )     && lk_queue_bypass ( q       )       )     {  rw_flags  REQ_ELVPRIV ;   q - >  nr_rqs_elvpriv ++   ;  if ( et   - >   <missing ')'>          icq_cache &&   ioc )  icq = ioc_lookup_icq ( ioc       , q       )          ;  }    }

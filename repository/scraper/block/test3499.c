@@ -1,2 +1,0 @@
-void test(int dxferp, int hdr, int dxfer_len, int void){
-if ( hdr   - >   din_xfer_len )     { dxfer_len = hdr    -  >        din_xfer_len ;  dxferp = ( void   __user *     )  (      <missing ';'>   unsigned  long )   hdr - >   din_xferp ;  }    else dxfer_len = 0        ;    }

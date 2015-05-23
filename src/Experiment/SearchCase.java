@@ -56,19 +56,31 @@ public class SearchCase {
 	private int[] buggy;
 	private CaseInfo info;
 	private Map<String, String> verifications;
+	private  String inputfile;
+	private  String outputfile;
+	private  String folder;
+	private String functionName;
+	private String tempOutput;
+	private int repo;
 	
 	
 	
 	
 
 
-	public SearchCase(String casePrefix) {
+	public SearchCase(String casePrefix, int repo) {
 		this.casePrefix = casePrefix;
 		this.positives = new HashMap<String, String>();
 		this.negatives = new HashMap<String, String>();
 		this.info = new CaseInfo();
 		this.buggy = new int[2];
 		this.verifications = new HashMap<String, String>();
+		this.folder = this.casePrefix.substring(0, this.casePrefix.lastIndexOf("/"));
+		this.functionName = this.casePrefix.substring(this.casePrefix.lastIndexOf("/") + 1);
+		this.inputfile = this.folder + "/1.in";
+		this.outputfile = this.folder + "/1.out";
+		this.tempOutput = this.folder + "/test.out";
+		this.repo = repo;
 	}
 
 	public void init() {
@@ -200,13 +212,24 @@ public class SearchCase {
 			if(s2.isEmpty() ){
 				continue;
 			}
-			if(s2.equals(output)) count++;
+			
+			if(checkPassForOneCase(s2, output, input)) count++;
 		}
 		return count;
 	}
 	
 	
 
+
+	private boolean checkPassForOneCase(String s2, String output, String input) {
+		Utility.writeTOFile(this.tempOutput, s2);
+		Utility.writeTOFile(this.outputfile, output);
+		Utility.writeTOFile(this.inputfile, input);
+		String s = Utility.runCProgramWithPythonCommand(this.functionName, this.tempOutput, this.inputfile, this.outputfile);
+		if(s.trim().endsWith("Test passed.")) return true;
+		else return false;
+		
+	}
 
 	private boolean passAllPositive(String source, String outputFile) {
 		File file = new File( this.casePrefix);
@@ -226,7 +249,8 @@ public class SearchCase {
 			if(s2.isEmpty() ){
 				return false;
 			}
-			if(!s2.equals(output)) return false;
+			if(!checkPassForOneCase(s2, output, input)) return false;
+	
 		}
 		return true;
 	}
@@ -284,7 +308,7 @@ public class SearchCase {
 
 	private void searchOverRepository() {
 		try {
-			PrototypeSearch.search(info);
+			PrototypeSearch.search(info, repo);
 			
 		} catch (SQLException e) {
 			
@@ -757,14 +781,14 @@ public class SearchCase {
 	}
 
 	public static void main(String[] args){
-		SearchCase case1 = new SearchCase("TestCases/examples/test1");
+		SearchCase case1 = new SearchCase("TestCases/examples/test1", 2);
 		//case1.print();
 	}
 
 	public void searchJustOnMap() {
 		try{
 			info.setResult(new ResultObject());
-			PrototypeSearch.searchOnlyMatchType(info);
+			PrototypeSearch.searchOnlyMatchType(info, repo);
 			this.printResult();
 			this.ruleOutFalsePositive();
 		}catch(Exception e){

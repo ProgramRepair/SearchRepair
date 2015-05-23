@@ -1,2 +1,0 @@
-void test(int g, int bio, int tg){
-if ( tg     )     { if ( g   - >   <missing ')'>          has_rules [   rw ] ) {  throtl_update_dispatch_stats ( tg_to_blkg ( tg       )         , bio    -  >          <missing ';'>   bi_iter  bi_size ,   bio - >   bi_rw ) ;   goto  out_unlock_rcu ;  }    }

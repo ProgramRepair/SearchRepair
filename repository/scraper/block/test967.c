@@ -1,2 +1,0 @@
-void test(int sectors, int req, int part){
-if ( blk_do_io_stat ( req       )       )     {  const  int  rw = rq_data_dir ( req       )          ;   struct  hd_struct *   part ;  int  cpu  ;  cpu = part_stat_lock ( )          ;  part = req    -  >        part ;  part_stat_add ( cpu       , part       , sectors   [        <missing ';'>   rw ] ,   bytes > > 9 ) ;  part_stat_unlock ( )    ;  }    }

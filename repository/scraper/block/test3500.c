@@ -1,2 +1,0 @@
-void test(int ret, int dxfer_len){
-if ( dxfer_len     )     { ret = blk_rq_map_user ( q       , rq       , NULL       , dxferp       , dxfer_len       , GFP_KERNEL       )          ;  if ( ret     )          goto  out ;  }    }

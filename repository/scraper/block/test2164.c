@@ -1,2 +1,0 @@
-int test(int missing){
-if ( est_bit ( QUEUE_FLAG_SAME_COMP       , q    -        <missing ')'>    >  q   - >   queue_flags )  )    {  rq - >   q - >  softirq_done_fn ( rq       )    ;  return      ;  }    }

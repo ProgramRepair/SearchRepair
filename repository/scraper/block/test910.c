@@ -1,2 +1,0 @@
-void test(int bio, int bi_sector, int p, int bi_bdev, int bdev){
-if ( bio_sectors ( bio       )     && bdev  !=  bdev   - >   bd_contains )     {  struct  hd_struct *  p = bdev    -  >        bd_part ;   bio - >   bi_iter  bi_sector +=  p    -  >        start_sect ;   bio - >  bi_bdev = bdev    -  >        bd_contains ;  trace_block_bio_remap ( bdev_get_queue ( bio    -  >       bi_bdev )         , bio       , bdev    -  >          <missing ';'>   bd_dev ,   bio - >   bi_iter  bi_sector -   p - >   start_sect ) ;  }    }

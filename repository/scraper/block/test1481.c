@@ -1,2 +1,0 @@
-void test(int sector, int alignment, int granularity, int nr_sects, int end_sect, int req_sects){
-if ( req_sects  <  nr_sects   && sector_div ( tmp       , granularity       )    !=  alignment     )     { end_sect = end_sect    -  alignment         ;  sector_div ( end_sect       , granularity       )    ;  end_sect = end_sect   *  granularity    +  alignment         ;  req_sects = end_sect    -  sector         ;  }    }

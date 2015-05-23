@@ -1,2 +1,0 @@
-void test(int missing, int tags, int tag, int ags){
-if ( tag  >=  tags   - >   nr_reserved_tags )     {  const  int  real_tag = tag    -  tags     -  >        nr_reserved_tags ;  BUG_ON ( real_tag   >=        <missing ';'>   tags - >   nr_tags ) ;  bt_clear_tag ( ags    -  >          <missing ';'>   bitmap_tags ,   real_tag ) ;  if ( likely ( tags    -        <missing ')'>    >  alloc_policy   ==   BLK_TAG_ALLOC_FIFO )  )        }    }

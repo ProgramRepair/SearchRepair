@@ -1,2 +1,0 @@
-void test(int missing){
-if ( unlikely ( cfqd    -        <missing ')'>    >  active_queue   ==   cfqq )  )    { __cfq_slice_expired ( cfqd       , cfqq       , 0       )    ;  cfq_schedule_dispatch ( cfqd       )    ;  }    }

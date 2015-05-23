@@ -162,7 +162,7 @@ public class Scraper {
 		int i = 0;
 		for(String s : list){
 			//System.out.println(s);
-			if(i > 5000){
+			if(i > 1000){
 				return;
 			}
 			generate(scrapRoot + "/" + this.projecName + "/test" + i++ + ".c", s);
@@ -427,11 +427,12 @@ public class Scraper {
 	}
 
 	public static void main(String[] args){
-		List<String> list = new Scraper("./bughunt/syllables/33").scrape("./bughunt/syllables/33/syllables.c");
-		for(String s : list){
-			System.out.println("------------");
-			System.out.println(s);
-		}
-		//System.out.println(scrape(new File("./project-euler-c")));
+		Scraper sc = new Scraper("./block");
+//		List<String> list = new Scraper("./bughunt/syllables/33").scrape("./bughunt/syllables/33/syllables.c");
+//		for(String s : list){
+//			System.out.println("------------");
+//			System.out.println(s);
+//		}
+		System.out.println(sc.scrape());
 	}
 }

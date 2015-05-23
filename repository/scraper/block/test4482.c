@@ -1,2 +1,0 @@
-void test(int missing){
-if ( sample_valid ( cic    -        <missing ')'>    >  ttime   ttime_samples   )  )    { if ( cic   - >   <missing ')'>          ttime  ttime_mean >   cfqd - >   cfq_slice_idle )  enable_idle = 0        ;  <missing '}'>    else enable_idle = 1        ;    }

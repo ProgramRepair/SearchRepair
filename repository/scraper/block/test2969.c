@@ -1,2 +1,0 @@
-void test(int missing){
-if ( unlikely ( ( rq    -           <missing ')'>    >  cmd_flags   REQ_QUEUED   )  ) )    { printk ( KERN_ERR   "%s: request %p for device [%s] already tagged %d"     , __func__       , rq       , rq    -  >          <missing ';'>   rq_disk  rq - >   rq_disk - >   disk_name "?" ,   rq - >   tag ) ;  BUG ( )    ;  }    }

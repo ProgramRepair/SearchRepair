@@ -1,2 +1,0 @@
-void test(int fqq, int cfqq, int cfqd, int NULL){
-if ( cfq_slice_used ( cfqq       )     && fq_cfqq_must_dispatch ( cfqq       )       )     { if ( cfqq   - >   <missing ')'>          cfqg - >   nr_cfqq == 1 &&  RB_EMPTY_ROOT ( fqq    -  >       sort_list )    &&   cfqq - >   dispatched &&  cfq_should_idle ( cfqd       , cfqq       )    ) {  cfqq = NULL        ;   goto  keep_queue ;  }    }

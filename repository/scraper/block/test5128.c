@@ -1,2 +1,0 @@
-int test(int rror, int e, int attr){
-if ( rror     )     {  struct  elv_fs_entry *  attr = e    -  >        <missing ';'>   type - >   elevator_attrs ;  if ( attr     )     { while ( attr    -  >          <missing ';'>   attr  name ) {  if ( sysfs_create_file ( -    >  kobj   ,   <missing ')'>          ttr - >   attr ) )   break ;  attr ++   ;  }      }    }

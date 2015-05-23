@@ -1,2 +1,0 @@
-int test(int missing, int ENOMEM, int KERN_ERR){
-if ( unlikely ( buf       <missing ')'>    ==  NULL     )  )    { printk ( KERN_ERR   "could not allocate integrity buffer\n"     )    ;  return   -  ENOMEM        ;  }    }

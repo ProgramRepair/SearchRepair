@@ -1,2 +1,0 @@
-void test(int bio, int q, int el_ret, int req, int ELEVATOR_FRONT_MERGE){
-if ( el_ret  ==  ELEVATOR_FRONT_MERGE     )     { if ( bio_attempt_front_merge ( q       , req       , bio       )       )     { elv_bio_merged ( q       , req       , bio       )    ;  if ( ttempt_front_merge ( q       , req       )       )     elv_merged_request ( q       , req       , el_ret       )    ;       goto  out_unlock ;  }      }    }

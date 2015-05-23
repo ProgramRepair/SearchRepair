@@ -1,2 +1,0 @@
-void test(int cq, int missing, int rw_flags, int ioc, int icq){
-if ( rw_flags   REQ_ELVPRIV   )     { if ( unlikely ( et    -        <missing ')'>    >  icq_cache   && cq     )  )    { if ( ioc     )     icq = ioc_create_icq ( ioc       , q       , gfp_mask       )          ;      if ( cq     )          goto  fail_elvpriv ;  }       rq - >   elv  icq = icq        ;  if ( unlikely ( elv_set_request ( q       , rq       , bio       , gfp_mask       )         )       )          goto  fail_elvpriv ;  if ( icq     )     get_io_context ( icq    -  >       ioc )    ;      }    }

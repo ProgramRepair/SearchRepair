@@ -1,2 +1,0 @@
-void test(int rq, int missing, int q){
-if ( time_after_eq ( jiffies       , rq    -        <missing ')'>    >  deadline     )  )    { list_del_init ( q    -  >       timeout_list )    ;  if ( lk_mark_rq_complete ( rq       )       )     blk_rq_timed_out ( rq       )    ;      }    }

@@ -1,2 +1,0 @@
-void test(int cfqq, int cfqd, int old_idle, int enable_idle){
-if ( old_idle  !=  enable_idle     )     { cfq_log_cfqq ( cfqd       , cfqq       , "idle=%d"  , enable_idle       )    ;  if ( enable_idle     )     cfq_mark_cfqq_idle_window ( cfqq       )    ;    else cfq_clear_cfqq_idle_window ( cfqq       )    ;      }    }

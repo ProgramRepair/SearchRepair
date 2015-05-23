@@ -35,7 +35,7 @@ public class GradeSearchCase extends ESearchCase {
 		int[] range = getBugLines();
 		System.out.println(Arrays.toString(range));
 		String prefix = this.getRunDir() + "/" + this.getFileName().substring(0, this.getFileName().lastIndexOf('.'));
-		SearchCase instan = new SearchCase(prefix);
+		SearchCase instan = new SearchCase(prefix, this.getRepo());
 		instan.setBuggy(range);
 		instan.setNegatives(this.getNegatives());
 		instan.setPositives(this.getPositives());

@@ -1,2 +1,0 @@
-void test(int extend_sl, int cfqq, int slice_end, int fqd, int cfqd, int jiffies){
-if ( cfq_should_wait_busy ( cfqd       , cfqq       )       )     {  unsigned  long  extend_sl = cfqd    -  >        cfq_slice_idle ;  if ( fqd   - >   cfq_slice_idle )     extend_sl = cfqd    -  >        cfq_group_idle ;       cfqq - >  slice_end = jiffies    +  extend_sl         ;  cfq_mark_cfqq_wait_busy ( cfqq       )    ;  cfq_log_cfqq ( cfqd       , cfqq       , "will busy wait"  )    ;  }    }

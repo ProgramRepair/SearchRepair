@@ -31,7 +31,7 @@ public class MedianSearchCase extends ESearchCase {
 		int[] range = this.getBugLines();
 		System.out.println(Arrays.toString(range));
 		String prefix = this.getRunDir() + "/" + this.getFileName().substring(0, this.getFileName().lastIndexOf('.'));
-		SearchCase instan = new SearchCase(prefix);
+		SearchCase instan = new SearchCase(prefix, this.getRepo());
 		instan.setBuggy(range);
 		instan.setNegatives(this.getNegatives());
 		instan.setPositives(this.getPositives());
@@ -42,12 +42,11 @@ public class MedianSearchCase extends ESearchCase {
 
 	
 	public static void main(String[] args){
-		MedianSearchCase instan = new MedianSearchCase("./bughunt/smallest/10", "smallest.c",  2);
+		MedianSearchCase instan = new MedianSearchCase("./bughunt/median/0", "median.c",  2);
 		instan.transformAndInitRunDir(true, "");
 		instan.initInputAndOutput();
-		instan.search(true);
-		instan.recordResult(true);
 		instan.search(false);
+//		instan.search(false);
 		instan.recordResult(false);
 	}
 

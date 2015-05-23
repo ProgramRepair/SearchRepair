@@ -1,2 +1,0 @@
-void test(int dd, int req, int type, int ELEVATOR_FRONT_MERGE){
-if ( type  ==  ELEVATOR_FRONT_MERGE     )     { elv_rb_del ( deadline_rb_root ( dd       , req       )         , req       )    ;  deadline_add_rq_rb ( dd       , req       )    ;  }    }

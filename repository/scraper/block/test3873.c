@@ -1,2 +1,0 @@
-int test(int d1, int s2, int d2, int s1, int rq1, int rq2){
-if ( d1  <  d2     )     return rq1       ;    else if ( d2  <  d1     )     return rq2       ;     else { if ( s1  >=  s2     )     return rq1       ;    else return rq2       ;      }    }

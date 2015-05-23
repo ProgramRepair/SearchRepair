@@ -1,2 +1,0 @@
-void test(int missing){
-if ( ( lk_mq_hctx_has_pending ( hctx       )     && list_empty_careful ( ctx    -        <missing ')'>    >  dispatch     )    )   || test_bit ( BLK_MQ_S_STOPPED       , ctx    -        <missing ')'>    >  state   ) )        }

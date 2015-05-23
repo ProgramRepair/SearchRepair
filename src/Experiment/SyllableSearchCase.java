@@ -31,8 +31,9 @@ public class SyllableSearchCase extends ESearchCase{
 		for(int[] range : buggys){
 			String s = Arrays.toString(range);
 			System.out.println(s);
+			//if(!s.equals("[17, 22]")) continue;
 			String prefix = this.getRunDir() + "/" + this.getFileName().substring(0, this.getFileName().lastIndexOf('.'));
-			SearchCase instan = new SearchCase(prefix);
+			SearchCase instan = new SearchCase(prefix, this.getRepo());
 			System.out.println(Arrays.toString(range));
 			instan.setBuggy(range);
 			instan.setNegatives(this.getNegatives());
@@ -58,7 +59,7 @@ public class SyllableSearchCase extends ESearchCase{
 		initSuspicious();
 		this.initContent();
 		for(int i = 12; i <= this.getSuspiciousness().keySet().size(); i++){
-			for(int j = 0; j < 4 && i + j <= this.getSuspiciousness().keySet().size(); j++){
+			for(int j = 0; j <= 5 && i + j <= this.getSuspiciousness().keySet().size(); j++){
 				if(this.getContent().get(i+j-1).length() < 1) continue;
 				list.add(new int[]{i, i + j});
 			}
@@ -70,11 +71,11 @@ public class SyllableSearchCase extends ESearchCase{
 	
 	
 	public static void main(String[] args){
-		SyllableSearchCase instan = new SyllableSearchCase("./bughunt/syllables/12", "syllables.c", 2);
+		SyllableSearchCase instan = new SyllableSearchCase("./bughunt/syllables/37", "syllables.c", 2);
 		instan.transformAndInitRunDir(false, "");
 		instan.initInputAndOutput();
-		instan.search(true);
-		instan.recordResult(true);
+//		instan.search(true);
+//		instan.recordResult(true);
 		instan.search(false);
 		instan.recordResult(false);
 	}

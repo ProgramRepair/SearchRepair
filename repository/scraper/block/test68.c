@@ -1,2 +1,0 @@
-void test(int bio, int bip_end_io, int bio_integrity_endio, int READ, int bi_end_io){
-if ( bio_data_dir ( bio       )    ==  READ     )     {  bip - >  bip_end_io = bio    -  >        bi_end_io ;   bio - >  bi_end_io = bio_integrity_endio        ;  }    }

@@ -20,17 +20,13 @@ public class EntryAddition {
 	
 	private static int count = 0;
 	private static int save = 0;
-	public static void addOneFile(String filePath){
+	public static void addOneFile(String filePath, String table){
 		File file = new File(filePath);
 		if(!file.exists()) return;
-		//asssume only one method
 		List<Method> methods = parse(filePath);
 		for(Method method : methods){
 			count++;
 
-//			String g = Utility.getStringFromFile("./repository/paths/path");
-//			method.getPath().add(g);
-//			method.getPathToInput().put(g, method.getPathToInput().get(method.getPath().get(0)));
 			EntryObject object;
 			try{
 				object = covertMethodToEntry(method);
@@ -38,13 +34,13 @@ public class EntryAddition {
 				System.out.println(e);
 				continue;
 			}
-			EntryHandler.save(object);
-			try {
-				System.setOut(new PrintStream("log"));
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			EntryHandler.save(object, table);
+//			try {
+//				System.setOut(new PrintStream("log"));
+//			} catch (FileNotFoundException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			System.out.println(method.getName());
 			save++;
 			System.out.println(method.getSource());
@@ -58,7 +54,7 @@ public class EntryAddition {
 				System.out.println("path:\n" + path);
 			}
 		}
-		System.out.println("count: " + count + "save: " + save);
+		//System.out.println("count: " + count + "save: " + save);
 	}
 	
 
@@ -71,15 +67,15 @@ public class EntryAddition {
 
 
 
-	public static void addOneFolder(String dirPath){
+	public static void addOneFolder(String dirPath, String table){
 		File dir = new File(dirPath);
 		if(!dir.exists()) return;
 		for(File file : dir.listFiles()){
 			if(file.isDirectory()){
-				addOneFolder(file.getAbsolutePath());
+				addOneFolder(file.getAbsolutePath(), table);
 			}
 			else{
-				addOneFile(file.getAbsolutePath());
+				addOneFile(file.getAbsolutePath(), table);
 			}
 			
 		}
@@ -260,8 +256,8 @@ public class EntryAddition {
 
 
 	public static void main(String[] args) throws FileNotFoundException{
-		String filePath = "./repository/syllables";
-		EntryAddition.addOneFolder(filePath);;
+		String filePath = "./repository/future";
+		EntryAddition.addOneFolder(filePath, "future");;
 		//EntryAddition.addOneFile(filePath);
 	}
 }

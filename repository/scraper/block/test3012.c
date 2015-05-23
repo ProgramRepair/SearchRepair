@@ -1,2 +1,0 @@
-int test(int dwork, int tats_cpu, int stats_cpu){
-if ( tats_cpu     )     { int  cpu  ;  stats_cpu = alloc_percpu ( struct   tg_stats_cpu     )          ;  if ( tats_cpu     )     { schedule_delayed_work ( dwork       , msecs_to_jiffies ( 10       )         )    ;  return      ;  }      for_each_possible_cpu ( cpu       )    <missing ';'>  tg_stats_init ( per_cpu_ptr ( stats_cpu       , cpu       )         )    ;  }    }

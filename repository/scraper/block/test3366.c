@@ -1,2 +1,0 @@
-void test(int missing, int bio, int bio_orig){
-if ( test_bit ( BIO_UPTODATE       , io    -        <missing ')'>    >  bi_flags     )  )    copy_to_high_bio_irq ( bio_orig       , bio       )    ;    }

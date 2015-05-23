@@ -32,9 +32,17 @@ public class Utility {
 			reader.close();
 			return sb.toString();
 		} catch (Exception e) {
+			return "";
 		}
-		return sb.toString();
 	}
+	
+	public static String runCProgramWithPythonCommand(String testingExe, String tempOuputFile, String inputFile, String outputFile){
+		String programName = testingExe.substring(testingExe.indexOf("/") + 1);
+		String command = "./executors/genprog_tests.py --program " + programName + " " + tempOuputFile + " " + outputFile  + " " + inputFile;
+		String s = Utility.runCProgram(command);
+		return s;
+	}
+
 	
 	public static String invokeZ3onFile(String file) {
 		String out = "";
@@ -204,6 +212,7 @@ public class Utility {
 		StringBuffer sb = new StringBuffer();
 		try {
 			Process ls_proc = Runtime.getRuntime().exec(command);
+			//System.out.println(ls_proc.exitValue());
 
 			BufferedReader ls_in = new BufferedReader(new InputStreamReader(
 					ls_proc.getInputStream()));
@@ -229,9 +238,11 @@ public class Utility {
 					// System.out.println(ls_str);
 				}
 				while((ls_str = ls_err.readLine()) != null){
+					//System.out.println(ls_str);
 					sb.append("failed");
 					break;
 				}
+				//System.out.println(ls_proc.exitValue());
 				
 			} catch (IOException e) {
 				sb.append("failed");
@@ -246,5 +257,7 @@ public class Utility {
 		out = sb.toString();
 		return out;
 	}
+	
+	//public void 
 
 }

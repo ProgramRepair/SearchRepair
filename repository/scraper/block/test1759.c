@@ -1,2 +1,0 @@
-int test(int ELEVATOR_FRONT_MERGE){
-return ELEVATOR_FRONT_MERGE      ;}

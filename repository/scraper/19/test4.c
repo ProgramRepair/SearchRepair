@@ -1,2 +1,0 @@
-int test(int printf_tmp, int num2, int num3, int num1){
-if ( ( num1  >=  num2   && num1  <=  num3     )   || ( num1  >=  num3   && num1  <=  num2     )     )     { printf_tmp = num1        ;  { printf ( "%i is the median\n"  , printf_tmp       )    ;  return ( 0     )      ;  }    }

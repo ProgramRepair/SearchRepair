@@ -1,2 +1,0 @@
-void test(int last_sync, int epth, int fqq, int max_dispatch, int cfqd, int jiffies){
-if ( fq_cfqq_sync ( cfqq       )     && cfqd   - >   cfq_latency )     {  unsigned  long  last_sync = jiffies    -  cfqd     -  >        last_delayed_sync ;   unsigned  int  depth  ;  depth = last_sync   /  cfqd    -  >        <missing ';'>   cfq_slice [ 1 ] ;  if ( epth   && fqq   - >   dispatched )     depth = 1        ;      if ( depth  <  max_dispatch     )     max_dispatch = depth        ;      }    }

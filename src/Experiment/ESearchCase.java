@@ -75,6 +75,17 @@ public  class ESearchCase {
 		this.content = new ArrayList<String>();
 	}
 	
+	
+	
+	public int getRepo() {
+		return repo;
+	}
+
+	public void setRepo(int repo) {
+		this.repo = repo;
+	}
+
+
 	protected void initContent() {
 		try{
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.folder + "/" + this.transformFile)));
@@ -246,11 +257,15 @@ public  class ESearchCase {
 
 	public void recordResult(boolean wb) {
 		String filec;
+		int type = repo;
+		if(repo == 3 || repo == 4){
+			type = 2;
+		}
 		if(wb){
-			filec="searchfix-wb" + repo;
+			filec="searchfix-wb" + type;
 		}
 		else{
-			filec="searchfix-bb" + repo;
+			filec="searchfix-bb" + type;
 		}
 		File dir = new File(this.folder + "/repair");
 		if(!dir.exists()){
@@ -357,6 +372,7 @@ public  class ESearchCase {
 	}
 	
 	public boolean test(){
+		this.initWbOrBB(false);
 		this.initInputAndOutput();
 		String outputFile = this.casePrefix + ".c";
 		boolean pass = passAllPositive("result", outputFile);
@@ -487,7 +503,7 @@ public  class ESearchCase {
 
 	protected void searchOverRepository() {
 		try {
-			PrototypeSearch.search(info);
+			PrototypeSearch.search(info, repo);
 			
 		} catch (SQLException e) {
 			
@@ -705,7 +721,7 @@ public  class ESearchCase {
 
 
 	public static void main(String[] args) {
-		ESearchCase instan = new ESearchCase("./bughunt/median/48", "median.c", 2);
+		ESearchCase instan = new ESearchCase("./bughunt/smallest/43", "smallest.c", 2);
 		//instan.search();
 		//instan.recordResult();
 		System.out.println(instan.test());

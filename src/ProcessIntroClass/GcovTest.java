@@ -77,7 +77,9 @@ public class GcovTest {
 		int totalFail = this.negatives.size();
 		for(int num : this.negativeExecutions.keySet()){
 			
-			
+			if(num == 10){
+				num = 10;
+			}
 			int failed = this.negativeExecutions.get(num);
 			int success = this.positiveExecutions.get(num);
 			int denom = totalFail * (failed + success);
@@ -279,12 +281,12 @@ public class GcovTest {
 		try{
 			File dir = new File(root);
 			for(String typeName : dir.list()){
-				if(typeName.equals("smallest")){
-					generate(root + "/smallest", "smallest.c", wb);
-				}
-				else if(typeName.equals("median")){
-					generate(root + "/median", "median.c", wb);
-				}
+//				if(typeName.equals("smallest")){
+//					generate(root + "/smallest", "smallest.c", wb);
+//				}
+//				else if(typeName.equals("median")){
+//					generate(root + "/median", "median.c", wb);
+//				}
 //				else if(typeName.equals("grade")){
 //					generate(root + "/grade", "grade.c");
 //				}
@@ -323,7 +325,7 @@ public class GcovTest {
 	}
 
 	public static void main(String[] args){
-		GcovTest test = new GcovTest("./bughunt/median/0", "median.c", false);
+		GcovTest test = new GcovTest("./bughunt/median/225", "median.c", false);
 		//groupExperiment("./bughunt");
 	}
 

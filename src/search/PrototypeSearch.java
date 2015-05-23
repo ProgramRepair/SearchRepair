@@ -21,11 +21,22 @@ import Library.Utility;
 
 
 public class PrototypeSearch {
-	private static String SEARCHPAUTOBUGFIX= "select * from autobugfix";
+	private static String SEARCHFUTURE1= "select * from " + DataBaseManager.TABLEFUTURE1;
+	private static String SEARCHFUTURE2= "select * from " + DataBaseManager.TABLEFUTURE2;
+	private static String SEARCHALL= "select * from " + DataBaseManager.TABLEALL;
+	private static String SEARCHLINUX= "select * from " + DataBaseManager.TABLELINUX;
 	
-	public static void searchOnlyMatchType(CaseInfo info) throws SQLException{
+	public static void searchOnlyMatchType(CaseInfo info, int repo) throws SQLException{
 		DataBaseManager.connect();
-		ResultSet result = Database.DataBaseManager.query(SEARCHPAUTOBUGFIX);
+		String database;
+		switch(repo){
+		case 0: database=SEARCHLINUX; break;
+		case 1: database=SEARCHALL; break;
+		case 3: database=SEARCHFUTURE1; break;
+		case 4: database=SEARCHFUTURE2; break; 
+		default: return;
+		}
+		ResultSet result = Database.DataBaseManager.query(database);
 		while(result.next()){
 			String source = result.getString(1).trim();
 			String[] pathformals = result.getString(6).split(EntryHandler.PATH_SEPERATOR);
@@ -54,9 +65,17 @@ public class PrototypeSearch {
 		
 	}
 
-	public static void search(CaseInfo info) throws SQLException, IOException{
+	public static void search(CaseInfo info, int repo) throws SQLException, IOException{
 		Database.DataBaseManager.connect();
-		ResultSet result = Database.DataBaseManager.query(SEARCHPAUTOBUGFIX);
+		String database;
+		switch(repo){
+		case 0: database=SEARCHLINUX; break;
+		case 1: database=SEARCHALL; break;
+		case 3: database=SEARCHFUTURE1; break;
+		case 4: database=SEARCHFUTURE2; break; 
+		default: return;
+		}
+		ResultSet result = Database.DataBaseManager.query(database);
 		while(result.next()){
 			String source = result.getString(1).trim();
 			//System.out.println(source);
@@ -130,6 +149,7 @@ public class PrototypeSearch {
 			if(!passAllPositive) continue;
 
 			info.getResult().addSearchMapping(source, map);
+			
 			
 		}
 		
