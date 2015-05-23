@@ -38,7 +38,6 @@ Several things to setup and rerun:
 		
 NOTICE: rerun experiments on syllables versions takes a lot of time.
 		Actually, I rerun syllables experiments semi-automatically in order to get results quickly. 
-		
 		My current setting for rerunning the project is that when you run the main function of PROJECTROOT/src/test/main.java,
 		syllables versions will also be rerun too. If you think the experiments are too slow, just go to PROJECTROOT/src/experiment/GroupTest.java file,
 		and find the function "rerun", comments out the statement "syllablesTest(wb, repositoryType);". 
