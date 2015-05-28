@@ -27,7 +27,7 @@ Several things to setup and rerun:
 
 	Field 1: repositoryType. repositoryType=0 means search repository built by linux, 
 		repositoryType=1 means search repository built by introclass, 
-		repository means search repository by old versions and other students' submissions.
+		repositoryType=2 means search repository by old versions and other students' submissions.
 		
 	Field 2: operation. operation=1 means rerun the experiments, 
 		operation=0 means generating csvData using existing results. 
