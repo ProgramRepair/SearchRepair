@@ -23,7 +23,7 @@ Several things to setup and rerun:
 5. Go to PROJECTROOT/src/test/main.java, run the main function of that java file, then the experiments will be re run.
  After the experiments are completed, a csv file  PROJECTROOT/csvlog/log will be generated, which contains all of data presented in the paper.
  
-6. notice that, there are three field in the main function of PROJECTROOT/src/test/main.java, which are:
+6. notice that, there are four fields in the main function of PROJECTROOT/src/test/main.java, which are:
 
 	Field 1: repositoryType. repositoryType=0 means search repository built by linux, 
 		repositoryType=1 means search repository built by introclass, 
@@ -33,11 +33,15 @@ Several things to setup and rerun:
 		operation=0 means generating csvData using existing results. 
 		I have backed up my results in case you wants the csv data without rerun the whole project
 		
-	Filed 3: wb. wb=false, means rerun bb testcases, evaluating on wb.
+	Field 3: wb. wb=false, means rerun bb testcases, evaluating on wb.
 		wb=true, means rerun wb testcases, evaluating on bb.
+
+        Field 4: introclasspath, which is the absolute path of introclass benchmark set. When new versions are added 
+                  in introclass set, please empty the folder PROJECTROOT/bughunt, deleting all of subfolders and files
+                   in PROJECTROOT/bughunt but keep bughunt folder. Just make it empty. Then set introclasspath to the
+                  absolute path of the new introclass.
 		
 NOTICE: rerun experiments on syllables versions takes a lot of time.
-		Actually, I rerun syllables experiments semi-automatically in order to get results quickly. 
 		My current setting for rerunning the project is that when you run the main function of PROJECTROOT/src/test/main.java,
 		syllables versions will also be rerun too. If you think the experiments are too slow, just go to PROJECTROOT/src/experiment/GroupTest.java file,
 		and find the function "rerun", comments out the statement "syllablesTest(wb, repositoryType);". 
