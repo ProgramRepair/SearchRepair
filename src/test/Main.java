@@ -3,6 +3,7 @@ package test;
 import Database.DataBaseManager;
 import Experiment.Analyzer;
 import Experiment.GroupTest;
+import ProcessIntroClass.GenerateStandardTestCases;
 import Repository.EntryAddition;
 
 public class Main {
@@ -11,9 +12,12 @@ public class Main {
 		//repository type: 0 linux, 1 introclass, 2 future
 		int repositoryType = 2;
 		
+		//introclass path
+		String introclassPath = "/users/yke/documents/coding/project/introclass-may-2015";
+		
 		
 		//get data directly 0 or re run to get data:1
-		int operation = 1;
+		int operation = 0;
 		
 		//run wb test or run bb test, wb : wb = true, bb: wb = false; 
 		boolean wb = false;
@@ -23,6 +27,8 @@ public class Main {
 		}
 		else{
 			//TODO rerun
+			GenerateStandardTestCases test = new GenerateStandardTestCases(introclassPath, "./bughunt");
+			test.generate();
 			rerun(wb, repositoryType);
 			Analyzer.getCSVData();
 		}

@@ -18,10 +18,10 @@ public class GroupTest {
 	
 	public static void rerun(boolean wb, int repositoryType){
 		medianTest(wb, repositoryType);
-//		smallestTest(wb, repositoryType);
-//		gradeTest(wb, repositoryType);
-//		checkSumTest(wb, repositoryType);
-//		syllablesTest(wb, repositoryType);
+		smallestTest(wb, repositoryType);
+		gradeTest(wb, repositoryType);
+		checkSumTest(wb, repositoryType);
+		syllablesTest(wb, repositoryType);
 	}
 	
 	public static void checkSumTest(boolean wb, int type){
