@@ -36,7 +36,10 @@ Several things to setup and rerun:
 	Field 3: wb. wb=false, means rerun bb testcases, evaluating on wb.
 		wb=true, means rerun wb testcases, evaluating on bb.
 
-        Field 4: introclasspath, which is the absolute path of introclass benchmark set. When new versions are added in introclass set, please empty the folder PROJECTROOT/bughunt, deleting all of subfolders and files in PROJECTROOT/bughunt but keep bughunt folder. Just make it empty. Then set introclasspath to the absolute path of the new introclass.
+        Field 4: introclasspath. which is the absolute path of introclass benchmark set. When new versions are added
+                in introclass set, please empty the folder PROJECTROOT/bughunt, deleting all of subfolders and files 
+                in PROJECTROOT/bughunt but keep bughunt folder. Just make it empty. Then set introclasspath to the
+                absolute path of the new introclass.
 		
 NOTICE: rerun experiments on syllables versions takes a lot of time.
 		My current setting for rerunning the project is that when you run the main function of PROJECTROOT/src/test/main.java,
