@@ -2,6 +2,7 @@ package ProcessIntroClass;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -84,7 +85,7 @@ public class GenerateStandardTestCases {
 
 		int count = 0;
 		for (File variant : queue) {
-			Path caseFolderPath = Paths.get(thisOutputFolder + "/" + count++);
+			Path caseFolderPath = Paths.get(thisOutputFolder + "/" + count++ + "/");
 			File caseFolder = caseFolderPath.toFile();
 			if(!Files.exists(caseFolderPath)) {
 				if(!caseFolder.mkdir()) {
@@ -92,7 +93,7 @@ public class GenerateStandardTestCases {
 					return;
 				}
 			}
-			if(!init(variant.toPath(), caseFolderPath, program)) {
+			if(!init(program, variant.toPath(), caseFolderPath)) {
 				logger.error("Error in initialization for " + caseFolderPath);
 				return;
 			}
@@ -101,22 +102,24 @@ public class GenerateStandardTestCases {
 
 	}
 
-	private boolean init(Path variantPath, Path caseFolderPath, String functionName) {
-		Path variantProgramSourcePath = Paths.get(variantPath + "/" + functionName + ".c");
+	private boolean init(String program, Path variantPath, Path outputPath) {
+		Path variantProgramSourcePath = Paths.get(variantPath + "/" + program + ".c");
 		// copy program.C
 		try {
-			Files.copy(variantProgramSourcePath, caseFolderPath, StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(variantProgramSourcePath, outputPath, StandardCopyOption.REPLACE_EXISTING);
+		} catch (DirectoryNotEmptyException e) { // this is fine
+			
 		} catch (IOException e) {
-			logger.error("Failed to copy variant source code in " + variantPath.toString() + " to output folder " + caseFolderPath.toString() + "; skipping!");
-			return false;
+			logger.error("Failed to copy variant source code in " + variantPath.toString() + " to output folder " + outputPath.toString() + "; skipping!");
+			return false; 
 		}
 		
-		Utility.writeTOFile(caseFolderPath + "/original", variantProgramSourcePath.toString());
-		if(!initializeTesting(functionName, variantPath, caseFolderPath)) {
+		Utility.writeTOFile(outputPath + "/original", variantProgramSourcePath.toString());
+		if(!initializeTesting(program, variantPath, outputPath)) {
 			logger.error("Failed to initialize testing for " + variantPath.toString() + "; skipping!");
 			return false;		
 			}
-		//getOtherTechInfo(inputFolder, outputFolder);
+		getOtherTechInfo(variantPath, outputPath);
 		return true;
 	}
 	
@@ -135,33 +138,32 @@ public class GenerateStandardTestCases {
 
 			// compile test executable for this variant
 			String testingExe = "./" + program;
-			Path testExePath = Paths.get(outputPath.toString() + testingExe);
+			Path testExePath = Paths.get(outputPath.toString() + "/./" + program);
 			if(Files.exists(testExePath)) {
 				testExePath.toFile().delete();
 			}
 
 			String gccCmd = "gcc -o " + testExePath.toString() + " " + outputPath + "/" + program + ".c";
-			System.out.println("GCC CMD: " + gccCmd);
 			String s = Utility.runCProgram(gccCmd);
 			if (s.equals("failed")) {
 				return false;
 			}
 
 			// run each test in each suite; if it passes, it's a positive test, and if it fails, it's a negative test.
-			Path testSuitePath = Paths.get(variantPath.toString() + "/" + whichTests);
-			
+			Path testSuitePath = Paths.get(variantPath.toString() + "/../../tests/" + whichTests).normalize();
+			File testSuiteFile = testSuitePath.toFile();
 			// FIXME: refactor this a little bit, but maintain functionality that controls test/fail status.
-			for (File file : testSuitePath.toFile().listFiles()) {
+			for (File file : testSuiteFile.listFiles()) {
 				String testCandidate = file.getAbsolutePath();
 				if (testCandidate.endsWith(".in")) {
 					String input = Utility.getStringFromFile1(testCandidate);
 					String outPath = testCandidate.substring(0, testCandidate.length() - 3) + ".out";
-					String runOutput = Utility.runCProgramWithInput(testingExe,
+					String runOutput = Utility.runCProgramWithInput(testExePath.toString(),
 							input);
 					String tempOuputFile = "./tempFolder/test.out";
 					Utility.writeTOFile(tempOuputFile, runOutput);
-					String testStatus = Utility.runCProgramWithPythonCommand(testingExe,
-							tempOuputFile, testCandidate, outPath).trim();
+					String testStatus = Utility.runCProgramWithPythonCommand(testExePath.toString(),
+							tempOuputFile, testCandidate, outPath, program).trim();
 					if (testStatus.equals("Test passed.")) {
 						String index = testCandidate.substring(testCandidate.lastIndexOf('/') + 1,
 								testCandidate.lastIndexOf('.'));
@@ -184,11 +186,10 @@ public class GenerateStandardTestCases {
 
 	}
 
-
-	private void getOtherTechInfo(String inputFolder, String outputFolder) {
+	// FIXME: this is probably very inefficient, consider fixing when other core functionality is addressed
+	private void getOtherTechInfo(Path inputFolder, Path outputFolder) {
 		new File(outputFolder + "/repair").mkdir();
-		File dir = new File(inputFolder);
-		for (File file : dir.listFiles()) {
+    		for (File file : inputFolder.toFile().listFiles()) {
 			String name = file.getName();
 			if (name.endsWith("log") && name.startsWith("gp")) {
 				String fileString = Utility.getStringFromFile(file
@@ -234,13 +235,13 @@ public class GenerateStandardTestCases {
 
 	}
 
-
-	public static void main(String[] args) {
-		if (args.length > 1)
-			Configuration.configure(args[1]);
-		GenerateStandardTestCases test = new GenerateStandardTestCases();
-		test.generate();
-		test.printFailed();
-	}
+// FIXME: consider adding this back in for testing later
+//	public static void main(String[] args) {
+//		if (args.length > 1)
+//			Configuration.configure(args[1]);
+//		GenerateStandardTestCases test = new GenerateStandardTestCases();
+//		test.generate();
+//		test.printFailed();
+//	}
 
 }

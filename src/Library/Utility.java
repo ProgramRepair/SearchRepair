@@ -38,8 +38,7 @@ public class Utility {
 	}
 
 	public static String runCProgramWithPythonCommand(String testingExe,
-			String tempOuputFile, String inputFile, String outputFile) {
-		String programName = testingExe.substring(testingExe.indexOf("/") + 1);
+			String tempOuputFile, String inputFile, String outputFile, String programName) {
 		String command = "/Users/clegoues/research/autobugfix/autobugfix-yalin/executors/genprog_tests.py --program "
 				+ programName
 				+ " "

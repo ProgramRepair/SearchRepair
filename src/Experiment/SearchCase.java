@@ -218,8 +218,10 @@ public class SearchCase {
 		Utility.writeTOFile(this.tempOutput, s2);
 		Utility.writeTOFile(this.outputfile, output);
 		Utility.writeTOFile(this.inputfile, input);
+		String programName = this.functionName.substring(this.functionName.indexOf("/") + 1);
+
 		String s = Utility.runCProgramWithPythonCommand(this.functionName,
-				this.tempOutput, this.inputfile, this.outputfile);
+				this.tempOutput, this.inputfile, this.outputfile, programName);
 		if (s.trim().endsWith("Test passed."))
 			return true;
 		else

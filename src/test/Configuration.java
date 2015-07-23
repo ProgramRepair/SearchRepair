@@ -10,7 +10,7 @@ public class Configuration {
 	// type: 0 linux, 1 introclass, 2 future
 	public static int repositoryType = 2;
 
-	public static String introclassPath = "/Users/clegoues/research/autobugfix//introclass-may-2015";
+	public static String introclassPath = "/Users/clegoues/research/autobugfix/autobugfix-yalin/introclass-may-2015";
 
 	// get data directly 0 or re run to get data:1
 	public static int operation = 1;
