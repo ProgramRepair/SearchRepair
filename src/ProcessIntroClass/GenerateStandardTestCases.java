@@ -92,27 +92,32 @@ public class GenerateStandardTestCases {
 					return;
 				}
 			}
-			init(variant.toPath(), caseFolderPath, program);
+			if(!init(variant.toPath(), caseFolderPath, program)) {
+				logger.error("Error in initialization for " + caseFolderPath);
+				return;
+			}
 		}
 
 
 	}
 
-	private void init(Path variantPath, Path caseFolderPath, String functionName) {
+	private boolean init(Path variantPath, Path caseFolderPath, String functionName) {
 		Path variantProgramSourcePath = Paths.get(variantPath + "/" + functionName + ".c");
 		// copy program.C
 		try {
 			Files.copy(variantProgramSourcePath, caseFolderPath, StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			logger.error("Failed to copy variant source code in " + variantPath.toString() + " to output folder " + caseFolderPath.toString() + "; skipping!");
-			return;
+			return false;
 		}
 		
 		Utility.writeTOFile(caseFolderPath + "/original", variantProgramSourcePath.toString());
 		if(!initializeTesting(functionName, variantPath, caseFolderPath)) {
-			// FIXME log!
-		}
+			logger.error("Failed to initialize testing for " + variantPath.toString() + "; skipping!");
+			return false;		
+			}
 		//getOtherTechInfo(inputFolder, outputFolder);
+		return true;
 	}
 	
 	private boolean initializeTesting(String program, Path variantPath, Path outputPath) {
