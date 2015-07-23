@@ -37,11 +37,11 @@ public class GenerateStandardTestCases {
 
 	public void generate() {
 		for (String program : Configuration.programs) {
-			Path progPath = Paths.get(introPath + "/" + program);
+			Path progPath = Paths.get(introPath + program);
 			if (Files.exists(progPath)) {
 				generate(program);
 			} else {
-				logger.warn("Configured to process " + program + " but directory not found in " + introPath + ", skipping.");
+				logger.error("Configured to process " + program + " but directory not found in " + introPath + ", skipping.");
 			}
 		}
 	}

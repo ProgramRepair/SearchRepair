@@ -2,67 +2,56 @@ package Repository;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import org.apache.log4j.Logger;
+
 import Database.EntryHandler;
 import Database.EntryObject;
 import Library.Utility;
 
+// CLG: not pretty, but fine
 public class EntryAddition {
+
+	protected static Logger logger = Logger.getLogger(EntryAddition.class);
 
 	private static int count = 0;
 	private static int save = 0;
-
 	public static void addOneFile(String filePath, String table) {
 		File file = new File(filePath);
 		if (!file.exists())
 			return;
-		List<Method> methods = parse(filePath);
+		List<Method> methods = getAndParseSymExe(filePath);
 		for (Method method : methods) {
 			count++;
 
 			EntryObject object;
 			try {
-				object = covertMethodToEntry(method);
+				EntryTranslator translator = new EntryTranslator(method);
+				object = translator.getEntryObject();
 			} catch (Exception e) {
 				System.out.println(e);
 				continue;
 			}
 			EntryHandler.save(object, table);
-			// try {
-			// System.setOut(new PrintStream("log"));
-			// } catch (FileNotFoundException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-			System.out.println(method.getName());
-			save++;
-			System.out.println(method.getSource());
-
-			for (String path : object.getPathConstraint().keySet()) {
-				System.out.println("constraint:\n"
-						+ object.getPathConstraint().get(path));
-				System.out.println("variable:\n"
-						+ object.getPathFormalVariables().get(path));
-				System.out.println("track:\n"
-						+ object.getPathVariableTrack().get(path));
-				System.out.println("type:\n"
-						+ object.getPathVariablesTypes().get(path));
-				System.out.println("path:\n" + path);
-			}
+			save ++;
+			//			for (String path : object.getPathConstraint().keySet()) {
+			//				System.out.println("constraint:\n"
+			//						+ object.getPathConstraint().get(path));
+			//				System.out.println("variable:\n"
+			//						+ object.getPathFormalVariables().get(path));
+			//				System.out.println("track:\n"
+			//						+ object.getPathVariableTrack().get(path));
+			//				System.out.println("type:\n"
+			//						+ object.getPathVariablesTypes().get(path));
+			//				System.out.println("path:\n" + path);
+			//			}
 		}
-		// System.out.println("count: " + count + "save: " + save);
-	}
-
-	private static EntryObject covertMethodToEntry(Method method) {
-		EntryTranslator translator = new EntryTranslator(method);
-		return translator.getEntryObject();
-
+		logger.info("Global method count attempted so far:" + count + " successes: " + save);
 	}
 
 	public static void addOneFolder(String dirPath, String table) {
@@ -81,21 +70,16 @@ public class EntryAddition {
 
 	// parses output from my symbolic execution engine
 
-	private static List<Method> parse(String fileName) {
+	private static List<Method> getAndParseSymExe(String fileName) {
 		// assume only one method
 		List<Method> methods = new ArrayList<Method>();
 		try {
-			// if(!fileName.equals("./repository/scrape/test41.c")) return
-			// methods;
-			String com = "./executors/pathgen " + fileName;
 
+			String com = "./executors/pathgen " + fileName;
 			Process p = Runtime.getRuntime().exec(com);
-			BufferedReader ls_in = new BufferedReader(new InputStreamReader(
-					p.getInputStream()));
-			// BufferedReader ls_error = new BufferedReader(new
-			// InputStreamReader(
-			// p.getErrorStream()));
-			// System.out.println(ls_error.readLine());
+
+			BufferedReader ls_in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
 			String s = null;
 			StringBuilder path = new StringBuilder();
 			StringBuilder input = new StringBuilder();
@@ -103,7 +87,7 @@ public class EntryAddition {
 			boolean startParsing = false;
 			boolean correct = true;
 			while ((s = ls_in.readLine()) != null) {
-				// System.out.println(s);
+
 				s = s.trim();
 				if (s.startsWith("Processing:")) {
 					if (method.getName() != null) {
@@ -244,10 +228,11 @@ public class EntryAddition {
 			return "void";
 	}
 
-	public static void main(String[] args) throws FileNotFoundException {
-		String filePath = "./repository/future";
-		EntryAddition.addOneFolder(filePath, "future");
-		;
-		// EntryAddition.addOneFile(filePath);
-	}
+	// FIXME: consider adding back in unit testing when done with refactor
+//	public static void main(String[] args) throws FileNotFoundException {
+//		String filePath = "./repository/future";
+//		EntryAddition.addOneFolder(filePath, "future");
+//		;
+//		// EntryAddition.addOneFile(filePath);
+//	}
 }

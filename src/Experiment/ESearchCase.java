@@ -52,8 +52,6 @@ public  class ESearchCase {
 	}
 
 
-
-
 	public ESearchCase(String folder, String fileName, int repo){
 		this.repo = repo;
 		this.folder = folder;
@@ -74,7 +72,6 @@ public  class ESearchCase {
 		this.runDir = this.folder + "/temp";
 		this.content = new ArrayList<String>();
 	}
-	
 	
 	
 	public int getRepo() {
@@ -99,8 +96,6 @@ public  class ESearchCase {
 		}
 		
 	}
-	
-	
 	
 	
 	public List<String> getContent() {
@@ -719,12 +714,12 @@ public  class ESearchCase {
 
 
 
-
-	public static void main(String[] args) {
-		ESearchCase instan = new ESearchCase("./bughunt/smallest/43", "smallest.c", 2);
-		//instan.search();
-		//instan.recordResult();
-		System.out.println(instan.test());
-	}
+// FIXME: consider adding unit testing back in at end.
+//	public static void main(String[] args) {
+//		ESearchCase instan = new ESearchCase("./bughunt/smallest/43", "smallest.c", 2);
+//		//instan.search();
+//		//instan.recordResult();
+//		System.out.println(instan.test());
+//	}
 
 }

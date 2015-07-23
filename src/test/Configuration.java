@@ -10,7 +10,7 @@ public class Configuration {
 	// type: 0 linux, 1 introclass, 2 future
 	public static int repositoryType = 2;
 
-	public static String introclassPath = "/Users/clegoues/research/autobugfix/autobugfix-yalin/introclass-may-2015";
+	public static String introclassPath = "/Users/clegoues/research/autobugfix/autobugfix-yalin/introclass-may-2015/";
 
 	// get data directly 0 or re run to get data:1
 	public static int operation = 1;
@@ -18,9 +18,9 @@ public class Configuration {
 	// run wb test or run bb test, wb : wb = true, bb: wb = false;
 	public static boolean wb = false;
 
-	public static String outputPath = "./bughunt";
+	public static String outputPath = "./bughunt/";
 
-	public static boolean skipGenerate = false;
+	public static boolean skipGenerate = true;
 
 	public static String[] programs = new String[] { "checksum", // "digits", FIXME: we can't handle digits at all, right?
 			"grade", "median", "smallest", "syllables" };

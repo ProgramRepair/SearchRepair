@@ -22,20 +22,21 @@ public class GroupTest {
 		for(String program : Configuration.programs) {
 			ESearchCase searcher = null;
 			List<String> list = new ArrayList<String>();
-			File file = new File("./bughunt/" + program);
+			File file = new File(Configuration.outputPath + program);
 			int size = file.listFiles().length;
 			for (File root : file.listFiles()) {
-				try { // FIXME: the bughunts here are configurable, change!
-					String folder = "./bughunt/" + program + "/" + root.getName();
+				try {
+					String folder = Configuration.outputPath + program + "/" + root.getName();
 					String fileName = program + ".c"; 
-					if (repositoryType == 2) { // FIXME: CLG has NO IDEA what this does.
-						// OK beginning to figure it out: root is the variant number. 
+					if (repositoryType == 2) { // FIXME: make this not an integer because it's impossible to grok this way
+						// OK beginning to figure it out: root is the variant number.
+						// and I think he's appropriately leaving the future of this variant out, come to think of it
 						int value = Integer.parseInt(root.getName());
 						repositoryType = (value < size / 2) ? 3 : 4; 				
 					}
 					
 					String transformArgs = "";
-
+					boolean doTransform = false;
 					switch(program) {
 					case "checksum":
 						searcher = new CheckSumSearchCase(folder,
@@ -45,10 +46,13 @@ public class GroupTest {
 					case "smallest":
 						searcher =  new MedianSearchCase(folder,
 								fileName, repositoryType);
+						doTransform = true;
+
 						break;
 					case "grade":
 						searcher = new GradeSearchCase(folder, fileName,
 								repositoryType);
+						doTransform = true;
 						transformArgs = "--type grade";
 						break;
 					case "syllables":
@@ -56,7 +60,7 @@ public class GroupTest {
 								fileName, repositoryType);
 					}
 
-					searcher.transformAndInitRunDir(false, transformArgs);
+					searcher.transformAndInitRunDir(doTransform, transformArgs);
 					searcher.initInputAndOutput();
 					searcher.search(wb);
 					searcher.recordResult(wb);
