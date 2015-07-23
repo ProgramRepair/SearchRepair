@@ -1,8 +1,13 @@
 package ProcessIntroClass;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.log4j.Logger;
 
 import test.Configuration;
 import Library.Utility;
@@ -12,6 +17,9 @@ public class GenerateStandardTestCases {
 
 	private String introPath;
 	private String outputFolderPath;
+
+	protected static Logger logger = Logger
+			.getLogger(GenerateStandardTestCases.class);
 
 	public GenerateStandardTestCases() {
 		this.introPath = Configuration.introclassPath;
@@ -24,50 +32,33 @@ public class GenerateStandardTestCases {
 	private List<String> list;
 
 	public void printFailed() {
-		System.out.println(list);
+		logger.error(list);
 	}
 
 	public void generate() {
-		try {
-			File dir = new File(introPath);
-			for (String typeName : dir.list()) {
-				// if (typeName.equals("smallest")) {
-				// generate(introPath + "/smallest", outputFolderPath
-				// + "/smallest");
-				// }
-				if (typeName.equals("median")) {
-					generate(introPath + "/median", outputFolderPath
-							+ "/median");
-				}
-				// if (typeName.equals("grade")) {
-				// generate(introPath + "/grade", outputFolderPath + "/grade");
-				// }
-				// if (typeName.equals("checksum")) {
-				// generate(introPath + "/checksum", outputFolderPath
-				// + "/checksum");
-				// }
-				// if (typeName.equals("digits")) {
-				// generate(introPath + "/digits", outputFolderPath
-				// + "/digits");
-				// }
-				// if (typeName.equals("syllables")) {
-				// generate(introPath + "/syllables", outputFolderPath
-				// + "/syllables");
-				// }
+		for (String program : Configuration.programs) {
+			Path progPath = Paths.get(introPath + "/" + program);
+			if (Files.exists(progPath)) {
+				generate(program);
+			} else {
+				logger.warn("Configured to process " + program + " but directory not found in " + introPath + ", skipping.");
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
-	private void generate(String inputFolder, String outputFolder) {
-		String functionName = inputFolder.substring(inputFolder
-				.lastIndexOf("/") + 1);
-		File outputFolderFile = new File(outputFolder);
-		outputFolderFile.mkdir();
+	private void generate(String program) {
+		String thisOutputFolder = outputFolderPath + "/" + program;
+		Path outputPath = Paths.get(thisOutputFolder);
+		if(!Files.exists(outputPath)) {
+			if(!outputPath.toFile().mkdir()) {
+				logger.error("Unable to make output folder " + outputPath + ", skipping!");
+				return;
+			}
+		}
 		try {
 			int depth = 0;
-			File file = new File(inputFolder);
+			Path programPath = Paths.get(introPath + "/" + program);
+			File file = programPath.toFile();
 			List<File> queue = new ArrayList<File>();
 			queue.add(file);
 			while (!queue.isEmpty() && depth != 2) {
@@ -90,10 +81,17 @@ public class GenerateStandardTestCases {
 				return;
 
 			int count = 0;
-			for (File temp : queue) {
-				File caseFolder = new File(outputFolderFile.getAbsolutePath()
-						+ "/" + count++);
-				init(temp, caseFolder, functionName);
+			for (File variant : queue) {
+				Path caseFolderPath = Paths.get(thisOutputFolder + "/" + count++);
+				File caseFolder = caseFolderPath.toFile();
+				if(!Files.exists(caseFolderPath)) {
+					if(!caseFolder.mkdir()) {
+						logger.error("Unable to make case output folder " + caseFolderPath + ", skipping");
+						return;
+					}
+				}
+
+				init(variant, caseFolder, program);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

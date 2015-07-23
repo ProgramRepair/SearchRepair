@@ -20,7 +20,10 @@ public class Configuration {
 
 	public static String outputPath = "./bughunt";
 
-	public static boolean skipGenerate = true;
+	public static boolean skipGenerate = false;
+
+	public static String[] programs = new String[] { "checksum", "digits",
+			"grade", "median", "smallest", "syllables" };
 
 	public static void configure(String name) {
 		Properties prop = new Properties();
@@ -59,6 +62,9 @@ public class Configuration {
 			skipGenerate = true;
 		}
 
+		if (prop.getProperty("specifyPrograms") != null) {
+			programs = prop.getProperty("specifyPrograms").split(",");
+		}
 	}
 
 }
