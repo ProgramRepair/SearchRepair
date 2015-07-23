@@ -22,7 +22,7 @@ public class Configuration {
 
 	public static boolean skipGenerate = false;
 
-	public static String[] programs = new String[] { "checksum", "digits",
+	public static String[] programs = new String[] { "checksum", // "digits", FIXME: we can't handle digits at all, right?
 			"grade", "median", "smallest", "syllables" };
 
 	public static void configure(String name) {

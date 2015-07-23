@@ -1,21 +1,15 @@
 package Experiment;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 import search.ResultObject.ResultState;
-import Library.Utility;
-import ProcessIntroClass.BugLineSearcher;
 
 public class MedianSearchCase extends ESearchCase {
 	public MedianSearchCase(String folder, String fileName, int repo) {
 		super(folder, fileName,  repo);
 		
 	}
-
+	
 	@Override
 	public void search(boolean wb) {
 		this.initWbOrBB(wb);

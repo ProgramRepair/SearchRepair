@@ -101,6 +101,7 @@ public class GenerateStandardTestCases {
 	}
 
 	private boolean init(String program, Path variantPath, Path outputPath) {
+		logger.info("Initializing program " + program + " at path " + variantPath.toString());
 		Path variantProgramSourcePath = Paths.get(variantPath + "/" + program + ".c");
 		// copy programC
 		try {
@@ -156,10 +157,10 @@ public class GenerateStandardTestCases {
 						String outPathStr = testCandidate.substring(0, testCandidate.length() - 3) + ".out";
 						String runOutput = Utility.runCProgramWithInput(testExePath.toString(),
 								input);
-						String tempOuputFile = "./tempFolder/test.out";
-						Utility.writeTOFile(tempOuputFile, runOutput);
+						String tempOutputFile = "./tempFolder/test.out";
+						Utility.writeTOFile(tempOutputFile, runOutput);
 						String testStatus = Utility.runCProgramWithPythonCommand(testExePath.toString(),
-								tempOuputFile, testCandidate, outPathStr, program).trim();
+								tempOutputFile, testCandidate, outPathStr, program).trim();
 						if (testStatus.equals("Test passed.")) { // if passed, copy in and output to positive/ for this variant
 							// recall that if we got this far, it's because the file we got from the testSuiteFileList in the for loop above is the .in for a test.
 							Utility.copyDirOK(file.toPath(), positiveDirPath);

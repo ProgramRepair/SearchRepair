@@ -1,7 +1,6 @@
 package Experiment;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import search.ResultObject.ResultState;
