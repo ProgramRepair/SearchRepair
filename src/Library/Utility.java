@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 public class Utility {
 
@@ -51,6 +55,7 @@ public class Utility {
 		return s;
 	}
 
+	
 	public static String invokeZ3onFile(String file) {
 		String out = "";
 		String execString = "executors/z3" + " -smt2 -nw -file:" + file;
@@ -156,6 +161,14 @@ public class Utility {
 		}
 	}
 
+	public static void copyDirOK(Path copyFrom, Path copyTo) throws IOException {
+		try {
+		Files.copy(copyFrom, copyTo, StandardCopyOption.REPLACE_EXISTING);
+		} catch(DirectoryNotEmptyException e) {
+			// this is explicitly OK
+		}
+
+	}
 	// FIXME: try to nuke this
 	public static void copy(String file1, String file2) {
 		try {
