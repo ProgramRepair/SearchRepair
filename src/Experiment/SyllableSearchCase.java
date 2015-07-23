@@ -1,5 +1,6 @@
 package Experiment;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,8 +9,9 @@ import search.ResultObject.ResultState;
 
 public class SyllableSearchCase extends ESearchCase{
 
-	public SyllableSearchCase(String folder, String fileName, int repo) {
-		super(folder, fileName, repo);
+	// possible FIXME: syllables knows it's syllables, possibly don't need it here.
+	public SyllableSearchCase(String program, Path folder, Path fileName, int repo) {
+		super(program, folder, fileName, repo);
 		
 	}
 
@@ -25,16 +27,14 @@ public class SyllableSearchCase extends ESearchCase{
 			return;
 		}
 		
-		List<int[]> buggys = getMultpleBuggyLines();
-		//System.out.println(Arrays.toString(range));
+		List<int[]> buggys = getMultipleBuggyLines();
 		
 		for(int[] range : buggys){
 			String s = Arrays.toString(range);
 			System.out.println(s);
-			//if(!s.equals("[17, 22]")) continue;
-			String prefix = this.getRunDir() + "/" + this.getFileName().substring(0, this.getFileName().lastIndexOf('.'));
-			SearchCase instan = new SearchCase(prefix, this.getRepo());
-			System.out.println(Arrays.toString(range));
+			String prefix = this.getRunDir() + "/" + this.getFileName().toString().substring(0, this.getFileName().toString().lastIndexOf('.'));
+			SearchCase instan = new SearchCase(this.getProgram(), prefix, this.getRepo());
+
 			instan.setBuggy(range);
 			instan.setNegatives(this.getNegatives());
 			instan.setPositives(this.getPositives());
@@ -53,8 +53,8 @@ public class SyllableSearchCase extends ESearchCase{
 		}
 	}
 
-	
-	protected List<int[]> getMultpleBuggyLines(){
+// why is this different between the search cases?  I feel like it should all be the same...	
+	protected List<int[]> getMultipleBuggyLines(){
 		List<int[]> list = new ArrayList<int[]>();
 		initSuspicious();
 		this.initContent();
@@ -64,19 +64,17 @@ public class SyllableSearchCase extends ESearchCase{
 				list.add(new int[]{i, i + j});
 			}
 		}
-//		list.add(new int[]{30, 33});
 				
 		return list;
 	}
 	
-	
-	public static void main(String[] args){
-		SyllableSearchCase instan = new SyllableSearchCase("./bughunt/syllables/37", "syllables.c", 2);
-		instan.transformAndInitRunDir(false, "");
-		instan.initInputAndOutput();
-//		instan.search(true);
-//		instan.recordResult(true);
-		instan.search(false);
-		instan.recordResult(false);
-	}
+//	public static void main(String[] args){
+//		SyllableSearchCase instan = new SyllableSearchCase("./bughunt/syllables/37", "syllables.c", 2);
+//		instan.transformAndInitRunDir(false, "");
+//		instan.initInputAndOutput();
+////		instan.search(true);
+////		instan.recordResult(true);
+//		instan.search(false);
+//		instan.recordResult(false);
+//	}
 }

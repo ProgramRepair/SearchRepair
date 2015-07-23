@@ -3,13 +3,14 @@ package Experiment;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,44 +53,33 @@ public class SearchCase {
 	public static final String MARKOUTPUT = "_yalin_mark(\"output\");";
 	public String outputType = "";
 
-	private String casePrefix;
-	private Map<String, String> positives;
-	private Map<String, String> negatives;
+	private String program;
+	private String folder; 
+	private String programSource;
+	
+	Path compiledBinary;
+	
+	private Map<String, String> positives = new HashMap<String, String>();
+	private Map<String, String> negatives = new HashMap<String, String>();
 	private int[] buggy;
 	private CaseInfo info;
-	private Map<String, String> verifications;
+	private Map<String, String> verifications = new HashMap<String, String>();
 	private String inputfile;
 	private String outputfile;
-	private String folder;
-	private String functionName;
 	private String tempOutput;
 	private int repo;
 
-	public SearchCase(String casePrefix, int repo) {
-		this.casePrefix = casePrefix;
-		this.positives = new HashMap<String, String>();
-		this.negatives = new HashMap<String, String>();
+	public SearchCase(String program, String cwd, int repo) {
+		this.program = program;
+		this.folder = cwd;
+		this.programSource = this.folder + "/" + program + ".c";
 		this.info = new CaseInfo();
 		this.buggy = new int[2];
-		this.verifications = new HashMap<String, String>();
-		this.folder = this.casePrefix.substring(0,
-				this.casePrefix.lastIndexOf("/"));
-		this.functionName = this.casePrefix.substring(this.casePrefix
-				.lastIndexOf("/") + 1);
+
 		this.inputfile = this.folder + "/1.in";
 		this.outputfile = this.folder + "/1.out";
 		this.tempOutput = this.folder + "/test.out";
 		this.repo = repo;
-	}
-
-	public void init() {
-		EndToEndProcess();
-		search();
-	}
-
-	private void EndToEndProcess() {
-		String IOFileName = this.casePrefix + "_TS";
-		parse(IOFileName);
 	}
 
 	public void search() {
@@ -97,7 +87,7 @@ public class SearchCase {
 		if (!pass)
 			return;
 		searchOverRepository();
-		printResult();
+		//printResult();
 		ruleOutFalsePositive();
 		// printSearchingResult();
 
@@ -188,21 +178,23 @@ public class SearchCase {
 
 	private int passTestSuite(String source, String outputFile,
 			Map<String, String> suite) {
-		File file = new File(this.casePrefix);
-		if (file.exists())
-			file.delete();
-		String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
+		try {
+			Files.deleteIfExists(this.compiledBinary);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+
+		String command1 = "gcc " + outputFile + " -o " + this.compiledBinary.toString();
 		Utility.runCProgram(command1);
-		if (!new File(this.casePrefix).exists()) {
+		if(!Files.exists(compiledBinary)) {
 			return 0;
 		}
+
 		int count = 0;
 		for (String input : suite.keySet()) {
 			String output = suite.get(input);
-
-			String command2 = "./" + this.casePrefix;
-
-			String s2 = Utility.runCProgramWithInput(command2, input);
+			String s2 = Utility.runCProgramWithInput(compiledBinary.toString(), input);
 
 			if (s2.isEmpty()) {
 				continue;
@@ -218,10 +210,9 @@ public class SearchCase {
 		Utility.writeTOFile(this.tempOutput, s2);
 		Utility.writeTOFile(this.outputfile, output);
 		Utility.writeTOFile(this.inputfile, input);
-		String programName = this.functionName.substring(this.functionName.indexOf("/") + 1);
 
-		String s = Utility.runCProgramWithPythonCommand(this.functionName,
-				this.tempOutput, this.inputfile, this.outputfile, programName);
+		String s = Utility.runCProgramWithPythonCommand(this.compiledBinary.toString(),
+				this.tempOutput, this.inputfile, this.outputfile, this.program);
 		if (s.trim().endsWith("Test passed."))
 			return true;
 		else
@@ -230,20 +221,24 @@ public class SearchCase {
 	}
 
 	private boolean passAllPositive(String source, String outputFile) {
-		File file = new File(this.casePrefix);
-		if (file.exists())
-			file.delete();
-		String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
+		try {
+			Files.deleteIfExists(this.compiledBinary);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		// possible TODO: put pull out all the compile stuff into a utility function
+		String command1 = "gcc " + outputFile + " -o " + this.compiledBinary.toString();
 		Utility.runCProgram(command1);
-		if (!new File(this.casePrefix).exists()) {
+		
+		if(!Files.exists(this.compiledBinary)) {
 			return false;
 		}
+
 		for (String input : this.positives.keySet()) {
 			String output = this.positives.get(input);
 
-			String command2 = "./" + this.casePrefix;
-
-			String s2 = Utility.runCProgramWithInput(command2, input);
+			String s2 = Utility.runCProgramWithInput(this.compiledBinary.toString(), input);
 
 			if (s2.isEmpty()) {
 				return false;
@@ -256,12 +251,12 @@ public class SearchCase {
 	}
 
 	private String generateOutputFile(String input) {
-		String outputfile = this.casePrefix + "new.c";
+		String outputfile = this.compiledBinary.toString() + ".new.c";
 		try {
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
 					new FileOutputStream(outputfile)));
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					new FileInputStream(this.casePrefix + ".c")));
+					new FileInputStream(this.programSource)));
 			String s = null;
 
 			for (int i = 1; i < buggy[0]; i++) {
@@ -291,11 +286,10 @@ public class SearchCase {
 		return outputfile;
 	}
 
+	// for debug only:
 	private void printResult() {
-		System.out.println(this.casePrefix);
 		int i = 0;
 		for (String source : info.getResult().getSearchMapping().keySet()) {
-
 			i++;
 			System.out.println("result" + i + "\n--------------------");
 			System.out.println(source);
@@ -321,7 +315,7 @@ public class SearchCase {
 	private boolean fillSearchCase() {
 		System.out.println("---" + Arrays.toString(this.buggy));
 		try {
-			if (insertStateStatements(this.casePrefix + ".c")) {
+			if (insertStateStatements(this.programSource)) { 
 				obtainPositiveStates();
 				return true;
 			} else
@@ -334,18 +328,20 @@ public class SearchCase {
 	}
 
 	private void obtainPositiveStates() {
-		String sourceFile = this.casePrefix + "state.c";
+		String sourceFile = this.programSource + ".state.c";  
 		for (String input : this.positives.keySet()) {
-			File file = new File(this.casePrefix);
-			if (file.exists())
-				file.delete();
-			String command1 = "gcc " + sourceFile + " -o " + this.casePrefix;
-			String command2 = "./" + this.casePrefix;
+			try {
+				Files.deleteIfExists(this.compiledBinary);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			String command1 = "gcc " + sourceFile + " -o " + this.compiledBinary;
 			String s1 = Utility.runCProgram(command1);
 			if (s1.equals("failed"))
 				continue;
-			String s2 = Utility.runCProgramWithInput(command2, input);
-			// System.out.println(s2);
+			String s2 = Utility.runCProgramWithInput(this.compiledBinary.toString(), input);
 			if (s2.trim().isEmpty())
 				return;
 			String[] entries = s2.split("_nextloop_");
@@ -404,12 +400,12 @@ public class SearchCase {
 	}
 
 	private String writeStatesStatement(String[] states) {
-		String fileName = this.casePrefix + "state.c";
+		String fileName = this.compiledBinary.toString() + ".state.c"; 
 		try {
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
 					new FileOutputStream(fileName)));
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					new FileInputStream(this.casePrefix + ".c")));
+					new FileInputStream(this.compiledBinary.toString() + ".c"))); 
 			String s = null;
 
 			for (int i = 1; i < buggy[0]; i++) {
@@ -644,12 +640,12 @@ public class SearchCase {
 	 * @return
 	 */
 	private String insertMark(String original) {
-		String output = this.casePrefix + ".mark";
+		String output = this.compiledBinary.toString() + ".mark";
 		try {
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
 					new FileOutputStream(output)));
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					new FileInputStream(this.casePrefix + ".c")));
+					new FileInputStream(this.programSource)));
 			String s = null;
 
 			for (int i = 1; i < buggy[0]; i++) {
@@ -732,14 +728,6 @@ public class SearchCase {
 
 	}
 
-	public String getCasePrefix() {
-		return casePrefix;
-	}
-
-	public void setCasePrefix(String casePrefix) {
-		this.casePrefix = casePrefix;
-	}
-
 	public Map<String, String> getPositives() {
 		return positives;
 	}
@@ -780,16 +768,17 @@ public class SearchCase {
 		this.verifications = verifications;
 	}
 
-	public static void main(String[] args) {
-		SearchCase case1 = new SearchCase("TestCases/examples/test1", 2);
-		// case1.print();
-	}
+	// FIXME: consider adding test cases back in when done
+//	public static void main(String[] args) {
+//		SearchCase case1 = new SearchCase("TestCases/examples/test1", 2);
+//		// case1.print();
+//	}
 
 	public void searchJustOnMap() {
 		try {
 			info.setResult(new ResultObject());
 			PrototypeSearch.searchOnlyMatchType(info, repo);
-			this.printResult();
+			//this.printResult();
 			this.ruleOutFalsePositive();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,16 +1,15 @@
 package Experiment;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 import search.ResultObject.ResultState;
 
 public class CheckSumSearchCase extends ESearchCase {
-	
 
-	public CheckSumSearchCase(String folder, String fileName, int repo) {
-		super(folder, fileName, repo);
-		
+	public CheckSumSearchCase(String program, Path folder, Path fileName, int repo) {
+		super(program, folder, fileName, repo);
 	}
 
 	@Override
@@ -26,27 +25,19 @@ public class CheckSumSearchCase extends ESearchCase {
 		}
 		
 		List<int[]> buggylines = getMultipleBugLines();
-		System.out.println(buggylines.size());
 		for(int[] range : buggylines){
-			//System.out.println(Arrays.toString(range));
-			String prefix = this.getRunDir() + "/" + this.getFileName().substring(0, this.getFileName().lastIndexOf('.'));
-			SearchCase instan = new SearchCase(prefix, this.getRepo());
+			String prefix = this.getRunDir() + "/" + this.getFileName().toString().substring(0, this.getFileName().toString().lastIndexOf('.'));
+			SearchCase instan = new SearchCase(this.getProgram(), prefix, this.getRepo());
 			instan.setBuggy(range);
 			instan.setNegatives(this.getNegatives());
 			instan.setPositives(this.getPositives());
 			instan.search();
 			if(instan.getInfo().getResult().getState() == ResultState.SUCCESS){
-				
 				this.setInfo(instan.getInfo());
 				break;
 			}
 		}
 	}
-
-	
-	
-	
-
 
 	protected List<int[]> getMultipleBugLines() {
 		List<int[]> list = new ArrayList<int[]>();
@@ -57,8 +48,7 @@ public class CheckSumSearchCase extends ESearchCase {
 				list.add(new int[]{i, i});
 			}
 		}
-		
-		
+	
 		int index = 10;
 		while(index < this.getSuspiciousness().keySet().size()){
 			if(this.getSuspiciousness().get(index) >= average){
@@ -74,39 +64,32 @@ public class CheckSumSearchCase extends ESearchCase {
 			index++;
 		}
 		
-		//list.add(new int[]{42, 42});
-		
 		return list;
 		
 	}
 	
 	private double getAverage() {
-		int denomerator = 0;
+		int denominator = 0;
 		double numerator = 0;
 		for(int i = 1; i <= this.getSuspiciousness().keySet().size(); i++){
 			if(this.getSuspiciousness().get(i) > 0){
-				denomerator++;
+				denominator++;
 				numerator += this.getSuspiciousness().get(i);
 			}
 		}
-		if(denomerator == 0) return 1;
-		else return numerator / denomerator;
+		if(denominator == 0) return 1;
+		else return numerator / denominator;
 	}
 
-	
-	
-	public static void main(String[] args){
-		CheckSumSearchCase instan = new CheckSumSearchCase("./bughunt/checksum/8", "checksum.c", 2);
-		instan.transformAndInitRunDir(false, "");
-		instan.initInputAndOutput();
-		instan.search(true);
-		instan.recordResult(true);
-		instan.search(false);
-		instan.recordResult(false);
-	}
-	
-	
-	
+//	public static void main(String[] args){
+//		CheckSumSearchCase instan = new CheckSumSearchCase("./bughunt/checksum/8", "checksum.c", 2);
+//		instan.transformAndInitRunDir(false, "");
+//		instan.initInputAndOutput();
+//		instan.search(true);
+//		instan.recordResult(true);
+//		instan.search(false);
+//		instan.recordResult(false);
+//	}
 	
 
 }

@@ -1,28 +1,20 @@
 package Experiment;
 
-import java.io.File;
-import java.util.Arrays;
+import java.nio.file.Path;
 
 import search.ResultObject.ResultState;
-import Library.Utility;
-import ProcessIntroClass.BugLineSearcher;
-import ProcessIntroClass.GcovTest;
-import ProcessIntroClass.Transform;
 
 public class GradeSearchCase extends ESearchCase {
 
-	public GradeSearchCase(String folder, String fileName, int repo) {
-		super(folder, fileName, repo);
+	public GradeSearchCase(String program, Path folder, Path fileName, int repo) {
+		super(program, folder, fileName, repo);
 	}
 
 	@Override
 	public void search(boolean wb) {
 		
 		this.initWbOrBB(wb);
-		
-		
-		
-		
+
 		if(this.getPositives().size() == 0) {
 			this.getInfo().getResult().setState(ResultState.NOPOSITIVE);
 			return;
@@ -33,9 +25,10 @@ public class GradeSearchCase extends ESearchCase {
 		}
 		
 		int[] range = getBugLines();
-		System.out.println(Arrays.toString(range));
-		String prefix = this.getRunDir() + "/" + this.getFileName().substring(0, this.getFileName().lastIndexOf('.'));
-		SearchCase instan = new SearchCase(prefix, this.getRepo());
+		// FIXME: I mangled all these prefix mangling things as an intermediate step in changing from strings to paths, fix it!
+		// trick is: what is prefix supposed to be pointing at?
+		String prefix = this.getRunDir() + "/" + this.getFileName().toString().substring(0, this.getFileName().toString().lastIndexOf('.'));
+		SearchCase instan = new SearchCase(this.getProgram(), prefix, this.getRepo());
 		instan.setBuggy(range);
 		instan.setNegatives(this.getNegatives());
 		instan.setPositives(this.getPositives());
@@ -44,18 +37,15 @@ public class GradeSearchCase extends ESearchCase {
 		this.setInfo(instan.getInfo());
 	}
 
-	
-	
-	
 
-	public static void main(String[] args){
-		GradeSearchCase instan = new GradeSearchCase("./bughunt/grade/117", "grade.c", 2);
-		instan.transformAndInitRunDir(true, "--type grade");
-		instan.initInputAndOutput();
-		instan.search(true);
-		instan.recordResult(true);
-		instan.search(false);
-		instan.recordResult(false);
-	}
+//	public static void main(String[] args){
+//		GradeSearchCase instan = new GradeSearchCase("./bughunt/grade/117", "grade.c", 2);
+//		instan.transformAndInitRunDir(true, "--type grade");
+//		instan.initInputAndOutput();
+//		instan.search(true);
+//		instan.recordResult(true);
+//		instan.search(false);
+//		instan.recordResult(false);
+//	}
 
 }

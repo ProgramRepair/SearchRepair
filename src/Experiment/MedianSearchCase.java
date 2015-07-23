@@ -1,13 +1,13 @@
 package Experiment;
 
-import java.util.Arrays;
+import java.nio.file.Path;
 
 import search.ResultObject.ResultState;
 
 public class MedianSearchCase extends ESearchCase {
-	public MedianSearchCase(String folder, String fileName, int repo) {
-		super(folder, fileName,  repo);
-		
+	
+	public MedianSearchCase(String program, Path folder, Path fileName, int repo) {
+		super(program, folder, fileName,  repo);
 	}
 	
 	@Override
@@ -23,9 +23,8 @@ public class MedianSearchCase extends ESearchCase {
 		}
 		
 		int[] range = this.getBugLines();
-		System.out.println(Arrays.toString(range));
-		String prefix = this.getRunDir() + "/" + this.getFileName().substring(0, this.getFileName().lastIndexOf('.'));
-		SearchCase instan = new SearchCase(prefix, this.getRepo());
+		String prefix = this.getRunDir() + "/" + this.getFileName().toString().substring(0, this.getFileName().toString().lastIndexOf('.'));
+		SearchCase instan = new SearchCase(this.getProgram(), prefix, this.getRepo());
 		instan.setBuggy(range);
 		instan.setNegatives(this.getNegatives());
 		instan.setPositives(this.getPositives());
@@ -33,15 +32,14 @@ public class MedianSearchCase extends ESearchCase {
 		instan.search();	
 		this.setInfo(instan.getInfo());
 	}
-
 	
-	public static void main(String[] args){
-		MedianSearchCase instan = new MedianSearchCase("./bughunt/median/0", "median.c",  2);
-		instan.transformAndInitRunDir(true, "");
-		instan.initInputAndOutput();
-		instan.search(false);
+//	public static void main(String[] args){
+//		MedianSearchCase instan = new MedianSearchCase("./bughunt/median/0", "median.c",  2);
+//		instan.transformAndInitRunDir(true, "");
+//		instan.initInputAndOutput();
 //		instan.search(false);
-		instan.recordResult(false);
-	}
+////		instan.search(false);
+//		instan.recordResult(false);
+//	}
 
 }

@@ -1,6 +1,8 @@
 package Experiment;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,13 +23,13 @@ public class GroupTest {
 	public static void rerun(boolean wb, int repositoryType) {
 		for(String program : Configuration.programs) {
 			ESearchCase searcher = null;
-			List<String> list = new ArrayList<String>();
+			List<Path> list = new ArrayList<Path>();
 			File file = new File(Configuration.outputPath + program);
 			int size = file.listFiles().length;
 			for (File root : file.listFiles()) {
 				try {
-					String folder = Configuration.outputPath + program + "/" + root.getName();
-					String fileName = program + ".c"; 
+					Path folder = Paths.get(Configuration.outputPath + program + "/" + root.getName());
+					Path fileName = Paths.get(folder.toString() + "/" + program + ".c"); 
 					if (repositoryType == 2) { // FIXME: make this not an integer because it's impossible to grok this way
 						// OK beginning to figure it out: root is the variant number.
 						// and I think he's appropriately leaving the future of this variant out, come to think of it
@@ -39,24 +41,24 @@ public class GroupTest {
 					boolean doTransform = false;
 					switch(program) {
 					case "checksum":
-						searcher = new CheckSumSearchCase(folder,
+						searcher = new CheckSumSearchCase(program, folder,
 								fileName, repositoryType);
 						break;
 					case "median":
 					case "smallest":
-						searcher =  new MedianSearchCase(folder,
+						searcher =  new MedianSearchCase(program, folder,
 								fileName, repositoryType);
 						doTransform = true;
 
 						break;
 					case "grade":
-						searcher = new GradeSearchCase(folder, fileName,
+						searcher = new GradeSearchCase(program, folder, fileName,
 								repositoryType);
 						doTransform = true;
 						transformArgs = "--type grade";
 						break;
 					case "syllables":
-						new SyllableSearchCase(folder,
+						new SyllableSearchCase(program, folder,
 								fileName, repositoryType);
 					}
 
@@ -67,7 +69,7 @@ public class GroupTest {
 					if (searcher.getInfo().getResult().getState() == ResultState.SUCCESS) {
 						list.add(folder);
 					}
-					for (String s : list) {
+					for (Path s : list) {
 						System.out.println(s);
 					}
 				} catch (Exception e) {
