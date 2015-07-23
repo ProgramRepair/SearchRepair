@@ -1,9 +1,11 @@
 package ProcessIntroClass;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +15,6 @@ import test.Configuration;
 import Library.Utility;
 
 public class GenerateStandardTestCases {
-	private static int count = 0;
 
 	private String introPath;
 	private String outputFolderPath;
@@ -47,6 +48,7 @@ public class GenerateStandardTestCases {
 	}
 
 	private void generate(String program) {
+		logger.info("initializing output and analysis folders for " + program);
 		String thisOutputFolder = outputFolderPath + "/" + program;
 		Path outputPath = Paths.get(thisOutputFolder);
 		if(!Files.exists(outputPath)) {
@@ -55,62 +57,128 @@ public class GenerateStandardTestCases {
 				return;
 			}
 		}
-		try {
-			int depth = 0;
-			Path programPath = Paths.get(introPath + "/" + program);
-			File file = programPath.toFile();
-			List<File> queue = new ArrayList<File>();
-			queue.add(file);
-			while (!queue.isEmpty() && depth != 2) {
-				List<File> list = new ArrayList<File>();
-				for (int i = 0; i < queue.size(); i++) {
-					File temp = queue.get(i);
-					if (temp.getName().equals("tests"))
-						continue;
-					if (temp.isDirectory()) {
-						for (File f : temp.listFiles()) {
-							if (f.isDirectory())
-								list.add(f);
-						}
+
+		int depth = 0;
+		Path programPath = Paths.get(introPath + "/" + program);
+		File file = programPath.toFile();
+		List<File> queue = new ArrayList<File>();
+		queue.add(file);
+		while (!queue.isEmpty() && depth != 2) {
+			List<File> list = new ArrayList<File>();
+			for (int i = 0; i < queue.size(); i++) {
+				File temp = queue.get(i);
+				if (temp.getName().equals("tests"))
+					continue;
+				if (temp.isDirectory()) {
+					for (File f : temp.listFiles()) {
+						if (f.isDirectory())
+							list.add(f);
 					}
 				}
-				queue = list;
-				depth++;
 			}
-			if (depth != 2)
-				return;
+			queue = list;
+			depth++;
+		}
+		if (depth != 2)
+			return;
 
-			int count = 0;
-			for (File variant : queue) {
-				Path caseFolderPath = Paths.get(thisOutputFolder + "/" + count++);
-				File caseFolder = caseFolderPath.toFile();
-				if(!Files.exists(caseFolderPath)) {
-					if(!caseFolder.mkdir()) {
-						logger.error("Unable to make case output folder " + caseFolderPath + ", skipping");
-						return;
-					}
+		int count = 0;
+		for (File variant : queue) {
+			Path caseFolderPath = Paths.get(thisOutputFolder + "/" + count++);
+			File caseFolder = caseFolderPath.toFile();
+			if(!Files.exists(caseFolderPath)) {
+				if(!caseFolder.mkdir()) {
+					logger.error("Unable to make case output folder " + caseFolderPath + ", skipping");
+					return;
 				}
-
-				init(variant, caseFolder, program);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+			init(variant.toPath(), caseFolderPath, program);
 		}
 
+
 	}
 
-	private void init(File temp, File caseFolder, String functionName) {
-		String inputFolder = temp.getAbsolutePath();
-		String outputFolder = caseFolder.getAbsolutePath();
-		new File(outputFolder).mkdir();
-		System.out.println(inputFolder + "\n" + outputFolder);
-
-		Utility.copy(inputFolder + "/" + functionName + ".c", outputFolder
-				+ "/" + functionName + ".c");
-		Utility.writeTOFile(outputFolder + "/original", inputFolder);
-		generateWhiteAndBlack(outputFolder, inputFolder, functionName + ".c");
-		getOtherTechInfo(inputFolder, outputFolder);
+	private void init(Path variantPath, Path caseFolderPath, String functionName) {
+		Path variantProgramSourcePath = Paths.get(variantPath + "/" + functionName + ".c");
+		// copy program.C
+		try {
+			Files.copy(variantProgramSourcePath, caseFolderPath, StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			logger.error("Failed to copy variant source code in " + variantPath.toString() + " to output folder " + caseFolderPath.toString() + "; skipping!");
+			return;
+		}
+		
+		Utility.writeTOFile(caseFolderPath + "/original", variantProgramSourcePath.toString());
+		if(!initializeTesting(functionName, variantPath, caseFolderPath)) {
+			// FIXME log!
+		}
+		//getOtherTechInfo(inputFolder, outputFolder);
 	}
+	
+	private boolean initializeTesting(String program, Path variantPath, Path outputPath) {
+		for(String whichTests : new String[]{"whitebox","blackbox"} ) {
+			// create output folders
+			for(String type : new String[]{"positive", "negative"} ) {
+				Path testOutputPath = Paths.get(outputPath.toString() + "/" + whichTests + "/" + type);
+				if(!Files.exists(testOutputPath)) {
+					if(!testOutputPath.toFile().mkdirs()) {
+						logger.error("Unable to make test output folder" + testOutputPath + ", skipping the rest of test generation for this variant.");
+						return false;
+					}
+				}
+			}
+
+			// compile test executable for this variant
+			String testingExe = "./" + program;
+			Path testExePath = Paths.get(outputPath.toString() + testingExe);
+			if(Files.exists(testExePath)) {
+				testExePath.toFile().delete();
+			}
+
+			String gccCmd = "gcc -o " + testExePath.toString() + " " + outputPath + "/" + program + ".c";
+			System.out.println("GCC CMD: " + gccCmd);
+			String s = Utility.runCProgram(gccCmd);
+			if (s.equals("failed")) {
+				return false;
+			}
+
+			// run each test in each suite; if it passes, it's a positive test, and if it fails, it's a negative test.
+			Path testSuitePath = Paths.get(variantPath.toString() + "/" + whichTests);
+			
+			// FIXME: refactor this a little bit, but maintain functionality that controls test/fail status.
+			for (File file : testSuitePath.toFile().listFiles()) {
+				String testCandidate = file.getAbsolutePath();
+				if (testCandidate.endsWith(".in")) {
+					String input = Utility.getStringFromFile1(testCandidate);
+					String outPath = testCandidate.substring(0, testCandidate.length() - 3) + ".out";
+					String runOutput = Utility.runCProgramWithInput(testingExe,
+							input);
+					String tempOuputFile = "./tempFolder/test.out";
+					Utility.writeTOFile(tempOuputFile, runOutput);
+					String testStatus = Utility.runCProgramWithPythonCommand(testingExe,
+							tempOuputFile, testCandidate, outPath).trim();
+					if (testStatus.equals("Test passed.")) {
+						String index = testCandidate.substring(testCandidate.lastIndexOf('/') + 1,
+								testCandidate.lastIndexOf('.'));
+						Utility.copy(testCandidate, outputPath.toString() + "/" + whichTests + "/positive/"
+								+ index + ".in");
+						Utility.copy(outPath, outputPath.toString() + "/" + whichTests + "/positive/"
+								+ index + ".out");
+					} else {
+						String index = testCandidate.substring(testCandidate.lastIndexOf('/') + 1,
+								testCandidate.lastIndexOf('.'));
+						Utility.copy(testCandidate, outputPath.toString() + "/" + whichTests + "/negative/"
+								+ index + ".in");
+						Utility.copy(outPath, outputPath.toString() + "/" + whichTests + "/negative/"
+								+ index + ".out");
+					}
+				}
+			}
+		}
+		return true;
+
+	}
+
 
 	private void getOtherTechInfo(String inputFolder, String outputFolder) {
 		new File(outputFolder + "/repair").mkdir();
@@ -161,110 +229,6 @@ public class GenerateStandardTestCases {
 
 	}
 
-	private void generateWhiteAndBlack(String outputFolder, String inputFolder,
-			String fileName) {
-		String whiteboxPath = inputFolder + "/../../tests/whitebox";
-		String blackboxPath = inputFolder + "/../../tests/blackbox";
-		new File(outputFolder + "/whitebox").mkdir();
-		new File(outputFolder + "/whitebox/positive").mkdir();
-		new File(outputFolder + "/whitebox/negative").mkdir();
-		new File(outputFolder + "/blackbox").mkdir();
-		new File(outputFolder + "/blackbox/positive").mkdir();
-		new File(outputFolder + "/blackbox/negative").mkdir();
-
-		// fix!
-
-		try {
-			String testingExe = "./"
-					+ fileName.substring(0, fileName.lastIndexOf("."));
-			if (new File(testingExe).exists())
-				new File(testingExe).delete();
-
-			String s = Utility.runCProgram("gcc -o " + testingExe + " "
-					+ inputFolder + '/' + fileName);
-			if (s.equals("failed")) {
-				return;
-			}
-			initWhiteBox(whiteboxPath, inputFolder, outputFolder, testingExe);
-			initBlackBox(blackboxPath, inputFolder, outputFolder, testingExe);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	private void initBlackBox(String blackboxPath, String inputFolder,
-			String outputFolder, String testingExe) {
-		for (File file : new File(blackboxPath).listFiles()) {
-			String path = file.getAbsolutePath();
-			if (path.endsWith(".in")) {
-				String input = Utility.getStringFromFile1(path);
-				String outPath = path.substring(0, path.length() - 3) + ".out";
-				String runOutput = Utility.runCProgramWithInput(testingExe,
-						input);
-				String tempOuputFile = "./tempFolder/test.out";
-				Utility.writeTOFile(tempOuputFile, runOutput);
-				String s = Utility.runCProgramWithPythonCommand(testingExe,
-						tempOuputFile, path, outPath).trim();
-				if (s.equals("Test passed.")) {
-					String index = path.substring(path.lastIndexOf('/') + 1,
-							path.lastIndexOf('.'));
-					Utility.copy(path, outputFolder + "/blackbox/positive/"
-							+ index + ".in");
-					Utility.copy(outPath, outputFolder + "/blackbox/positive/"
-							+ index + ".out");
-				} else {
-					String index = path.substring(path.lastIndexOf('/') + 1,
-							path.lastIndexOf('.'));
-					Utility.copy(path, outputFolder + "/blackbox/negative/"
-							+ index + ".in");
-					Utility.copy(outPath, outputFolder + "/blackbox/negative/"
-							+ index + ".out");
-				}
-			}
-		}
-
-	}
-
-	private void initWhiteBox(String whiteboxPath, String inputFolder,
-			String outputFolder, String testingExe) {
-		File[] files = new File(whiteboxPath).listFiles();
-		for (File file : files) {
-			String path = file.getAbsolutePath();
-			if (path.endsWith(".in")) {
-				String input = Utility.getStringFromFile1(path);
-				String outPath = path.substring(0, path.length() - 3) + ".out";
-				String runOutput = Utility.runCProgramWithInput(testingExe,
-						input);
-
-				File tempoutput = new File("tempFolder");
-				if (!tempoutput.exists()) {
-					tempoutput.mkdir();
-				}
-
-				String tempOuputFile = "./tempFolder/test.out";
-				Utility.writeTOFile(tempOuputFile, runOutput);
-				String s = Utility.runCProgramWithPythonCommand(testingExe,
-						tempOuputFile, path, outPath).trim();
-				if (s.equals("Test passed.")) {
-					String index = path.substring(path.lastIndexOf('/') + 1,
-							path.lastIndexOf('.'));
-					Utility.copy(path, outputFolder + "/whitebox/positive/"
-							+ index + ".in");
-					Utility.copy(outPath, outputFolder + "/whitebox/positive/"
-							+ index + ".out");
-				} else {
-					String index = path.substring(path.lastIndexOf('/') + 1,
-							path.lastIndexOf('.'));
-					Utility.copy(path, outputFolder + "/whitebox/negative/"
-							+ index + ".in");
-					Utility.copy(outPath, outputFolder + "/whitebox/negative/"
-							+ index + ".out");
-				}
-			}
-		}
-
-	}
 
 	public static void main(String[] args) {
 		if (args.length > 1)

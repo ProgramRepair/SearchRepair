@@ -146,6 +146,7 @@ public class Utility {
 		return sb.toString();
 	}
 
+	// FIXME: try to nuke this, and holy mother, why are the semantics on this backwards?
 	public static void writeTOFile(String path, String input) {
 		try {
 			PrintWriter pw = new PrintWriter(new FileOutputStream(path));
@@ -156,6 +157,7 @@ public class Utility {
 		}
 	}
 
+	// FIXME: try to nuke this
 	public static void copy(String file1, String file2) {
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(
