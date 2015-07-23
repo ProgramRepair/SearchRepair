@@ -24,6 +24,7 @@ public class GroupTest {
 		// syllablesTest(wb, repositoryType);
 	}
 
+	// ...what on earth is type?
 	public static void checkSumTest(boolean wb, int type) {
 		List<String> list = new ArrayList<String>();
 		File file = new File("./bughunt/checkSum");

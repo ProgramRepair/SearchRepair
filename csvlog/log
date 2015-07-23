@@ -1,53 +1,53 @@
 fixed by each technique
 tsp
-median,syllables,smallest,grade,checksum,digits,
-95,14,112,2,0,15,
-genprog
-median,syllables,smallest,grade,checksum,digits,
-99,19,112,2,14,26,
+median,smallest,grade,checksum,digits,syllables,
+95,112,2,0,15,14,
 searchfix
-median,syllables,smallest,grade,checksum,digits,
-68,3,69,5,0,0,
+median,smallest,grade,checksum,digits,syllables,
+34,69,5,0,0,3,
+genprog
+median,smallest,grade,checksum,digits,syllables,
+99,112,2,14,26,19,
 ae
-median,syllables,smallest,grade,checksum,digits,
-42,11,60,2,0,13,
+median,smallest,grade,checksum,digits,syllables,
+42,60,2,0,13,11,
 total number of defects of eahc program
-median, syllables, smallest, grade, checksum, digits, 
-160,105,146,224,27,181,
+median, smallest, grade, checksum, digits, syllables, 
+160,146,224,32,181,105,
 overfitting data, average passing number
-median,syllables,smallest,grade,checksum,digits,
-6.0, 0.0, 8.0, 9.0, NaN, NaN, 
+median,smallest,grade,checksum,digits,syllables,
+6.0, 8.0, 9.0, NaN, NaN, 0.0, 
 overfitting data, number of fixes passing all of extra test suites
-median, syllables, smallest, grade, checksum, digits, 
-,68 ,0 ,69 ,5 ,0 ,0 
+median, smallest, grade, checksum, digits, syllables, 
+,34 ,69 ,5 ,0 ,0 ,0 
 partial fixes
-smallestp, digitsp, syllablesp, gradep, medianp, checksump, 
-0 0 0 4 2 0 
+digitsp, medianp, smallestp, checksump, gradep, syllablesp, 
+0 0 0 0 4 0 
 searchfix only, ae only, genprog only, tsp only
-median, 40, 0, 5, 0
-syllables, 0, 0, 6, 1
+median, 4, 0, 6, 0
 smallest, 0, 0, 0, 0
 grade, 10, 0, 0, 0
 checksum, 0, 0, 14, 0
 digits, 0, 0, 11, 0
+syllables, 0, 0, 6, 1
 search & genprog, search & Ae, search & Tsp, genprog & Tsp, genprog & Ae, ae & Tsp
-median, 47, 24, 49, 30, 0, 0
-syllables, 3, 3, 3, 2, 0, 0
+median, 30, 22, 34, 43, 0, 0
 smallest, 69, 30, 69, 13, 0, 0
 grade, 0, 0, 0, 0, 0, 0
 checksum, 0, 0, 0, 0, 0, 0
 digits, 0, 0, 0, 2, 0, 0
+syllables, 3, 3, 3, 2, 0, 0
 search & genprog & tsp, search & genprog & ae, search & ae & tsp, genprog & ae & tsp
-median, 21, 0, 0, 18
-syllables, 0, 0, 0, 8
+median, 8, 0, 0, 20
 smallest, 39, 0, 0, 30
 grade, 0, 0, 0, 2
 checksum, 0, 0, 0, 0
 digits, 0, 0, 0, 13
+syllables, 0, 0, 0, 8
 all succeed, all failed
-median, 24, 39
-syllables, 3, 85
+median, 22, 57
 smallest, 30, 34
 grade, 0, 217
-checksum, 0, 13
+checksum, 0, 18
 digits, 0, 155
+syllables, 3, 85

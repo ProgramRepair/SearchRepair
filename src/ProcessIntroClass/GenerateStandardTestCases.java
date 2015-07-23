@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import test.Configuration;
 import Library.Utility;
 
 public class GenerateStandardTestCases {
@@ -12,10 +13,10 @@ public class GenerateStandardTestCases {
 	private String introPath;
 	private String outputFolderPath;
 
-	public GenerateStandardTestCases(String introPath, String outputFolderPath) {
-		super();
-		this.introPath = introPath;
-		this.outputFolderPath = outputFolderPath;
+	public GenerateStandardTestCases() {
+		this.introPath = Configuration.introclassPath;
+
+		this.outputFolderPath = Configuration.outputPath;
 		new File(outputFolderPath).mkdir();
 		this.list = new ArrayList<String>();
 	}
@@ -34,17 +35,17 @@ public class GenerateStandardTestCases {
 				// generate(introPath + "/smallest", outputFolderPath
 				// + "/smallest");
 				// }
-				// if (typeName.equals("median")) {
-				// generate(introPath + "/median", outputFolderPath
-				// + "/median");
-				// }
+				if (typeName.equals("median")) {
+					generate(introPath + "/median", outputFolderPath
+							+ "/median");
+				}
 				// if (typeName.equals("grade")) {
 				// generate(introPath + "/grade", outputFolderPath + "/grade");
 				// }
-				if (typeName.equals("checksum")) {
-					generate(introPath + "/checksum", outputFolderPath
-							+ "/checksum");
-				}
+				// if (typeName.equals("checksum")) {
+				// generate(introPath + "/checksum", outputFolderPath
+				// + "/checksum");
+				// }
 				// if (typeName.equals("digits")) {
 				// generate(introPath + "/digits", outputFolderPath
 				// + "/digits");
@@ -104,7 +105,7 @@ public class GenerateStandardTestCases {
 		String inputFolder = temp.getAbsolutePath();
 		String outputFolder = caseFolder.getAbsolutePath();
 		new File(outputFolder).mkdir();
-		// System.out.println(inputFolder + "\n" + outputFolder);
+		System.out.println(inputFolder + "\n" + outputFolder);
 
 		Utility.copy(inputFolder + "/" + functionName + ".c", outputFolder
 				+ "/" + functionName + ".c");
@@ -170,7 +171,6 @@ public class GenerateStandardTestCases {
 		new File(outputFolder + "/whitebox/positive").mkdir();
 		new File(outputFolder + "/whitebox/negative").mkdir();
 		new File(outputFolder + "/blackbox").mkdir();
-		// new File(outputFolder + "/blackbox").mkdir();
 		new File(outputFolder + "/blackbox/positive").mkdir();
 		new File(outputFolder + "/blackbox/negative").mkdir();
 
@@ -269,9 +269,9 @@ public class GenerateStandardTestCases {
 	}
 
 	public static void main(String[] args) {
-		GenerateStandardTestCases test = new GenerateStandardTestCases(
-				"/users/yke/documents/coding/project/introclass-may-2015",
-				"./bughunt");
+		if (args.length > 1)
+			Configuration.configure(args[1]);
+		GenerateStandardTestCases test = new GenerateStandardTestCases();
 		test.generate();
 		test.printFailed();
 	}
