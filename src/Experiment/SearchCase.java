@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,10 +55,9 @@ public class SearchCase {
 	public String outputType = "";
 
 	private String program;
-	private String folder; 
+	private Path folder; 
 	private String programSource;
-	
-	Path compiledBinary;
+	private Path compiledBinary;
 	
 	private Map<String, String> positives = new HashMap<String, String>();
 	private Map<String, String> negatives = new HashMap<String, String>();
@@ -69,10 +69,11 @@ public class SearchCase {
 	private String tempOutput;
 	private int repo;
 
-	public SearchCase(String program, String cwd, int repo) {
+	public SearchCase(String program, Path cwd, int repo) {
 		this.program = program;
 		this.folder = cwd;
-		this.programSource = this.folder + "/" + program + ".c";
+		this.compiledBinary = Paths.get(this.folder.toString() + "/" + program);
+		this.programSource = this.folder.toString() + "/" + program + ".c";
 		this.info = new CaseInfo();
 		this.buggy = new int[2];
 

@@ -117,11 +117,8 @@ public class GcovTest {
 
 	}
 
-	private boolean compile() {
-		// FIXME: compile this elsewhere.
-		
-		Utility.copy(folder + "/" + fileName, "./" + fileName);
-		String command = "gcc -fprofile-arcs -ftest-coverage " + "./"
+	private boolean compile() {		
+		String command = "gcc -fprofile-arcs -ftest-coverage "
 				+ fileName;
 		String s = Utility.runCProgram(command);
 		if (s.equals("failed"))

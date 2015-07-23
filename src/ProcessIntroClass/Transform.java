@@ -18,7 +18,7 @@ public class Transform {
 	}
 	
 	public String tranform(){
-		String command = "./executors/transform " + this.typeParameter + " " +  this.cwd.toString() + "/" + this.originalFile.toString();
+		String command = "./executors/transform " + this.typeParameter + " " + this.originalFile.toAbsolutePath().toString();
 		String output = Utility.runCProgram(command);
 		if(output.equals("failed")) return null;
 		if(output.endsWith("failed")) {

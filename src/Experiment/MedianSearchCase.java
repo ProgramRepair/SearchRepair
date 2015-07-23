@@ -23,8 +23,8 @@ public class MedianSearchCase extends ESearchCase {
 		}
 		
 		int[] range = this.getBugLines();
-		String prefix = this.getRunDir() + "/" + this.getFileName().toString().substring(0, this.getFileName().toString().lastIndexOf('.'));
-		SearchCase instan = new SearchCase(this.getProgram(), prefix, this.getRepo());
+		// possible FIXME: the second argument to SearchCase may be wrong
+		SearchCase instan = new SearchCase(this.getProgram(), this.getRunDir(), this.getRepo());
 		instan.setBuggy(range);
 		instan.setNegatives(this.getNegatives());
 		instan.setPositives(this.getPositives());

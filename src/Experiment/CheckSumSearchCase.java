@@ -26,8 +26,7 @@ public class CheckSumSearchCase extends ESearchCase {
 		
 		List<int[]> buggylines = getMultipleBugLines();
 		for(int[] range : buggylines){
-			String prefix = this.getRunDir() + "/" + this.getFileName().toString().substring(0, this.getFileName().toString().lastIndexOf('.'));
-			SearchCase instan = new SearchCase(this.getProgram(), prefix, this.getRepo());
+			SearchCase instan = new SearchCase(this.getProgram(), this.getRunDir(), this.getRepo());
 			instan.setBuggy(range);
 			instan.setNegatives(this.getNegatives());
 			instan.setPositives(this.getPositives());

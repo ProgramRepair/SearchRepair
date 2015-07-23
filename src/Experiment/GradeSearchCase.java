@@ -27,8 +27,7 @@ public class GradeSearchCase extends ESearchCase {
 		int[] range = getBugLines();
 		// FIXME: I mangled all these prefix mangling things as an intermediate step in changing from strings to paths, fix it!
 		// trick is: what is prefix supposed to be pointing at?
-		String prefix = this.getRunDir() + "/" + this.getFileName().toString().substring(0, this.getFileName().toString().lastIndexOf('.'));
-		SearchCase instan = new SearchCase(this.getProgram(), prefix, this.getRepo());
+		SearchCase instan = new SearchCase(this.getProgram(), this.getRunDir(), this.getRepo());
 		instan.setBuggy(range);
 		instan.setNegatives(this.getNegatives());
 		instan.setPositives(this.getPositives());

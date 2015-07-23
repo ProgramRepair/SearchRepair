@@ -127,7 +127,7 @@ public  class ESearchCase {
 			runDir.toFile().mkdir();
 		}
 		try {
-		Path targetFile = Paths.get(runDir.toString() + this.getFileName().toString());
+		Path targetFile = Paths.get(runDir.toString() + "/" + program + ".c"); 
 		if(!transform) {
 			this.transformFile = this.getFileName();
 			// TODO: make sure this does what it should do (copy original to runDir); 
@@ -139,16 +139,17 @@ public  class ESearchCase {
 		
 		//transform here, if there is a true transform, no need to copy
 		if(pass != null) {
-			Utility.copy(pass, runDir + "/" + this.getFileName());
-			this.transformFile = Paths.get(pass.substring(pass.lastIndexOf('/') + 1));
+			Utility.copy(pass, runDir + "/" + program + ".c");
+			this.transformFile = Paths.get(runDir + "/" + program + ".c"); 
 		}
 		else{
-			this.transformFile = this.getFileName();;
+			this.transformFile = this.getFileName();
 			Utility.copyDirOK(this.getFileName(), targetFile); 
 
 		}
 		} catch (IOException e) {
 			logger.error("IOException in transformAndInitRunDir, likely a problem with transform file name mangling.");
+			e.printStackTrace();
 		}
 	}
 	

@@ -32,8 +32,7 @@ public class SyllableSearchCase extends ESearchCase{
 		for(int[] range : buggys){
 			String s = Arrays.toString(range);
 			System.out.println(s);
-			String prefix = this.getRunDir() + "/" + this.getFileName().toString().substring(0, this.getFileName().toString().lastIndexOf('.'));
-			SearchCase instan = new SearchCase(this.getProgram(), prefix, this.getRepo());
+			SearchCase instan = new SearchCase(this.getProgram(), this.getRunDir(), this.getRepo());
 
 			instan.setBuggy(range);
 			instan.setNegatives(this.getNegatives());
