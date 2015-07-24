@@ -234,6 +234,7 @@ public class BugLineSearcher {
 		
 	}
 
+	// FIXME: this prints a stack trace if it can't find the suspiciousness file, which it does when the suspiciousness file doesn't exist.
 	private void initSuspicious() {
 		try{
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.folder + "/suspicious")));

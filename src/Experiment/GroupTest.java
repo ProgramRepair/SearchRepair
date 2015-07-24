@@ -63,7 +63,7 @@ public class GroupTest {
 					}
 
 					searcher.transformAndInitRunDir(doTransform, transformArgs);
-					searcher.initInputAndOutput();
+					searcher.initWbOrBB(wb);
 					searcher.search(wb);
 					searcher.recordResult(wb);
 					if (searcher.getInfo().getResult().getState() == ResultState.SUCCESS) {

@@ -33,40 +33,46 @@ import ProcessIntroClass.Transform;
 public  class ESearchCase {
 	protected static Logger logger = Logger.getLogger(ESearchCase.class);
 
-	private Map<Integer, Double> suspiciousness;
 	private Path folder;
 	private Path runDir;
 	private Path transformFile;
 	private Path fileName;
+	private Path compiledBinary;
 
-	private Map<String, String> blackPositives = new HashMap<String, String>();
-	private Map<String, String> blackNegatives = new HashMap<String, String>();
-	private Map<String, String> whitePositives = new HashMap<String, String>();
-	private Map<String, String> whiteNegatives = new HashMap<String, String>();
+
+	// this is keyed by black, white and then positive, negative
+	// FIXME: add some types or something to that to make it harder to screw up
+
+	private Map<String, Map<String,String>> trainingTests = new HashMap<String, Map<String,String>>();
+
 	private Map<String, String> positives = new HashMap<String, String>();
 	private Map<String, String> negatives = new HashMap<String, String>();
-	private Map<String, String> verifications = new HashMap<String, String>();
+	// possible FIXME: is it appropriate to use all of the validation tests here?  I think so,
+	// based on how we're using the dataset, but should double-check
+	private Map<String, String> validationTests = new HashMap<String, String>();
+
+	private Map<Integer, Double> suspiciousness = new HashMap<Integer, Double>();
+
 	private int[] buggy;
-	private String casePrefix;
 	private CaseInfo info;
 	private int repo;
 	private List<String> content;
 	private String program;
-	
+
 	public ESearchCase(String program, Path folder, Path fileName, int repo){
 		this.repo = repo;
 		this.folder = folder;
 		this.fileName = fileName;
+		this.compiledBinary = Paths.get(this.folder.toString() + "/" + program);
+
 		this.buggy = new int[2];
-		// FIXME: what is casePrefix actually?
-		this.casePrefix = this.folder.toString() + "/" + fileName.toString().substring(0, fileName.toString().lastIndexOf("."));
 		this.info = new CaseInfo();
-		this.suspiciousness = new HashMap<Integer, Double>();
+
 		this.runDir = Paths.get(this.folder.toString() + "/temp");
 		this.content = new ArrayList<String>();
 		this.setProgram(program);
 	}
-	
+
 	public int getRepo() {
 		return repo;
 	}
@@ -86,10 +92,10 @@ public  class ESearchCase {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	
+
+
 	public List<String> getContent() {
 		return content;
 	}
@@ -109,71 +115,60 @@ public  class ESearchCase {
 	public Path getFolder() {
 		return folder;
 	}
-	
+
 	public int[] getBuggy() {
 		return buggy;
-	}
-
-	public String getCasePrefix() {
-		return casePrefix;
 	}
 
 	public Path getFileName() {
 		return fileName;
 	}
-	
+
 	protected void transformAndInitRunDir(boolean transform, String typeParameter){ 
 		if(!Files.exists(runDir)) {
 			runDir.toFile().mkdir();
 		}
 		try {
-		Path targetFile = Paths.get(runDir.toString() + "/" + program + ".c"); 
-		if(!transform) {
-			this.transformFile = this.getFileName();
-			// TODO: make sure this does what it should do (copy original to runDir); 
-			Utility.copyDirOK(this.getFileName(), targetFile); 
-			return;
-		}
-		Transform trans = new Transform(this.getFolder(), this.getFileName(), typeParameter);
-		String pass = trans.tranform();
-		
-		//transform here, if there is a true transform, no need to copy
-		if(pass != null) {
-			Utility.copy(pass, runDir + "/" + program + ".c");
-			this.transformFile = Paths.get(runDir + "/" + program + ".c"); 
-		}
-		else{
-			this.transformFile = this.getFileName();
-			Utility.copyDirOK(this.getFileName(), targetFile); 
+			Path targetFile = Paths.get(runDir.toString() + "/" + program + ".c"); 
+			if(!transform) {
+				this.transformFile = this.getFileName();
+				// TODO: make sure this does what it should do (copy original to runDir); 
+				Utility.copyDirOK(this.getFileName(), targetFile); 
+				return;
+			}
+			Transform trans = new Transform(this.getFolder(), this.getFileName(), typeParameter);
+			String pass = trans.tranform();
 
-		}
+			//transform here, if there is a true transform, no need to copy
+			if(pass != null) {
+				Utility.copy(pass, runDir + "/" + program + ".c");
+				this.transformFile = Paths.get(runDir + "/" + program + ".c"); 
+			}
+			else{
+				this.transformFile = this.getFileName();
+				Utility.copyDirOK(this.getFileName(), targetFile); 
+
+			}
 		} catch (IOException e) {
 			logger.error("IOException in transformAndInitRunDir, likely a problem with transform file name mangling.");
 			e.printStackTrace();
 		}
 	}
-	
+
 	protected void initWbOrBB(boolean wb){
-		this.verifications.clear();
-		if(wb){
-			this.setPositives(this.whitePositives);
-			this.setNegatives(this.whiteNegatives);
-			this.verifications.putAll(this.blackNegatives);
-			this.verifications.putAll(this.blackPositives);
-			
-		}
-		else{
-			this.setPositives(this.blackPositives);
-			this.setNegatives(this.blackNegatives);
-			this.verifications.putAll(this.whiteNegatives);
-			this.verifications.putAll(this.whitePositives);
-		}
+		this.validationTests.clear();
+		String testSet = wb ? "whitebox" : "blackbox";
+		initTraining(testSet); 
+		String validationSet = wb ? "blackbox" : "whiteBox"; 
+		initTesting(validationSet);
+
+		// possible FIXME: do we need this?
 		GcovTest test = new GcovTest(this.getProgram(), this.folder, this.transformFile, wb);
 	}
 
-	public  void search(boolean wb){
-		initInputAndOutput();
-		
+	public void search(boolean wb){
+		initWbOrBB(wb);
+
 		if(this.getPositives().size() == 0) {
 			this.info.getResult().setState(ResultState.NOPOSITIVE);
 			return;
@@ -208,7 +203,7 @@ public  class ESearchCase {
 				this.info.getResult().setState(ResultState.PARTIAL);
 			}
 		}
-		
+
 	}
 
 	protected boolean isEmpty(ResultObject result) {
@@ -232,8 +227,8 @@ public  class ESearchCase {
 			dir.mkdir();
 		}
 		recordLog(this.folder + "/repair/" + filec);
-		
-		
+
+
 	}
 
 	private void recordLog(String path) {
@@ -241,7 +236,7 @@ public  class ESearchCase {
 		try {
 			new File(path).createNewFile();
 		} catch (IOException e1) {
-			
+
 			e1.printStackTrace();
 		}
 		try{
@@ -258,7 +253,7 @@ public  class ESearchCase {
 			else{
 				if(!info.getResult().getPositive().isEmpty())
 					pw.print("success");
-				
+
 				if(!info.getResult().getPartial().isEmpty()){
 					pw.print(" partial");
 				}
@@ -275,13 +270,13 @@ public  class ESearchCase {
 					pw.println("To: ");
 					pw.print(info.getResult().getMappingSource().get(source));
 				}
-				
-				
-				
+
+
+
 				pw.println("Partial fix:" + info.getResult().getPartial().keySet().size());
 				count = 0;
 				for(String source : info.getResult().getPartial().keySet()){
-					
+
 					pw.println();
 					pw.println();
 					pw.println("Partial fix " + ++count);
@@ -291,28 +286,25 @@ public  class ESearchCase {
 					pw.println("To: ");
 					pw.print(info.getResult().getMappingSource().get(source));
 				}
-				
+
 				pw.println("Not a fix:" + info.getResult().getFalsePositve().size());
 				count = 0;
 				for(String source : info.getResult().getFalsePositve()){
-					
+
 					pw.println();
 					pw.println();
 					pw.println("Not a fix " + ++count);
 					pw.println(source);
 				}
-				
+
 			}
 			pw.close();
-			
+
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-				
-		
+
 	}
-
-
 
 	private void ruleOutFalsePositive() {
 		for(String source : info.getResult().getSearchMapping().keySet()){
@@ -326,18 +318,7 @@ public  class ESearchCase {
 				else continue;
 			}
 		}
-		
-	}
-	
-	public boolean test(){
-		this.initWbOrBB(false);
-		this.initInputAndOutput();
-		String outputFile = this.casePrefix + ".c";
-		boolean pass = passAllPositive("result", outputFile);
-		//if(!pass) return false;
-		int count = passNegatives("result", outputFile);
-		if(count == this.negatives.keySet().size()) return true;
-		return false;
+
 	}
 
 	private boolean testAllResults(String source, String outputFile) {
@@ -358,82 +339,64 @@ public  class ESearchCase {
 		}
 	}
 
-
 	private int passNegatives(String source, String outputFile) {
-		File file = new File( this.casePrefix);
-		if(file.exists()) file.delete();
-		String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
+		return passAllTests(source, outputFile, this.negatives);
+	}
+
+	private boolean passAllPositive(String source, String outputFile) {
+		int numPassed = passAllTests(source, outputFile, this.positives); 
+		return (numPassed == this.positives.size());  
+	}
+
+	private int passAllTests(String source, String outputFile, Map<String,String> testSuite) {
+		try {
+			Files.deleteIfExists(this.compiledBinary);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		// FIXME: don't need to do this twice
+		String command1 = "gcc " + outputFile + " -o " + this.compiledBinary.toString();
 		Utility.runCProgram(command1);
-		if(!new File(this.casePrefix).exists()){
+		if(!Files.exists(this.compiledBinary)) {
 			return 0;
 		}
 		int count = 0;
-		for(String input : this.negatives.keySet()){
-			String output = this.negatives.get(input);
-			
-			String command2 = "./" + this.casePrefix;
-			
-			String s2 = Utility.runCProgramWithInput(command2, input);
-			
+		for(String input : testSuite.keySet()){
+			String output = testSuite.get(input);
+
+			String s2 = Utility.runCProgramWithInput(this.compiledBinary.toString(), input);
+
 			if(s2.isEmpty() ){
 				continue;
 			}
-			System.out.println(input);
-			System.out.println(s2);
-			System.out.println(output);
-			System.out.println(output.equals(s2));
+
 			if(s2.equals(output)) count++;
 		}
 		return count;
 	}
 
-	private boolean passAllPositive(String source, String outputFile) {
-		File file = new File( this.casePrefix);
-		if(file.exists()) file.delete();
-		String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
-		Utility.runCProgram(command1);
-		if(!new File(this.casePrefix).exists()){
-			return false;
-		}
-		for(String input : this.positives.keySet()){
-			String output = this.positives.get(input);
-			
-			String command2 = "./" + this.casePrefix;
-			
-			String s2 = Utility.runCProgramWithInput(command2, input);
-			
-			if(s2.isEmpty() ){
-				return false;
-			}
-			System.out.println(input);
-			System.out.println(output);
-			System.out.println(s2);
-			if(!s2.equals(output)) return false;
-		}
-		return true;
-	}
-
 	private String generateOutputFile(String input) {
-		String outputfile = this.casePrefix + "new.c";
+		String outputfile = this.compiledBinary.toString() + ".new.c"; 
 		try{
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputfile)));
-			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(this.casePrefix + ".c")));	
+			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(this.compiledBinary.toString() + ".c")));	
 			String s = null;
-			
+
 			for(int i = 1; i < buggy[0]; i++){
 				s = reader.readLine();
 				writer.write(s);
 				writer.write("\n");
 				writer.flush();
 			}
-			
+
 			writer.write(input);
-			
+
 			for(int i = buggy[0]; i <= buggy[1]; i++){
 				s = reader.readLine();
-				
+
 			}
-			
+
 			while((s = reader.readLine()) != null){
 				writer.write(s);
 				writer.write("\n");
@@ -451,15 +414,15 @@ public  class ESearchCase {
 	protected void searchOverRepository() {
 		try {
 			PrototypeSearch.search(info, repo);
-			
+
 		} catch (SQLException e) {
-			
+
 			e.printStackTrace();
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	protected void initPositiveStates() {
@@ -476,25 +439,27 @@ public  class ESearchCase {
 		return bug.getBuggy();
 	}
 
-	protected void initInputAndOutput() {
-		initPositiveInputAndOutput();
-		initNegativeInputAndOutput();
-		
-	}
+	protected void initTraining(String testSet) {
+		for(String testType : new String[]{ "negative", "positive"}) {
+			String root1 = this.getFolder() + "/" + testSet + "/" + testType;
+			Map<String,String> newMap = null;
+			if(!trainingTests.containsKey(testSet)) {
+				newMap = new HashMap<String,String>();
+			} else {
+				newMap = trainingTests.get(testSet);
+			}
+			addToInputOutputMap(root1, newMap);
+			trainingTests.put(testSet, newMap);
+		}
 
-	private void initNegativeInputAndOutput() {
-		String root1 = this.getFolder() + "/blackbox/negative";
-		String root2 = this.getFolder() + "/whitebox/negative";
-		addToInputOutputMap(root1, this.blackNegatives);
-		addToInputOutputMap(root2, this.whiteNegatives);
-		
-	}
 
-	private void initPositiveInputAndOutput() {
-		String root1 = this.getFolder() + "/blackbox/positive";
-		String root2 = this.getFolder() + "/whitebox/positive";
-		addToInputOutputMap(root1, this.blackPositives);
-		addToInputOutputMap(root2, this.whitePositives);
+	}
+	protected void initTesting(String testSet) {
+		for(String testType : new String[]{ "negative", "positive"}) {
+			String root1 = this.getFolder() + "/" + testSet + "/" + testType;
+			addToInputOutputMap(root1, validationTests);
+		}	
+		
 	}
 
 	private void addToInputOutputMap(String root1, Map<String, String> map) {
@@ -508,10 +473,10 @@ public  class ESearchCase {
 				String outputString = Utility.getStringFromFile(output);
 				map.put(inputString, outputString);
 			}
-			
+
 		}		
 	}
-	
+
 	protected void initSuspicious() {
 		try{
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.getFolder() + "/suspicious")));
@@ -525,45 +490,13 @@ public  class ESearchCase {
 			e.printStackTrace();
 		}
 	}
-		
+
 	protected Map<Integer, Double> getSuspiciousness() {
 		return suspiciousness;
 	}
 
 	protected void setSuspiciousness(Map<Integer, Double> suspiciousness) {
 		this.suspiciousness = suspiciousness;
-	}
-
-	public Map<String, String> getBlackPositives() {
-		return blackPositives;
-	}
-
-	public void setBlackPositives(Map<String, String> blackPositives) {
-		this.blackPositives = blackPositives;
-	}
-
-	public Map<String, String> getBlackNegatives() {
-		return blackNegatives;
-	}
-
-	public void setBlackNegatives(Map<String, String> blackNegatives) {
-		this.blackNegatives = blackNegatives;
-	}
-
-	public Map<String, String> getWhitePositives() {
-		return whitePositives;
-	}
-
-	public void setWhitePositives(Map<String, String> whitePositives) {
-		this.whitePositives = whitePositives;
-	}
-
-	public Map<String, String> getWhiteNegatives() {
-		return whiteNegatives;
-	}
-
-	public void setWhiteNegatives(Map<String, String> whiteNegatives) {
-		this.whiteNegatives = whiteNegatives;
 	}
 
 	public Map<String, String> getPositives() {
@@ -583,11 +516,11 @@ public  class ESearchCase {
 	}
 
 	public Map<String, String> getVerifications() {
-		return verifications;
+		return validationTests;
 	}
 
 	public void setVerifications(Map<String, String> verifications) {
-		this.verifications = verifications;
+		this.validationTests = verifications;
 	}
 
 	public Path getRunDir() {
@@ -602,12 +535,12 @@ public  class ESearchCase {
 		this.program = program;
 	}
 
-// FIXME: consider adding unit testing back in at end.
-//	public static void main(String[] args) {
-//		ESearchCase instan = new ESearchCase("./bughunt/smallest/43", "smallest.c", 2);
-//		//instan.search();
-//		//instan.recordResult();
-//		System.out.println(instan.test());
-//	}
+	// FIXME: consider adding unit testing back in at end.
+	//	public static void main(String[] args) {
+	//		ESearchCase instan = new ESearchCase("./bughunt/smallest/43", "smallest.c", 2);
+	//		//instan.search();
+	//		//instan.recordResult();
+	//		System.out.println(instan.test());
+	//	}
 
 }

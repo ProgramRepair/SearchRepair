@@ -21,6 +21,7 @@ public class EntryAddition {
 
 	private static int count = 0;
 	private static int save = 0;
+	
 	public static void addOneFile(String filePath, String table) {
 		File file = new File(filePath);
 		if (!file.exists())
@@ -51,7 +52,6 @@ public class EntryAddition {
 			//				System.out.println("path:\n" + path);
 			//			}
 		}
-		logger.info("Global method count attempted so far:" + count + " successes: " + save);
 	}
 
 	public static void addOneFolder(String dirPath, String table) {
@@ -66,6 +66,8 @@ public class EntryAddition {
 			}
 
 		}
+		logger.info("Global method count attempted so far:" + count + " successes: " + save);
+
 	}
 
 	// parses output from my symbolic execution engine
