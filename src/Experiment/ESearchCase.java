@@ -43,10 +43,8 @@ public  class ESearchCase {
 	// this is keyed by black, white and then positive, negative
 	// FIXME: add some types or something to that to make it harder to screw up
 
-	private Map<String, Map<String,String>> trainingTests = new HashMap<String, Map<String,String>>();
+	private Map<String, Map<String,Map<String,String>>> trainingTests = new HashMap<String, Map<String,Map<String,String>>>();
 
-	private Map<String, String> positives = new HashMap<String, String>();
-	private Map<String, String> negatives = new HashMap<String, String>();
 	// possible FIXME: is it appropriate to use all of the validation tests here?  I think so,
 	// based on how we're using the dataset, but should double-check
 	private Map<String, String> validationTests = new HashMap<String, String>();
@@ -58,6 +56,8 @@ public  class ESearchCase {
 	private int repo;
 	private List<String> content;
 	private String program;
+	
+	private String whiteOrBlack;
 
 	public ESearchCase(String program, Path folder, Path fileName, int repo){
 		this.repo = repo;
@@ -71,8 +71,13 @@ public  class ESearchCase {
 		this.runDir = Paths.get(this.folder.toString() + "/temp");
 		this.content = new ArrayList<String>();
 		this.setProgram(program);
+		
 	}
 
+	public void setWhiteOrBlack(boolean wb) {
+		this.whiteOrBlack = wb ? "whitebox" : "blackbox";
+	}
+	
 	public int getRepo() {
 		return repo;
 	}
@@ -156,11 +161,10 @@ public  class ESearchCase {
 	}
 
 	protected void initWbOrBB(boolean wb){
+		this.setWhiteOrBlack(wb);
 		this.validationTests.clear();
-		String testSet = wb ? "whitebox" : "blackbox";
-		initTraining(testSet); 
-		String validationSet = wb ? "blackbox" : "whiteBox"; 
-		initTesting(validationSet);
+		initTraining(); 
+		initValidation();
 
 		// possible FIXME: do we need this?
 		GcovTest test = new GcovTest(this.getProgram(), this.folder, this.transformFile, wb);
@@ -173,7 +177,7 @@ public  class ESearchCase {
 			this.info.getResult().setState(ResultState.NOPOSITIVE);
 			return;
 		}
-		if(this.negatives.size() == 0){
+		if(this.getNegatives().size() == 0){
 			this.info.getResult().setState(ResultState.CORRECT);
 			return;
 		}
@@ -340,12 +344,12 @@ public  class ESearchCase {
 	}
 
 	private int passNegatives(String source, String outputFile) {
-		return passAllTests(source, outputFile, this.negatives);
+		return passAllTests(source, outputFile, this.getNegatives());
 	}
 
 	private boolean passAllPositive(String source, String outputFile) {
-		int numPassed = passAllTests(source, outputFile, this.positives); 
-		return (numPassed == this.positives.size());  
+		int numPassed = passAllTests(source, outputFile, this.getPositives()); 
+		return (numPassed == this.getPositives().size());  
 	}
 
 	private int passAllTests(String source, String outputFile, Map<String,String> testSuite) {
@@ -427,7 +431,7 @@ public  class ESearchCase {
 
 	protected void initPositiveStates() {
 		GetInputStateAndOutputState instan = new GetInputStateAndOutputState(this.getFolder().toString(), this.getFileName().toString(), this.getBuggy(), this.getPositives().keySet());
-		info.setPositives(instan.getStates());;
+		info.setPositives(instan.getStates());
 	}
 	/**
 	 * if no bug, the buggy lines will be 0-0
@@ -439,24 +443,36 @@ public  class ESearchCase {
 		return bug.getBuggy();
 	}
 
-	protected void initTraining(String testSet) {
-		for(String testType : new String[]{ "negative", "positive"}) {
-			String root1 = this.getFolder() + "/" + testSet + "/" + testType;
-			Map<String,String> newMap = null;
-			if(!trainingTests.containsKey(testSet)) {
-				newMap = new HashMap<String,String>();
-			} else {
-				newMap = trainingTests.get(testSet);
-			}
-			addToInputOutputMap(root1, newMap);
-			trainingTests.put(testSet, newMap);
+	protected void initTraining() {
+		Map<String,Map<String,String>> blackOrWhiteTests = null;
+		if(this.whiteOrBlack.equals("")) {
+			logger.error("training tests cannot be initialized without setting test type");
+			return;
 		}
-
+		if(trainingTests.containsKey(this.whiteOrBlack)) {
+			blackOrWhiteTests = trainingTests.get(this.whiteOrBlack);
+		} else {
+			blackOrWhiteTests = new HashMap<String,Map<String,String>>();
+		}
+		for(String negOrPos : new String[]{ "negative", "positive"}) {
+			String root1 = this.getFolder() + "/" + this.whiteOrBlack + "/" + negOrPos;
+			Map<String,String> negOrPosMap = null;
+			if(!blackOrWhiteTests.containsKey(negOrPos)) {
+				negOrPosMap = new HashMap<String,String>();
+			} else {
+				negOrPosMap = blackOrWhiteTests.get(negOrPos);
+			}
+			addToInputOutputMap(root1, negOrPosMap);
+			blackOrWhiteTests.put(negOrPos, negOrPosMap);
+		}
+		trainingTests.put(this.whiteOrBlack,blackOrWhiteTests);
 
 	}
-	protected void initTesting(String testSet) {
-		for(String testType : new String[]{ "negative", "positive"}) {
-			String root1 = this.getFolder() + "/" + testSet + "/" + testType;
+	protected void initValidation() {
+		String blackOrWhite = (this.whiteOrBlack.equals("whitebox")) ? "blackbox" : "whitebox";
+		
+		for(String negOrPos : new String[]{ "negative", "positive"}) {
+			String root1 = this.getFolder() + "/" + blackOrWhite + "/" + negOrPos;
 			addToInputOutputMap(root1, validationTests);
 		}	
 		
@@ -499,27 +515,39 @@ public  class ESearchCase {
 		this.suspiciousness = suspiciousness;
 	}
 
-	public Map<String, String> getPositives() {
-		return positives;
-	}
-
-	public void setPositives(Map<String, String> positives) {
-		this.positives = positives;
-	}
 
 	public Map<String, String> getNegatives() {
-		return negatives;
+		return this.trainingTests.get(this.whiteOrBlack).get("negative");
 	}
+
+	public Map<String, String> getPositives() {
+		return this.trainingTests.get(this.whiteOrBlack).get("positive)");
+	}
+
+	private void setTests(String testKey, Map<String,String> tests) {
+		Map<String,Map<String,String>> trainingForWoB;
+		if(this.trainingTests.containsKey(this.whiteOrBlack)) {
+			trainingForWoB = this.trainingTests.get(this.whiteOrBlack);
+		} else {
+			trainingForWoB = new HashMap<String,Map<String,String>> ();
+		}
+		trainingForWoB.put(testKey,  tests); 
+		this.trainingTests.put(this.whiteOrBlack,trainingForWoB); 
+	}
+	public void setPositives(Map<String, String> positives) {
+		this.setTests("positive", positives);
+	}
+
 
 	public void setNegatives(Map<String, String> negatives) {
-		this.negatives = negatives;
+		this.setTests("negative", negatives);
 	}
 
-	public Map<String, String> getVerifications() {
+	public Map<String, String> getValidationTests() {
 		return validationTests;
 	}
 
-	public void setVerifications(Map<String, String> verifications) {
+	public void setValidationTests(Map<String, String> verifications) {
 		this.validationTests = verifications;
 	}
 

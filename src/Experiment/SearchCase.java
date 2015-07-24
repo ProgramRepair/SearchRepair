@@ -14,7 +14,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,9 +87,7 @@ public class SearchCase {
 		if (!pass)
 			return;
 		searchOverRepository();
-		//printResult();
 		ruleOutFalsePositive();
-		// printSearchingResult();
 
 		if (isEmpty(info.getResult())) {
 			this.info.getResult().setState(ResultState.FAILED);
@@ -314,7 +311,7 @@ public class SearchCase {
 	}
 
 	private boolean fillSearchCase() {
-		System.out.println("---" + Arrays.toString(this.buggy));
+		//System.out.println("---" + Arrays.toString(this.buggy));
 		try {
 			if (insertStateStatements(this.programSource)) { 
 				obtainPositiveStates();
@@ -378,8 +375,7 @@ public class SearchCase {
 
 	}
 
-	/*
-	 * 
+	/* 
 	 * firstly, erase all of include statements and insert Mark, make a copy in
 	 * prefix.mark get the target function using FuncitionExtractor, the entire
 	 * function String Using state to obtain input and output variables and its
@@ -603,7 +599,6 @@ public class SearchCase {
 		String output = "";
 		try {
 			String fileString = Utility.getStringFromFile(markFile);
-			// System.out.println(fileString);
 			int start = -1;
 			int end = -1;
 			Stack<Character> stack = new Stack<Character>();
@@ -749,9 +744,6 @@ public class SearchCase {
 		return info;
 	}
 
-	public void setInfo(CaseInfo info) {
-		this.info = info;
-	}
 
 	public int[] getBuggy() {
 		return buggy;
@@ -761,11 +753,11 @@ public class SearchCase {
 		this.buggy = buggy;
 	}
 
-	public Map<String, String> getVerifications() {
+	public Map<String, String> getValidationTests() {
 		return verifications;
 	}
 
-	public void setVerifications(Map<String, String> verifications) {
+	public void setValidationTests(Map<String, String> verifications) {
 		this.verifications = verifications;
 	}
 

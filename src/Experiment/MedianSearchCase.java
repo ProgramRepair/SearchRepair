@@ -28,7 +28,7 @@ public class MedianSearchCase extends ESearchCase {
 		instan.setBuggy(range);
 		instan.setNegatives(this.getNegatives());
 		instan.setPositives(this.getPositives());
-		instan.setVerifications(this.getVerifications());
+		instan.setValidationTests(this.getValidationTests());
 		instan.search();	
 		this.setInfo(instan.getInfo());
 	}
