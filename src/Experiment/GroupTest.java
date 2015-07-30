@@ -10,10 +10,10 @@ public class GroupTest {
 
 	public static void main(String[] args) {
 		//medianTest(false, 2);
-		smallestTest(false, 2);
+		//smallestTest(false, 2);
 		//gradeTest(false, 2);
-		//checkSumTest(true, 2);
-		//syllablesTest();
+		checkSumTest(false, 2);
+		syllablesTest(false, 2);
 	}
 	
 	public static void rerun(boolean wb, int repositoryType){
