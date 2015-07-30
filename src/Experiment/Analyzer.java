@@ -3,6 +3,7 @@ package Experiment;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -185,7 +186,7 @@ public class Analyzer {
 		
 		for(File version : dir.listFiles()){
 			if(checkBroken(version)){
-				//i++;
+				i++;
 				initBroken(version, name);
 				continue;
 			}
@@ -328,7 +329,7 @@ public class Analyzer {
 
 
 	private void initSearchFix(File version, String name) {
-		i++;
+		//i++;
 		//if(!name.equals(Analyzer.CHECKSUM)) return;
 		//if(!version.getName().equals("8")) return;
 		String path;
@@ -354,7 +355,7 @@ public class Analyzer {
 				this.table.get(name).get("searchfix").put(version.getName(), Analyzer.SUCCESS);
 			}
 			String id = Utility.getStringFromFile(version.getAbsolutePath()+ "/original");
-			id = id.substring(id.indexOf("introclass"));
+			//id = id.substring(id.indexOf("IntroClass"));
 			//this.successlist.add(id);
 			String secondline = lines[1].trim();
 			int value = Integer.parseInt(secondline.substring(secondline.lastIndexOf(":") + 1));
@@ -439,20 +440,21 @@ public class Analyzer {
 	public static void main(String[] args){
 		try {
 			System.setOut(new PrintStream("./csvlog/log"));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			String backup = "/users/keyalin/documents/coding/backup/bughunt";
+		
+			Analyzer ana = new Analyzer("./bughuntbackup", false, 2);
+			ana.fetch();
+			ana.initStatics();
+////			
+			ana.printFormat();
+			ana.resetStatics();
+			ana.getYuriy(ana);
+			ana.writeLogIntoZip();
+//////		
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Analyzer ana = new Analyzer("./bughunt", false, 2);
-		ana.fetch();
-		ana.initStatics();
-		ana.initOnlys();
-		ana.initTwoConbines();
-		ana.initThreeCombines();
-		ana.initAll();
-////		
-		ana.printFormat();
-		ana.printyury();
+		
 		
 		
 		
@@ -468,13 +470,10 @@ public class Analyzer {
 		Analyzer ana = new Analyzer("./bughunt", false, 2);
 		ana.fetch();
 		ana.initStatics();
-		ana.initOnlys();
-		ana.initTwoConbines();
-		ana.initThreeCombines();
-		ana.initAll();
 ////		
 		ana.printFormat();
-		ana.printyury();
+		ana.resetStatics();
+		ana.getYuriy(ana);
 	}
 	
 	public static void getExistingData(){
@@ -487,12 +486,19 @@ public class Analyzer {
 		Analyzer ana = new Analyzer("./bughuntbackup", false, 2);
 		ana.fetch();
 		ana.initStatics();
+////		
+		ana.printFormat();
+		ana.resetStatics();
+		ana.getYuriy(ana);
+		
+	}
+	
+	public void getYuriy(Analyzer ana){
+
 		ana.initOnlys();
 		ana.initTwoConbines();
 		ana.initThreeCombines();
 		ana.initAll();
-////		
-		ana.printFormat();
 		ana.printyury();
 	}
 
@@ -766,6 +772,7 @@ public class Analyzer {
 
 
 	private void printFormat() {
+		System.out.println(i);
 		System.out.println("fixed by each technique");
 		for(String tech : this.fixedTable.keySet()){
 			System.out.println(tech);
@@ -781,7 +788,7 @@ public class Analyzer {
 			System.out.println();
 		}
 		
-		System.out.println("total number of defects of eahc program");
+		System.out.println("total number of defects of each program");
 		for(String program : this.correctProgram.keySet()){
 			if(program.endsWith("p")) continue;
 			System.out.print(program + ", ");
@@ -835,8 +842,45 @@ public class Analyzer {
 			System.out.print(this.fixedTable.get("searchfix").get(program) + " ");
 			
 		}
-		System.out.println();
+		System.out.println();		
+	}
+	
+	public void writeLogIntoZip(){
+		File rootDir = new File(root);
+		for(File dir : rootDir.listFiles()){
+			String name = dir.getName();
+//			if(name.equals(Analyzer.MEDIAN) || name.equals(Analyzer.SMALLEST) || name.equals(Analyzer.DIGITS) || name.equals(Analyzer.CHECKSUM )|| name.equals(Analyzer.SYLLABLES) || name.equals(Analyzer.GRADE) ){
+//				fetch(dir, name);
+//			}	
+			if(name.equals("smallest")){
+				findSuccessVersion(dir,name);
+			}
+		}
+	}
+
+
+	private void findSuccessVersion(File root, String name) {
+		List<String> list = new ArrayList<String>();
+		for(File dir : root.listFiles()){
+			String path = dir.getAbsolutePath();
+			String searchfix = path + "/repair/searchfix-bb2";
+			String content = Utility.getStringFromFile(searchfix);
+			if(content.trim().startsWith("success")){
+				list.add(searchfix);
+			}
+		}
 		
+		try {
+			PrintWriter pw = new PrintWriter(new File("./csvlog/success"));
+			for(String s : list){
+				pw.println(s);
+			}
+			pw.flush();
+			pw.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	

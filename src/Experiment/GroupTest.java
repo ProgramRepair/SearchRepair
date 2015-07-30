@@ -10,9 +10,9 @@ public class GroupTest {
 
 	public static void main(String[] args) {
 		medianTest(false, 2);
-		//smallestTest();
-		//gradeTest();
-		//checkSumTest();
+		smallestTest(false, 2);
+		//gradeTest(false, 2);
+		//checkSumTest(true, 2);
 		//syllablesTest();
 	}
 	
@@ -28,16 +28,17 @@ public class GroupTest {
 		List<String> list = new ArrayList<String>();
 		File file = new File("./bughunt/checkSum");
 		int size = file.listFiles().length;
+		int actualRepository = 0;
 		for(File root : file.listFiles()){
 			try{
 				String folder = "./bughunt/checkSum/" + root.getName();
 				String fileName = "checkSum.c";
 				if(type == 2){
 					int value = Integer.parseInt(root.getName());
-					if(value < size / 2) type = 3;
-					else type = 4;
+					if(value < size / 2) actualRepository = 3;
+					else actualRepository = 4;
 				}
-				CheckSumSearchCase searcher = new CheckSumSearchCase(folder, fileName, type);
+				CheckSumSearchCase searcher = new CheckSumSearchCase(folder, fileName, actualRepository);
 				searcher.transformAndInitRunDir(false, "");
 				searcher.initInputAndOutput();
 				searcher.search(wb);
@@ -60,18 +61,21 @@ public class GroupTest {
 		List<String> list = new ArrayList<String>();
 		File file = new File("./bughunt/median");
 		int size = file.listFiles().length;
+		int actualRepository = 0;
 		for(File root : file.listFiles()){
 			try{
 				//if(!root.getName().equals("225"))continue;
 				String folder = "./bughunt/median/" + root.getName();
 				String fileName = "median.c";
 				if(type == 2){
+					
 					int value = Integer.parseInt(root.getName());
-					if(value < size / 2) type = 3;
-					else type = 4;
+					if(value < 49 || value > 100) continue;
+					if(value < size / 2) actualRepository = 3;
+					else actualRepository = 4;
 				}
 				System.out.println(folder);
-				MedianSearchCase searcher = new MedianSearchCase(folder, fileName, type);
+				MedianSearchCase searcher = new MedianSearchCase(folder, fileName, actualRepository);
 				searcher.transformAndInitRunDir(true, "");
 				searcher.initInputAndOutput();
 				searcher.search(wb);
@@ -91,17 +95,18 @@ public class GroupTest {
 		List<String> list = new ArrayList<String>();
 		File file = new File("./bughunt/smallest");
 		int size = file.listFiles().length;
+		int actualRepository = 0;
 		for(File root : file.listFiles()){
 			try{
 				String folder = "./bughunt/smallest/" + root.getName();
 				String fileName = "smallest.c";
 				if(type == 2){
 					int value = Integer.parseInt(root.getName());
-					if(value < size / 2) type = 3;
-					else type = 4;
+					if(value < size / 2) actualRepository = 3;
+					else actualRepository = 4;
 				}
 				System.out.println(folder);
-				MedianSearchCase searcher = new MedianSearchCase(folder, fileName, type);
+				MedianSearchCase searcher = new MedianSearchCase(folder, fileName, actualRepository);
 				searcher.transformAndInitRunDir(true, "");
 				searcher.initInputAndOutput();
 				searcher.search(wb);
@@ -121,20 +126,23 @@ public class GroupTest {
 		List<String> list = new ArrayList<String>();
 		File file = new File("./bughunt/grade");
 		int size = file.listFiles().length;
+		int actualRepository = 0;
 		for(File root : file.listFiles()){
 			try{
 				String folder = "./bughunt/grade/" + root.getName();
 				String fileName = "grade.c";
 				if(type == 2){
 					int value = Integer.parseInt(root.getName());
-					if(value < size / 2) type = 3;
-					else type = 4;
+					if(value < size / 2) actualRepository = 3;
+					else actualRepository = 4;
+					//if(value != 120) continue;
 				}
-				//System.out.println(folder);
-				GradeSearchCase instan = new GradeSearchCase(folder, fileName, type);
+				System.out.println(folder);
+				GradeSearchCase instan = new GradeSearchCase(folder, fileName, actualRepository);
 				instan.transformAndInitRunDir(true, "--type grade");
 				instan.initInputAndOutput();
 				instan.search(wb);
+				instan.recordResult(wb);
 				if(instan.getInfo().getResult().getState() == ResultState.SUCCESS){
 					list.add(folder);
 				}
@@ -149,6 +157,7 @@ public class GroupTest {
 		List<String> list = new ArrayList<String>();
 		File file = new File("./bughunt/syllables");
 		int size = file.listFiles().length;
+		int actualRepository = 0;
 		for(File root : file.listFiles()){
 			try{
 				//if(root.getName().charAt(0) < '5') continue;
@@ -156,10 +165,10 @@ public class GroupTest {
 				String fileName = "syllables.c";
 				if(type == 2){
 					int value = Integer.parseInt(root.getName());
-					if(value < size / 2) type = 3;
-					else type = 4;
+					if(value < size / 2) actualRepository = 3;
+					else actualRepository = 4;
 				}
-				SyllableSearchCase searcher = new SyllableSearchCase(folder, fileName, type);
+				SyllableSearchCase searcher = new SyllableSearchCase(folder, fileName, actualRepository);
 				searcher.transformAndInitRunDir(false, "");
 				searcher.initInputAndOutput();
 				searcher.search(wb);

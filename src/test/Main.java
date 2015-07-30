@@ -13,11 +13,11 @@ public class Main {
 		int repositoryType = 2;
 		
 		//introclass path
-		String introclassPath = "/users/yke/documents/coding/project/introclass-may-2015";
+		String introclassPath = "/users/keyalin/documents/test/latest/IntroClass";
 		
 		
 		//get data directly 0 or re run to get data:1
-		int operation = 0;
+		int operation = 1;
 		
 		//run wb test or run bb test, wb : wb = true, bb: wb = false; 
 		boolean wb = false;
@@ -26,7 +26,7 @@ public class Main {
 			Analyzer.getExistingData();
 		}
 		else{
-			//TODO rerun
+			//rerun
 			GenerateStandardTestCases test = new GenerateStandardTestCases(introclassPath, "./bughunt");
 			test.generate();
 			rerun(wb, repositoryType);
@@ -45,7 +45,7 @@ public class Main {
 		DataBaseManager.rebuildTables();
 		initRepository();
 		GroupTest.rerun(wb, repositoryType);
-		//Analyzer.getCSVData();
+		Analyzer.getCSVData();
 	}
 
 	private static void initRepository() {

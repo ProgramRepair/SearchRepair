@@ -79,7 +79,7 @@ public class PrototypeSearch {
 		while(result.next()){
 			String source = result.getString(1).trim();
 			//System.out.println(source);
-			//if(!source.startsWith("if(a <= b") && ) continue;
+			//if(!source.startsWith("if (string[i]") ) continue;
 			String[] pathconstraint = result.getString(2).split(EntryHandler.PATH_SEPERATOR);
 			String[] pathtypes = result.getString(3).split(EntryHandler.PATH_SEPERATOR);			
 			String[] pathtracks= result.getString(4).split(EntryHandler.PATH_SEPERATOR);
@@ -116,7 +116,7 @@ public class PrototypeSearch {
 		//System.out.println(mapp);
 		for(Map<String, String> map : mapp){
 			String s = map.toString().trim();
-			//if(!s.equals("{m=printf_tmp, z=c, y=b, x=a}")) continue;
+			//if(!s.equals("{count=count, string=string, i=i}")) continue;
 			boolean passAllPositive = true;
 			for(List<String> pInputs : info.getPositives().keySet()){				
 				List<String> pOutputs = info.getPositives().get(pInputs);

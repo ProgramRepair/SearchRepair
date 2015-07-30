@@ -41,18 +41,18 @@ public class EntryAddition {
 //				// TODO Auto-generated catch block
 //				e.printStackTrace();
 //			}
-			System.out.println(method.getName());
-			save++;
-			System.out.println(method.getSource());
+//			System.out.println(method.getName());
+//			save++;
+//			System.out.println(method.getSource());
 
-			for(String path : object.getPathConstraint().keySet())
-			{
-				System.out.println("constraint:\n" + object.getPathConstraint().get(path));
-				System.out.println("variable:\n" + object.getPathFormalVariables().get(path));
-				System.out.println("track:\n" + object.getPathVariableTrack().get(path));
-				System.out.println("type:\n" + object.getPathVariablesTypes().get(path));
-				System.out.println("path:\n" + path);
-			}
+//			for(String path : object.getPathConstraint().keySet())
+//			{
+//				System.out.println("constraint:\n" + object.getPathConstraint().get(path));
+//				System.out.println("variable:\n" + object.getPathFormalVariables().get(path));
+//				System.out.println("track:\n" + object.getPathVariableTrack().get(path));
+//				System.out.println("type:\n" + object.getPathVariablesTypes().get(path));
+//				System.out.println("path:\n" + path);
+//			}
 		}
 		//System.out.println("count: " + count + "save: " + save);
 	}

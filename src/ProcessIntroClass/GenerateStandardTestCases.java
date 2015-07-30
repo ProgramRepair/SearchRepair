@@ -30,25 +30,26 @@ public class GenerateStandardTestCases {
 	public void generate(){
 		try{
 			File dir = new File(introPath);
+			System.out.println(dir.getAbsolutePath());
 			for(String typeName : dir.list()){
-				if(typeName.equals("smallest")){
-					generate(introPath + "/smallest", outputFolderPath + "/smallest");
-				}
-				if(typeName.equals("median")){
-					generate(introPath + "/median", outputFolderPath + "/median");
-				}
-				if(typeName.equals("grade")){
-					generate(introPath + "/grade", outputFolderPath + "/grade");
-				}
-				if(typeName.equals("checksum")){
-					generate(introPath + "/checksum", outputFolderPath + "/checksum");
-				}
+//				if(typeName.equals("smallest")){
+//					generate(introPath + "/smallest", outputFolderPath + "/smallest");
+//				}
+//				if(typeName.equals("median")){
+//					generate(introPath + "/median", outputFolderPath + "/median");
+//				}
+//				if(typeName.equals("grade")){
+//					generate(introPath + "/grade", outputFolderPath + "/grade");
+//				}
+//				if(typeName.equals("checksum")){
+//					generate(introPath + "/checksum", outputFolderPath + "/checksum");
+//				}
 				if(typeName.equals("digits")){
 					generate(introPath + "/digits", outputFolderPath + "/digits");
 				}
-				if(typeName.equals("syllables")){
-					generate(introPath + "/syllables", outputFolderPath + "/syllables");
-				}
+//				if(typeName.equals("syllables")){
+//					generate(introPath + "/syllables", outputFolderPath + "/syllables");
+//				}
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -132,7 +133,7 @@ public class GenerateStandardTestCases {
 					}
 				}
 			}
-			else if(name.endsWith("log") && name.startsWith("tsp")){
+			else if(name.endsWith("log") && name.startsWith("trp")){
 				String fileString = Utility.getStringFromFile(file.getAbsolutePath());
 				if(fileString.contains("Repair Found") || fileString.contains("repair found")){
 					if(name.contains("-wb-"))

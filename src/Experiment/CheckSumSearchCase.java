@@ -97,7 +97,7 @@ public class CheckSumSearchCase extends ESearchCase {
 	
 	
 	public static void main(String[] args){
-		CheckSumSearchCase instan = new CheckSumSearchCase("./bughunt/checksum/8", "checksum.c", 2);
+		CheckSumSearchCase instan = new CheckSumSearchCase("./bughunt/checksum/6", "checksum.c", 3);
 		instan.transformAndInitRunDir(false, "");
 		instan.initInputAndOutput();
 		instan.search(true);

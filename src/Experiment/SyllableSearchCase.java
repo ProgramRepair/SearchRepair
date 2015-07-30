@@ -44,6 +44,7 @@ public class SyllableSearchCase extends ESearchCase{
 				break;
 			}
 			else{
+				if(!wb)continue;
 				instan.searchJustOnMap();
 				if(instan.getInfo().getResult().getState() == ResultState.SUCCESS){
 					this.setInfo(instan.getInfo());				
@@ -64,14 +65,14 @@ public class SyllableSearchCase extends ESearchCase{
 				list.add(new int[]{i, i + j});
 			}
 		}
-//		list.add(new int[]{30, 33});
+		//list.add(new int[]{18, 21});
 				
 		return list;
 	}
 	
 	
 	public static void main(String[] args){
-		SyllableSearchCase instan = new SyllableSearchCase("./bughunt/syllables/37", "syllables.c", 2);
+		SyllableSearchCase instan = new SyllableSearchCase("./bughunt/syllables/36", "syllables.c", 3);
 		instan.transformAndInitRunDir(false, "");
 		instan.initInputAndOutput();
 //		instan.search(true);

@@ -97,7 +97,7 @@ public class SearchCase {
 		boolean pass = fillSearchCase();
 		if(!pass) return;
 		searchOverRepository();
-		printResult();
+		//printResult();
 		ruleOutFalsePositive();
 		//printSearchingResult();
 		
