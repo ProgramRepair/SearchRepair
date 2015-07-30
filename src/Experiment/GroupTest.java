@@ -9,7 +9,7 @@ import search.ResultObject.ResultState;
 public class GroupTest {
 
 	public static void main(String[] args) {
-		medianTest(false, 2);
+		//medianTest(false, 2);
 		smallestTest(false, 2);
 		//gradeTest(false, 2);
 		//checkSumTest(true, 2);
@@ -101,6 +101,13 @@ public class GroupTest {
 				String folder = "./bughunt/smallest/" + root.getName();
 				String fileName = "smallest.c";
 				if(type == 2){
+//					String name = root.getName();
+//					if(name.charAt(0) == '0') continue;
+//					if(name.charAt(0) == '1'){
+//						if(name.length() == 1) continue;
+//						if((name.length() == 2 || name.length() == 3) && name.charAt(1) < '4') continue;
+//						if(name.length() == 3 && name.charAt(1) == '4' && name.charAt(2) < '6') continue;
+//					}
 					int value = Integer.parseInt(root.getName());
 					if(value < size / 2) actualRepository = 3;
 					else actualRepository = 4;

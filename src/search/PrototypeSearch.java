@@ -149,7 +149,7 @@ public class PrototypeSearch {
 			if(!passAllPositive) continue;
 
 			info.getResult().addSearchMapping(source, map);
-			
+			break;
 			
 		}
 		

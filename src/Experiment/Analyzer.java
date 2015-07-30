@@ -442,7 +442,7 @@ public class Analyzer {
 			System.setOut(new PrintStream("./csvlog/log"));
 			String backup = "/users/keyalin/documents/coding/backup/bughunt";
 		
-			Analyzer ana = new Analyzer("./bughuntbackup", false, 2);
+			Analyzer ana = new Analyzer("./bughunt", false, 2);
 			ana.fetch();
 			ana.initStatics();
 ////			
