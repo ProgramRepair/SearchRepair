@@ -98,9 +98,9 @@ public class GenerateStandardTestCases {
 		new File(outputFolder).mkdir();
 		System.out.println(inputFolder + "\n" + outputFolder);
 	
-//		Utility.copy(inputFolder + "/" + functionName + ".c", outputFolder + "/" + functionName + ".c");
-//		Utility.writeTOFile(outputFolder + "/original", inputFolder);
-//		generateWhiteAndBlack(outputFolder, inputFolder, functionName + ".c");
+		Utility.copy(inputFolder + "/" + functionName + ".c", outputFolder + "/" + functionName + ".c");
+		Utility.writeTOFile(outputFolder + "/original", inputFolder);
+		generateWhiteAndBlack(outputFolder, inputFolder, functionName + ".c");
 		getOtherTechInfo(inputFolder, outputFolder);
 	}
 	
@@ -112,7 +112,6 @@ public class GenerateStandardTestCases {
 			String name = file.getName();
 			if(name.contains("gp") && name.contains("bb")) {
 				findGP = true;
-				break;
 			}
 			
 		
