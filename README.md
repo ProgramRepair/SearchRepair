@@ -9,8 +9,9 @@ Several things to setup and rerun:
 2. Secondly, import this project in Eclipse
 
 3. Install python, mysql, z3, z3 ocaml api, jdk, gcc in local computer.
+4. If folder "./bughunt" exists,  delete that folder.
 
-4. Create a database in mysql, and go to PROJECTROOT/configuration/configuration file, edit three fields user, password, database:
+5. Create a database in mysql, and go to PROJECTROOT/configuration/configuration file, edit three fields user, password, database:
 	
 	user:root
 	
@@ -20,8 +21,8 @@ Several things to setup and rerun:
 	
 	NOTE: please set the actual values of these three fields in your local computer. Above are the mysql setting in one author yalin's computer.
 
-5. Go to PROJECTROOT/src/test/main.java, run the main function of that java file, then the experiments will be re run.
- After the experiments are completed, a csv file  PROJECTROOT/csvlog/log will be generated, which contains all of data presented in the paper.
+6. Go to PROJECTROOT/src/test/main.java, run the main function of that java file, then the experiments will be re run. IMPORTANT: if there are a lot of running time IO exceptions being printing out at console in the beginning, this is probably because C program can not be compiled by GCC in java.   This problem might happen a minutes happens after starting rerun experiment. If it did happen, delete "./bughunt" and rerun this experiments. Usually a second rerun will be successful. A successful sign of this is that, the console is printing a list of name of directories, which is the directories of every version in IntroClass folder.
+After the experiments are completed, a csv file  PROJECTROOT/csvlog/log will be generated, which contains all of data presented in the paper.
  
 6. notice that, there are four fields in the main function of PROJECTROOT/src/test/main.java, which are:
 
@@ -42,7 +43,4 @@ Several things to setup and rerun:
                 absolute path of the new introclass.
 		
 NOTICE: rerun experiments on syllables versions takes a lot of time.
-		My current setting for rerunning the project is that when you run the main function of PROJECTROOT/src/test/main.java,
-		syllables versions will also be rerun too. If you think the experiments are too slow, just go to PROJECTROOT/src/experiment/GroupTest.java file,
-		and find the function "rerun", comments out the statement "syllablesTest(wb, repositoryType);". 
-Thank you.
+IMPORTANT: 
