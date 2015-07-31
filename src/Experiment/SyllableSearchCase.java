@@ -89,7 +89,7 @@ public class SyllableSearchCase extends ESearchCase{
 	
 	
 	public static void main(String[] args){
-		SyllableSearchCase instan = new SyllableSearchCase("./bughunt/syllables/37", "syllables.c", 3);
+		SyllableSearchCase instan = new SyllableSearchCase("./bughunt/syllables/109", "syllables.c", 3);
 		instan.transformAndInitRunDir(false, "");
 		instan.initInputAndOutput();
 //		instan.search(true);

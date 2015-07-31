@@ -185,21 +185,25 @@ public class Analyzer {
 	private void fetch(File dir, String name) {
 		
 		for(File version : dir.listFiles()){
-			if(checkBroken(version)){
-				i++;
-				initBroken(version, name);
+			if(!checkDefect(version)){
+				initNonDefect(version, name);
 				continue;
 			}
-			if(checkIsCorrect(version)){
-				
-				initCorrectForAll(version, name);
-				continue;
-			}
-			if(this.checkNopositve(version)){
-				
-				initNopositive(version, name);
-				continue;
-			}
+//			if(checkBroken(version)){
+//				i++;
+//				initBroken(version, name);
+//				continue;
+//			}
+//			if(checkIsCorrect(version)){
+//				
+//				initCorrectForAll(version, name);
+//				continue;
+//			}
+//			if(this.checkNopositve(version)){
+//				
+//				initNopositive(version, name);
+//				continue;
+//			}
 
 
 			initSearchFix(version, name);
@@ -210,6 +214,26 @@ public class Analyzer {
 	}
 
 
+
+
+	private void initNonDefect(File version, String program) {
+		this.table.get(program).get("genprog").put(version.getName(), Analyzer.NOPOSITIVE);
+		this.table.get(program).get("ae").put(version.getName(), Analyzer.NOPOSITIVE);
+		this.table.get(program).get("tsp").put(version.getName(), Analyzer.NOPOSITIVE);
+		this.table.get(program).get("searchfix").put(version.getName(), Analyzer.NOPOSITIVE);
+		this.nopositive.put(program, this.nopositive.get(program) + 1);
+		
+	}
+
+	int g = 0;
+	private boolean checkDefect(File version) {
+		File file =  new File(version.getAbsolutePath() + "/repair/bbdefect");
+		if(file.exists()){
+			g++;
+			return true;
+		}
+		return false;
+	}
 
 
 	private void initBroken(File version, String name) {
@@ -444,6 +468,7 @@ public class Analyzer {
 		
 			Analyzer ana = new Analyzer("./bughunt", false, 2);
 			ana.fetch();
+			//System.out.println(ana.g);
 			ana.initStatics();
 ////			
 			ana.printFormat();
@@ -852,7 +877,7 @@ public class Analyzer {
 //			if(name.equals(Analyzer.MEDIAN) || name.equals(Analyzer.SMALLEST) || name.equals(Analyzer.DIGITS) || name.equals(Analyzer.CHECKSUM )|| name.equals(Analyzer.SYLLABLES) || name.equals(Analyzer.GRADE) ){
 //				fetch(dir, name);
 //			}	
-			if(name.equals("smallest")){
+			if(name.equals("syllables")){
 				findSuccessVersion(dir,name);
 			}
 		}

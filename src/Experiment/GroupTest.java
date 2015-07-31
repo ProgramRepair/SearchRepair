@@ -12,7 +12,7 @@ public class GroupTest {
 		//medianTest(false, 2);
 		//smallestTest(false, 2);
 		//gradeTest(false, 2);
-		checkSumTest(false, 2);
+		//checkSumTest(false, 2);
 		syllablesTest(false, 2);
 	}
 	
@@ -170,6 +170,8 @@ public class GroupTest {
 				//if(root.getName().charAt(0) < '5') continue;
 				String folder = "./bughunt/syllables/" + root.getName();
 				String fileName = "syllables.c";
+				String name = root.getName();
+				if(name.length() >= 2 && name.charAt(0) <=1 && name.charAt(0) <= 1)continue;
 				if(type == 2){
 					int value = Integer.parseInt(root.getName());
 					if(value < size / 2) actualRepository = 3;

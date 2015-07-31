@@ -32,24 +32,24 @@ public class GenerateStandardTestCases {
 			File dir = new File(introPath);
 			System.out.println(dir.getAbsolutePath());
 			for(String typeName : dir.list()){
-//				if(typeName.equals("smallest")){
-//					generate(introPath + "/smallest", outputFolderPath + "/smallest");
-//				}
-//				if(typeName.equals("median")){
-//					generate(introPath + "/median", outputFolderPath + "/median");
-//				}
-//				if(typeName.equals("grade")){
-//					generate(introPath + "/grade", outputFolderPath + "/grade");
-//				}
-//				if(typeName.equals("checksum")){
-//					generate(introPath + "/checksum", outputFolderPath + "/checksum");
-//				}
+				if(typeName.equals("smallest")){
+					generate(introPath + "/smallest", outputFolderPath + "/smallest");
+				}
+				if(typeName.equals("median")){
+					generate(introPath + "/median", outputFolderPath + "/median");
+				}
+				if(typeName.equals("grade")){
+					generate(introPath + "/grade", outputFolderPath + "/grade");
+				}
+				if(typeName.equals("checksum")){
+					generate(introPath + "/checksum", outputFolderPath + "/checksum");
+				}
 				if(typeName.equals("digits")){
 					generate(introPath + "/digits", outputFolderPath + "/digits");
 				}
-//				if(typeName.equals("syllables")){
-//					generate(introPath + "/syllables", outputFolderPath + "/syllables");
-//				}
+				if(typeName.equals("syllables")){
+					generate(introPath + "/syllables", outputFolderPath + "/syllables");
+				}
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -98,17 +98,24 @@ public class GenerateStandardTestCases {
 		new File(outputFolder).mkdir();
 		System.out.println(inputFolder + "\n" + outputFolder);
 	
-		Utility.copy(inputFolder + "/" + functionName + ".c", outputFolder + "/" + functionName + ".c");
-		Utility.writeTOFile(outputFolder + "/original", inputFolder);
-		generateWhiteAndBlack(outputFolder, inputFolder, functionName + ".c");
+//		Utility.copy(inputFolder + "/" + functionName + ".c", outputFolder + "/" + functionName + ".c");
+//		Utility.writeTOFile(outputFolder + "/original", inputFolder);
+//		generateWhiteAndBlack(outputFolder, inputFolder, functionName + ".c");
 		getOtherTechInfo(inputFolder, outputFolder);
 	}
 	
 	private void getOtherTechInfo(String inputFolder, String outputFolder) {
 		new File(outputFolder + "/repair").mkdir();
 		File dir = new File(inputFolder);
+		boolean findGP = false;
 		for(File file : dir.listFiles()){
 			String name = file.getName();
+			if(name.contains("gp") && name.contains("bb")) {
+				findGP = true;
+				break;
+			}
+			
+		
 			if(name.endsWith("log") && name.startsWith("gp")){
 				String fileString = Utility.getStringFromFile(file.getAbsolutePath());
 				if(fileString.contains("Repair Found") || fileString.contains("repair found")){
@@ -146,6 +153,7 @@ public class GenerateStandardTestCases {
 				}
 			}
 		}
+		if(findGP)Utility.writeTOFile(outputFolder+ "/repair/bbdefect", "bbdefect");
 		
 	}
 
@@ -233,7 +241,7 @@ public class GenerateStandardTestCases {
 
 	
 	public static void main(String[] args){
-		GenerateStandardTestCases test = new GenerateStandardTestCases("/users/yke/documents/coding/project/introclass-may-2015", "./bughunt");
+		GenerateStandardTestCases test = new GenerateStandardTestCases("/users/keyalin/documents/test/latest/IntroClass", "./bughunt");
 		test.generate();
 		test.printFailed();
 	}
