@@ -26,7 +26,7 @@ public class CheckSumSearchCase extends ESearchCase {
 			return;
 		}
 		
-		List<int[]> buggylines = getMultipleBugLines();
+		List<int[]> buggylines = getMultpleBuggyLines();
 		System.out.println(buggylines.size());
 		for(int[] range : buggylines){
 			//System.out.println(Arrays.toString(range));
@@ -49,55 +49,44 @@ public class CheckSumSearchCase extends ESearchCase {
 	
 
 
-	protected List<int[]> getMultipleBugLines() {
-		List<int[]> list = new ArrayList<int[]>();
-		initSuspicious();
-		double average = getAverage();
-		for(int i = 10; i <= this.getSuspiciousness().keySet().size(); i++){
-			if(this.getSuspiciousness().get(i) >= average){
-				list.add(new int[]{i, i});
-			}
-		}
-		
-		
-		int index = 10;
-		while(index < this.getSuspiciousness().keySet().size()){
-			if(this.getSuspiciousness().get(index) >= average){
-				int right = index + 1;
-				while(right <= this.getSuspiciousness().keySet().size()) {
-					if(this.getSuspiciousness().get(right) >= average) break;
-					right++;
-				}
-				if(right != this.getSuspiciousness().keySet().size()) {
-					list.add(new int[] {index, right});
-				}
-			}
-			index++;
-		}
-		
-		//list.add(new int[]{42, 42});
-		
-		return list;
-		
-	}
-	
 	private double getAverage() {
 		int denomerator = 0;
 		double numerator = 0;
 		for(int i = 1; i <= this.getSuspiciousness().keySet().size(); i++){
-			if(this.getSuspiciousness().get(i) > 0){
 				denomerator++;
 				numerator += this.getSuspiciousness().get(i);
-			}
 		}
 		if(denomerator == 0) return 1;
 		else return numerator / denomerator;
+	}
+	
+	protected List<int[]> getMultpleBuggyLines(){
+		List<int[]> list = new ArrayList<int[]>();
+		initSuspicious();
+		this.initContent();
+		double average = getAverage();
+		int index = 12;
+		while(index < this.getSuspiciousness().keySet().size()){
+			if(this.getSuspiciousness().get(index) >= average){
+				list.add(new int[]{index,index});
+				int right = index + 1;
+				while(right <= this.getSuspiciousness().keySet().size() && right - index < 6) {
+					if(this.getSuspiciousness().get(right) >= average) {
+						list.add(new int[] {index, right});
+					}
+					right++;
+				}
+			}
+			index++;
+		}
+				
+		return list;
 	}
 
 	
 	
 	public static void main(String[] args){
-		CheckSumSearchCase instan = new CheckSumSearchCase("./bughunt/checksum/8", "checksum.c", 2);
+		CheckSumSearchCase instan = new CheckSumSearchCase("./bughunt/checksum/6", "checksum.c", 3);
 		instan.transformAndInitRunDir(false, "");
 		instan.initInputAndOutput();
 		instan.search(true);

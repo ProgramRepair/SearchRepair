@@ -9,52 +9,50 @@ import Repository.EntryAddition;
 public class Main {
 
 	public static void main(String[] args) {
-		// repository type: 0 linux, 1 introclass, 2 future
+		//repository type: 0 linux, 1 introclass, 2 future
 		int repositoryType = 2;
-
-		// introclass path
-		String introclassPath = "/Users/clegoues/research/autobugfix//introclass-may-2015";
-
-		// get data directly 0 or re run to get data:1
+		
+		//introclass path
+		String introclassPath = "/users/keyalin/documents/test/latest/IntroClass";
+		
+		
+		//get data directly 0 or re run to get data:1
 		int operation = 1;
-
-		// run wb test or run bb test, wb : wb = true, bb: wb = false;
+		
+		//run wb test or run bb test, wb : wb = true, bb: wb = false; 
 		boolean wb = false;
 
-		if (operation == 0) {
+		if(operation == 0){
 			Analyzer.getExistingData();
-		} else {
-			// TODO rerun
-			GenerateStandardTestCases test = new GenerateStandardTestCases(
-					introclassPath, "./bughunt");
+		}
+		else{
+			//rerun
+			GenerateStandardTestCases test = new GenerateStandardTestCases(introclassPath, "./bughunt");
 			test.generate();
 			rerun(wb, repositoryType);
 			Analyzer.getCSVData();
 		}
-
+		
+		
 	}
 
 	private static void rerun(boolean wb, int repositoryType) {
 		DataBaseManager.connect();
-		if (!DataBaseManager.isConnected()) {
+		if(!DataBaseManager.isConnected()){
 			System.out.println("Database not connected!");
 			return;
 		}
 		DataBaseManager.rebuildTables();
 		initRepository();
 		GroupTest.rerun(wb, repositoryType);
-		// Analyzer.getCSVData();
+		Analyzer.getCSVData();
 	}
 
 	private static void initRepository() {
-		EntryAddition.addOneFolder("./repository/future",
-				DataBaseManager.TABLEFUTURE1);
-		EntryAddition.addOneFolder("./repository/future2",
-				DataBaseManager.TABLEFUTURE2);
-		EntryAddition.addOneFolder("./repository/introclass",
-				DataBaseManager.TABLEALL);
-		EntryAddition.addOneFolder("./repository/linux",
-				DataBaseManager.TABLELINUX);
+		EntryAddition.addOneFolder("./repository/future", DataBaseManager.TABLEFUTURE1);
+		EntryAddition.addOneFolder("./repository/future2", DataBaseManager.TABLEFUTURE2);
+		EntryAddition.addOneFolder("./repository/introclass", DataBaseManager.TABLEALL);
+		EntryAddition.addOneFolder("./repository/linux", DataBaseManager.TABLELINUX);
 	}
 
 }

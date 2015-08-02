@@ -10,3 +10,11 @@
 /PathLexer.java
 /PathLexer.tokens
 /PathParser.java
+/SnippetBaseListener.java
+/SnippetBaseVisitor.java
+/SnippetListener.java
+/SnippetVisitor.java
+/PathBaseListener.java
+/PathListener.java
+/FunctionBaseListener.java
+/FunctionListener.java
