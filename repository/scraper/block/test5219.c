@@ -1,2 +1,0 @@
-int test(int missing, int BLKDEV_MAJOR_HASH_SIZE, int major_names, int seqf, int lock_class_lock, int offset, int dp){
-if ( offset  <  BLKDEV_MAJOR_HASH_SIZE     )     { mutex_lock ( lock_class_lock       )    ;  for ( dp = major_names   [      <missing ';'> offset   ]    ;    dp ;  dp = dp    -  >        <missing ';'>   next )  seq_printf ( seqf       , "%3d %s\n"  , dp    -  >          <missing ';'>   major ,   dp - >   name ) ;  mutex_unlock ( lock_class_lock       )    ;  }    }

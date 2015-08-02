@@ -1,2 +1,0 @@
-void test(int ret, int bio){
-if ( bio     )     { if ( bio_flagged ( bio       , BIO_USER_MAPPED       )       )     bio_unmap_user ( bio       )    ;    else ret = bio_uncopy_user ( bio       )          ;      }    }

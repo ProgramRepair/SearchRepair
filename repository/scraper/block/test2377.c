@@ -1,2 +1,0 @@
-void test(int missing, int tx, int ctx, int hctx){
-if ( ist_empty ( tx    -        <missing ')'>    >  rq_list     )  )    { list_splice_init ( tx    -  >          <missing ';'>   rq_list ,   mp ) ;  blk_mq_hctx_clear_pending ( hctx       , ctx       )    ;  }    }

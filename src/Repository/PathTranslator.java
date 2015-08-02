@@ -30,6 +30,7 @@ import antlr.preprocess.PathParser.FormalArgumentContext;
 import antlr.preprocess.PathParser.NotExprContext;
 import antlr.preprocess.PathParser.ProgContext;
 import antlr.preprocess.PathParser.ReturnStatContext;
+import antlr.preprocess.PathParser.SelfIncreStatContext;
 import antlr.preprocess.PathParser.StatementContext;
 
 public class PathTranslator {
@@ -139,12 +140,36 @@ public class PathTranslator {
 					CallStatContext c = (CallStatContext) child;
 					convert(c);
 				}
+				else if(child instanceof SelfIncreStatContext){
+					SelfIncreStatContext c = (SelfIncreStatContext) child;
+					convert(c);
+				}
 
 			}
 
 		}
 		
 	}
+
+
+
+
+	private void convert(SelfIncreStatContext c) {
+		String id = c.ID().getText();
+		String old = this.variableTrack.containsKey(id) ? this.variableTrack.get(id) : id;
+		String newId = this.generateNewName(id);
+		String op = c.getChild(1).getText();
+		if(op.equals("++")){
+			String constraint = "(assert (= " + newId + " (+ " + old + " 1)))";
+			this.ssa.add(constraint);
+		}
+		else{
+			String constraint = "(assert (= " + newId + " (- " + old + " 1)))";
+			this.ssa.add(constraint);			
+		}
+		
+	}
+
 
 
 
@@ -317,7 +342,7 @@ public class PathTranslator {
 
 
 	private void convertNonCallExprAssign(AssignStatContext assign) {
-		if(assign.StringLiteral() != null){
+		if(assign.StringLiteral() != null || this.variableType.get(assign.ID().getText()).equals("char*")){
 			convertString(assign);
 		}
 		else if(assign.condExpr() != null){
@@ -328,6 +353,11 @@ public class PathTranslator {
 		}
 		
 	}
+
+
+
+
+
 
 
 	private void convertCondAssign(AssignStatContext assign) {
@@ -381,17 +411,6 @@ public class PathTranslator {
 
 
 
-//	private String getTerm(TermContext term) {
-//		String output = "";
-//		if(term.ID() != null){
-//			output = this.variableTrack.get(term.ID().getText());
-//		}
-//		else output = term.getText();
-//		return output;
-//	}
-
-
-
 
 
 	private void converNonString(AssignStatContext c) {
@@ -414,13 +433,30 @@ public class PathTranslator {
 
 
 	private void convertString(AssignStatContext c) {
-		String content = c.StringLiteral().getText();
-		content = content.substring(1, content.length() - 1);
-		String id = c.ID().getText();
-		String newId = this.generateNewName(id);
-		StringRepresentation rep = new StringRepresentation(newId, content);
-		//System.out.println(rep.getConstraints());
-		ssa.addAll(rep.getConstraints());
+		if(c.StringLiteral() != null){
+			String content = c.StringLiteral().getText().replace("\\n", "\n");
+			content = content.substring(1, content.length() - 1);
+			String id = c.ID().getText();
+			String newId = this.generateNewName(id);
+			StringRepresentation rep = new StringRepresentation(newId, content);
+			//System.out.println(rep.getConstraints());
+			ssa.addAll(rep.getConstraints());
+		}
+		else{
+			ExprContext expr = c.expr();
+			if(expr.getChildCount() == 1){
+				String id = c.ID().getText();
+				String newId = this.generateNewName(id);
+				String constraint = "(assert (= " + newId + " " + this.getExpr(expr) + "))";
+				this.ssa.add(constraint);
+			}
+			else{
+				String id = c.ID().getText();
+				String newId = this.generateNewName(id);
+				String constraint = "(assert (= " + "(valueOf " + newId + ") (charOf " + this.getExpr(expr.expr(0)) + " " + this.getExpr(expr.expr(1)) + ")))";
+				this.ssa.add(constraint);
+			}
+		}
 		
 	}
 
@@ -572,11 +608,11 @@ public class PathTranslator {
 			}
 			else if(expr.defExpr() != null){
 				DefExprContext def = expr.defExpr();
-				output = "(valueOf " + def.ID() +")";
+				output = "(valueOf " + this.variableTrack.get(def.ID().getText()) +")";
 			}
 			else if(expr.addressExpr() != null){
 				AddressExprContext add = expr.addressExpr();
-				output = "(addressOf " + add.ID() + ")";
+				output = "(addressOf " + this.variableTrack.get(add.ID().getText()) + ")";
 			}
 			else if(expr.CharacterLiteral() != null){
 				String ch = expr.CharacterLiteral().getText();
@@ -588,7 +624,9 @@ public class PathTranslator {
 			}
 
 		} else {
-			return "(" + expr.getChild(1).getText() + " "
+			String operator = expr.getChild(1).getText();
+			if(operator.equals("%")) operator = "mod";
+			return "(" + operator + " "
 					+ getExpr(expr.expr(0)) + " " + getExpr(expr.expr(1)) + ")";
 		}
 		return output;

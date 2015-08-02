@@ -1,2 +1,0 @@
-void test(int missing, int q, int REQ_ATOM_STARTED){
-if ( est_bit ( REQ_ATOM_STARTED       , q    -        <missing ')'>    >  atomic_flags     )  )    set_bit ( REQ_ATOM_STARTED       , q    -  >       atomic_flags )    ;    }

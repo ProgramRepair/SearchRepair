@@ -1,2 +1,0 @@
-int test(int partno, int disk){
-if ( partno  <  disk   - >   minors )     { devt = MKDEV ( MAJOR ( dev    -  >       devt )         , MINOR ( dev    -  >       devt )      +  partno        )          ;   break ;  }    }

@@ -1,2 +1,0 @@
-void test(int is_sync, int rl, int ioc, int q){
-if ( lk_rl_full ( rl       , is_sync       )       )     { ioc_set_batching ( q       , ioc       )    ;  blk_set_rl_full ( rl       , is_sync       )    ;  }    }

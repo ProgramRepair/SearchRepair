@@ -1,2 +1,0 @@
-void test(int missing, int ctx){
-if ( ist_empty_careful ( ctx    -        <missing ')'>    >  dispatch     )  )    { spin_lock ( ctx    -  >       lock )    ;  if ( ist_empty ( ctx    -        <missing ')'>    >  dispatch     )  )    list_splice_init ( ctx    -  >          <missing ';'>       dispatch ,   q_list ) ;  spin_unlock ( ctx    -  >       lock )    ;  }    }

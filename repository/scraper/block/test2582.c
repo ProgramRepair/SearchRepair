@@ -1,2 +1,0 @@
-void test(int KERN_INFO, int PAGE_CACHE_SIZE, int __func__, int max_size){
-if ( max_size  <  PAGE_CACHE_SIZE     )     { max_size = PAGE_CACHE_SIZE        ;  printk ( KERN_INFO   "%s: set to minimum %d\n"     , __func__       , max_size       )    ;  }    }

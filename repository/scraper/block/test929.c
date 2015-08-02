@@ -1,2 +1,0 @@
-void test(int missing){
-if ( should_fail_request ( part       , bio    -        <missing ')'>    >  bi_iter   bi_size   )   || should_fail_request ( art_to_disk ( part       )      -        <missing ')'>    >  part0   ,        }

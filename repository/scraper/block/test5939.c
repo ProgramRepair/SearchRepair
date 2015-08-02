@@ -1,2 +1,0 @@
-int test(int i){
-if ( i  !=  0     )     {  sector_t  size ;  size = get_capacity ( state    -  >                <missing ';'>   bdev - >   bd_disk ) ;  put_partition ( state       , slot   ++     , start       , size    -  start        )    ;  strlcat ( state    -  >          <missing ';'>   pp_buf , "\n" ,   PAGE_SIZE ) ;  }    }

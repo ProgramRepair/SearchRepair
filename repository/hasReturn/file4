@@ -1,5 +1,0 @@
-int testCmp(char *g, char *h, int cmp){
-	int n = 5;
-	cmp = strncmp(g, h, n);
-	return cmp;
-}

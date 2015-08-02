@@ -14,8 +14,8 @@ public class EntryHandler {
 	public static String PATH_VARIABLE_MAP = "_yalin_autofix_map\n";
 	public static String PATH_VARIABLE_Formal = "_yalin_autofix_formal\n";
 	
-	public static void save(EntryObject object){
-		DataBaseManager.connect(DataBaseManager.USER, DataBaseManager.PASSWORD, DataBaseManager.DATABASE);
+	public static void save(EntryObject object, String table){
+		DataBaseManager.connect();
 		String source = object.getSource();
 		String constraint = formatPathConstraints(object.getPathConstraint());
 		
@@ -24,7 +24,7 @@ public class EntryHandler {
 		String variableTrack = formatVariableTrack(object.getPathVariableTrack());
 		String variablesMap = formatVariableMap(object.getPathVariableMap());
 		String formals = formatFormals(object.getPathFormalVariables());
-		String sql = "insert into autobugfix (source, constraints, variableType, variableTrack, variableMap, variableFormal) " +
+		String sql = "insert into " + table + " (source, constraints, variableType, variableTrack, variableMap, variableFormal) " +
 				"values(?, ?, ?, ?, ?, ?)";
 		//System.out.println(formals);
 		PreparedStatement  statement = null;
@@ -37,6 +37,7 @@ public class EntryHandler {
 			statement.setString(5, variablesMap);
 			statement.setString(6, formals);
 			statement.execute();
+			statement.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}

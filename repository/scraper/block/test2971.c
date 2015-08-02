@@ -1,2 +1,0 @@
-void test(int max_depth){
-if ( q_is_sync ( rq       )     && max_depth  >  1     )     { switch ( max_depth       )    {   case 2  max_depth = 1        ;   break ;   case 3  max_depth = 2        ;   break ;   default  max_depth -=  2        ;  }    }

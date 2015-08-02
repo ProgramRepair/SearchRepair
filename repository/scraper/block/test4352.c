@@ -1,2 +1,0 @@
-void test(int cfqq){
-if ( CFQQ_SEEKY ( cfqq       )     && cfq_cfqq_idle_window ( cfqq       )     && ( cfq_cfqq_slice_new ( cfqq       )      || ( cfqq   - >       slice_end -    <missing ')'>        }

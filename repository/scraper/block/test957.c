@@ -1,2 +1,0 @@
-int test(int q, int ENODEV){
-if ( unlikely ( blk_queue_dying ( q       )         )       )     { spin_unlock_irqrestore ( q    -  >          <missing ';'>   queue_lock ,   flags ) ;  return   -  ENODEV        ;  }    }

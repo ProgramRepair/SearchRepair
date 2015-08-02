@@ -1,2 +1,0 @@
-void test(int missing){
-if ( spin_trylock ( icq    -        <missing ')'>    >  q   - >   queue_lock )  )    { ioc_exit_icq ( icq       )    ;  spin_unlock ( icq    -  >          <missing ';'>   q - >   queue_lock ) ;  }    }

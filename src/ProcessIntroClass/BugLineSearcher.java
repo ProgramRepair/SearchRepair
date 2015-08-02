@@ -52,8 +52,8 @@ public class BugLineSearcher {
 		initContent();
 		if(this.linesContent.size() != this.suspiciousness.keySet().size()) return;
 		calculateBuggy();
-//		System.out.println(buggy[0]);
-//		System.out.println(buggy[1]);
+		System.out.println(buggy[0]);
+		System.out.println(buggy[1]);
 	}
 
 	private void calculateBuggy() {
@@ -93,15 +93,27 @@ public class BugLineSearcher {
 
 	private int getUpperForStatement(int lineNumber) {
 		int temp = lineNumber;
+		lineNumber++;
+		String pre = this.linesContent.get(temp - 1).trim();
 		while(lineNumber <= this.linesContent.size()){
-			String s = this.linesContent.get(lineNumber-1);
-			if(s.startsWith("if")) break;
+			String s = this.linesContent.get(lineNumber-1).trim();
+			if(s.isEmpty()) {
+				lineNumber++;
+				continue;
+			}
+			if(s.startsWith("if")){
+				if(pre.endsWith("else")){
+					return getUpper(lineNumber);
+				}
+				else break;
+			}
 			else if(s.startsWith("else")){
 				return getUpper(lineNumber);
 			}
 			else {
 				lineNumber++;
 			}
+			pre = s;
 		}
 		return temp+1;
 		
@@ -135,7 +147,7 @@ public class BugLineSearcher {
 
 	private void checkPrintf(int i, int j) {
 		for(int k = i; k <= j; k++){
-			if(this.linesContent.get(k-1).contains("printf")){
+			if(this.linesContent.get(k-1).contains("printf(\"")){
 				this.hasPrintf = true;
 				return;
 			}
@@ -171,6 +183,18 @@ public class BugLineSearcher {
 				continue;
 			}
 			if(s.startsWith("else")) finished = false;
+			if(s.startsWith("if")){
+				int lower = lineNumber - 1;
+				while(lower > 0){
+					if(!this.linesContent.get(lower - 1).trim().isEmpty()) break;
+					lower--;
+				}
+				if(lower == 0) return lineNumber - 1;
+				String top = this.linesContent.get(lower - 1).trim();
+				if(top.endsWith("else")){
+					finished = false;
+				}
+			}
 			if(stack.isEmpty() && !s.startsWith("else")) {
 				if(finished) return lineNumber - 1;
 				//gap++;
@@ -189,16 +213,26 @@ public class BugLineSearcher {
 	}
 
 	private int getLower(int lineNumber) {
+		//line
 		while(lineNumber > 0){
 			String s = this.linesContent.get(lineNumber - 1).trim();
-			if(s.startsWith("if")) return lineNumber;
-			lineNumber--;
+			int lower = lineNumber - 1;
+			while(lower > 0){
+				if(!this.linesContent.get(lower - 1).trim().isEmpty()) break;
+				lower--;
+			}
+			if(lower == 0) return 1;
+			String top = this.linesContent.get(lower - 1).trim();
+			if(s.startsWith("if") && !top.endsWith("else")) return lineNumber;
+			lineNumber = lower;
 		}
 		return lineNumber;
 	}
 
 	private boolean isStatement(String content) {
 		content = content.trim();
+		int index = content.indexOf('}');
+		if(index != -1) return false;
 		if(!content.startsWith("if") && !content.startsWith("else") && content.endsWith(";")) return true;
 		else return false;
 	}
@@ -246,7 +280,7 @@ public class BugLineSearcher {
 	}
 	
 	public static void main(String[] args){
-		BugLineSearcher bug = new BugLineSearcher("./bughunt/median/149", "median.c");
+		BugLineSearcher bug = new BugLineSearcher("./bughunt/smallest/109", "smallest.c");
 	}
 
 

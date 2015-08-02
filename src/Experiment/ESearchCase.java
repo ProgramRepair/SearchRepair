@@ -10,43 +10,127 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import search.PrototypeSearch;
 import search.ResultObject;
-import InputAndOuput.CaseInfo;
-import InputAndOuput.Restore;
-import Library.CTest;
+import search.ResultObject.ResultState;
 import Library.Utility;
 import ProcessIntroClass.BugLineSearcher;
+import ProcessIntroClass.GcovTest;
 import ProcessIntroClass.GetInputStateAndOutputState;
+import ProcessIntroClass.Transform;
 
 public  class ESearchCase {
+	private Map<Integer, Double> suspiciousness;
 	private String folder;
+	private Map<String, String> blackPositives;
+	private Map<String, String> blackNegatives;
+	private Map<String, String> whitePositives;
+	private Map<String, String> whiteNegatives;
 	private Map<String, String> positives;
 	private Map<String, String> negatives;
+	private Map<String, String> verifications;
 	private String fileName;
 	private int[] buggy;
 	private String casePrefix;
 	private CaseInfo info;
 	private boolean bracket;
 	private boolean hasPrintf ;
+	private String runDir;
+	private String transformFile;
+	private int repo;
+	private List<String> content;
 	
-	public ESearchCase(String folder, String fileName){
+	
+	
+	public void setBuggy(int[] buggy) {
+		this.buggy = buggy;
+	}
+
+
+
+
+	public ESearchCase(String folder, String fileName, int repo){
+		this.repo = repo;
 		this.folder = folder;
 		this.fileName = fileName;
+		this.whitePositives = new HashMap<String, String>();
+		this.whiteNegatives = new HashMap<String, String>();
+		this.blackPositives = new HashMap<String, String>();
+		this.blackNegatives = new HashMap<String, String>();
 		this.positives = new HashMap<String, String>();
 		this.negatives = new HashMap<String, String>();
+		this.verifications = new HashMap<String, String>();
 		this.buggy = new int[2];
 		this.casePrefix = this.folder + "/" + fileName.substring(0, fileName.lastIndexOf("."));
 		this.info = new CaseInfo();
 		this.bracket = false;
 		this.hasPrintf = false;
+		this.suspiciousness = new HashMap<Integer, Double>();
+		this.runDir = this.folder + "/temp";
+		this.content = new ArrayList<String>();
 	}
 	
-
 	
+	
+	public int getRepo() {
+		return repo;
+	}
+
+	public void setRepo(int repo) {
+		this.repo = repo;
+	}
+
+
+	protected void initContent() {
+		try{
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.folder + "/" + this.transformFile)));
+			String s = null;
+			while((s = br.readLine()) != null){
+				this.content.add(s.trim());
+			}
+			br.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	
+	
+	public List<String> getContent() {
+		return content;
+	}
+
+
+
+
+	public void setContent(List<String> content) {
+		this.content = content;
+	}
+
+
+
+
+	protected CaseInfo getInfo() {
+		return info;
+	}
+
+
+
+
+	protected void setInfo(CaseInfo info) {
+		this.info = info;
+	}
+
+
+
+
 	public String getFolder() {
 		return folder;
 	}
@@ -62,36 +146,92 @@ public  class ESearchCase {
 		return casePrefix;
 	}
 
-	public Map<String, String> getPositives() {
-		return positives;
-	}
-	public void setPositives(Map<String, String> positives) {
-		this.positives = positives;
-	}
-	public Map<String, String> getNegatives() {
-		return negatives;
-	}
-	public void setNegatives(Map<String, String> negatives) {
-		this.negatives = negatives;
-	}
+
 	public String getFileName() {
 		return fileName;
 	}
 	
-	public  boolean search(){
+	protected void transformAndInitRunDir(boolean transform, String typeParameter){
+		runDir = this.getFolder() + "/temp";
+		if(!new File(runDir).exists()) new File(runDir).mkdir();
+		if(!transform) {
+			this.transformFile = this.fileName;
+			Utility.copy(this.folder + "/" + this.fileName, runDir + "/" + this.getFileName());
+			return;
+		}
+		Transform trans = new Transform(this.getFolder(), this.getFileName(), typeParameter);
+		String pass = trans.tranform();
+		
+		//transform here, if there is a true transform, no need to copy
+		if(pass != null) {
+			Utility.copy(pass, runDir + "/" + this.getFileName());
+			this.transformFile = pass.substring(pass.lastIndexOf('/') + 1);
+		}
+		else{
+			this.transformFile = this.fileName;
+			Utility.copy(this.folder + "/" + this.fileName, runDir + "/" + this.getFileName());
+		}
+	}
+	
+	protected void initWbOrBB(boolean wb){
+		this.verifications.clear();
+		if(wb){
+			this.setPositives(this.whitePositives);
+			this.setNegatives(this.whiteNegatives);
+			this.verifications.putAll(this.blackNegatives);
+			this.verifications.putAll(this.blackPositives);
+			
+		}
+		else{
+			this.setPositives(this.blackPositives);
+			this.setNegatives(this.blackNegatives);
+			this.verifications.putAll(this.whiteNegatives);
+			this.verifications.putAll(this.whitePositives);
+		}
+		GcovTest test = new GcovTest(this.folder, this.transformFile, wb);
+	}
+	
+	public  void search(boolean wb){
 		initInputAndOutput();
-		if(this.getPositives().size() == 0) return false; 
+		
+		if(this.getPositives().size() == 0) {
+			this.info.getResult().setState(ResultState.NOPOSITIVE);
+			return;
+		}
+		if(this.negatives.size() == 0){
+			this.info.getResult().setState(ResultState.CORRECT);
+			return;
+		}
 		getBugLines();
-		if(this.buggy[0] == 0) return false;
-		if(this.hasPrintf) return false;
-		return true;
-//		initPositiveStates();
-//		if(this.info.getPositives().isEmpty()) return false;
-//		searchOverRepository();
-//		ruleOutFalsePositive();
-//		recordResult();
-//		if(isEmpty(info.getResult())) return false;
-//		return true;
+		if(this.buggy[0] == 0) {
+			this.info.getResult().setState(ResultState.FAILED);
+			return;
+		}
+		if(this.hasPrintf) {
+			this.info.getResult().setState(ResultState.FAILED);
+			return;
+		}
+		initPositiveStates();
+		if(this.info.getPositives().isEmpty()) {
+			this.info.getResult().setState(ResultState.FAILED);
+			return;
+		}
+		searchOverRepository();
+		ruleOutFalsePositive();		
+		if(isEmpty(info.getResult())) {
+			this.info.getResult().setState(ResultState.FAILED);
+			return;
+		}
+		else{
+			if(!info.getResult().getPositive().isEmpty())
+			{
+				this.info.getResult().setState(ResultState.SUCCESS);
+			}
+			else{
+				this.info.getResult().setState(ResultState.PARTIAL);
+			}
+		}
+		
 	}
 	
 	
@@ -109,19 +249,29 @@ public  class ESearchCase {
 
 
 
-	private boolean isEmpty(ResultObject result) {
-		return result.getPositive().isEmpty();
+	protected boolean isEmpty(ResultObject result) {
+		return result.getPositive().isEmpty() && result.getPartial().isEmpty();
 	}
 
 
 
-	private void recordResult() {
-		File dir = new File(this.folder + "/result");
-		if(dir.exists()){
-			dir.delete();
+	public void recordResult(boolean wb) {
+		String filec;
+		int type = repo;
+		if(repo == 3 || repo == 4){
+			type = 2;
 		}
-		dir.mkdir();
-		recordLog(this.folder + "/result/log");
+		if(wb){
+			filec="searchfix-wb" + type;
+		}
+		else{
+			filec="searchfix-bb" + type;
+		}
+		File dir = new File(this.folder + "/repair");
+		if(!dir.exists()){
+			dir.mkdir();
+		}
+		recordLog(this.folder + "/repair/" + filec);
 		
 		
 	}
@@ -133,101 +283,129 @@ public  class ESearchCase {
 		try {
 			new File(path).createNewFile();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
+			
 			e1.printStackTrace();
 		}
 		try{
 			PrintWriter pw = new PrintWriter(new FileOutputStream(path));
-			pw.println("True fix:" + info.getResult().getPositive().size());
-			int count = 0;
-			for(String source : info.getResult().getPositive()){
-				pw.println();
-				pw.println();
-				pw.println("True fix " + ++count);
-				pw.println("From: ");
-				pw.println(source);
-				pw.println("To: ");
-				pw.print(info.getResult().getMappingSource().get(source));
+			if(info.getResult().getState() == ResultState.FAILED){
+				pw.println("failed");
 			}
-			
-			
-			
-			pw.println("Partial fix:" + info.getResult().getPartial().keySet().size());
-			count = 0;
-			for(String source : info.getResult().getPartial().keySet()){
-				
-				pw.println();
-				pw.println();
-				pw.println("Partial fix " + ++count);
-				pw.println("success: " + info.getResult().getPartial().get(source));
-				pw.println("From: ");
-				pw.println(source);
-				pw.println("To: ");
-				pw.print(info.getResult().getMappingSource().get(source));
+			else if(info.getResult().getState() == ResultState.CORRECT){
+				pw.println("correct");
 			}
-			
-			pw.println("Not a fix:" + info.getResult().getFalsePositve().size());
-			count = 0;
-			for(String source : info.getResult().getFalsePositve()){
+			else if(info.getResult().getState() == ResultState.NOPOSITIVE){
+				pw.println("no positive");
+			}
+			else{
+				if(!info.getResult().getPositive().isEmpty())
+					pw.print("success");
 				
+				if(!info.getResult().getPartial().isEmpty()){
+					pw.print(" partial");
+				}
 				pw.println();
-				pw.println();
-				pw.println("Not a fix " + ++count);
-				pw.println(source);
+				pw.println("extra pass:" + info.getResult().getBigExtra());
+				pw.println("True fix:" + info.getResult().getPositive().size());
+				int count = 0;
+				for(String source : info.getResult().getPositive()){
+					pw.println();
+					pw.println();
+					pw.println("True fix " + ++count);
+					pw.println("From: ");
+					pw.println(source);
+					pw.println("To: ");
+					pw.print(info.getResult().getMappingSource().get(source));
+				}
+				
+				
+				
+				pw.println("Partial fix:" + info.getResult().getPartial().keySet().size());
+				count = 0;
+				for(String source : info.getResult().getPartial().keySet()){
+					
+					pw.println();
+					pw.println();
+					pw.println("Partial fix " + ++count);
+					pw.println("success: " + info.getResult().getPartial().get(source));
+					pw.println("From: ");
+					pw.println(source);
+					pw.println("To: ");
+					pw.print(info.getResult().getMappingSource().get(source));
+				}
+				
+				pw.println("Not a fix:" + info.getResult().getFalsePositve().size());
+				count = 0;
+				for(String source : info.getResult().getFalsePositve()){
+					
+					pw.println();
+					pw.println();
+					pw.println("Not a fix " + ++count);
+					pw.println(source);
+				}
+				
 			}
 			pw.close();
 			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
-		
-		
+				
 		
 	}
 
 
 
 	private void ruleOutFalsePositive() {
-		for(String source : info.getResult().getSource()){
-			String input =Restore.getMappingString(source, info.getResult().getSearchMapping().get(source));
-			System.out.println(input);
-			String outputFile = generateOutputFile(input);
-			testAllResults(source, outputFile);
-			info.getResult().getMappingSource().put(source, input);
+		for(String source : info.getResult().getSearchMapping().keySet()){
+			for(Map<String, String> map : info.getResult().getSearchMapping().get(source)){
+				String input = Restore.getMappingString(source, map);
+				String outputFile = generateOutputFile(input);
+				if(testAllResults(source, outputFile)){
+					info.getResult().getMappingSource().put(source, input);
+					break;
+				}
+				else continue;
+			}
 		}
 		
 	}
 	
-	public void test(){
-		String outputFile = this.casePrefix + "new.c";
+	public boolean test(){
+		this.initWbOrBB(false);
+		this.initInputAndOutput();
+		String outputFile = this.casePrefix + ".c";
 		boolean pass = passAllPositive("result", outputFile);
+		//if(!pass) return false;
 		int count = passNegatives("result", outputFile);
-		System.out.println(count);
+		if(count == this.negatives.keySet().size()) return true;
+		return false;
 	}
 
-	
-	private void testAllResults(String source, String outputFile) {
+	private boolean testAllResults(String source, String outputFile) {
 		boolean pass = passAllPositive(source, outputFile);
-		if(!pass) return;
+		if(!pass) return false;
 		int count = passNegatives(source, outputFile);
 		if(count == this.getNegatives().size()) {
 			info.getResult().getPositive().add(source);
-			return;
+			return true;
 		}
 		else if(count == 0){
 			info.getResult().getFalsePositve().add(source);
+			return false;
 		}
-		else info.getResult().getPartial().put(source, count * 1.0 / this.getNegatives().size());
+		else {
+			info.getResult().getPartial().put(source, count * 1.0 / this.getNegatives().size());
+			return true;
+		}
 	}
-
 
 
 	private int passNegatives(String source, String outputFile) {
 		File file = new File( this.casePrefix);
 		if(file.exists()) file.delete();
 		String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
-		CTest.runCProgram(command1);
+		Utility.runCProgram(command1);
 		if(!new File(this.casePrefix).exists()){
 			return 0;
 		}
@@ -237,11 +415,12 @@ public  class ESearchCase {
 			
 			String command2 = "./" + this.casePrefix;
 			
-			String s2 = runCProgramWithInput(command2, input);
+			String s2 = Utility.runCProgramWithInput(command2, input);
 			
 			if(s2.isEmpty() ){
 				continue;
 			}
+			System.out.println(input);
 			System.out.println(s2);
 			System.out.println(output);
 			System.out.println(output.equals(s2));
@@ -256,7 +435,7 @@ public  class ESearchCase {
 		File file = new File( this.casePrefix);
 		if(file.exists()) file.delete();
 		String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
-		CTest.runCProgram(command1);
+		Utility.runCProgram(command1);
 		if(!new File(this.casePrefix).exists()){
 			return false;
 		}
@@ -265,11 +444,14 @@ public  class ESearchCase {
 			
 			String command2 = "./" + this.casePrefix;
 			
-			String s2 = runCProgramWithInput(command2, input);
+			String s2 = Utility.runCProgramWithInput(command2, input);
 			
 			if(s2.isEmpty() ){
 				return false;
 			}
+			System.out.println(input);
+			System.out.println(output);
+			System.out.println(s2);
 			if(!s2.equals(output)) return false;
 		}
 		return true;
@@ -277,56 +459,7 @@ public  class ESearchCase {
 
 
 
-	private String runCProgramWithInput(String command2, String input) {
-		String out = "";
-		String ls_str;
-		StringBuffer sb = new StringBuffer();
-		try {
-			Process ls_proc = Runtime.getRuntime().exec(command2);
-			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(ls_proc.getOutputStream()));
-			writer.write(input);
-			writer.flush();
 
-			BufferedReader ls_in = new BufferedReader(new InputStreamReader(
-					ls_proc.getInputStream()));
-			BufferedReader ls_err = new BufferedReader(new InputStreamReader(
-					ls_proc.getErrorStream()));
-
-			long now = System.currentTimeMillis();
-			long timeoutInMillis = 100L * 10; // timeout in seconds
-			long finish = now + timeoutInMillis;
-
-			try {
-				while (CTest.isAlive(ls_proc)
-						&& (System.currentTimeMillis() < finish)) {
-					Thread.sleep(10);
-				}
-				while ((ls_str = ls_in.readLine()) != null) {
-					sb.append(ls_str);
-					sb.append("\n");
-					// System.out.println(ls_str);
-				}
-//				while((ls_str = ls_err.readLine()) != null){
-//					System.out.println(ls_str);
-//					sb.append(ls_str);
-//				}
-				if (CTest.isAlive(ls_proc)) {
-					ls_proc.destroy();
-				//sb.append("unknown - killed");
-				}
-			} catch (IOException e) {
-				out = "";
-				// System.exit(0);
-			} catch (Exception e) {
-				out = "";
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			out= "";
-		}
-		out = sb.toString();
-		return out;
-	}
 
 
 
@@ -368,9 +501,9 @@ public  class ESearchCase {
 	}
 
 
-	private void searchOverRepository() {
+	protected void searchOverRepository() {
 		try {
-			PrototypeSearch.search(info);
+			PrototypeSearch.search(info, repo);
 			
 		} catch (SQLException e) {
 			
@@ -382,19 +515,20 @@ public  class ESearchCase {
 		
 	}
 
-	private void initPositiveStates() {
+	protected void initPositiveStates() {
 		GetInputStateAndOutputState instan = new GetInputStateAndOutputState(this.getFolder(), this.getFileName(), this.getBuggy(), this.getPositives().keySet());
 		info.setPositives(instan.getStates());;
 	}
 	/**
 	 * if no bug, the buggy lines will be 0-0
 	 */
-	protected void getBugLines() {
-		BugLineSearcher bug = new BugLineSearcher(this.getFolder(), this.getFileName());
+	protected int[] getBugLines() {
+		BugLineSearcher bug = new BugLineSearcher(this.getFolder(), this.transformFile);
 		this.getBuggy()[0] = bug.getBuggy()[0];
 		this.getBuggy()[1] = bug.getBuggy()[1];
-		this.bracket = bug.isAddBracket();
-		this.hasPrintf = bug.getHasPrintf();
+//		this.bracket = bug.isAddBracket();
+//		this.hasPrintf = bug.getHasPrintf();
+		return bug.getBuggy();
 	}
 
 
@@ -410,9 +544,8 @@ public  class ESearchCase {
 	private void initNegativeInputAndOutput() {
 		String root1 = this.getFolder() + "/blackbox/negative";
 		String root2 = this.getFolder() + "/whitebox/negative";
-		Map<String, String> map = this.getNegatives();
-		addToInputOutputMap(root1, map);
-		addToInputOutputMap(root2, map);
+		addToInputOutputMap(root1, this.blackNegatives);
+		addToInputOutputMap(root2, this.whiteNegatives);
 		
 	}
 
@@ -421,9 +554,8 @@ public  class ESearchCase {
 	private void initPositveInputAndOutput() {
 		String root1 = this.getFolder() + "/blackbox/positive";
 		String root2 = this.getFolder() + "/whitebox/positive";
-		Map<String, String> map = this.getPositives();
-		addToInputOutputMap(root1, map);
-		addToInputOutputMap(root2, map);
+		addToInputOutputMap(root1, this.blackPositives);
+		addToInputOutputMap(root2, this.whitePositives);
 	}
 
 
@@ -443,10 +575,156 @@ public  class ESearchCase {
 		}		
 	}
 	
+	protected void initSuspicious() {
+		try{
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.getFolder() + "/suspicious")));
+			String s = null;
+			while((s = br.readLine()) != null){
+				String[] info = s.split(" ");
+				this.suspiciousness.put(Integer.parseInt(info[0]), Double.parseDouble(info[1]));
+			}
+			br.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	protected Map<Integer, Double> getSuspiciousness() {
+		return suspiciousness;
+	}
+
+
+
+
+	protected void setSuspiciousness(Map<Integer, Double> suspiciousness) {
+		this.suspiciousness = suspiciousness;
+	}
+
+
+
+	
+	
+	
+	public Map<String, String> getBlackPositives() {
+		return blackPositives;
+	}
+
+
+
+
+	public void setBlackPositives(Map<String, String> blackPositives) {
+		this.blackPositives = blackPositives;
+	}
+
+
+
+
+	public Map<String, String> getBlackNegatives() {
+		return blackNegatives;
+	}
+
+
+
+
+	public void setBlackNegatives(Map<String, String> blackNegatives) {
+		this.blackNegatives = blackNegatives;
+	}
+
+
+
+
+	public Map<String, String> getWhitePositives() {
+		return whitePositives;
+	}
+
+
+
+
+	public void setWhitePositives(Map<String, String> whitePositives) {
+		this.whitePositives = whitePositives;
+	}
+
+
+
+
+	public Map<String, String> getWhiteNegatives() {
+		return whiteNegatives;
+	}
+
+
+
+
+	public void setWhiteNegatives(Map<String, String> whiteNegatives) {
+		this.whiteNegatives = whiteNegatives;
+	}
+
+	
+
+
+	public Map<String, String> getPositives() {
+		return positives;
+	}
+
+
+
+
+	public void setPositives(Map<String, String> positives) {
+		this.positives = positives;
+	}
+
+
+
+
+	public Map<String, String> getNegatives() {
+		return negatives;
+	}
+
+
+
+
+	public void setNegatives(Map<String, String> negatives) {
+		this.negatives = negatives;
+	}
+
+	
+
+
+	public Map<String, String> getVerifications() {
+		return verifications;
+	}
+
+
+
+
+	public void setVerifications(Map<String, String> verifications) {
+		this.verifications = verifications;
+	}
+
+
+	
+
+
+	public String getRunDir() {
+		return runDir;
+	}
+
+
+
+
+	public void setRunDir(String runDir) {
+		this.runDir = runDir;
+	}
+
+
+
+
 	public static void main(String[] args) {
-		ESearchCase instan = new ESearchCase("./bughunt/grade/0", "grade.c");
-		instan.search();
-		//instan.test();
+		ESearchCase instan = new ESearchCase("./bughunt/smallest/43", "smallest.c", 2);
+		//instan.search();
+		//instan.recordResult();
+		System.out.println(instan.test());
 	}
 
 }

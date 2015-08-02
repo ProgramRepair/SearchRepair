@@ -1,2 +1,0 @@
-int test(int true, int el_ret, int ELEVATOR_FRONT_MERGE){
-if ( el_ret  ==  ELEVATOR_FRONT_MERGE     )     { if ( bio_attempt_front_merge ( q       , rq       , bio       )       )     {  ctx - >  rq_merged ++   ;  return true       ;  }       break ;  }    }

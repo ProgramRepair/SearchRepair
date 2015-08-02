@@ -1,2 +1,0 @@
-int test(int rq, int tx, int bio, int false, int hctx){
-if ( ctx_allow_merges ( hctx       )       )     { blk_mq_bio_to_request ( rq       , bio       )    ;  spin_lock ( tx    -  >       lock )    ;   insert_rq  __blk_mq_insert_request ( hctx       , rq       , false       )    ;  spin_unlock ( tx    -  >       lock )    ;  return false       ;  }    }

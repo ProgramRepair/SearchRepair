@@ -1,4 +1,4 @@
-// Generated from Path.g4 by ANTLR 4.2.2
+// Generated from Path.g4 by ANTLR 4.4
 package antlr.preprocess;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -11,6 +11,8 @@ import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class PathLexer extends Lexer {
+	static { RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION); }
+
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
@@ -25,12 +27,12 @@ public class PathLexer extends Lexer {
 	};
 
 	public static final String[] tokenNames = {
-		"<INVALID>",
-		"'!'", "'&'", "'return'", "';'", "','", "'int'", "'char'", "'float'", 
-		"'double'", "'='", "INT", "FLOAT", "ID", "'||'", "'&&'", "'('", "')'", 
-		"'+'", "'-'", "'*'", "'/'", "'%'", "'++'", "'--'", "'+='", "'-='", "'%='", 
-		"'*='", "'/='", "'<'", "'<='", "'>'", "'>='", "'=='", "'!='", "WS", "CharacterLiteral", 
-		"StringLiteral"
+		"'\\u0000'", "'\\u0001'", "'\\u0002'", "'\\u0003'", "'\\u0004'", "'\\u0005'", 
+		"'\\u0006'", "'\\u0007'", "'\b'", "'\t'", "'\n'", "'\\u000B'", "'\f'", 
+		"'\r'", "'\\u000E'", "'\\u000F'", "'\\u0010'", "'\\u0011'", "'\\u0012'", 
+		"'\\u0013'", "'\\u0014'", "'\\u0015'", "'\\u0016'", "'\\u0017'", "'\\u0018'", 
+		"'\\u0019'", "'\\u001A'", "'\\u001B'", "'\\u001C'", "'\\u001D'", "'\\u001E'", 
+		"'\\u001F'", "' '", "'!'", "'\"'", "'#'", "'$'", "'%'", "'&'"
 	};
 	public static final String[] ruleNames = {
 		"T__4", "T__3", "T__2", "T__1", "T__0", "Int", "Char", "Float", "Double", 
@@ -100,9 +102,9 @@ public class PathLexer extends Lexer {
 		"\3\2\2\2\63\u00ae\3\2\2\2\65\u00b1\3\2\2\2\67\u00b4\3\2\2\29\u00b7\3\2"+
 		"\2\2;\u00ba\3\2\2\2=\u00bd\3\2\2\2?\u00bf\3\2\2\2A\u00c2\3\2\2\2C\u00c4"+
 		"\3\2\2\2E\u00c7\3\2\2\2G\u00ca\3\2\2\2I\u00ce\3\2\2\2K\u00d4\3\2\2\2M"+
-		"\u00d8\3\2\2\2O\u00df\3\2\2\2Q\u00e5\3\2\2\2S\u00e7\3\2\2\2UV\7#\2\2V"+
-		"\4\3\2\2\2WX\7(\2\2X\6\3\2\2\2YZ\7t\2\2Z[\7g\2\2[\\\7v\2\2\\]\7w\2\2]"+
-		"^\7t\2\2^_\7p\2\2_\b\3\2\2\2`a\7=\2\2a\n\3\2\2\2bc\7.\2\2c\f\3\2\2\2d"+
+		"\u00d8\3\2\2\2O\u00df\3\2\2\2Q\u00e5\3\2\2\2S\u00e7\3\2\2\2UV\7(\2\2V"+
+		"\4\3\2\2\2WX\7.\2\2X\6\3\2\2\2YZ\7t\2\2Z[\7g\2\2[\\\7v\2\2\\]\7w\2\2]"+
+		"^\7t\2\2^_\7p\2\2_\b\3\2\2\2`a\7=\2\2a\n\3\2\2\2bc\7#\2\2c\f\3\2\2\2d"+
 		"e\7k\2\2ef\7p\2\2fg\7v\2\2g\16\3\2\2\2hi\7e\2\2ij\7j\2\2jk\7c\2\2kl\7"+
 		"t\2\2l\20\3\2\2\2mn\7h\2\2no\7n\2\2op\7q\2\2pq\7c\2\2qr\7v\2\2r\22\3\2"+
 		"\2\2st\7f\2\2tu\7q\2\2uv\7w\2\2vw\7d\2\2wx\7n\2\2xy\7g\2\2y\24\3\2\2\2"+

@@ -1,2 +1,0 @@
-void test(int fqq, int _cfqq){
-if ( _cfqq     )     { rb_link_node ( fqq    -  >          <missing ';'>   p_node ,   parent ,   p ) ;  rb_insert_color ( fqq    -  >          <missing ';'>   p_node ,   cfqq - >   p_root ) ;  }    }

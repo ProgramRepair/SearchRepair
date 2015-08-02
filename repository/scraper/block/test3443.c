@@ -1,2 +1,0 @@
-int test(int ret, int dev, int KERN_ERR){
-if ( ret     )     { printk ( KERN_ERR   "%s: bsg interface failed to " "initialize - register queue\n"     , dev    -  >          <missing ';'>   kobj  name ) ;  return ret       ;  }    }

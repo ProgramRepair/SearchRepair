@@ -1,2 +1,0 @@
-void test(int from_schedule, int tx_list, int this_ctx, int this_q, int depth){
-if ( this_ctx     )     { blk_mq_insert_requests ( this_q       , this_ctx       , tx_list       , depth       , from_schedule       )    ;  }    }

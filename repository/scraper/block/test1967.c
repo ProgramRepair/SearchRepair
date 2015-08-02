@@ -1,2 +1,0 @@
-int test(int missing){
-if ( unlikely ( tag       <missing ')'>    >=  bm   - >   depth )  )    { if ( org_last_tag   && last_tag   && owrap     )     { last_tag = org_last_tag   = 0      ;   continue ;  }      return -1       ;  }    }

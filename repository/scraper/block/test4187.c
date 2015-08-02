@@ -1,2 +1,0 @@
-void test(int cfqq, int req, int type, int ELEVATOR_FRONT_MERGE){
-if ( type  ==  ELEVATOR_FRONT_MERGE     )     {  struct  cfq_queue *  cfqq = RQ_CFQQ ( req       )          ;  cfq_reposition_rq_rb ( cfqq       , req       )    ;  }    }

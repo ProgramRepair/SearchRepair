@@ -1,2 +1,0 @@
-void test(int new_cfqq, int cfqq, int fqq, int fqd, int NULL){
-if ( fqq    || cfqq  ==  fqd   - >    oom_cfqq )     { cfqq = NULL        ;  if ( new_cfqq     )     { cfqq = new_cfqq        ;  new_cfqq = NULL        ;  }      <missing '}'>    }

@@ -1,2 +1,0 @@
-void test(int io_orig, int missing, int BIO_EOPNOTSUPP){
-if ( test_bit ( BIO_EOPNOTSUPP       , io    -        <missing ')'>    >  bi_flags     )  )    set_bit ( BIO_EOPNOTSUPP       , io_orig    -  >       bi_flags )    ;    }

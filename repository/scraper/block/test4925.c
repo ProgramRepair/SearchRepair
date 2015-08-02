@@ -1,2 +1,0 @@
-void test(int starved, int data_dir, int WRITE, int writes){
-if ( writes     )     {  dispatch_writes  BUG_ON ( RB_EMPTY_ROOT ( d    -  >               sort_list [    <missing ';'>   WRITE ] ) ) ;   dd - >  starved = 0        ;  data_dir = WRITE        ;   goto  dispatch_find_request ;  }    }

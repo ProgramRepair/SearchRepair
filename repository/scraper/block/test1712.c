@@ -1,2 +1,0 @@
-void test(int req, int part){
-if ( blk_do_io_stat ( req       )       )     {  struct  hd_struct *   part ;  int  cpu  ;  cpu = part_stat_lock ( )          ;  part = req    -  >        part ;  part_round_stats ( cpu       , part       )    ;  part_dec_in_flight ( part       , rq_data_dir ( req       )         )    ;  hd_struct_put ( part       )    ;  part_stat_unlock ( )    ;  }    }

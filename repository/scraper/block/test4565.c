@@ -1,2 +1,0 @@
-int test(int cfqq, int current, int pid){
-if ( cfqq_process_refs ( cfqq       )    ==  1     )     {  cfqq - >  pid = current    -  >        pid ;  cfq_clear_cfqq_coop ( cfqq       )    ;  cfq_clear_cfqq_split_coop ( cfqq       )    ;  return cfqq       ;  }    }

@@ -1,2 +1,0 @@
-void test(int rq_pool){
-rq_pool = mempool_create_node ( BLKDEV_MIN_RQ       , mempool_alloc_slab       , mempool_free_slab       , request_cachep       , gfp_mask       , q    -  >       node )         ;}

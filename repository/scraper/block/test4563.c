@@ -1,2 +1,0 @@
-void test(int fqq, int cfqq){
-if ( cfqq     )     {  const  int  rw = rq_data_dir ( rq       )          ;  BUG_ON ( fqq    -  >          <missing ';'>   allocated [   rw ] ) ;   cfqq - >   allocated [   rw ] -- ;  cfqg_put ( RQ_CFQG ( rq       )         )    ;   rq - >   elv  priv [ 0 ] =   NULL ;   rq - >   elv  priv [ 1 ] =   NULL ;  cfq_put_queue ( cfqq       )    ;  }    }

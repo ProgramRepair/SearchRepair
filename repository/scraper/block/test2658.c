@@ -1,2 +1,0 @@
-void test(int KERN_INFO, int mask, int PAGE_CACHE_SIZE, int __func__){
-if ( mask  <  PAGE_CACHE_SIZE   - 1   )     { mask = PAGE_CACHE_SIZE    -  1         ;  printk ( KERN_INFO   "%s: set to minimum %lx\n"     , __func__       , mask       )    ;  }    }

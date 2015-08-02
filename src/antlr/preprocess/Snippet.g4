@@ -79,7 +79,11 @@ assign_expression
 	: arith_expression
 	| StringLiteral
 	| CharacterLiteral
+	| convertExpr
 	;
+	
+convertExpr: '(' type ')' assign_expression;
+
 
 arithmAssignOperator : ADDSELF | DEDUCTSELF | MODSELF | MULTISELF | DIVIDESELF;	
 
@@ -97,7 +101,9 @@ expr : atom | LPAREN add_expression RPAREN;
 addOperator : ADDCTIVE | DEDUCTIVE;
 multiOperator : MULTIPLY | DIVIDE | MOD;
 
-atom : ID | INT | FLOAT | CharacterLiteral | callExpr;
+atom : ID | INT | FLOAT | CharacterLiteral | callExpr | arrayExpr;
+arrayExpr: ID'['(ID|INT)']';
+
 operator : LT | GT | EQ | NEQ | LE | GE;
 
 

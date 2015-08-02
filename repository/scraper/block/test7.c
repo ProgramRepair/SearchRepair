@@ -1,2 +1,0 @@
-void test(int inline_vecs, int bip_max_vcnt, int bip_vec, int nr_vecs, int ip){
-if ( nr_vecs  >  inline_vecs     )     {  bip - >  bip_vec = bvec_alloc ( gfp_mask       , nr_vecs       , dx       , bs    -  >       bvec_integrity_pool )          ;  if ( ip   - >   bip_vec )          goto  err ;   bip - >  bip_max_vcnt = bvec_nr_vecs ( idx       )          ;  }    }

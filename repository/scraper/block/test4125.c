@@ -1,2 +1,0 @@
-int test(int missing, int new_cfqq, int fqq, int cfqq, int service_tree, int rb_key, int NULL){
-if ( B_EMPTY_NODE ( fqq    -        <missing ')'>    >  rb_node     )  )    { new_cfqq = 0        ;  if ( rb_key  ==  cfqq   - >   <missing ')'>          rb_key &&   cfqq - >   service_tree ==   st )  return      ;  cfq_rb_erase ( fqq    -  >          <missing ';'>   rb_node ,   cfqq - >   service_tree ) ;   cfqq - >  service_tree = NULL        ;  }    }

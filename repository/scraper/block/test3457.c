@@ -1,2 +1,0 @@
-void test(int d, int bc){
-if ( unlikely ( c       )       )     { spin_lock_irq ( d    -  >       lock )    ;   bd - >  queued_cmds --   ;  bc = ERR_PTR ( <missing ')'>      -  ENOMEM   )       ;   goto  out ;  }    }

@@ -1,2 +1,0 @@
-void test(int rq, int missing, int q){
-if ( test_and_clear_bit ( REQ_ATOM_STARTED       , q    -        <missing ')'>    >  atomic_flags     )  )    { if ( q   - >   <missing ')'>          dma_drain_size &&  blk_rq_bytes ( rq       )    )   rq - >  nr_phys_segments --   ;  }    }

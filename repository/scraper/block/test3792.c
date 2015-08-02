@@ -1,2 +1,0 @@
-void test(int missing, int now, int stats, int tats){
-if ( cfqg_stats_idling ( stats       )       )     {  unsigned  long  long  now = sched_clock ( )          ;  if ( time_after64 ( now       , stats    -        <missing ')'>    >  start_idle_time     )  )    blkg_stat_add ( tats    -  >          <missing ';'>       idle_time ,   now -   stats - >   start_idle_time ) ;  cfqg_stats_clear_idling ( stats       )    ;  }    }

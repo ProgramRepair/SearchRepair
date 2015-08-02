@@ -1,2 +1,0 @@
-void test(int missing, int oc, int true, int system_power_efficient_wq, int free_ioc){
-if ( atomic_long_dec_and_test ( oc    -        <missing ')'>    >  refcount     )  )    { spin_lock_irqsave ( oc    -  >          <missing ';'>   lock ,   flags ) ;  if ( list_empty ( oc    -        <missing ')'>    >  icq_list     )  )    queue_work ( system_power_efficient_wq       , oc    -  >       release_work )    ;    else free_ioc = true        ;      spin_unlock_irqrestore ( oc    -  >          <missing ';'>   lock ,   flags ) ;  }    }

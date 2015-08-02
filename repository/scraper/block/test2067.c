@@ -1,2 +1,0 @@
-void test(int rq, int hwq, int q, int hctx){
-if ( q   - >   mq_ops )     { hctx = q    -  >        <missing ';'>   mq_ops - >  map_queue ( q       , rq    -  >          <missing ';'>   mq_ctx - >   cpu ) ;  hwq = hctx    -  >        queue_num ;  }    }

@@ -1,2 +1,0 @@
-void test(int next, int data){
-if ( data   next_set   )     {  data  next = blk_rq_timeout ( round_jiffies_up ( data   next     )         )          ;  mod_timer ( - >    <missing ';'>   timeout ,   data  next ) ;  }    }

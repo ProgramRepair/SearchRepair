@@ -1,2 +1,0 @@
-void test(int missing, int tag_map, int tag_index, int NULL, int bqt){
-if ( atomic_dec_and_test ( qt    -        <missing ')'>    >  refcnt     )  )    { BUG_ON ( find_first_bit ( bqt    -  >               tag_map ,    <missing ';'>   bqt - >   max_depth ) <   bqt - >   max_depth ) ;  kfree ( bqt    -  >       tag_index )    ;   bqt - >  tag_index = NULL        ;  kfree ( bqt    -  >       tag_map )    ;   bqt - >  tag_map = NULL        ;  kfree ( bqt       )    ;  }    }

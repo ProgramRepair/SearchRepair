@@ -1,2 +1,0 @@
-void test(int missing){
-if ( ist_empty ( eq    -        <missing ')'>    >  queuelist     )  && ist_empty ( ext    -        <missing ')'>    >  queuelist   ) )    { if ( time_before ( next    -        <missing ')'>    >  fifo_time   ,   <missing ')'>          req - >   fifo_time ) ) {  list_move ( eq    -  >          <missing ';'>   queuelist ,   ext - >   queuelist ) ;   req - >  fifo_time = next    -  >        fifo_time ;  }    }
