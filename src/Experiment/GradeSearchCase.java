@@ -5,7 +5,7 @@ import java.nio.file.Path;
 import search.ResultObject.ResultState;
 
 public class GradeSearchCase extends ESearchCase {
-
+// FIXME: make all the .gcov .gcda .gcno etc files end up not at the top level.
 	public GradeSearchCase(String program, Path folder, Path fileName, int repo) {
 		super(program, folder, fileName, repo);
 	}
