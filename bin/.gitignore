@@ -1,5 +1,7 @@
+# Ignore everything
 
+*
 
+# Except this
 
-
-/scraper
+!.gitignore
