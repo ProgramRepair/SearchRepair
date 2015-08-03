@@ -24,7 +24,9 @@ public class CheckSumSearchCase extends ESearchCase {
 			return;
 		}
 		
-		List<int[]> buggylines = getMultipleBugLines();
+
+		List<int[]> buggylines = getMultipleBuggyLines();
+
 		for(int[] range : buggylines){
 			SearchCase instan = new SearchCase(this.getProgram(), this.getRunDir(), this.getRepo());
 			instan.setBuggy(range);
@@ -38,35 +40,6 @@ public class CheckSumSearchCase extends ESearchCase {
 		}
 	}
 
-	protected List<int[]> getMultipleBugLines() {
-		List<int[]> list = new ArrayList<int[]>();
-		initSuspicious();
-		double average = getAverage();
-		for(int i = 10; i <= this.getSuspiciousness().keySet().size(); i++){
-			if(this.getSuspiciousness().get(i) >= average){
-				list.add(new int[]{i, i});
-			}
-		}
-	
-		int index = 10;
-		while(index < this.getSuspiciousness().keySet().size()){
-			if(this.getSuspiciousness().get(index) >= average){
-				int right = index + 1;
-				while(right <= this.getSuspiciousness().keySet().size()) {
-					if(this.getSuspiciousness().get(right) >= average) break;
-					right++;
-				}
-				if(right != this.getSuspiciousness().keySet().size()) {
-					list.add(new int[] {index, right});
-				}
-			}
-			index++;
-		}
-		
-		return list;
-		
-	}
-	
 	private double getAverage() {
 		int denominator = 0;
 		double numerator = 0;
@@ -78,10 +51,34 @@ public class CheckSumSearchCase extends ESearchCase {
 		}
 		if(denominator == 0) return 1;
 		else return numerator / denominator;
+		
+	}
+	
+	protected List<int[]> getMultipleBuggyLines(){
+		List<int[]> list = new ArrayList<int[]>();
+		initSuspicious();
+		this.initContent();
+		double average = getAverage();
+		int index = 12;
+		while(index < this.getSuspiciousness().keySet().size()){
+			if(this.getSuspiciousness().get(index) >= average){
+				list.add(new int[]{index,index});
+				int right = index + 1;
+				while(right <= this.getSuspiciousness().keySet().size() && right - index < 6) {
+					if(this.getSuspiciousness().get(right) >= average) {
+						list.add(new int[] {index, right});
+					}
+					right++;
+				}
+			}
+			index++;
+		}
+				
+		return list;
 	}
 
 //	public static void main(String[] args){
-//		CheckSumSearchCase instan = new CheckSumSearchCase("./bughunt/checksum/8", "checksum.c", 2);
+//		CheckSumSearchCase instan = new CheckSumSearchCase("./bughunt/checksum/6", "checksum.c", 5);
 //		instan.transformAndInitRunDir(false, "");
 //		instan.initInputAndOutput();
 //		instan.search(true);
@@ -89,6 +86,7 @@ public class CheckSumSearchCase extends ESearchCase {
 //		instan.search(false);
 //		instan.recordResult(false);
 //	}
+
 	
 
 }

@@ -43,6 +43,7 @@ public class SyllableSearchCase extends ESearchCase{
 				break;
 			}
 			else{
+				if(!wb)continue;
 				instan.searchJustOnMap();
 				if(instan.getInfo().getResult().getState() == ResultState.SUCCESS){
 					this.setInfo(instan.getInfo());				
@@ -52,23 +53,44 @@ public class SyllableSearchCase extends ESearchCase{
 		}
 	}
 
-// why is this different between the search cases?  I feel like it should all be the same...	
+
+	private double getAverage() {
+		int denomerator = 0;
+		double numerator = 0;
+		for(int i = 1; i <= this.getSuspiciousness().keySet().size(); i++){
+				denomerator++;
+				numerator += this.getSuspiciousness().get(i);
+		}
+		if(denomerator == 0) return 1;
+		else return numerator / denomerator;
+	}
+	
+//why is this different between the search cases?  I feel like it should all be the same...	
+
 	protected List<int[]> getMultipleBuggyLines(){
 		List<int[]> list = new ArrayList<int[]>();
 		initSuspicious();
 		this.initContent();
-		for(int i = 12; i <= this.getSuspiciousness().keySet().size(); i++){
-			for(int j = 0; j <= 5 && i + j <= this.getSuspiciousness().keySet().size(); j++){
-				if(this.getContent().get(i+j-1).length() < 1) continue;
-				list.add(new int[]{i, i + j});
+		double average = getAverage();
+		int index = 12;
+		while(index < this.getSuspiciousness().keySet().size()){
+			if(this.getSuspiciousness().get(index) >= average){
+				int right = index + 1;
+				while(right <= this.getSuspiciousness().keySet().size() && right - index < 6) {
+					if(this.getSuspiciousness().get(right) >= average) {
+						list.add(new int[] {index, right});
+					}
+					right++;
+				}
 			}
+			index++;
 		}
 				
 		return list;
 	}
 	
 //	public static void main(String[] args){
-//		SyllableSearchCase instan = new SyllableSearchCase("./bughunt/syllables/37", "syllables.c", 2);
+//		SyllableSearchCase instan = new SyllableSearchCase("./bughunt/syllables/109", "syllables.c", 3);
 //		instan.transformAndInitRunDir(false, "");
 //		instan.initInputAndOutput();
 ////		instan.search(true);
@@ -76,4 +98,5 @@ public class SyllableSearchCase extends ESearchCase{
 //		instan.search(false);
 //		instan.recordResult(false);
 //	}
+
 }

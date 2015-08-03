@@ -183,8 +183,13 @@ public class GenerateStandardTestCases {
 	// FIXME: this is probably very inefficient, consider fixing when other core functionality is addressed
 	private void getOtherTechInfo(Path inputFolder, Path outputFolder) {
 		new File(outputFolder + "/repair").mkdir();
+		boolean findGP = false;
 		for (File file : inputFolder.toFile().listFiles()) {
 			String name = file.getName();
+			if(name.contains("gp") && name.contains("bb")) {
+								findGP = true;
+			}
+							
 			if (name.endsWith("log") && name.startsWith("gp")) {
 				String fileString = Utility.getStringFromFile(file
 						.getAbsolutePath());
@@ -211,12 +216,13 @@ public class GenerateStandardTestCases {
 								"success");
 					}
 				}
-			} else if (name.endsWith("log") && name.startsWith("tsp")) {
+			} else if (name.endsWith("log") && name.startsWith("trp")) {
 				String fileString = Utility.getStringFromFile(file
 						.getAbsolutePath());
 				if (fileString.contains("Repair Found")
 						|| fileString.contains("repair found")) {
 					if (name.contains("-wb-")) {
+						// FIXME: rename these.
 						Utility.writeTOFile(outputFolder + "/repair/tsp-wb",
 								"success");
 					} else if (name.contains("-bb-")) {
@@ -226,6 +232,8 @@ public class GenerateStandardTestCases {
 				}
 			}
 		}
+		if(findGP)Utility.writeTOFile(outputFolder+ "/repair/bbdefect", "bbdefect");
+
 
 	}
 

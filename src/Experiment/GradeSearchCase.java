@@ -38,7 +38,7 @@ public class GradeSearchCase extends ESearchCase {
 
 
 //	public static void main(String[] args){
-//		GradeSearchCase instan = new GradeSearchCase("./bughunt/grade/117", "grade.c", 2);
+//		GradeSearchCase instan = new GradeSearchCase("./bughunt/grade/120", "grade.c", 4);
 //		instan.transformAndInitRunDir(true, "--type grade");
 //		instan.initInputAndOutput();
 //		instan.search(true);
@@ -46,5 +46,6 @@ public class GradeSearchCase extends ESearchCase {
 //		instan.search(false);
 //		instan.recordResult(false);
 //	}
+
 
 }

@@ -19,22 +19,24 @@ public class EntryAddition {
 
 	protected static Logger logger = Logger.getLogger(EntryAddition.class);
 
+
 	private static int count = 0;
 	private static int save = 0;
 	
 	public static void addOneFile(String filePath, String table) {
+
 		File file = new File(filePath);
 		if (!file.exists())
 			return;
 		List<Method> methods = getAndParseSymExe(filePath);
 		for (Method method : methods) {
 			count++;
-
 			EntryObject object;
 			try {
 				EntryTranslator translator = new EntryTranslator(method);
 				object = translator.getEntryObject();
 			} catch (Exception e) {
+
 				System.out.println(e);
 				continue;
 			}
@@ -51,24 +53,28 @@ public class EntryAddition {
 			//						+ object.getPathVariablesTypes().get(path));
 			//				System.out.println("path:\n" + path);
 			//			}
+
 		}
 	}
 
-	public static void addOneFolder(String dirPath, String table) {
+
+
+	public static void addOneFolder(String dirPath, String table){
 		File dir = new File(dirPath);
-		if (!dir.exists())
-			return;
-		for (File file : dir.listFiles()) {
-			if (file.isDirectory()) {
+		if(!dir.exists()) return;
+		for(File file : dir.listFiles()){
+			if(file.isDirectory()){
 				addOneFolder(file.getAbsolutePath(), table);
-			} else {
+			}
+			else{
 				addOneFile(file.getAbsolutePath(), table);
 			}
-
+			
 		}
 		logger.info("Global method count attempted so far:" + count + " successes: " + save);
 
 	}
+	
 
 	// parses output from my symbolic execution engine
 
@@ -82,96 +88,112 @@ public class EntryAddition {
 
 			BufferedReader ls_in = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
+
+//			BufferedReader ls_error = new BufferedReader(new InputStreamReader(
+//					p.getErrorStream()));
+//			System.out.println(ls_error.readLine());
 			String s = null;
 			StringBuilder path = new StringBuilder();
 			StringBuilder input = new StringBuilder();
 			Method method = new Method();
 			boolean startParsing = false;
 			boolean correct = true;
-			while ((s = ls_in.readLine()) != null) {
 
+			while((s = ls_in.readLine()) != null)
+			{
+				System.out.println(s);
 				s = s.trim();
-				if (s.startsWith("Processing:")) {
-					if (method.getName() != null) {
+				if(s.startsWith("Processing:")){
+					if(method.getName() != null){
 						methods.add(method);
-						method = new Method();
+						method = new Method();						
 					}
 					method.setName(s.substring(12));
-				} else if (s.startsWith("LOCAL")) {
+				}
+				else if(s.startsWith("LOCAL")){					
 					path.append(s.substring(6, s.length() - 1));
 					path.append(";");
 					path.append("\n");
-				} else if (s.startsWith("GLOBAL")) {
+				}
+				else if(s.startsWith("GLOBAL")){
 					continue;
-					// path.append(s.substring(7, s.length() - 1));
-					// path.append("\n");
-				} else if (s.startsWith("FORMAL")) {
+//					path.append(s.substring(7, s.length() - 1));
+//					path.append("\n");
+				}
+				else if(s.startsWith("FORMAL")){
 					input.append(s.substring(7, s.length() - 1));
 					input.append("\n");
 					path.append(s.substring(7, s.length() - 1));
 					path.append(";");
 					path.append("\n");
-				} else if (s.startsWith("STMT(return")) {
+				}
+				else if(s.startsWith("STMT(return")){
 					path.append(s.substring(5, s.length() - 1));
 					path.append("\n");
-
+					
 					method.getPath().add(path.toString());
-					method.getPathToInput().put(path.toString(),
-							input.toString());
+					method.getPathToInput().put(path.toString(), input.toString());		
 					System.out.println(input.toString());
 					path = new StringBuilder();
 					input = new StringBuilder();
-					// startParsing = false;
-				} else if (s.equals("Paths:")) {
+					//startParsing = false;
+				}
+				else if(s.equals("Paths:")){
 					startParsing = true;
 					continue;
-				} else if (s.startsWith("path_enumeration")
-						|| s.startsWith("postprocess")) {
+				}
+				else if( s.startsWith("path_enumeration") || s.startsWith("postprocess")){
 					continue;
-				} else if (s.startsWith("STMT(")) {
-					if (s.endsWith(";)")) {
+				}
+				else if(s.startsWith("STMT(")){
+					if(s.endsWith(";)")){
 						path.append(s.substring(5, s.length() - 1));
 						path.append("\n");
-					} else {
+					}
+					else{
 						path.append(s.substring(5, s.length()));
 						path.append("\n");
 					}
-				} else if (s.endsWith(";)")) {
+				}
+				else if(s.endsWith(";)")){
 					path.append(s.substring(0, s.length() - 1));
 					path.append("\n");
-				} else if (s.startsWith("ASSUME(")) {
+				}
+				else if(s.startsWith("ASSUME(")){
 					path.append(s.substring(7, s.length() - 1));
 					path.append(";");
 					path.append("\n");
-				} else if (s.startsWith("Number of")) {
+				}
+				else if(s.startsWith("Number of")){
 					continue;
-				} else {
-					if (startParsing) {
+				}
+				else {
+					if(startParsing){
 						path.append(s);
 						path.append("\n");
 					}
-					if (s.contains("error")) {
+					if(s.contains("error")){
 						correct = false;
 						break;
 					}
 				}
 			}
-			if (!correct) {
+			if(!correct){
 				methods.clear();
 				return methods;
 			}
-			if (method.getName() != null) {
+			if(method.getName() != null)
+			{
 				methods.add(method);
 			}
-
+			
 			ls_in.close();
 		} catch (IOException e) {
-
+			
 			e.printStackTrace();
 			return methods;
 		}
-		if (methods.isEmpty())
-			return methods;
+		if(methods.isEmpty()) return methods;
 		String fileString = Utility.getStringFromFile(fileName);
 		List<String> sources = new ArrayList<String>();
 		List<String> types = new ArrayList<String>();
@@ -180,54 +202,52 @@ public class EntryAddition {
 		Stack<Character> stack = new Stack<Character>();
 		Stack<Integer> typeStack = new Stack<Integer>();
 		Stack<Integer> index = new Stack<Integer>();
-		for (int i = 0; i < fileString.length(); i++) {
+		for(int i = 0; i < fileString.length(); i++)
+		{
 			char c = fileString.charAt(i);
-			if (c == '{') {
-				if (stack.isEmpty()) {
+			if(c == '{'){
+				if(stack.isEmpty()){
 					int g = typeStack.isEmpty() ? 0 : typeStack.pop() + 1;
 					String declare = fileString.substring(g, i);
 					types.add(getType(declare));
 				}
 				index.push(i);
 				stack.add(c);
-				if (!typeStack.isEmpty())
-					typeStack.pop();
-
-			} else if (c == '}') {
+				if(!typeStack.isEmpty())typeStack.pop();
+				
+			}
+			else if(c == '}'){
 				stack.pop();
 				typeStack.push(i);
 				int temp = index.pop();
-				if (stack.isEmpty()) {
+				if(stack.isEmpty()){
 					start = temp;
 					end = i;
-					String body = fileString.substring(start + 1, end);
+					String body = fileString.substring(start+1, end);
 					sources.add(body);
-				}
+				}				
 			}
 		}
-
-		for (int i = 0; i < methods.size(); i++) {
+		
+		for(int i = 0; i < methods.size(); i++){
 			methods.get(i).setSource(sources.get(i));
 			methods.get(i).setReturnType(types.get(i));
 		}
 		return methods;
-
+		
 	}
-
+	
+	
+	
+	
 	private static String getType(String declare) {
 		declare = declare.trim();
-		if (declare.startsWith("int"))
-			return "int";
-		else if (declare.startsWith("double"))
-			return "double";
-		else if (declare.startsWith("char"))
-			return "char";
-		else if (declare.startsWith("float"))
-			return "float";
-		else if (declare.startsWith("char*"))
-			return "char*";
-		else
-			return "void";
+		if(declare.startsWith("int")) return "int";
+		else if(declare.startsWith("double")) return "double";
+		else if(declare.startsWith("char")) return "char";
+		else if(declare.startsWith("float")) return "float";
+		else if(declare.startsWith("char*")) return "char*";
+		else return "void";
 	}
 
 	// FIXME: consider adding back in unit testing when done with refactor
@@ -237,4 +257,5 @@ public class EntryAddition {
 //		;
 //		// EntryAddition.addOneFile(filePath);
 //	}
+
 }

@@ -18,6 +18,7 @@ public class Main {
 		}
 		if (Configuration.operation == 0) {
 			logger.info("searchRepair configured to use existing analysis results; printing data.");
+
 			Analyzer.getExistingData();
 		} else {
 			logger.info("searchRepair configured to regenerate results; starting recomputation.");
@@ -30,9 +31,10 @@ public class Main {
 			}
 			rerun(Configuration.wb, Configuration.repositoryType);
 			logger.info("searchRepair rerun complete; printing data to CSV");
-			Analyzer.getCSVData();
+			Analyzer.getCSVData(); //TODO: does this still belong here?
 		}
-
+		
+		
 	}
 
 	private static void rerun(boolean wb, int repositoryType) {
@@ -46,6 +48,7 @@ public class Main {
 		initRepository();
 		logger.info("Repositories initialized, running all experiments");
 		GroupTest.rerun(wb, repositoryType);
+		Analyzer.getCSVData();
 	}
 
 	private static void initRepository() {

@@ -6,78 +6,182 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import search.ResultObject.ResultState;
 import test.Configuration;
 
 public class GroupTest {
 
-	// FIXME: consider adding back in for testing when done refactoring
-	//	public static void main(String[] args) {
-	//		medianTest(false, 2);
-	//		// smallestTest();
-	//		// gradeTest();
-	//		// checkSumTest();
-	//		// syllablesTest();
-	//	}
+//	public static void main(String[] args) {
+//		//medianTest(false, 2);
+//		//smallestTest(false, 2);
+//		//gradeTest(false, 2);
+//		//checkSumTest(false, 2);
+//		syllablesTest(false, 2);
+//	}
 
+	// FIXME: this used to just iterate over programs but I undid that change
+	// in light of Yalin's changes to the "actualRepository configuration.  Should fix it again!
+	// FIXME: alo rename initWb or BB
 	public static void rerun(boolean wb, int repositoryType) {
-		for(String program : Configuration.programs) {
-			ESearchCase searcher = null;
-			List<Path> list = new ArrayList<Path>();
-			File file = new File(Configuration.outputPath + program);
-			int size = file.listFiles().length;
-			for (File root : file.listFiles()) {
-				try {
-					Path folder = Paths.get(Configuration.outputPath + program + "/" + root.getName());
-					Path fileName = Paths.get(folder.toString() + "/" + program + ".c"); 
-					if (repositoryType == 2) { // FIXME: make this not an integer because it's impossible to grok this way
-						// OK beginning to figure it out: root is the variant number.
-						// and I think he's appropriately leaving the future of this variant out, come to think of it
-						int value = Integer.parseInt(root.getName());
-						repositoryType = (value < size / 2) ? 3 : 4; 				
-					}
-					
-					String transformArgs = "";
-					boolean doTransform = false;
-					switch(program) {
-					case "checksum":
-						searcher = new CheckSumSearchCase(program, folder,
-								fileName, repositoryType);
-						break;
-					case "median":
-					case "smallest":
-						searcher =  new MedianSearchCase(program, folder,
-								fileName, repositoryType);
-						doTransform = true;
+		medianTest(wb, repositoryType);
+		// smallestTest(wb, repositoryType);
+		// gradeTest(wb, repositoryType);
+		// checkSumTest(wb, repositoryType);
+		// syllablesTest(wb, repositoryType);
+	}
 
-						break;
-					case "grade":
-						searcher = new GradeSearchCase(program, folder, fileName,
-								repositoryType);
-						doTransform = true;
-						transformArgs = "--type grade";
-						break;
-					case "syllables":
-						new SyllableSearchCase(program, folder,
-								fileName, repositoryType);
-					}
+	public static void checkSumTest(boolean wb, int type) {
+		String program = "checkSum";
+		
+		File file = new File("./bughunt/checkSum");
+		int size = file.listFiles().length;
+		int actualRepository = 0;
+		for (File root : file.listFiles()) {
+			try {
+				Path folder = Paths.get(Configuration.outputPath + program + "/" + root.getName());
+				Path fileName = Paths.get(folder.toString() + "/" + program + ".c"); 
 
-					searcher.transformAndInitRunDir(doTransform, transformArgs);
-					searcher.initWbOrBB(wb);
-					searcher.search(wb);
-					searcher.recordResult(wb);
-					if (searcher.getInfo().getResult().getState() == ResultState.SUCCESS) {
-						list.add(folder);
-					}
-					for (Path s : list) {
-						System.out.println(s);
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (type == 2) {
+					int value = Integer.parseInt(root.getName());
+					if(value < size / 2) actualRepository = 3;
+					else actualRepository = 4;
 				}
+				CheckSumSearchCase searcher = new CheckSumSearchCase(program, folder, fileName, actualRepository);
+				searcher.transformAndInitRunDir(false, "");
+				searcher.initWbOrBB(wb);
+				searcher.search(wb);
+				searcher.recordResult(wb);
+			} catch (Exception e) {
+				e.printStackTrace();
+				continue;
 			}
 		}
 	}
 
+	public static void medianTest(boolean wb, int type) {
+		String program = "median";
+		List<String> list = new ArrayList<String>();
+		File file = new File("./bughunt/median");
+		int size = file.listFiles().length;
+		int actualRepository = 0;
+		for (File root : file.listFiles()) {
+			try {
+				// if(!root.getName().equals("225"))continue;
+				Path folder = Paths.get(Configuration.outputPath + program + "/" + root.getName());
+				Path fileName = Paths.get(folder.toString() + "/" + program + ".c"); 
+
+				if (type == 2) {
+					int value = Integer.parseInt(root.getName());
+					if(value < 49 || value > 100) continue;
+					if(value < size / 2) actualRepository = 3;
+					else actualRepository = 4;
+				}
+				System.out.println(folder);
+				MedianSearchCase searcher = new MedianSearchCase(program, folder, fileName, actualRepository);
+				searcher.transformAndInitRunDir(true, "");
+				searcher.initWbOrBB(wb);
+				searcher.search(wb);
+				searcher.recordResult(wb);
+			} catch (Exception e) {
+				e.printStackTrace();
+				continue;
+			}
+		}
+
+	}
+
+	public static void smallestTest(boolean wb, int type) {
+		String program = "smallest";
+		File file = new File("./bughunt/smallest");
+		int size = file.listFiles().length;
+		int actualRepository = 0;
+		for (File root : file.listFiles()) {
+			try {
+				Path folder = Paths.get(Configuration.outputPath + program + "/" + root.getName());
+				Path fileName = Paths.get(folder.toString() + "/" + program + ".c"); 
+
+				if (type == 2) {
+//					String name = root.getName();
+//					if(name.charAt(0) == '0') continue;
+//					if(name.charAt(0) == '1'){
+//						if(name.length() == 1) continue;
+//						if((name.length() == 2 || name.length() == 3) && name.charAt(1) < '4') continue;
+//						if(name.length() == 3 && name.charAt(1) == '4' && name.charAt(2) < '6') continue;
+//					}
+					int value = Integer.parseInt(root.getName());
+					if(value < size / 2) actualRepository = 3;
+					else actualRepository = 4;
+				}
+				MedianSearchCase searcher = new MedianSearchCase(program, folder, fileName, actualRepository);
+				searcher.transformAndInitRunDir(true, "");
+				searcher.initWbOrBB(wb);
+				searcher.search(wb);
+				searcher.recordResult(wb);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				continue;
+			}
+		}
+
+	}
+
+	public static void gradeTest(boolean wb, int type) {
+		String program = "grade";
+		File file = new File("./bughunt/grade");
+		int size = file.listFiles().length;
+		int actualRepository = 0;
+		for (File root : file.listFiles()) {
+			try {
+				Path folder = Paths.get(Configuration.outputPath + program + "/" + root.getName());
+				Path fileName = Paths.get(folder.toString() + "/" + program + ".c"); 
+
+				if (type == 2) {
+					int value = Integer.parseInt(root.getName());
+					if(value < size / 2) actualRepository = 3;
+					else actualRepository = 4;
+					//if(value != 120) continue;
+				}
+				System.out.println(folder);
+				GradeSearchCase instan = new GradeSearchCase(program, folder, fileName, actualRepository);
+				instan.transformAndInitRunDir(true, "--type grade");
+				instan.initWbOrBB(wb);
+				instan.search(wb);
+				instan.recordResult(wb);
+			} catch (Exception e) {
+				e.printStackTrace();
+				continue;
+			}
+		}
+	}
+
+	public static void syllablesTest(boolean wb, int type) {
+		String program = "syllables";
+		File file = new File("./bughunt/syllables");
+		int size = file.listFiles().length;
+		int actualRepository = 0;
+		for (File root : file.listFiles()) {
+			try {
+				Path folder = Paths.get(Configuration.outputPath + program + "/" + root.getName());
+				Path fileName = Paths.get(folder.toString() + "/" + program + ".c"); 
+				// if(root.getName().charAt(0) < '5') continue;
+
+				String name = root.getName();
+				if(name.length() >= 2 && name.charAt(0) <=1 && name.charAt(0) <= 1)continue;
+				if (type == 2) {
+					int value = Integer.parseInt(root.getName());
+					if(value < size / 2) actualRepository = 3;
+					else actualRepository = 4;
+				}
+				SyllableSearchCase searcher = new SyllableSearchCase(program, folder, fileName, actualRepository);
+				searcher.transformAndInitRunDir(false, "");
+				searcher.initWbOrBB(wb);
+				searcher.search(wb);
+				searcher.recordResult(wb);
+			} catch (Exception e) {
+				e.printStackTrace();
+				continue;
+			}
+		}
+	}
 
 }

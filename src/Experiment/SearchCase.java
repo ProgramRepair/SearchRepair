@@ -87,6 +87,8 @@ public class SearchCase {
 		if (!pass)
 			return;
 		searchOverRepository();
+
+		//printResult();
 		ruleOutFalsePositive();
 
 		if (isEmpty(info.getResult())) {
