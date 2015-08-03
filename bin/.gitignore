@@ -1,4 +1,10 @@
-# Ignore everything in this directory
-*
-# Except this file
-!.gitignore
+/antlr/
+/lookups/
+/scraper/
+/search/
+/test/
+/Database/
+/Experiment/
+/Library/
+/ProcessIntroClass/
+/Repository/
