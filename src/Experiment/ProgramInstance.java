@@ -25,7 +25,6 @@ import search.ResultObject.ResultState;
 import util.Utility;
 import ProcessIntroClass.BugLineSearcher;
 import ProcessIntroClass.GcovTest;
-import ProcessIntroClass.GetInputStateAndOutputState;
 import ProcessIntroClass.Transform;
 // FIXME: note to self: nuke gcc and gdb at least!
 
@@ -37,64 +36,34 @@ public  class ProgramInstance {
 	private Path transformFile;
 	private Path fileName;
 	private Path compiledBinary;
-	
+
 
 	private ProgramTests trainingTests = new ProgramTests(); 
 	private ProgramTests validationTests = new ProgramTests();
-	
+
 	private Map<Integer, Double> suspiciousness = new HashMap<Integer, Double>();
 
-	private int[] buggy; // TODO: kill this, it's ridiculous.
 	protected CaseInfo info;
 	private int repo;
-	private List<String> content;
 	private String program;
-	
+
 	protected WhiteOrBlack whiteOrBlack;
-// FIXME: FIGURE OUT THE REPO THING
+	// FIXME: FIGURE OUT THE REPO THING
 	public ProgramInstance(String program, Path folder, Path fileName, int repo, WhiteOrBlack wb){
 		this.repo = repo;
 		this.folder = folder;
 		this.fileName = fileName;
 		this.compiledBinary = Paths.get(this.folder.toString() + File.separator + program);
 
-		this.buggy = new int[2];
 		this.info = new CaseInfo();
 
 		this.runDir = Paths.get(this.folder.toString() + File.separator + "temp");
-		this.content = new ArrayList<String>();
-		this.setProgram(program);
+		this.program = program;
 		this.whiteOrBlack = wb;
 	}
 
 	public int getRepo() {
 		return repo;
-	}
-
-	public void setRepo(int repo) {
-		this.repo = repo;
-	}
-
-	protected void initContent() {
-		try{
-			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.folder + File.separator + this.transformFile)));
-			String s = null;
-			while((s = br.readLine()) != null){
-				this.content.add(s.trim());
-			}
-			br.close();
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-
-	}
-
-	public List<String> getContent() {
-		return content;
-	}
-
-	public void setContent(List<String> content) {
-		this.content = content;
 	}
 
 	protected CaseInfo getInfo() {
@@ -107,10 +76,6 @@ public  class ProgramInstance {
 
 	public Path getFolder() {
 		return folder;
-	}
-
-	public int[] getBuggy() {
-		return buggy;
 	}
 
 	public Path getFileName() {
@@ -150,50 +115,52 @@ public  class ProgramInstance {
 	protected void initTests(){
 		initTraining(); 
 		initValidation();
-
-		// possible FIXME: initialize this without a useless variable.
-		GcovTest test = new GcovTest(this.getProgram(), this.folder, this.transformFile, this.whiteOrBlack);
+		initGcov();
 	}
 
+	private void initGcov() {
+		GcovTest test = new GcovTest(this.getProgram(), this.folder, this.transformFile, this.whiteOrBlack);
+		test.init();
+
+	}
+	
 	// precondition: assumes tests have been initialized
 	public void search(){
-		if(this.trainingTests.getPositives().size() == 0) {
-			this.info.getResult().setState(ResultState.NOPOSITIVE);
+		if(this.getTrainingTests().getPositives().size() == 0) {
+			this.getInfo().getResult().setState(ResultState.NOPOSITIVE);
 			return;
 		}
-		if(this.trainingTests.getNegatives().size() == 0){
-			this.info.getResult().setState(ResultState.CORRECT);
+		if(this.getTrainingTests().getNegatives().size() == 0){
+			this.getInfo().getResult().setState(ResultState.CORRECT);
 			return;
 		}
-		getBugLines();
-		if(this.buggy[0] == 0) {
-			this.info.getResult().setState(ResultState.FAILED);
+		// FIXME: why doesn't this get multiple buggy lines?
+		int[] range = this.getBugLines();
+//		if(range[0] == 0) {
+//			this.info.getResult().setState(ResultState.FAILED);
+//			return;
+//		}
+		boolean pass = constructProfile(range);
+		if (!pass)
 			return;
-		}
+		searchOverRepository(); // diff b/w Program and RegionInstance??
 
-		initPositiveStates();
-		if(this.info.getPositives().isEmpty()) {
+		ruleOutFalsePositive(range);
+
+		if (isEmpty(info.getResult())) {
 			this.info.getResult().setState(ResultState.FAILED);
 			return;
-		}
-		searchOverRepository();
-		ruleOutFalsePositive();		
-		if(isEmpty(info.getResult())) {
-			this.info.getResult().setState(ResultState.FAILED);
-			return;
-		}
-		else{
-			if(!info.getResult().getPositive().isEmpty())
-			{
+		} else {
+			if (!info.getResult().getPositive().isEmpty()) {
 				this.info.getResult().setState(ResultState.SUCCESS);
-			}
-			else{
+			} else {
 				this.info.getResult().setState(ResultState.PARTIAL);
 			}
 		}
 
+		//FIXME: does this do anything any more? initPositiveStates();
 	}
-
+	
 	protected boolean isEmpty(ResultObject result) {
 		return result.getPositive().isEmpty() && result.getPartial().isEmpty();
 	}
@@ -219,50 +186,24 @@ public  class ProgramInstance {
 	}
 
 
-	protected void ruleOutFalsePositive() {
+	protected void ruleOutFalsePositive(int [] buggy) {
 		for(String source : info.getResult().getSearchMapping().keySet()){
 			for(Map<String, String> map : info.getResult().getSearchMapping().get(source)){
 				String input = Restore.getMappingString(source, map);
-				String outputFile = generateOutputFile(input);
-				if(testAllResults(source, outputFile)){
+				String outputFile = generateOutputFile(input, buggy);
+				if (testAllResults(source, outputFile)) {
 					info.getResult().getMappingSource().put(source, input);
+					int extraPass = this.validationTests.passPositives(source, outputFile,compiledBinary);
+					extraPass += this.validationTests.passNegatives(source, outputFile,compiledBinary);
+					this.info.getResult().getExtraPass().put(source, extraPass);
 					break;
-				}
-				else continue;
+				} else continue;
 			}
 		}
 
 	}	
 
-	// FIXME: figure out why tf RegionInstance had a different ruleoutfalsepositive method than programinstance
-//	protected void ruleOutFalsePositive() {
-//		for (String source : info.getResult().getSearchMapping().keySet()) {
-//			for (Map<String, String> map : info.getResult().getSearchMapping()
-//					.get(source)) {
-//				try {
-//					String input = Restore.getMappingString(source, map);
-//					String outputFile = generateOutputFile(input);
-//					if (testAllResults(source, outputFile)) {
-//						info.getResult().getMappingSource().put(source, input);
-//						int extraPass = this.passTestSuite(source, outputFile,
-//								this.validationTests.getPositives());
-//						extraPass += this.passTestSuite(source, outputFile,
-//								this.validationTests.getNegatives());
-//						this.info.getResult().getExtraPass()
-//								.put(source, extraPass);
-//						break;
-//					} else
-//						continue;
-//				} catch (Exception e) {
-//					System.out.println(e);
-//					continue;
-//				}
-//			}
-//
-//		}
-//
-//	}
-
+	// FIXME: find a way to put this in program tests where it belongs
 	private boolean testAllResults(String source, String outputFile) {
 		boolean pass = trainingTests.passAllPositive(source, outputFile, this.compiledBinary);
 		if(!pass) return false;
@@ -280,9 +221,9 @@ public  class ProgramInstance {
 			return true;
 		}
 	}
-	
 
-	private String generateOutputFile(String input) {
+
+	private String generateOutputFile(String input, int [] buggy) {
 		String outputfile = this.compiledBinary.toString() + ".new.c"; 
 		try{
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputfile)));
@@ -332,28 +273,22 @@ public  class ProgramInstance {
 	}
 
 
-	public void searchJustOnMap() {
+	public void searchJustOnMap(int [] buggy) {
 		try {
 			info.setResult(new ResultObject());
 			PrototypeSearch.searchOnlyMatchType(info, repo);
-			//this.printResult();
-			this.ruleOutFalsePositive();
+			this.ruleOutFalsePositive(buggy);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-	protected void initPositiveStates() {
-		GetInputStateAndOutputState instan = new GetInputStateAndOutputState(this.getFolder().toString(), this.getFileName().toString(), this.getBuggy(), this.trainingTests.getPositives().keySet());
-		info.setPositives(instan.getStates());
-	}
+
 	/**
 	 * if no bug, the buggy lines will be 0-0
 	 */
 	protected int[] getBugLines() {
 		BugLineSearcher bug = new BugLineSearcher(this.getFolder().toString(), this.transformFile.toString());
-		this.getBuggy()[0] = bug.getBuggy()[0];
-		this.getBuggy()[1] = bug.getBuggy()[1];
 		return bug.getBuggy();
 	}
 
@@ -373,7 +308,7 @@ public  class ProgramInstance {
 	protected void initTraining() {
 		this.initTests(this.trainingTests, this.whiteOrBlack);
 	}
-	
+
 	protected void initValidation() {
 		WhiteOrBlack which = this.whiteOrBlack == WhiteOrBlack.BLACKBOX ? WhiteOrBlack.WHITEBOX : WhiteOrBlack.BLACKBOX; 
 		this.initTests(this.validationTests, which);
@@ -437,7 +372,7 @@ public  class ProgramInstance {
 		}
 		if(denominator == 0) return 1;
 		else return numerator / denominator;
-		
+
 	}
 
 	/* 
@@ -452,12 +387,12 @@ public  class ProgramInstance {
 	private boolean insertStateStatements(int[] buggy) {
 		// FIXME: the getProgram here cannot possibly be correct
 		String markFile = RegionInstance.insertMark(this.fileName.toString(),this.compiledBinary.toString(), buggy);
- 
+
 		String target = RegionInstance.getFunction(markFile);
 		String[] states = RegionInstance.getStatesStatement(target);
 		if (states == null)
 			return false;
-		
+
 		RegionInstance.writeStatesStatement(states, this.compiledBinary.toString(), buggy);
 		return true;
 	}
@@ -469,7 +404,7 @@ public  class ProgramInstance {
 		} else
 			return false;
 	}
-	
+
 	private void obtainPositiveStates() {
 		String sourceFile = this.compiledBinary + ".state.c";  
 		for (String input : this.trainingTests.getPositives().keySet()) {
@@ -519,55 +454,4 @@ public  class ProgramInstance {
 		}
 
 	}
-
-	/**
-	 * get input/output pairs, and buggy lines info
-	 * 
-	 * @param caseFile
-	 */ 
-	// FIXME: Why doesn't anyone use this??
-	private void parse(String caseFile) {
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(
-					new FileInputStream(caseFile)));
-			String line = null;
-			boolean neg = false;
-			while ((line = br.readLine()) != null) {
-				line = line.trim();
-				if (line.startsWith("positive:")) {
-					neg = false;
-				} else if (line.startsWith("negative:")) {
-					neg = true;
-				} else if (line.startsWith("buggy lines:")) {
-					String[] lines = line.substring(12).split("-");
-					buggy[0] = Integer.valueOf(lines[0]);
-					buggy[1] = Integer.valueOf(lines[1]);
-				} else if (line.startsWith("input:")) {
-					int index = line.indexOf("output:");
-					String input = line.substring(6, index);
-					String output = line.substring(index + 7);
-					if (neg) {
-						this.trainingTests.addNegativeTest(input.trim(), output.trim());
-					} else {
-						this.trainingTests.addPositiveTest(input.trim(), output.trim());
-					}
-				} else {
-					continue;
-				}
-			}
-			br.close();
-		} catch (Exception e) {
-			return;
-		}
-
-	}
-
-	// FIXME: consider adding unit testing back in at end.
-	//	public static void main(String[] args) {
-	//		ESearchCase instan = new ESearchCase("./bughunt/smallest/43", "smallest.c", 2);
-	//		//instan.search();
-	//		//instan.recordResult();
-	//		System.out.println(instan.test());
-	//	}
-
 }

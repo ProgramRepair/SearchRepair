@@ -14,8 +14,8 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import Experiment.WhiteOrBlack;
 import util.Utility;
+import Experiment.WhiteOrBlack;
 
 public class GcovTest {
 	protected static Logger logger = Logger.getLogger(GcovTest.class);
@@ -39,12 +39,13 @@ public class GcovTest {
 		this.fileName = fileName;
 		this.wb = wb;
 		this.program = program;
-		
+	}
+
+	public void init() {
 		initPositives();
 		initNegatives();
 		initExecutions();
 	}
-
 	private void initExecutions() {
 		if (!compile()) {
 			// FIXME: log

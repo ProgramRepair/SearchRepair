@@ -35,10 +35,8 @@ public class SyllablesInstance extends ProgramInstance{
 
 			if (!pass)
 				continue;
-			searchOverRepository(); // diff b/w Program and RegionInstance??
-
-			ruleOutFalsePositive();
-
+			searchOverRepository();
+			ruleOutFalsePositive(range);
 		
 			
 			if(info.getResult().getState() == ResultState.SUCCESS || info.getResult().getState() == ResultState.PARTIAL){
@@ -46,7 +44,7 @@ public class SyllablesInstance extends ProgramInstance{
 			}
 			else{
 				if(this.whiteOrBlack != WhiteOrBlack.WHITEBOX)continue;
-				this.searchJustOnMap();
+				this.searchJustOnMap(range);
 				if(info.getResult().getState() == ResultState.SUCCESS){
 					break;
 				}
@@ -60,7 +58,6 @@ public class SyllablesInstance extends ProgramInstance{
 	protected List<int[]> getMultipleBuggyLines(){
 		List<int[]> list = new ArrayList<int[]>();
 		initSuspicious();
-		this.initContent();
 		double average = getAverage();
 		int index = 12;
 		while(index < this.getSuspiciousness().keySet().size()){
@@ -78,16 +75,5 @@ public class SyllablesInstance extends ProgramInstance{
 				
 		return list;
 	}
-	
-
-//	public static void main(String[] args){
-//		SyllableSearchCase instan = new SyllableSearchCase("./bughunt/syllables/109", "syllables.c", 3);
-//		instan.transformAndInitRunDir(false, "");
-//		instan.initInputAndOutput();
-////		instan.search(true);
-////		instan.recordResult(true);
-//		instan.search(false);
-//		instan.recordResult(false);
-//	}
 
 }

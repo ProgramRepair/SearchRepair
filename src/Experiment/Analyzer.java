@@ -366,7 +366,6 @@ public class Analyzer {
 		}
 		String[] lines = content.split("\n");
 		String firstline = lines[0].trim();
-		// System.out.println(firstline);
 		if (firstline.startsWith("success")) {
 
 			if (firstline.endsWith("partial")) {
@@ -384,8 +383,6 @@ public class Analyzer {
 			int value = Integer.parseInt(secondline.substring(secondline
 					.lastIndexOf(":") + 1));
 			this.successlist.put(id, value);
-			// System.out.println(value);
-			// TODO
 			this.extraPass.put(name, this.extraPass.get(name) + value);
 			if (value == this.extraSuiteSize.get(name)) {
 				this.extraComplete.put(name, this.extraComplete.get(name) + 1);

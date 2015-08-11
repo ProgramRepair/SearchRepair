@@ -34,7 +34,7 @@ public class CheckSumInstance extends ProgramInstance {
 				continue;
 			searchOverRepository(); // diff b/w Program and RegionInstance??
 
-			ruleOutFalsePositive();
+			ruleOutFalsePositive(range);
 
 			if (isEmpty(info.getResult())) {
 				this.info.getResult().setState(ResultState.FAILED);
@@ -55,7 +55,6 @@ public class CheckSumInstance extends ProgramInstance {
 	protected List<int[]> getMultipleBuggyLines(){
 		List<int[]> list = new ArrayList<int[]>();
 		initSuspicious();
-		this.initContent();
 		double average = getAverage();
 		int index = 12;
 		while(index < this.getSuspiciousness().keySet().size()){

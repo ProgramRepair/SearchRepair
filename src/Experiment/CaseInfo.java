@@ -44,7 +44,7 @@ public class CaseInfo {
 		this.result = result;
 	}
 	public void print(){
-		System.out.println("positve");
+		System.out.println("positive");
 		for(List<String> list : this.positives.keySet()){
 			System.out.print("input state:");
 			for(String in : list){

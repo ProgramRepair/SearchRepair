@@ -45,27 +45,7 @@ public class RegionInstance {
 	public static String outputType = "";
 
 
-	// FIXME: make sure that the new search() in programinstance does this properly.
-//	public void search() {
-//		boolean pass = constructProfile();
-//		if (!pass)
-//			return;
-//		searchOverRepository();
-//
-//		//printResult();
-//		ruleOutFalsePositive();
-//
-//		if (isEmpty(info.getResult())) {
-//			this.info.getResult().setState(ResultState.FAILED);
-//			return;
-//		} else {
-//			if (!info.getResult().getPositive().isEmpty()) {
-//				this.info.getResult().setState(ResultState.SUCCESS);
-//			} else {
-//				this.info.getResult().setState(ResultState.PARTIAL);
-//			}
-//		}
-//	}
+
 
 //	private boolean isEmpty(ResultObject result) {
 //		return info.getResult().getPartial().isEmpty()

@@ -110,10 +110,12 @@ public class ProgramTests {
 		return count;
 	}
 	
+	
 	 public int passNegatives(String source, String outputFile, Path compiledBinary) {
 			return passAllTests(source, outputFile, this.getNegatives(), compiledBinary);
 		}
 
-
-
+	 public int passPositives(String source, String outputFile, Path compiledBinary) {
+			return passAllTests(source, outputFile, this.getPositives(), compiledBinary);
+	 }
 }

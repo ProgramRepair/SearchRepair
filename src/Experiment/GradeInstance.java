@@ -28,9 +28,8 @@ public class GradeInstance extends ProgramInstance {
 		boolean pass = constructProfile(range);
 		if (!pass)
 			return;
-		searchOverRepository(); // diff b/w Program and RegionInstance??
-
-		ruleOutFalsePositive();
+		searchOverRepository(); 
+		ruleOutFalsePositive(range);
 
 		if (isEmpty(info.getResult())) {
 			this.info.getResult().setState(ResultState.FAILED);

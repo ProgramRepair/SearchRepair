@@ -219,11 +219,6 @@ public class GetInputStateAndOutputState {
 			
 		}
 	}
-	
-	public static void main(String[] args){
-		//GetInputStateAndOutputState instan = new GetInputStateAndOutputState("./bughunt/median/0", "median.c", new int[]{12, 17});
-	}
-
 }
 
 
