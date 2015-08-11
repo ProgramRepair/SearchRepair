@@ -18,10 +18,12 @@ import Database.EntryObject;
 public class EntryAddition {
 
 	protected static Logger logger = Logger.getLogger(EntryAddition.class);
-
-
 	private static int count = 0;
 	private static int save = 0;
+	
+	public static void main(String[] args) {
+		addOneFile("/Users/clegoues/git/autobugfix/./repository/future/test185.c", "future1");
+	}
 	
 	public static void addOneFile(String filePath, String table) {
 
@@ -36,8 +38,6 @@ public class EntryAddition {
 				EntryTranslator translator = new EntryTranslator(method);
 				object = translator.getEntryObject();
 			} catch (Exception e) {
-
-				System.out.println(e);
 				continue;
 			}
 			EntryHandler.save(object, table);
@@ -57,8 +57,6 @@ public class EntryAddition {
 		}
 	}
 
-
-
 	public static void addOneFolder(String dirPath, String table){
 		File dir = new File(dirPath);
 		if(!dir.exists()) return;
@@ -69,7 +67,6 @@ public class EntryAddition {
 			else{
 				addOneFile(file.getAbsolutePath(), table);
 			}
-			
 		}
 		logger.info("Global method count attempted so far:" + count + " successes: " + save);
 
@@ -89,9 +86,6 @@ public class EntryAddition {
 			BufferedReader ls_in = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
 
-//			BufferedReader ls_error = new BufferedReader(new InputStreamReader(
-//					p.getErrorStream()));
-//			System.out.println(ls_error.readLine());
 			String s = null;
 			StringBuilder path = new StringBuilder();
 			StringBuilder input = new StringBuilder();
@@ -184,11 +178,8 @@ public class EntryAddition {
 			{
 				methods.add(method);
 			}
-			
 			ls_in.close();
 		} catch (IOException e) {
-			
-			e.printStackTrace();
 			return methods;
 		}
 		if(methods.isEmpty()) return methods;
@@ -212,7 +203,6 @@ public class EntryAddition {
 				index.push(i);
 				stack.add(c);
 				if(!typeStack.isEmpty())typeStack.pop();
-				
 			}
 			else if(c == '}'){
 				stack.pop();
@@ -235,9 +225,6 @@ public class EntryAddition {
 		
 	}
 	
-	
-	
-	
 	private static String getType(String declare) {
 		declare = declare.trim();
 		if(declare.startsWith("int")) return "int";
@@ -247,13 +234,5 @@ public class EntryAddition {
 		else if(declare.startsWith("char*")) return "char*";
 		else return "void";
 	}
-
-	// FIXME: consider adding back in unit testing when done with refactor
-//	public static void main(String[] args) throws FileNotFoundException {
-//		String filePath = "./repository/future";
-//		EntryAddition.addOneFolder(filePath, "future");
-//		;
-//		// EntryAddition.addOneFile(filePath);
-//	}
 
 }

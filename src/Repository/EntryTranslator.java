@@ -38,7 +38,6 @@ public class EntryTranslator {
 	private void translateWithSSA() {
 		// deal with two situations, one is path with return statement, one is path without return statement
 		for(String path : method.getPath()){
-			//System.out.println(path);
 			PathTranslator pathTranslator = new PathTranslator(path, method.getPathToInput().get(path));
 			List<String> constraints = pathTranslator.getSsa();
 			StringBuilder constraintString = new StringBuilder();
