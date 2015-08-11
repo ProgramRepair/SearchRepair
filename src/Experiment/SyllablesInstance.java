@@ -28,20 +28,26 @@ public class SyllablesInstance extends ProgramInstance{
 		}
 		
 		List<int[]> buggys = getMultipleBuggyLines();
-		
+
+
 		for(int[] range : buggys){
-			RegionInstance instan = new RegionInstance(this.getProgram(), this.getTrainingTests(), this.getValidationTests(), this.getRunDir(), this.getRepo());
-			instan.setBuggy(range);
-			instan.search();
-			if(instan.getInfo().getResult().getState() == ResultState.SUCCESS || instan.getInfo().getResult().getState() == ResultState.PARTIAL){
-				this.setInfo(instan.getInfo());
+			boolean pass = constructProfile(range);
+
+			if (!pass)
+				continue;
+			searchOverRepository(); // diff b/w Program and RegionInstance??
+
+			ruleOutFalsePositive();
+
+		
+			
+			if(info.getResult().getState() == ResultState.SUCCESS || info.getResult().getState() == ResultState.PARTIAL){
 				break;
 			}
 			else{
 				if(this.whiteOrBlack != WhiteOrBlack.WHITEBOX)continue;
-				instan.searchJustOnMap();
-				if(instan.getInfo().getResult().getState() == ResultState.SUCCESS){
-					this.setInfo(instan.getInfo());				
+				this.searchJustOnMap();
+				if(info.getResult().getState() == ResultState.SUCCESS){
 					break;
 				}
 			}

@@ -12,6 +12,8 @@ public class MedianInstance extends ProgramInstance {
 		this.initTests();
 	}
 	
+	// OK, FIXME/TODO plan: don't put regioninstance in charge of testing any more.
+	
 	@Override
 	public void search() {
 		if(this.getTrainingTests().getPositives().size() == 0) {
@@ -24,11 +26,23 @@ public class MedianInstance extends ProgramInstance {
 		}
 		// FIXME: why doesn't this get multiple buggy lines?
 		int[] range = this.getBugLines();
-		RegionInstance instan = new RegionInstance(this.getProgram(), this.getTrainingTests(), this.getValidationTests(), this.getRunDir(), this.getRepo());
-		instan.setBuggy(range);
-		instan.setValidationTests(this.getValidationTests());
-		instan.search();	
-		this.setInfo(instan.getInfo());
+		boolean pass = constructProfile(range);
+		if (!pass)
+			return;
+		searchOverRepository(); // diff b/w Program and RegionInstance??
+
+		ruleOutFalsePositive();
+
+		if (isEmpty(info.getResult())) {
+			this.info.getResult().setState(ResultState.FAILED);
+			return;
+		} else {
+			if (!info.getResult().getPositive().isEmpty()) {
+				this.info.getResult().setState(ResultState.SUCCESS);
+			} else {
+				this.info.getResult().setState(ResultState.PARTIAL);
+			}
+		}
 	}
 	
 //	public static void main(String[] args){

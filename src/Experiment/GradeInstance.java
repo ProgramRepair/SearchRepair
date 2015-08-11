@@ -25,11 +25,24 @@ public class GradeInstance extends ProgramInstance {
 		}
 		
 		int[] range = getBugLines();
+		boolean pass = constructProfile(range);
+		if (!pass)
+			return;
+		searchOverRepository(); // diff b/w Program and RegionInstance??
 
-		RegionInstance instan = new RegionInstance(this.getProgram(), this.getTrainingTests(), this.getValidationTests(), this.getRunDir(), this.getRepo());
-		instan.setBuggy(range);
-		instan.search();	
-		this.setInfo(instan.getInfo());
+		ruleOutFalsePositive();
+
+		if (isEmpty(info.getResult())) {
+			this.info.getResult().setState(ResultState.FAILED);
+			return;
+		} else {
+			if (!info.getResult().getPositive().isEmpty()) {
+				this.info.getResult().setState(ResultState.SUCCESS);
+			} else {
+				this.info.getResult().setState(ResultState.PARTIAL);
+			}
+		}
+	
 	}
 
 

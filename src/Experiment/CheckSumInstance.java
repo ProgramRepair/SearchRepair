@@ -28,12 +28,25 @@ public class CheckSumInstance extends ProgramInstance {
 		List<int[]> buggylines = getMultipleBuggyLines();
 
 		for(int[] range : buggylines){
-			// possible FIXME: I'm not convinced the regioninstance needs the validation tests.
-			RegionInstance instan = new RegionInstance(this.getProgram(),  this.getTrainingTests(), this.getValidationTests(),  this.getRunDir(), this.getRepo());
-			instan.setBuggy(range);
-			instan.search();
-			if(instan.getInfo().getResult().getState() == ResultState.SUCCESS){
-				this.setInfo(instan.getInfo());
+
+			boolean pass = constructProfile(range);
+			if (!pass)
+				continue;
+			searchOverRepository(); // diff b/w Program and RegionInstance??
+
+			ruleOutFalsePositive();
+
+			if (isEmpty(info.getResult())) {
+				this.info.getResult().setState(ResultState.FAILED);
+				return;
+			} else {
+				if (!info.getResult().getPositive().isEmpty()) {
+					this.info.getResult().setState(ResultState.SUCCESS);
+				} else {
+					this.info.getResult().setState(ResultState.PARTIAL);
+				}
+			}
+			if(info.getResult().getState() == ResultState.SUCCESS){
 				break;
 			}
 		}

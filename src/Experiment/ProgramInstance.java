@@ -45,7 +45,7 @@ public  class ProgramInstance {
 	private Map<Integer, Double> suspiciousness = new HashMap<Integer, Double>();
 
 	private int[] buggy; // TODO: kill this, it's ridiculous.
-	private CaseInfo info;
+	protected CaseInfo info;
 	private int repo;
 	private List<String> content;
 	private String program;
@@ -219,7 +219,7 @@ public  class ProgramInstance {
 	}
 
 
-	private void ruleOutFalsePositive() {
+	protected void ruleOutFalsePositive() {
 		for(String source : info.getResult().getSearchMapping().keySet()){
 			for(Map<String, String> map : info.getResult().getSearchMapping().get(source)){
 				String input = Restore.getMappingString(source, map);
@@ -232,7 +232,36 @@ public  class ProgramInstance {
 			}
 		}
 
-	}
+	}	
+
+	// FIXME: figure out why tf RegionInstance had a different ruleoutfalsepositive method than programinstance
+//	protected void ruleOutFalsePositive() {
+//		for (String source : info.getResult().getSearchMapping().keySet()) {
+//			for (Map<String, String> map : info.getResult().getSearchMapping()
+//					.get(source)) {
+//				try {
+//					String input = Restore.getMappingString(source, map);
+//					String outputFile = generateOutputFile(input);
+//					if (testAllResults(source, outputFile)) {
+//						info.getResult().getMappingSource().put(source, input);
+//						int extraPass = this.passTestSuite(source, outputFile,
+//								this.validationTests.getPositives());
+//						extraPass += this.passTestSuite(source, outputFile,
+//								this.validationTests.getNegatives());
+//						this.info.getResult().getExtraPass()
+//								.put(source, extraPass);
+//						break;
+//					} else
+//						continue;
+//				} catch (Exception e) {
+//					System.out.println(e);
+//					continue;
+//				}
+//			}
+//
+//		}
+//
+//	}
 
 	private boolean testAllResults(String source, String outputFile) {
 		boolean pass = trainingTests.passAllPositive(source, outputFile, this.compiledBinary);
@@ -251,6 +280,7 @@ public  class ProgramInstance {
 			return true;
 		}
 	}
+	
 
 	private String generateOutputFile(String input) {
 		String outputfile = this.compiledBinary.toString() + ".new.c"; 
@@ -301,6 +331,18 @@ public  class ProgramInstance {
 
 	}
 
+
+	public void searchJustOnMap() {
+		try {
+			info.setResult(new ResultObject());
+			PrototypeSearch.searchOnlyMatchType(info, repo);
+			//this.printResult();
+			this.ruleOutFalsePositive();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 	protected void initPositiveStates() {
 		GetInputStateAndOutputState instan = new GetInputStateAndOutputState(this.getFolder().toString(), this.getFileName().toString(), this.getBuggy(), this.trainingTests.getPositives().keySet());
 		info.setPositives(instan.getStates());
@@ -397,6 +439,129 @@ public  class ProgramInstance {
 		else return numerator / denominator;
 		
 	}
+
+	/* 
+	 * firstly, erase all of include statements and insert Mark, make a copy in
+	 * prefix.mark get the target function using FuncitionExtractor, the entire
+	 * function String Using state to obtain input and output variables and its
+	 * types make a copy prefix_copy.c of original source file, and insert input
+	 * and put statements
+	 * 
+	 * @return
+	 */
+	private boolean insertStateStatements(int[] buggy) {
+		// FIXME: the getProgram here cannot possibly be correct
+		String markFile = RegionInstance.insertMark(this.getProgram(),this.compiledBinary.toString(), this.getProgram(), buggy);
+ 
+		String target = RegionInstance.getFunction(markFile);
+		String[] states = RegionInstance.getStatesStatement(target);
+		if (states == null)
+			return false;
+		
+		RegionInstance.writeStatesStatement(states, this.compiledBinary.toString(), buggy);
+		return true;
+	}
+
+	protected boolean constructProfile(int[] buggy) {
+		if (insertStateStatements(buggy)) {  
+			obtainPositiveStates();
+			return true;
+		} else
+			return false;
+	}
+	
+	private void obtainPositiveStates() {
+		String sourceFile = this.compiledBinary + ".state.c";  
+		for (String input : this.trainingTests.getPositives().keySet()) {
+			try {
+				Files.deleteIfExists(this.compiledBinary);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			String command1 = "gcc " + sourceFile + " -o " + this.compiledBinary;
+			String s1 = Utility.runCProgram(command1);
+			if (s1.equals("failed"))
+				continue;
+			String s2 = Utility.runCProgramWithInput(this.compiledBinary.toString(), input);
+			if (s2.trim().isEmpty())
+				return;
+			String[] entries = s2.split("_nextloop_");
+			for (String entry : entries) {
+				int inputStart = entry.indexOf("inputStart:");
+				int inputEnd = entry.indexOf("inputEnd");
+				int outputStart = entry.indexOf("outputStart:");
+				// int outputEnd = s2.indexOf("outputEnd");
+				if (inputStart == -1)
+					continue;
+				if (outputStart == -1)
+					continue;
+
+				List<String> inputList = new ArrayList<String>();
+				List<String> outputList = new ArrayList<String>();
+
+				String[] elems = entry.substring(inputStart + 11, inputEnd)
+						.split("_VBC_");
+				for (String e : elems) {
+					if (e.equals(""))
+						continue;
+					inputList.add(e);
+				}
+				for (String o : entry.substring(outputStart + 12)
+						.split("_VBC_")) {
+					if (o.equals(""))
+						continue;
+					outputList.add(o);
+				}
+				info.getPositives().put(inputList, outputList);
+			}
+		}
+
+	}
+
+	/**
+	 * get input/output pairs, and buggy lines info
+	 * 
+	 * @param caseFile
+	 */ 
+	// FIXME: Why doesn't anyone use this??
+	private void parse(String caseFile) {
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					new FileInputStream(caseFile)));
+			String line = null;
+			boolean neg = false;
+			while ((line = br.readLine()) != null) {
+				line = line.trim();
+				if (line.startsWith("positive:")) {
+					neg = false;
+				} else if (line.startsWith("negative:")) {
+					neg = true;
+				} else if (line.startsWith("buggy lines:")) {
+					String[] lines = line.substring(12).split("-");
+					buggy[0] = Integer.valueOf(lines[0]);
+					buggy[1] = Integer.valueOf(lines[1]);
+				} else if (line.startsWith("input:")) {
+					int index = line.indexOf("output:");
+					String input = line.substring(6, index);
+					String output = line.substring(index + 7);
+					if (neg) {
+						this.trainingTests.addNegativeTest(input.trim(), output.trim());
+					} else {
+						this.trainingTests.addPositiveTest(input.trim(), output.trim());
+					}
+				} else {
+					continue;
+				}
+			}
+			br.close();
+		} catch (Exception e) {
+			return;
+		}
+
+	}
+
 	// FIXME: consider adding unit testing back in at end.
 	//	public static void main(String[] args) {
 	//		ESearchCase instan = new ESearchCase("./bughunt/smallest/43", "smallest.c", 2);
