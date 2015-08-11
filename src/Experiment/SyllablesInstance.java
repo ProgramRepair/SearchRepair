@@ -4,16 +4,30 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import search.PrototypeSearch;
+import search.ResultObject;
 import search.ResultObject.ResultState;
 
 public class SyllablesInstance extends ProgramInstance{
 
-	// possible FIXME: syllables knows it's syllables, possibly don't need it here.
+	private WhiteOrBlack whiteOrBlack;
+	
 	public SyllablesInstance(String program, Path folder, Path fileName, int repo, WhiteOrBlack wb) {
-		super(program, folder, fileName, repo, wb);
+		super(program, folder, fileName, repo);
 		this.transformAndInitRunDir(false, "");
-		this.initTests();
-		
+		this.initTests(wb);
+		this.whiteOrBlack = wb;
+	}
+
+	private void searchJustOnMap(int [] buggy) {
+		try {
+			info.setResult(new ResultObject());
+			PrototypeSearch.searchOnlyMatchType(info, this.getRepo());
+			this.ruleOutFalsePositive(buggy);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
@@ -32,17 +46,14 @@ public class SyllablesInstance extends ProgramInstance{
 
 		for(int[] range : buggys){
 			boolean pass = constructProfile(range);
-
 			if (!pass)
 				continue;
 			searchOverRepository();
 			ruleOutFalsePositive(range);
 		
-			
 			if(info.getResult().getState() == ResultState.SUCCESS || info.getResult().getState() == ResultState.PARTIAL){
 				break;
-			}
-			else{
+			} else{
 				if(this.whiteOrBlack != WhiteOrBlack.WHITEBOX)continue;
 				this.searchJustOnMap(range);
 				if(info.getResult().getState() == ResultState.SUCCESS){

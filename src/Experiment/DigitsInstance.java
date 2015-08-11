@@ -7,8 +7,8 @@ import search.ResultObject.ResultState;
 public class DigitsInstance extends ProgramInstance {
 
 	public DigitsInstance(String program, Path folder, Path fileName, int repo, WhiteOrBlack wb) {
-		super(program, folder, fileName, repo, wb);
-		this.initTests();
+		super(program, folder, fileName, repo);
+		this.initTests(wb);
 	}
 
 	@Override
@@ -21,18 +21,7 @@ public class DigitsInstance extends ProgramInstance {
 			this.getInfo().getResult().setState(ResultState.CORRECT);
 			return;
 		}
-		// FIXME: OK, I see, he doesn't bother searching for this one because we know we can't do it.
+		// FIXME: we don't bother searching right now because we know we can't.
 		this.getInfo().getResult().setState(ResultState.FAILED);
 	}
-
-	
-//	public static void main(String[] args){
-//		MedianSearchCase instan = new MedianSearchCase("./bughunt/median/0", "median.c",  2);
-//		instan.transformAndInitRunDir(true, "");
-//		instan.initInputAndOutput();
-//		instan.search(false);
-////		instan.search(false);
-//		instan.recordResult(false);
-//	}
-
 }

@@ -47,9 +47,8 @@ public  class ProgramInstance {
 	private int repo;
 	private String program;
 
-	protected WhiteOrBlack whiteOrBlack;
 	// FIXME: FIGURE OUT THE REPO THING
-	public ProgramInstance(String program, Path folder, Path fileName, int repo, WhiteOrBlack wb){
+	public ProgramInstance(String program, Path folder, Path fileName, int repo){
 		this.repo = repo;
 		this.folder = folder;
 		this.fileName = fileName;
@@ -59,7 +58,7 @@ public  class ProgramInstance {
 
 		this.runDir = Paths.get(this.folder.toString() + File.separator + "temp");
 		this.program = program;
-		this.whiteOrBlack = wb;
+		
 	}
 
 	public int getRepo() {
@@ -70,9 +69,6 @@ public  class ProgramInstance {
 		return info;
 	}
 
-	protected void setInfo(CaseInfo info) {
-		this.info = info;
-	}
 
 	public Path getFolder() {
 		return folder;
@@ -112,19 +108,13 @@ public  class ProgramInstance {
 		}
 	}
 
-	protected void initTests(){
-		initTraining(); 
-		initValidation();
-		initGcov();
-	}
-
-	private void initGcov() {
-		GcovTest test = new GcovTest(this.getProgram(), this.folder, this.transformFile, this.whiteOrBlack);
+	protected void initTests(WhiteOrBlack wb){
+		initTraining(wb); 
+		initValidation(wb);
+		GcovTest test = new GcovTest(this.getProgram(), this.folder, this.transformFile, wb);
 		test.init();
-
 	}
-	
-	// precondition: assumes tests have been initialized
+
 	public void search(){
 		if(this.getTrainingTests().getPositives().size() == 0) {
 			this.getInfo().getResult().setState(ResultState.NOPOSITIVE);
@@ -134,33 +124,27 @@ public  class ProgramInstance {
 			this.getInfo().getResult().setState(ResultState.CORRECT);
 			return;
 		}
-		// FIXME: why doesn't this get multiple buggy lines?
-		int[] range = this.getBugLines();
-//		if(range[0] == 0) {
-//			this.info.getResult().setState(ResultState.FAILED);
-//			return;
-//		}
-		boolean pass = constructProfile(range);
-		if (!pass)
-			return;
-		searchOverRepository(); // diff b/w Program and RegionInstance??
-
-		ruleOutFalsePositive(range);
-
-		if (isEmpty(info.getResult())) {
-			this.info.getResult().setState(ResultState.FAILED);
-			return;
-		} else {
-			if (!info.getResult().getPositive().isEmpty()) {
-				this.info.getResult().setState(ResultState.SUCCESS);
+		List<int[]> buggyLines = this.getMultipleBuggyLines();
+		for(int[] range : buggyLines) {
+			boolean pass = constructProfile(range);
+			if (!pass)
+				continue;
+			searchOverRepository(); 
+			ruleOutFalsePositive(range);
+			if (isEmpty(this.info.getResult())) {
+				this.info.getResult().setState(ResultState.FAILED);
 			} else {
-				this.info.getResult().setState(ResultState.PARTIAL);
+				if (!info.getResult().getPositive().isEmpty()) {
+					this.info.getResult().setState(ResultState.SUCCESS);
+					break;
+				} else {
+					this.info.getResult().setState(ResultState.PARTIAL);
+				}
 			}
 		}
-
 		//FIXME: does this do anything any more? initPositiveStates();
 	}
-	
+
 	protected boolean isEmpty(ResultObject result) {
 		return result.getPositive().isEmpty() && result.getPartial().isEmpty();
 	}
@@ -191,36 +175,30 @@ public  class ProgramInstance {
 			for(Map<String, String> map : info.getResult().getSearchMapping().get(source)){
 				String input = Restore.getMappingString(source, map);
 				String outputFile = generateOutputFile(input, buggy);
-				if (testAllResults(source, outputFile)) {
-					info.getResult().getMappingSource().put(source, input);
-					int extraPass = this.validationTests.passPositives(source, outputFile,compiledBinary);
-					extraPass += this.validationTests.passNegatives(source, outputFile,compiledBinary);
-					this.info.getResult().getExtraPass().put(source, extraPass);
-					break;
+				if(trainingTests.passAllPositive(source, outputFile, this.compiledBinary)) {
+					int count = trainingTests.passNegatives(source, outputFile, this.compiledBinary);
+					if(count == this.trainingTests.getNegatives().size()) {
+						info.getResult().getPositive().add(source);
+					}
+					else if(count == 0){
+						info.getResult().getFalsePositve().add(source);
+						continue;
+					}
+					else {
+						info.getResult().getPartial().put(source, count * 1.0 / this.trainingTests.getNegatives().size());
+					}
+
 				} else continue;
+				info.getResult().getMappingSource().put(source, input);
+				int extraPass = this.validationTests.passPositives(source, outputFile,compiledBinary);
+				extraPass += this.validationTests.passNegatives(source, outputFile,compiledBinary);
+				this.info.getResult().getExtraPass().put(source, extraPass);
+				break;
 			}
 		}
 
 	}	
 
-	// FIXME: find a way to put this in program tests where it belongs
-	private boolean testAllResults(String source, String outputFile) {
-		boolean pass = trainingTests.passAllPositive(source, outputFile, this.compiledBinary);
-		if(!pass) return false;
-		int count = trainingTests.passNegatives(source, outputFile, this.compiledBinary);
-		if(count == this.trainingTests.getNegatives().size()) {
-			info.getResult().getPositive().add(source);
-			return true;
-		}
-		else if(count == 0){
-			info.getResult().getFalsePositve().add(source);
-			return false;
-		}
-		else {
-			info.getResult().getPartial().put(source, count * 1.0 / this.trainingTests.getNegatives().size());
-			return true;
-		}
-	}
 
 
 	private String generateOutputFile(String input, int [] buggy) {
@@ -272,24 +250,15 @@ public  class ProgramInstance {
 
 	}
 
-
-	public void searchJustOnMap(int [] buggy) {
-		try {
-			info.setResult(new ResultObject());
-			PrototypeSearch.searchOnlyMatchType(info, repo);
-			this.ruleOutFalsePositive(buggy);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
 	/**
 	 * if no bug, the buggy lines will be 0-0
 	 */
-	protected int[] getBugLines() {
+	// FIXME: why doesn't this get multiple buggy lines normally?
+	protected List<int[]> getMultipleBuggyLines() {
 		BugLineSearcher bug = new BugLineSearcher(this.getFolder().toString(), this.transformFile.toString());
-		return bug.getBuggy();
+		List<int[]> retval = new ArrayList<int[]> ();
+		retval.add(bug.getBuggy());
+		return retval;
 	}
 
 	private void initTests(ProgramTests tests, WhiteOrBlack whiteOrBlack) {
@@ -305,12 +274,12 @@ public  class ProgramInstance {
 			tests.addTestFromFile(root1,negOrPos); 
 		}
 	}
-	protected void initTraining() {
-		this.initTests(this.trainingTests, this.whiteOrBlack);
+	protected void initTraining(WhiteOrBlack wb) {
+		this.initTests(this.trainingTests, wb);
 	}
 
-	protected void initValidation() {
-		WhiteOrBlack which = this.whiteOrBlack == WhiteOrBlack.BLACKBOX ? WhiteOrBlack.WHITEBOX : WhiteOrBlack.BLACKBOX; 
+	protected void initValidation(WhiteOrBlack wb) {
+		WhiteOrBlack which = wb == WhiteOrBlack.BLACKBOX ? WhiteOrBlack.WHITEBOX : WhiteOrBlack.BLACKBOX; 
 		this.initTests(this.validationTests, which);
 	}
 
