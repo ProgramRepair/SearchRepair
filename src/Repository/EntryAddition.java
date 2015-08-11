@@ -101,7 +101,6 @@ public class EntryAddition {
 
 			while((s = ls_in.readLine()) != null)
 			{
-				System.out.println(s);
 				s = s.trim();
 				if(s.startsWith("Processing:")){
 					if(method.getName() != null){
@@ -133,7 +132,6 @@ public class EntryAddition {
 					
 					method.getPath().add(path.toString());
 					method.getPathToInput().put(path.toString(), input.toString());		
-					System.out.println(input.toString());
 					path = new StringBuilder();
 					input = new StringBuilder();
 					//startParsing = false;

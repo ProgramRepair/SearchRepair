@@ -18,9 +18,9 @@ public class Configuration {
 	// run wb test or run bb test, wb : wb = true, bb: wb = false;
 	public static boolean wb = false;
 
-	public static String outputPath = "./bughunt/";
+	public static String outputPath = "/Users/clegoues/research/autobugfix/autobugfix-yalin/bughunt/";
 
-	public static boolean skipGenerate = true;
+	public static boolean skipGenerate = false;
 
 	public static String[] programs = new String[] { "checksum", // "digits", FIXME: we can't handle digits at all, right?
 			"grade", "median", "smallest", "syllables" };

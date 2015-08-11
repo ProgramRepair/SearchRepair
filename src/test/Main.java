@@ -31,7 +31,6 @@ public class Main {
 			}
 			rerun(Configuration.wb, Configuration.repositoryType);
 			logger.info("searchRepair rerun complete; printing data to CSV");
-			Analyzer.getCSVData(); //TODO: does this still belong here?
 		}
 		
 		

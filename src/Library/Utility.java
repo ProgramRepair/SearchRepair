@@ -160,7 +160,7 @@ public class Utility {
 			e.printStackTrace();
 		}
 	}
-
+// left off on initializetesting, where this function is a problem.
 	public static void copyDirOK(Path copyFrom, Path copyTo) throws IOException {
 		try {
 		Files.copy(copyFrom, copyTo, StandardCopyOption.REPLACE_EXISTING);
@@ -169,6 +169,8 @@ public class Utility {
 		}
 
 	}
+	
+
 	// FIXME: try to nuke this
 	public static void copy(String file1, String file2) {
 		try {

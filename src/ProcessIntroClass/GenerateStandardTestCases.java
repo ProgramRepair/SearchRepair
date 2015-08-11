@@ -100,27 +100,36 @@ public class GenerateStandardTestCases {
 
 	}
 
-	private boolean init(String program, Path variantPath, Path outputPath) {
+	private boolean init(String program, Path variantPath, Path outputDirPath) {
 		logger.info("Initializing program " + program + " at path " + variantPath.toString());
 		Path variantProgramSourcePath = Paths.get(variantPath + "/" + program + ".c");
 		// copy programC
 		try {
-			Utility.copyDirOK(variantProgramSourcePath, outputPath);
+			Path programOutput = Paths.get(outputDirPath.toString() + "/" + program + ".c");
+			Utility.copyDirOK(variantProgramSourcePath, programOutput);
 		} catch (IOException e) {
-			logger.error("Failed to copy variant source code in " + variantPath.toString() + " to output folder " + outputPath.toString() + "; skipping!");
+			logger.error("Failed to copy variant source code in " + variantPath.toString() + " to output folder " + outputDirPath.toString() + "; skipping!");
 			return false; 
 		}
 
-		Utility.writeTOFile(outputPath + "/original", variantProgramSourcePath.toString());
-		if(!initializeTesting(program, variantPath, outputPath)) {
+		Utility.writeTOFile(outputDirPath + "/original", variantProgramSourcePath.toString());
+		if(!initializeTesting(program, variantPath, outputDirPath)) {
 			logger.error("Failed to initialize testing for " + variantPath.toString() + "; skipping!");
 			return false;		
 		}
-		getOtherTechInfo(variantPath, outputPath);
+		getOtherTechInfo(variantPath, outputDirPath);
 		return true;
 	}
 
+	private String testDirPath(String outputPath, String whichTests, String posOrNeg) {
+		
+		return outputPath + File.separator + whichTests + File.separator + posOrNeg + File.separator;
+	}
 	private boolean initializeTesting(String program, Path variantPath, Path outputPath) {
+		Path tempFolder = Paths.get("./tempFolder");
+		if(!Files.exists(tempFolder)) {
+			tempFolder.toFile().mkdir();
+		}
 		for(String whichTests : new String[]{"whitebox","blackbox"} ) {
 			// create output folders
 			for(String type : new String[]{"positive", "negative"} ) {
@@ -134,11 +143,11 @@ public class GenerateStandardTestCases {
 			}
 
 			// compile test executable for this variant
-			Path testExePath = Paths.get(outputPath.toString() + "/./" + program);
+			Path testExePath = Paths.get(outputPath.toString() + File.separator + program);
 			if(Files.exists(testExePath)) {
 				testExePath.toFile().delete();
 			}
-
+			
 			String gccCmd = "gcc -o " + testExePath.toString() + " " + outputPath + "/" + program + ".c";
 			String s = Utility.runCProgram(gccCmd);
 			if (s.equals("failed")) {
@@ -147,28 +156,36 @@ public class GenerateStandardTestCases {
 
 			// run each test in each suite; if it passes, it's a positive test, and if it fails, it's a negative test.
 			File testSuiteFile = Paths.get(variantPath.toString() + "/../../tests/" + whichTests).normalize().toFile();
-			Path positiveDirPath = Paths.get(outputPath.toString() + "/" + whichTests + "/positive/");
-			Path negativeDirPath = Paths.get(outputPath.toString() + "/" + whichTests + "/negative/");
+			Path positiveDirPath = Paths.get(testDirPath(outputPath.toString(), whichTests, "positive")); 
+			Path negativeDirPath = Paths.get(testDirPath(outputPath.toString(), whichTests, "negative")); 
+			String tempOutputFile = "." + File.separator + "tempFolder" + File.separator + "test.out";
+
 			try {
 				for (File file : testSuiteFile.listFiles()) {
 					String testCandidate = file.getAbsolutePath();
 					if (testCandidate.endsWith(".in")) {
 						String input = Utility.getStringFromFile1(testCandidate);
 						String outPathStr = testCandidate.substring(0, testCandidate.length() - 3) + ".out";
-						String runOutput = Utility.runCProgramWithInput(testExePath.toString(),
-								input);
-						String tempOutputFile = "./tempFolder/test.out";
+						File outpathfile = Paths.get(outPathStr).toFile();
+						String runOutput = Utility.runCProgramWithInput(testExePath.toString(), input);
+						
 						Utility.writeTOFile(tempOutputFile, runOutput);
 						String testStatus = Utility.runCProgramWithPythonCommand(testExePath.toString(),
 								tempOutputFile, testCandidate, outPathStr, program).trim();
+						Path fileDestination, outDestination;
 						if (testStatus.equals("Test passed.")) { // if passed, copy in and output to positive/ for this variant
 							// recall that if we got this far, it's because the file we got from the testSuiteFileList in the for loop above is the .in for a test.
-							Utility.copyDirOK(file.toPath(), positiveDirPath);
-							Utility.copyDirOK(Paths.get(outPathStr), positiveDirPath);
+							fileDestination = Paths.get(positiveDirPath.toString() + File.separatorChar + file.getName());
+							outDestination = Paths.get(positiveDirPath.toString() + File.separatorChar + outpathfile.getName());
+				
 						} else { // otherwise it's initially failing, copy to negative
-							Utility.copyDirOK(file.toPath(), negativeDirPath);
-							Utility.copyDirOK(Paths.get(outPathStr), negativeDirPath);
+							fileDestination = Paths.get(negativeDirPath.toString() + File.separatorChar + file.getName());
+							outDestination = Paths.get(negativeDirPath.toString() + File.separatorChar + outpathfile.getName());
+							Utility.copyDirOK(file.toPath(), fileDestination);
+							Utility.copyDirOK(Paths.get(outPathStr), outDestination);
 						}
+						Utility.copyDirOK(file.toPath(), fileDestination);
+						Utility.copyDirOK(Paths.get(outPathStr), outDestination);
 					}
 				}
 			} catch (IOException e) {
