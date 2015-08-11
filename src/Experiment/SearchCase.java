@@ -84,7 +84,6 @@ public class SearchCase {
 	}
 
 	public void search() {
-		// TODO: LEFT OFF HERE
 		boolean pass = fillSearchCase();
 		if (!pass)
 			return;
@@ -332,7 +331,7 @@ public class SearchCase {
 	}
 
 	private void obtainPositiveStates() {
-		String sourceFile = this.programSource + ".state.c";  
+		String sourceFile = this.compiledBinary + ".state.c";  
 		for (String input : this.getPositives().keySet()) {
 			try {
 				Files.deleteIfExists(this.compiledBinary);
