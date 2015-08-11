@@ -4,7 +4,6 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import util.Configuration;
 import Experiment.CheckSumInstance;
 import Experiment.ExperimentType;
 import Experiment.GradeInstance;

@@ -1,4 +1,4 @@
-package util;
+package main;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,8 +25,8 @@ public class Configuration {
 
 	public static boolean skipGenerate = true;
 
-	public static String[] programs = new String[] { "checksum", // "digits", FIXME: we can't handle digits at all, right?
-			"grade", "median", "smallest", "syllables" };
+	public static String[] programs = new String[] { "median" } ; //, // "digits", FIXME: we can't handle digits at all, right?
+			// "checksum", "grade", "median", "smallest", "syllables" };
 
 	public static void configure(String name) {
 		Properties prop = new Properties();

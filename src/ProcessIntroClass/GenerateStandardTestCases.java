@@ -8,9 +8,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.Configuration;
+
 import org.apache.log4j.Logger;
 
-import util.Configuration;
 import util.Utility;
 
 public class GenerateStandardTestCases {
