@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import search.ResultObject.ResultState;
-import util.WhiteOrBlack;
 
 public class SyllablesInstance extends ProgramInstance{
 
@@ -34,7 +33,7 @@ public class SyllablesInstance extends ProgramInstance{
 		for(int[] range : buggys){
 			String s = Arrays.toString(range);
 			System.out.println(s);
-			OneRegion instan = new OneRegion(this.getProgram(), this.getRunDir(), this.getRepo());
+			RegionInstance instan = new RegionInstance(this.getProgram(), this.getRunDir(), this.getRepo());
 
 			instan.setBuggy(range);
 			instan.setNegatives(this.getNegatives());

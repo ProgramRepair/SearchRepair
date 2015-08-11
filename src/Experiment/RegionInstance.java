@@ -48,7 +48,7 @@ import antlr.preprocess.FunctionParser.StatContext;
  * @author keyalin
  *
  */
-public class OneRegion {
+public class RegionInstance {
 
 	public static final String MARKINPUT = "_yalin_mark(\"input\");";
 	public static final String MARKOUTPUT = "_yalin_mark(\"output\");";
@@ -69,7 +69,7 @@ public class OneRegion {
 	private String tempOutput;
 	private int repo;
 
-	public OneRegion(String program, Path cwd, int repo) {
+	public RegionInstance(String program, Path cwd, int repo) {
 		this.program = program;
 		this.folder = cwd;
 		this.compiledBinary = Paths.get(this.folder.toString() + File.separator + program);
@@ -653,7 +653,7 @@ public class OneRegion {
 				writer.flush();
 			}
 
-			writer.write(OneRegion.MARKINPUT);
+			writer.write(RegionInstance.MARKINPUT);
 			writer.write("\n");
 			writer.flush();
 
@@ -663,7 +663,7 @@ public class OneRegion {
 				writer.write("\n");
 				writer.flush();
 			}
-			writer.write(OneRegion.MARKOUTPUT);
+			writer.write(RegionInstance.MARKOUTPUT);
 			writer.write("\n");
 			writer.flush();
 

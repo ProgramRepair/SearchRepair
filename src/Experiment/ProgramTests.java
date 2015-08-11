@@ -3,9 +3,7 @@ package Experiment;
 import java.io.File;
 import java.util.HashMap;
 
-import util.NegOrPos;
 import util.Utility;
-import util.WhiteOrBlack;
 
 public class ProgramTests {
 

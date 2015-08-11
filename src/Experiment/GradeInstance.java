@@ -3,7 +3,6 @@ package Experiment;
 import java.nio.file.Path;
 
 import search.ResultObject.ResultState;
-import util.WhiteOrBlack;
 
 public class GradeInstance extends ProgramInstance {
 // FIXME: make all the .gcov .gcda .gcno etc files end up not at the top level.
@@ -27,7 +26,7 @@ public class GradeInstance extends ProgramInstance {
 		
 		int[] range = getBugLines();
 
-		OneRegion instan = new OneRegion(this.getProgram(), this.getRunDir(), this.getRepo());
+		RegionInstance instan = new RegionInstance(this.getProgram(), this.getRunDir(), this.getRepo());
 		instan.setBuggy(range);
 		instan.setNegatives(this.getNegatives());
 		instan.setPositives(this.getPositives());

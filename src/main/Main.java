@@ -3,10 +3,10 @@ package main;
 import org.apache.log4j.Logger;
 
 import util.Configuration;
-import util.ExperimentType;
-import util.WhiteOrBlack;
 import Database.DataBaseManager;
 import Experiment.Analyzer;
+import Experiment.ExperimentType;
+import Experiment.WhiteOrBlack;
 import ProcessIntroClass.GenerateStandardTestCases;
 import Repository.EntryAddition;
 

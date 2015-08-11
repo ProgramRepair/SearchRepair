@@ -3,7 +3,6 @@ package Experiment;
 import java.nio.file.Path;
 
 import search.ResultObject.ResultState;
-import util.WhiteOrBlack;
 
 public class MedianInstance extends ProgramInstance {
 	
@@ -25,7 +24,7 @@ public class MedianInstance extends ProgramInstance {
 		}
 		// FIXME: why doesn't this get multiple buggy lines?
 		int[] range = this.getBugLines();
-		OneRegion instan = new OneRegion(this.getProgram(), this.getRunDir(), this.getRepo());
+		RegionInstance instan = new RegionInstance(this.getProgram(), this.getRunDir(), this.getRepo());
 		instan.setBuggy(range);
 		instan.setNegatives(this.getNegatives());
 		instan.setPositives(this.getPositives());

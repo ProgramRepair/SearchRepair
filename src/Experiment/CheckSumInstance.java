@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import search.ResultObject.ResultState;
-import util.WhiteOrBlack;
 
 public class CheckSumInstance extends ProgramInstance {
 
@@ -34,7 +33,7 @@ public class CheckSumInstance extends ProgramInstance {
 			// so a program search case per program, and a regular search case per region of program.
 			// the test case redundancy is still stupid
 			// but at least it makes a little more sense now
-			OneRegion instan = new OneRegion(this.getProgram(), this.getRunDir(), this.getRepo());
+			RegionInstance instan = new RegionInstance(this.getProgram(), this.getRunDir(), this.getRepo());
 			instan.setBuggy(range);
 			instan.setNegatives(this.getNegatives());
 			instan.setPositives(this.getPositives());

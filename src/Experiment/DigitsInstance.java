@@ -3,7 +3,6 @@ package Experiment;
 import java.nio.file.Path;
 
 import search.ResultObject.ResultState;
-import util.WhiteOrBlack;
 
 public class DigitsInstance extends ProgramInstance {
 

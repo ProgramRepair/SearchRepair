@@ -4,24 +4,16 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import util.Configuration;
 import Experiment.CheckSumInstance;
+import Experiment.ExperimentType;
 import Experiment.GradeInstance;
 import Experiment.MedianInstance;
 import Experiment.ProgramInstance;
 import Experiment.SyllablesInstance;
-import util.Configuration;
-import util.ExperimentType;
-import util.WhiteOrBlack;
+import Experiment.WhiteOrBlack;
 
 public class RepairIntroClass {
-
-	//	public static void main(String[] args) {
-	//		//medianTest(false, 2);
-	//		//smallestTest(false, 2);
-	//		//gradeTest(false, 2);
-	//		//checkSumTest(false, 2);
-	//		syllablesTest(false, 2);
-	//	}
 
 	private static int getActualRepository(String program, int size, int value) {
 		switch(program) {
@@ -35,8 +27,7 @@ public class RepairIntroClass {
 		}
 	}
 
-	// FIXME: this used to just iterate over programs but I undid that change
-	// in light of Yalin's changes to the "actualRepository configuration.  Should fix it again!
+
 	public static void rerun(WhiteOrBlack wb, ExperimentType repositoryType) {
 		for(String program : Configuration.programs) {
 			File file = new File(Configuration.outputPath + File.separator + program);
