@@ -11,9 +11,7 @@ public class MedianInstance extends ProgramInstance {
 		this.transformAndInitRunDir(true, "");
 		this.initTests();
 	}
-	
-	// OK, FIXME/TODO plan: don't put regioninstance in charge of testing any more.
-	
+		
 	@Override
 	public void search() {
 		if(this.getTrainingTests().getPositives().size() == 0) {

@@ -25,7 +25,7 @@ public class Configuration {
 
 	public static boolean skipGenerate = true;
 
-	public static String[] programs = new String[] { "median" } ; //, // "digits", FIXME: we can't handle digits at all, right?
+	public static String[] programs = new String[] { "median" } ; //, // "digits", 
 			// "checksum", "grade", "median", "smallest", "syllables" };
 
 	public static void configure(String name) {
