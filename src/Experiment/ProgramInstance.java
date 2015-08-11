@@ -23,15 +23,17 @@ import org.apache.log4j.Logger;
 import search.PrototypeSearch;
 import search.ResultObject;
 import search.ResultObject.ResultState;
-import Library.Utility;
+import util.NegOrPos;
+import util.Utility;
+import util.WhiteOrBlack;
 import ProcessIntroClass.BugLineSearcher;
 import ProcessIntroClass.GcovTest;
 import ProcessIntroClass.GetInputStateAndOutputState;
 import ProcessIntroClass.Transform;
 // FIXME: note to self: nuke gcc and gdb at least!
 
-public  class ESearchCase {
-	protected static Logger logger = Logger.getLogger(ESearchCase.class);
+public  class ProgramInstance {
+	protected static Logger logger = Logger.getLogger(ProgramInstance.class);
 
 	private Path folder;
 	private Path runDir;
@@ -52,16 +54,16 @@ public  class ESearchCase {
 	
 	private WhiteOrBlack whiteOrBlack;
 
-	public ESearchCase(String program, Path folder, Path fileName, int repo){
+	public ProgramInstance(String program, Path folder, Path fileName, int repo){
 		this.repo = repo;
 		this.folder = folder;
 		this.fileName = fileName;
-		this.compiledBinary = Paths.get(this.folder.toString() + "/" + program);
+		this.compiledBinary = Paths.get(this.folder.toString() + File.separator + program);
 
 		this.buggy = new int[2];
 		this.info = new CaseInfo();
 
-		this.runDir = Paths.get(this.folder.toString() + "/temp");
+		this.runDir = Paths.get(this.folder.toString() + File.separator + "temp");
 		this.content = new ArrayList<String>();
 		this.setProgram(program);
 		
@@ -81,7 +83,7 @@ public  class ESearchCase {
 
 	protected void initContent() {
 		try{
-			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.folder + "/" + this.transformFile)));
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.folder + File.separator + this.transformFile)));
 			String s = null;
 			while((s = br.readLine()) != null){
 				this.content.add(s.trim());
@@ -149,7 +151,6 @@ public  class ESearchCase {
 			}
 		} catch (IOException e) {
 			logger.error("IOException in transformAndInitRunDir, likely a problem with transform file name mangling.");
-			e.printStackTrace();
 		}
 	}
 
@@ -158,7 +159,7 @@ public  class ESearchCase {
 		initTraining(); 
 		initValidation();
 
-		// possible FIXME: do we need this?
+		// possible FIXME: initialize this without a useless variable.
 		GcovTest test = new GcovTest(this.getProgram(), this.folder, this.transformFile, wb);
 	}
 

@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.util.HashMap;
 import java.util.Map;
 
-import Library.Utility;
+import util.Utility;
 
 public class EntryHandler {
 	public static String PATH_CONSTRAINT = "_yalin_autofix_constraint\n";

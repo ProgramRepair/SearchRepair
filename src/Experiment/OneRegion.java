@@ -27,7 +27,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import search.PrototypeSearch;
 import search.ResultObject;
 import search.ResultObject.ResultState;
-import Library.Utility;
+import util.Utility;
 import antlr.preprocess.FunctionLexer;
 import antlr.preprocess.FunctionParser;
 import antlr.preprocess.FunctionParser.AssignStatContext;
@@ -48,7 +48,7 @@ import antlr.preprocess.FunctionParser.StatContext;
  * @author keyalin
  *
  */
-public class SearchCase {
+public class OneRegion {
 
 	public static final String MARKINPUT = "_yalin_mark(\"input\");";
 	public static final String MARKOUTPUT = "_yalin_mark(\"output\");";
@@ -69,7 +69,7 @@ public class SearchCase {
 	private String tempOutput;
 	private int repo;
 
-	public SearchCase(String program, Path cwd, int repo) {
+	public OneRegion(String program, Path cwd, int repo) {
 		this.program = program;
 		this.folder = cwd;
 		this.compiledBinary = Paths.get(this.folder.toString() + File.separator + program);
@@ -84,7 +84,7 @@ public class SearchCase {
 	}
 
 	public void search() {
-		boolean pass = fillSearchCase();
+		boolean pass = constructProfile();
 		if (!pass)
 			return;
 		searchOverRepository();
@@ -315,19 +315,12 @@ public class SearchCase {
 
 	}
 
-	private boolean fillSearchCase() {
-		//System.out.println("---" + Arrays.toString(this.buggy));
-		try {
-			if (insertStateStatements(this.programSource)) { 
-				obtainPositiveStates();
-				return true;
-			} else
-				return false;
-		} catch (Exception e) {
-			e.printStackTrace();
+	private boolean constructProfile() {
+		if (insertStateStatements(this.programSource)) { 
+			obtainPositiveStates();
 			return true;
-		}
-
+		} else
+			return false;
 	}
 
 	private void obtainPositiveStates() {
@@ -660,7 +653,7 @@ public class SearchCase {
 				writer.flush();
 			}
 
-			writer.write(SearchCase.MARKINPUT);
+			writer.write(OneRegion.MARKINPUT);
 			writer.write("\n");
 			writer.flush();
 
@@ -670,7 +663,7 @@ public class SearchCase {
 				writer.write("\n");
 				writer.flush();
 			}
-			writer.write(SearchCase.MARKOUTPUT);
+			writer.write(OneRegion.MARKOUTPUT);
 			writer.write("\n");
 			writer.flush();
 

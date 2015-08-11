@@ -6,7 +6,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import test.Configuration;
+import util.Configuration;
+import util.WhiteOrBlack;
 
 public class GroupTest {
 
@@ -45,7 +46,7 @@ public class GroupTest {
 					if(value < size / 2) actualRepository = 3;
 					else actualRepository = 4;
 				}
-				CheckSumSearchCase searcher = new CheckSumSearchCase(program, folder, fileName, actualRepository);
+				CheckSumInstance searcher = new CheckSumInstance(program, folder, fileName, actualRepository);
 				searcher.transformAndInitRunDir(false, "");
 				searcher.initWbOrBB(wb);
 				searcher.search(wb);
@@ -66,8 +67,8 @@ public class GroupTest {
 		for (File root : file.listFiles()) {
 			try {
 				// if(!root.getName().equals("225"))continue;
-				Path folder = Paths.get(Configuration.outputPath + program + "/" + root.getName());
-				Path fileName = Paths.get(folder.toString() + "/" + program + ".c"); 
+				Path folder = Paths.get(Configuration.outputPath + program + File.separator + root.getName());
+				Path fileName = Paths.get(folder.toString() + File.separator + program + ".c"); 
 
 				if (type == 2) {
 					int value = Integer.parseInt(root.getName());
@@ -75,7 +76,7 @@ public class GroupTest {
 					if(value < size / 2) actualRepository = 3;
 					else actualRepository = 4;
 				}
-				MedianSearchCase searcher = new MedianSearchCase(program, folder, fileName, actualRepository);
+				MedianInstance searcher = new MedianInstance(program, folder, fileName, actualRepository);
 				searcher.transformAndInitRunDir(true, "");
 				searcher.initWbOrBB(wb);
 				searcher.search(wb);
@@ -110,7 +111,7 @@ public class GroupTest {
 					if(value < size / 2) actualRepository = 3;
 					else actualRepository = 4;
 				}
-				MedianSearchCase searcher = new MedianSearchCase(program, folder, fileName, actualRepository);
+				MedianInstance searcher = new MedianInstance(program, folder, fileName, actualRepository);
 				searcher.transformAndInitRunDir(true, "");
 				searcher.initWbOrBB(wb);
 				searcher.search(wb);
@@ -141,7 +142,7 @@ public class GroupTest {
 					//if(value != 120) continue;
 				}
 				System.out.println(folder);
-				GradeSearchCase instan = new GradeSearchCase(program, folder, fileName, actualRepository);
+				GradeInstance instan = new GradeInstance(program, folder, fileName, actualRepository);
 				instan.transformAndInitRunDir(true, "--type grade");
 				instan.initWbOrBB(wb);
 				instan.search(wb);
@@ -171,7 +172,7 @@ public class GroupTest {
 					if(value < size / 2) actualRepository = 3;
 					else actualRepository = 4;
 				}
-				SyllableSearchCase searcher = new SyllableSearchCase(program, folder, fileName, actualRepository);
+				SyllablesInstance searcher = new SyllablesInstance(program, folder, fileName, actualRepository);
 				searcher.transformAndInitRunDir(false, "");
 				searcher.initWbOrBB(wb);
 				searcher.search(wb);

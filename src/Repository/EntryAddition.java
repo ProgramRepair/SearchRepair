@@ -10,9 +10,9 @@ import java.util.Stack;
 
 import org.apache.log4j.Logger;
 
+import util.Utility;
 import Database.EntryHandler;
 import Database.EntryObject;
-import Library.Utility;
 
 // CLG: not pretty, but fine
 public class EntryAddition {

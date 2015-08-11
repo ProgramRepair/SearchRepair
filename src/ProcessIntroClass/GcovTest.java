@@ -14,8 +14,8 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import Experiment.WhiteOrBlack;
-import Library.Utility;
+import util.Utility;
+import util.WhiteOrBlack;
 
 public class GcovTest {
 	protected static Logger logger = Logger.getLogger(GcovTest.class);

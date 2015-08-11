@@ -1,20 +1,19 @@
 package Experiment;
 
 import java.nio.file.Path;
-import java.util.HashMap;
 
 import search.ResultObject.ResultState;
+import util.WhiteOrBlack;
 
-public class MedianSearchCase extends ESearchCase {
+public class MedianInstance extends ProgramInstance {
 	
-	public MedianSearchCase(String program, Path folder, Path fileName, int repo) {
+	public MedianInstance(String program, Path folder, Path fileName, int repo) {
 		super(program, folder, fileName,  repo);
 	}
 	
 	@Override
 	public void search(WhiteOrBlack wb) {
 		// TODO: this.initWbOrBB(wb); We already called this in GroupTest.medianTest; ensure we are consistent about this! 
-		HashMap<String,String> positives = this.getPositives();
 		if(this.getPositives().size() == 0) {
 			this.getInfo().getResult().setState(ResultState.NOPOSITIVE);
 			return;
@@ -26,7 +25,7 @@ public class MedianSearchCase extends ESearchCase {
 		
 		int[] range = this.getBugLines();
 		// possible FIXME: the second argument to SearchCase may be wrong
-		SearchCase instan = new SearchCase(this.getProgram(), this.getRunDir(), this.getRepo());
+		OneRegion instan = new OneRegion(this.getProgram(), this.getRunDir(), this.getRepo());
 		instan.setBuggy(range);
 		instan.setNegatives(this.getNegatives());
 		instan.setPositives(this.getPositives());

@@ -11,13 +11,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import util.StringRepresentation;
+import util.Utility;
 import lookups.TypeTable;
 import Database.DataBaseManager;
 import Database.DataHandler;
 import Database.EntryHandler;
 import Experiment.CaseInfo;
-import Library.StringRepresentation;
-import Library.Utility;
 
 
 public class PrototypeSearch {

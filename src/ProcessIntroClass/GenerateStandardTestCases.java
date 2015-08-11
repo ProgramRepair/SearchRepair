@@ -10,8 +10,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import test.Configuration;
-import Library.Utility;
+import util.Configuration;
+import util.Utility;
 
 public class GenerateStandardTestCases {
 

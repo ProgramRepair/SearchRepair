@@ -1,4 +1,4 @@
-package Experiment;
+package util;
 
 public enum WhiteOrBlack {
 	WHITEBOX, BLACKBOX 

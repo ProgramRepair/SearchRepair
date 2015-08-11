@@ -6,11 +6,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import search.ResultObject.ResultState;
+import util.WhiteOrBlack;
 
-public class SyllableSearchCase extends ESearchCase{
+public class SyllablesInstance extends ProgramInstance{
 
 	// possible FIXME: syllables knows it's syllables, possibly don't need it here.
-	public SyllableSearchCase(String program, Path folder, Path fileName, int repo) {
+	public SyllablesInstance(String program, Path folder, Path fileName, int repo) {
 		super(program, folder, fileName, repo);
 		
 	}
@@ -32,7 +33,7 @@ public class SyllableSearchCase extends ESearchCase{
 		for(int[] range : buggys){
 			String s = Arrays.toString(range);
 			System.out.println(s);
-			SearchCase instan = new SearchCase(this.getProgram(), this.getRunDir(), this.getRepo());
+			OneRegion instan = new OneRegion(this.getProgram(), this.getRunDir(), this.getRepo());
 
 			instan.setBuggy(range);
 			instan.setNegatives(this.getNegatives());

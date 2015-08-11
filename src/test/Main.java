@@ -2,10 +2,11 @@ package test;
 
 import org.apache.log4j.Logger;
 
+import util.Configuration;
+import util.WhiteOrBlack;
 import Database.DataBaseManager;
 import Experiment.Analyzer;
 import Experiment.GroupTest;
-import Experiment.WhiteOrBlack;
 import ProcessIntroClass.GenerateStandardTestCases;
 import Repository.EntryAddition;
 

@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import Library.Utility;
+import util.Utility;
 
 public class DataBaseManager {
 	private static boolean connected = false;

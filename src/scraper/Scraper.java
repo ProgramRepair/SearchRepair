@@ -25,7 +25,7 @@ import scraper.ScrapeParser.If_statContext;
 import scraper.ScrapeParser.ProgContext;
 import scraper.ScrapeParser.ReturnStatContext;
 import scraper.ScrapeParser.StatContext;
-import Library.Utility;
+import util.Utility;
 
 
 public class Scraper {

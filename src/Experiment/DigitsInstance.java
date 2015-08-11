@@ -3,10 +3,11 @@ package Experiment;
 import java.nio.file.Path;
 
 import search.ResultObject.ResultState;
+import util.WhiteOrBlack;
 
-public class DigitSearchCase extends ESearchCase {
+public class DigitsInstance extends ProgramInstance {
 
-	public DigitSearchCase(String program, Path folder, Path fileName, int repo) {
+	public DigitsInstance(String program, Path folder, Path fileName, int repo) {
 		super(program, folder, fileName, repo);
 		
 	}

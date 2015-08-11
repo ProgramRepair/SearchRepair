@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import Library.Utility;
+import util.Utility;
 
 public class CheckCorrectProgram {
 	private String folder;

@@ -12,9 +12,9 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import Library.CharMethodTranslator;
-import Library.StringMethodTranslator;
-import Library.StringRepresentation;
+import util.CharMethodTranslator;
+import util.StringMethodTranslator;
+import util.StringRepresentation;
 import antlr.preprocess.PathLexer;
 import antlr.preprocess.PathParser;
 import antlr.preprocess.PathParser.AddressExprContext;

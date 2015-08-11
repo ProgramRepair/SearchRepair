@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import search.ResultObject.ResultState;
+import util.WhiteOrBlack;
 
-public class CheckSumSearchCase extends ESearchCase {
+public class CheckSumInstance extends ProgramInstance {
 
-	public CheckSumSearchCase(String program, Path folder, Path fileName, int repo) {
+	public CheckSumInstance(String program, Path folder, Path fileName, int repo) {
 		super(program, folder, fileName, repo);
 	}
 
@@ -28,7 +29,11 @@ public class CheckSumSearchCase extends ESearchCase {
 		List<int[]> buggylines = getMultipleBuggyLines();
 
 		for(int[] range : buggylines){
-			SearchCase instan = new SearchCase(this.getProgram(), this.getRunDir(), this.getRepo());
+			// I THINK I GET IT: we have a searchcase for every possible buggy region, and a CheckSumSearchCase for every possible buggy CheckSum.
+			// so a program search case per program, and a regular search case per region of program.
+			// the test case redundancy is still stupid
+			// but at least it makes a little more sense now
+			OneRegion instan = new OneRegion(this.getProgram(), this.getRunDir(), this.getRepo());
 			instan.setBuggy(range);
 			instan.setNegatives(this.getNegatives());
 			instan.setPositives(this.getPositives());

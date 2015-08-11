@@ -3,10 +3,11 @@ package Experiment;
 import java.nio.file.Path;
 
 import search.ResultObject.ResultState;
+import util.WhiteOrBlack;
 
-public class GradeSearchCase extends ESearchCase {
+public class GradeInstance extends ProgramInstance {
 // FIXME: make all the .gcov .gcda .gcno etc files end up not at the top level.
-	public GradeSearchCase(String program, Path folder, Path fileName, int repo) {
+	public GradeInstance(String program, Path folder, Path fileName, int repo) {
 		super(program, folder, fileName, repo);
 	}
 
@@ -27,7 +28,7 @@ public class GradeSearchCase extends ESearchCase {
 		int[] range = getBugLines();
 		// FIXME: I mangled all these prefix mangling things as an intermediate step in changing from strings to paths, fix it!
 		// trick is: what is prefix supposed to be pointing at?
-		SearchCase instan = new SearchCase(this.getProgram(), this.getRunDir(), this.getRepo());
+		OneRegion instan = new OneRegion(this.getProgram(), this.getRunDir(), this.getRepo());
 		instan.setBuggy(range);
 		instan.setNegatives(this.getNegatives());
 		instan.setPositives(this.getPositives());

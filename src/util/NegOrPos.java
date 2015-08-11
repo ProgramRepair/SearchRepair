@@ -1,4 +1,4 @@
-package Experiment;
+package util;
 
 public enum NegOrPos {
 	NEGATIVE, POSITIVE 
