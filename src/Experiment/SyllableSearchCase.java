@@ -16,7 +16,7 @@ public class SyllableSearchCase extends ESearchCase{
 	}
 
 	@Override
-	public void search(boolean wb) {
+	public void search(WhiteOrBlack wb) {
 		this.initWbOrBB(wb);
 		if(this.getPositives().size() == 0) {
 			this.getInfo().getResult().setState(ResultState.NOPOSITIVE);
@@ -43,7 +43,7 @@ public class SyllableSearchCase extends ESearchCase{
 				break;
 			}
 			else{
-				if(!wb)continue;
+				if(wb != WhiteOrBlack.WHITEBOX)continue;
 				instan.searchJustOnMap();
 				if(instan.getInfo().getResult().getState() == ResultState.SUCCESS){
 					this.setInfo(instan.getInfo());				

@@ -19,7 +19,6 @@ public class BugLineSearcher {
 	//private 
 
 	public BugLineSearcher(String folder, String fileName) {
-		super();
 		this.folder = folder;
 		this.fileName = fileName;
 		this.linesContent = new ArrayList<String>();

@@ -267,14 +267,14 @@ public class Utility {
 				while ((ls_str = ls_in.readLine()) != null) {
 					sb.append(ls_str);
 					sb.append("\n");
-					// System.out.println(ls_str);
+					System.out.println(ls_str);
 				}
 				while ((ls_str = ls_err.readLine()) != null) {
-					// System.out.println(ls_str);
+					System.out.println(ls_str);
 					sb.append("failed");
 					break;
 				}
-				// System.out.println(ls_proc.exitValue());
+				System.out.println(ls_proc.exitValue());
 
 			} catch (IOException e) {
 				sb.append("failed");
@@ -290,6 +290,13 @@ public class Utility {
 		return out;
 	}
 
-	// public void
+	public static String removeExtension(String filename) {
 
+	    // Remove the extension.
+	    int extensionIndex = filename.lastIndexOf(".");
+	    if (extensionIndex == -1)
+	        return filename;
+
+	    return filename.substring(0, extensionIndex);
+	}
 }

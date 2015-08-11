@@ -10,9 +10,11 @@ import java.io.OutputStreamWriter;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import Experiment.WhiteOrBlack;
 import Library.Utility;
 
 public class GcovTest {
@@ -30,10 +32,9 @@ public class GcovTest {
 	private Map<Integer, Integer> positiveExecutions = new HashMap<Integer, Integer>();
 	private Map<Integer, Integer> negativeExecutions= new HashMap<Integer, Integer>();
 	private Map<Integer, Double> suspiciousness= new HashMap<Integer, Double>();
-	private boolean wb;
+	private WhiteOrBlack wb;
 
-	public GcovTest(String program, Path folder, Path fileName, boolean wb) {
-		super();
+	public GcovTest(String program, Path folder, Path fileName, WhiteOrBlack wb) {
 		this.folder = folder;
 		this.fileName = fileName;
 		this.wb = wb;
@@ -94,59 +95,46 @@ public class GcovTest {
 		}
 	}
 
-	private void initNegativeExecutions() {
-		for (String input : this.negatives.keySet()) {
+	private void initExecutions(Set<String> set, Map<Integer, Integer> negativeExecutions2) {
+		for (String input : set) {
+			// TODO or FIXME: the location of these gcov output files is irritating.
 			String cleanCommand = "rm " + program + ".gcda";
 			Utility.runCProgram(cleanCommand);
 			String s = runWithUserInput("./a.out", input);
-			String gcovCommand = "gcov " + "./" + fileName;
+			String gcovCommand = "gcov --object-directory ./ " + fileName;
 			Utility.runCProgram(gcovCommand);
-			String gcovFile = this.fileName + ".gcov";
+			String gcovFile = this.program +".c" + ".gcov";
 			GcovFileParse parser = new GcovFileParse(gcovFile);
 			for (int lineNumber : parser.getExecutions().keySet()) {
-				if (!this.negativeExecutions.containsKey(lineNumber)) {
-					this.negativeExecutions.put(lineNumber, parser
+				if (!negativeExecutions2.containsKey(lineNumber)) {
+					negativeExecutions2.put(lineNumber, parser
 							.getExecutions().get(lineNumber));
 				} else {
-					this.negativeExecutions.put(lineNumber, parser
+					negativeExecutions2.put(lineNumber, parser
 							.getExecutions().get(lineNumber)
-							+ this.negativeExecutions.get(lineNumber));
+							+ negativeExecutions2.get(lineNumber));
 				}
 			}
 		}
-
+	}
+	private void initNegativeExecutions() {
+		this.initExecutions(this.negatives.keySet(), this.negativeExecutions);
+	}
+	
+	private void initPositiveExecutions() {
+		this.initExecutions(this.positives.keySet(), this.positiveExecutions);
 	}
 
-	private boolean compile() {		
+
+	private boolean compile() {	
 		String command = "gcc -fprofile-arcs -ftest-coverage "
-				+ fileName;
+				+ this.fileName;
 		String s = Utility.runCProgram(command);
 		if (s.equals("failed"))
 			return false;
 		return true;
 	}
 
-	private void initPositiveExecutions() {
-		for (String input : this.positives.keySet()) {
-			String cleanCommand = "rm " + program + ".gcda";
-			Utility.runCProgram(cleanCommand);
-			String s = runWithUserInput("./a.out", input);
-			String gcovCommand = "gcov " + "./" + fileName;
-			Utility.runCProgram(gcovCommand);
-			String gcovFile = this.fileName + ".gcov";
-			GcovFileParse parser = new GcovFileParse(gcovFile);
-			for (int lineNumber : parser.getExecutions().keySet()) {
-				if (!this.positiveExecutions.containsKey(lineNumber)) {
-					this.positiveExecutions.put(lineNumber, parser
-							.getExecutions().get(lineNumber));
-				} else {
-					this.positiveExecutions.put(lineNumber, parser
-							.getExecutions().get(lineNumber)
-							+ this.positiveExecutions.get(lineNumber));
-				}
-			}
-		}
-	}
 
 	private String runWithUserInput(String command, String input) {
 		String out = "";
@@ -202,11 +190,11 @@ public class GcovTest {
 
 	private void initNegatives() {
 
-		if (wb) {
-			String dir = this.folder + "/whitebox/negative";
+		if (wb == WhiteOrBlack.WHITEBOX) {
+			String dir = this.folder + File.separator + "whitebox" + File.separator + "negative";
 			initNegatives(dir);
 		} else {
-			String blackdir = this.folder + "/blackbox/negative";
+			String blackdir = this.folder + File.separator + "blackbox" + File.separator + "negative";
 			initNegatives(blackdir);
 		}
 	}
@@ -231,11 +219,12 @@ public class GcovTest {
 
 	private void initPositives() {
 		// fetch from whitebox
-		if (wb) {
-			String dir = this.folder + "/whitebox/positive";
+		if (wb == WhiteOrBlack.WHITEBOX) {
+			String dir = this.folder + File.separator + "whitebox" + File.separator + "positive";
+		
 			initPositives(dir);
 		} else {
-			String blackdir = this.folder + "/blackbox/positive";
+			String blackdir = this.folder + File.separator + "blackbox" + File.separator + "positive";
 			initPositives(blackdir);
 		}
 	}

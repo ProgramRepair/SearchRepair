@@ -21,7 +21,7 @@ public class GroupTest {
 	// FIXME: this used to just iterate over programs but I undid that change
 	// in light of Yalin's changes to the "actualRepository configuration.  Should fix it again!
 	// FIXME: alo rename initWb or BB
-	public static void rerun(boolean wb, int repositoryType) {
+	public static void rerun(WhiteOrBlack wb, int repositoryType) {
 		medianTest(wb, repositoryType);
 		// smallestTest(wb, repositoryType);
 		// gradeTest(wb, repositoryType);
@@ -29,7 +29,7 @@ public class GroupTest {
 		// syllablesTest(wb, repositoryType);
 	}
 
-	public static void checkSumTest(boolean wb, int type) {
+	public static void checkSumTest(WhiteOrBlack wb, int type) {
 		String program = "checkSum";
 		
 		File file = new File("./bughunt/checkSum");
@@ -57,7 +57,7 @@ public class GroupTest {
 		}
 	}
 
-	public static void medianTest(boolean wb, int type) {
+	public static void medianTest(WhiteOrBlack wb, int type) {
 		String program = "median";
 		List<String> list = new ArrayList<String>();
 		File file = new File("./bughunt/median");
@@ -75,7 +75,6 @@ public class GroupTest {
 					if(value < size / 2) actualRepository = 3;
 					else actualRepository = 4;
 				}
-				System.out.println(folder);
 				MedianSearchCase searcher = new MedianSearchCase(program, folder, fileName, actualRepository);
 				searcher.transformAndInitRunDir(true, "");
 				searcher.initWbOrBB(wb);
@@ -89,7 +88,7 @@ public class GroupTest {
 
 	}
 
-	public static void smallestTest(boolean wb, int type) {
+	public static void smallestTest(WhiteOrBlack wb, int type) {
 		String program = "smallest";
 		File file = new File("./bughunt/smallest");
 		int size = file.listFiles().length;
@@ -125,7 +124,7 @@ public class GroupTest {
 
 	}
 
-	public static void gradeTest(boolean wb, int type) {
+	public static void gradeTest(WhiteOrBlack wb, int type) {
 		String program = "grade";
 		File file = new File("./bughunt/grade");
 		int size = file.listFiles().length;
@@ -154,7 +153,7 @@ public class GroupTest {
 		}
 	}
 
-	public static void syllablesTest(boolean wb, int type) {
+	public static void syllablesTest(WhiteOrBlack wb, int type) {
 		String program = "syllables";
 		File file = new File("./bughunt/syllables");
 		int size = file.listFiles().length;

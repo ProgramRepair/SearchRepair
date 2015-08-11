@@ -3,6 +3,7 @@ package Experiment;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -58,11 +59,11 @@ public class SearchCase {
 	private String programSource;
 	private Path compiledBinary;
 	
-	private Map<String, String> positives = new HashMap<String, String>();
-	private Map<String, String> negatives = new HashMap<String, String>();
 	private int[] buggy;
 	private CaseInfo info;
-	private Map<String, String> verifications = new HashMap<String, String>();
+	// FIXME: I really don't understand why we store this twice for every damned thing
+	private ProgramTests trainingTests = new ProgramTests();
+	private ProgramTests verifications = new ProgramTests();
 	private String inputfile;
 	private String outputfile;
 	private String tempOutput;
@@ -71,8 +72,8 @@ public class SearchCase {
 	public SearchCase(String program, Path cwd, int repo) {
 		this.program = program;
 		this.folder = cwd;
-		this.compiledBinary = Paths.get(this.folder.toString() + "/" + program);
-		this.programSource = this.folder.toString() + "/" + program + ".c";
+		this.compiledBinary = Paths.get(this.folder.toString() + File.separator + program);
+		this.programSource = this.folder.toString() + File.separator + program + ".c";
 		this.info = new CaseInfo();
 		this.buggy = new int[2];
 
@@ -83,6 +84,7 @@ public class SearchCase {
 	}
 
 	public void search() {
+		// TODO: LEFT OFF HERE
 		boolean pass = fillSearchCase();
 		if (!pass)
 			return;
@@ -138,7 +140,9 @@ public class SearchCase {
 					if (testAllResults(source, outputFile)) {
 						info.getResult().getMappingSource().put(source, input);
 						int extraPass = this.passTestSuite(source, outputFile,
-								this.verifications);
+								this.verifications.getPositives());
+						extraPass += this.passTestSuite(source, outputFile,
+								this.verifications.getNegatives());
 						this.info.getResult().getExtraPass()
 								.put(source, extraPass);
 						break;
@@ -173,11 +177,10 @@ public class SearchCase {
 	}
 
 	private int passNegatives(String source, String outputFile) {
-		return this.passTestSuite(source, outputFile, this.negatives);
+		return this.passTestSuite(source, outputFile, this.trainingTests.getNegatives());
 	}
 
-	private int passTestSuite(String source, String outputFile,
-			Map<String, String> suite) {
+	private int passTestSuite(String source, String outputFile, HashMap<String,String> suite) {
 		try {
 			Files.deleteIfExists(this.compiledBinary);
 		} catch (IOException e) {
@@ -235,8 +238,9 @@ public class SearchCase {
 			return false;
 		}
 
-		for (String input : this.positives.keySet()) {
-			String output = this.positives.get(input);
+		HashMap<String,String> positives = this.trainingTests.getPositives();
+		for (String input : positives.keySet()) {
+			String output = positives.get(input);
 
 			String s2 = Utility.runCProgramWithInput(this.compiledBinary.toString(), input);
 
@@ -329,7 +333,7 @@ public class SearchCase {
 
 	private void obtainPositiveStates() {
 		String sourceFile = this.programSource + ".state.c";  
-		for (String input : this.positives.keySet()) {
+		for (String input : this.getPositives().keySet()) {
 			try {
 				Files.deleteIfExists(this.compiledBinary);
 			} catch (IOException e1) {
@@ -711,9 +715,9 @@ public class SearchCase {
 					String input = line.substring(6, index);
 					String output = line.substring(index + 7);
 					if (neg) {
-						this.negatives.put(input.trim(), output.trim());
+						this.trainingTests.addNegativeTest(input.trim(), output.trim());
 					} else {
-						this.positives.put(input.trim(), output.trim());
+						this.trainingTests.addPositiveTest(input.trim(), output.trim());
 					}
 				} else {
 					continue;
@@ -726,20 +730,20 @@ public class SearchCase {
 
 	}
 
-	public Map<String, String> getPositives() {
-		return positives;
+	public HashMap<String, String> getPositives() {
+		return this.trainingTests.getPositives();
 	}
 
-	public void setPositives(Map<String, String> positives) {
-		this.positives = positives;
+	public void setPositives(HashMap<String, String> positives) {
+		this.trainingTests.setPositives(positives);
 	}
 
-	public Map<String, String> getNegatives() {
-		return negatives;
+	public HashMap<String, String> getNegatives() {
+		return this.trainingTests.getNegatives();
 	}
 
-	public void setNegatives(Map<String, String> negatives) {
-		this.negatives = negatives;
+	public void setNegatives(HashMap<String, String> negatives) {
+		this.trainingTests.setNegatives(negatives);
 	}
 
 	public CaseInfo getInfo() {
@@ -755,11 +759,11 @@ public class SearchCase {
 		this.buggy = buggy;
 	}
 
-	public Map<String, String> getValidationTests() {
+	public ProgramTests getValidationTests() {
 		return verifications;
 	}
 
-	public void setValidationTests(Map<String, String> verifications) {
+	public void setValidationTests(ProgramTests verifications) {
 		this.verifications = verifications;
 	}
 

@@ -13,7 +13,7 @@ import java.util.Set;
 
 import Library.Utility;
 
-public class GetDrecrepency {
+public class GetDiscrepancy {
 	
 	private Set<String> smallest;
 	private Set<String> median;
@@ -29,7 +29,7 @@ public class GetDrecrepency {
 	private Set<String> tedDigits;
 	private String folder;
 	
-	public GetDrecrepency(String folder){
+	public GetDiscrepancy(String folder){
 		this.smallest = new HashSet<String>();
 		this.median = new HashSet<String>();
 		this.checksum = new HashSet<String>();;
@@ -234,7 +234,7 @@ public class GetDrecrepency {
 	
 	
 	public static void main(String[] args){
-		GetDrecrepency gd = new GetDrecrepency("./bughunt");
+		GetDiscrepancy gd = new GetDiscrepancy("./bughunt");
 		gd.init();
 		gd.initTed("./tempFolder/ted.csv");
 		gd.checkDiff();

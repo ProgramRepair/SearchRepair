@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import Database.DataBaseManager;
 import Experiment.Analyzer;
 import Experiment.GroupTest;
+import Experiment.WhiteOrBlack;
 import ProcessIntroClass.GenerateStandardTestCases;
 import Repository.EntryAddition;
 
@@ -36,7 +37,7 @@ public class Main {
 		
 	}
 
-	private static void rerun(boolean wb, int repositoryType) {
+	private static void rerun(WhiteOrBlack wb, int repositoryType) {
 		logger.info("Initializing database connection.");
 		DataBaseManager.connect();
 		if (!DataBaseManager.isConnected()) {

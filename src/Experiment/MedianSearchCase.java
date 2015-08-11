@@ -1,6 +1,7 @@
 package Experiment;
 
 import java.nio.file.Path;
+import java.util.HashMap;
 
 import search.ResultObject.ResultState;
 
@@ -11,8 +12,9 @@ public class MedianSearchCase extends ESearchCase {
 	}
 	
 	@Override
-	public void search(boolean wb) {
-		this.initWbOrBB(wb);
+	public void search(WhiteOrBlack wb) {
+		// TODO: this.initWbOrBB(wb); We already called this in GroupTest.medianTest; ensure we are consistent about this! 
+		HashMap<String,String> positives = this.getPositives();
 		if(this.getPositives().size() == 0) {
 			this.getInfo().getResult().setState(ResultState.NOPOSITIVE);
 			return;
@@ -28,6 +30,7 @@ public class MedianSearchCase extends ESearchCase {
 		instan.setBuggy(range);
 		instan.setNegatives(this.getNegatives());
 		instan.setPositives(this.getPositives());
+		// POSSIBLE FIXME: why don't they all set validation tests?
 		instan.setValidationTests(this.getValidationTests());
 		instan.search();	
 		this.setInfo(instan.getInfo());

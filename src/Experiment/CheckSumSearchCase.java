@@ -13,7 +13,7 @@ public class CheckSumSearchCase extends ESearchCase {
 	}
 
 	@Override
-	public void search(boolean wb) {
+	public void search(WhiteOrBlack wb) {
 		this.initWbOrBB(wb);
 		if(this.getPositives().size() == 0) {
 			this.getInfo().getResult().setState(ResultState.NOPOSITIVE);

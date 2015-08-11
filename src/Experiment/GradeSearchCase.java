@@ -11,7 +11,7 @@ public class GradeSearchCase extends ESearchCase {
 	}
 
 	@Override
-	public void search(boolean wb) {
+	public void search(WhiteOrBlack wb) {
 		
 		this.initWbOrBB(wb);
 

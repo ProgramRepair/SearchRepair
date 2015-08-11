@@ -6,9 +6,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+import Experiment.WhiteOrBlack;
+
 public class Configuration {
 	// type: 0 linux, 1 introclass, 2 future
-	public static int repositoryType = 2;
+	public static int repositoryType = 1;
 
 	public static String introclassPath = "/Users/clegoues/research/autobugfix/autobugfix-yalin/IntroClass/";
 
@@ -16,11 +18,11 @@ public class Configuration {
 	public static int operation = 1;
 
 	// run wb test or run bb test, wb : wb = true, bb: wb = false;
-	public static boolean wb = false;
+	public static WhiteOrBlack wb = WhiteOrBlack.BLACKBOX;
 
 	public static String outputPath = "/Users/clegoues/research/autobugfix/autobugfix-yalin/bughunt/";
 
-	public static boolean skipGenerate = false;
+	public static boolean skipGenerate = true;
 
 	public static String[] programs = new String[] { "checksum", // "digits", FIXME: we can't handle digits at all, right?
 			"grade", "median", "smallest", "syllables" };
@@ -49,7 +51,7 @@ public class Configuration {
 		if (prop.getProperty("training") != null) {
 			String trainSet = prop.getProperty("training").trim();
 			if (trainSet.equals("wb"))
-				wb = true;
+				wb = WhiteOrBlack.WHITEBOX;
 		}
 		if (prop.getProperty("outputPath") != null) {
 			outputPath = prop.getProperty("outputPath");

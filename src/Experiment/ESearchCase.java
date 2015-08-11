@@ -39,16 +39,9 @@ public  class ESearchCase {
 	private Path fileName;
 	private Path compiledBinary;
 
-
-	// this is keyed by black, white and then positive, negative
-	// FIXME: add some types or something to that to make it harder to screw up
-
-	private Map<String, Map<String,Map<String,String>>> trainingTests = new HashMap<String, Map<String,Map<String,String>>>();
-
-	// possible FIXME: is it appropriate to use all of the validation tests here?  I think so,
-	// based on how we're using the dataset, but should double-check
-	private Map<String, String> validationTests = new HashMap<String, String>();
-
+	private ProgramTests trainingTests = new ProgramTests(); 
+	private ProgramTests validationTests = new ProgramTests();
+	
 	private Map<Integer, Double> suspiciousness = new HashMap<Integer, Double>();
 
 	private int[] buggy;
@@ -57,7 +50,7 @@ public  class ESearchCase {
 	private List<String> content;
 	private String program;
 	
-	private String whiteOrBlack;
+	private WhiteOrBlack whiteOrBlack;
 
 	public ESearchCase(String program, Path folder, Path fileName, int repo){
 		this.repo = repo;
@@ -74,8 +67,8 @@ public  class ESearchCase {
 		
 	}
 
-	public void setWhiteOrBlack(boolean wb) {
-		this.whiteOrBlack = wb ? "whitebox" : "blackbox";
+	public void setWhiteOrBlack(WhiteOrBlack wb) {
+		this.whiteOrBlack = wb;
 	}
 	
 	public int getRepo() {
@@ -134,7 +127,7 @@ public  class ESearchCase {
 			runDir.toFile().mkdir();
 		}
 		try {
-			Path targetFile = Paths.get(runDir.toString() + "/" + program + ".c"); 
+			Path targetFile = Paths.get(runDir.toString() + File.separator + program + ".c"); 
 			if(!transform) {
 				this.transformFile = this.getFileName();
 				// TODO: make sure this does what it should do (copy original to runDir); 
@@ -146,8 +139,8 @@ public  class ESearchCase {
 
 			//transform here, if there is a true transform, no need to copy
 			if(pass != null) {
-				Utility.copy(pass, runDir + "/" + program + ".c");
-				this.transformFile = Paths.get(runDir + "/" + program + ".c"); 
+				Utility.copy(pass, runDir + File.separator + program + ".c");
+				this.transformFile = Paths.get(runDir + File.separator + program + ".c"); 
 			}
 			else{
 				this.transformFile = this.getFileName();
@@ -160,9 +153,8 @@ public  class ESearchCase {
 		}
 	}
 
-	protected void initWbOrBB(boolean wb){
+	protected void initWbOrBB(WhiteOrBlack wb){
 		this.setWhiteOrBlack(wb);
-		this.validationTests.clear();
 		initTraining(); 
 		initValidation();
 
@@ -170,7 +162,7 @@ public  class ESearchCase {
 		GcovTest test = new GcovTest(this.getProgram(), this.folder, this.transformFile, wb);
 	}
 
-	public void search(boolean wb){
+	public void search(WhiteOrBlack wb){
 		initWbOrBB(wb);
 
 		if(this.getPositives().size() == 0) {
@@ -214,24 +206,23 @@ public  class ESearchCase {
 		return result.getPositive().isEmpty() && result.getPartial().isEmpty();
 	}
 
-	public void recordResult(boolean wb) {
+	public void recordResult(WhiteOrBlack wb) {
 		String filec;
 		int type = repo;
 		if(repo == 3 || repo == 4){
 			type = 2;
-		}
-		if(wb){
+		} 
+		if(wb == WhiteOrBlack.WHITEBOX){
 			filec="searchfix-wb" + type;
 		}
 		else{
 			filec="searchfix-bb" + type;
 		}
-		File dir = new File(this.folder + "/repair");
+		File dir = new File(this.folder + File.separator + "repair");
 		if(!dir.exists()){
 			dir.mkdir();
 		}
-		recordLog(this.folder + "/repair/" + filec);
-
+		recordLog(this.folder + File.separator + "repair" + filec);
 
 	}
 
@@ -443,59 +434,32 @@ public  class ESearchCase {
 		return bug.getBuggy();
 	}
 
-	protected void initTraining() {
-		Map<String,Map<String,String>> blackOrWhiteTests = null;
-		if(this.whiteOrBlack.equals("")) {
+	private void initTests(ProgramTests tests, WhiteOrBlack whiteOrBlack) {
+		if(whiteOrBlack.equals("")) {
 			logger.error("training tests cannot be initialized without setting test type");
 			return;
 		}
-		if(trainingTests.containsKey(this.whiteOrBlack)) {
-			blackOrWhiteTests = trainingTests.get(this.whiteOrBlack);
-		} else {
-			blackOrWhiteTests = new HashMap<String,Map<String,String>>();
+		tests.setType(whiteOrBlack);
+		for(NegOrPos negOrPos : new NegOrPos[]{ NegOrPos.NEGATIVE, NegOrPos.POSITIVE}) {
+			String negOrPosDir = negOrPos == NegOrPos.NEGATIVE ? "negative" : "positive";
+			String whiteOrBlackDir = whiteOrBlack == WhiteOrBlack.BLACKBOX ? "blackbox" : "whitebox";
+			String root1 = this.getFolder() + File.separator + whiteOrBlackDir + File.separator + negOrPosDir;
+			tests.addTestFromFile(root1,negOrPos); 
 		}
-		for(String negOrPos : new String[]{ "negative", "positive"}) {
-			String root1 = this.getFolder() + "/" + this.whiteOrBlack + "/" + negOrPos;
-			Map<String,String> negOrPosMap = null;
-			if(!blackOrWhiteTests.containsKey(negOrPos)) {
-				negOrPosMap = new HashMap<String,String>();
-			} else {
-				negOrPosMap = blackOrWhiteTests.get(negOrPos);
-			}
-			addToInputOutputMap(root1, negOrPosMap);
-			blackOrWhiteTests.put(negOrPos, negOrPosMap);
-		}
-		trainingTests.put(this.whiteOrBlack,blackOrWhiteTests);
-
 	}
+	protected void initTraining() {
+		this.initTests(this.trainingTests, this.whiteOrBlack);
+	}
+	
 	protected void initValidation() {
-		String blackOrWhite = (this.whiteOrBlack.equals("whitebox")) ? "blackbox" : "whitebox";
-		
-		for(String negOrPos : new String[]{ "negative", "positive"}) {
-			String root1 = this.getFolder() + "/" + blackOrWhite + "/" + negOrPos;
-			addToInputOutputMap(root1, validationTests);
-		}	
-		
+		WhiteOrBlack which = this.whiteOrBlack == WhiteOrBlack.BLACKBOX ? WhiteOrBlack.WHITEBOX : WhiteOrBlack.BLACKBOX; 
+		this.initTests(this.validationTests, which);
 	}
 
-	private void addToInputOutputMap(String root1, Map<String, String> map) {
-		File dir = new File(root1);
-		if(!dir.exists() ||!dir.isDirectory()) return;
-		for(File file : dir.listFiles()){
-			String name = file.getAbsolutePath();
-			if(name.endsWith(".in")){
-				String output = name.substring(0, name.length() - 3) + ".out";
-				String inputString = Utility.getStringFromFile(name);
-				String outputString = Utility.getStringFromFile(output);
-				map.put(inputString, outputString);
-			}
-
-		}		
-	}
 
 	protected void initSuspicious() {
 		try{
-			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.getFolder() + "/suspicious")));
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.getFolder() + File.separator + "suspicious")));
 			String s = null;
 			while((s = br.readLine()) != null){
 				String[] info = s.split(" ");
@@ -516,38 +480,21 @@ public  class ESearchCase {
 	}
 
 
-	public Map<String, String> getNegatives() {
-		return this.trainingTests.get(this.whiteOrBlack).get("negative");
+	public HashMap<String, String> getNegatives() {
+		return this.trainingTests.getNegatives();
 	}
 
-	public Map<String, String> getPositives() {
-		return this.trainingTests.get(this.whiteOrBlack).get("positive)");
-	}
-
-	private void setTests(String testKey, Map<String,String> tests) {
-		Map<String,Map<String,String>> trainingForWoB;
-		if(this.trainingTests.containsKey(this.whiteOrBlack)) {
-			trainingForWoB = this.trainingTests.get(this.whiteOrBlack);
-		} else {
-			trainingForWoB = new HashMap<String,Map<String,String>> ();
-		}
-		trainingForWoB.put(testKey,  tests); 
-		this.trainingTests.put(this.whiteOrBlack,trainingForWoB); 
-	}
-	public void setPositives(Map<String, String> positives) {
-		this.setTests("positive", positives);
+	public HashMap<String, String> getPositives() {
+		return this.trainingTests.getPositives();
 	}
 
 
-	public void setNegatives(Map<String, String> negatives) {
-		this.setTests("negative", negatives);
-	}
 
-	public Map<String, String> getValidationTests() {
+	public ProgramTests getValidationTests() {
 		return validationTests;
 	}
 
-	public void setValidationTests(Map<String, String> verifications) {
+	public void setValidationTests(ProgramTests verifications) {
 		this.validationTests = verifications;
 	}
 
