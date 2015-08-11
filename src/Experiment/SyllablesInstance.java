@@ -11,14 +11,15 @@ import util.WhiteOrBlack;
 public class SyllablesInstance extends ProgramInstance{
 
 	// possible FIXME: syllables knows it's syllables, possibly don't need it here.
-	public SyllablesInstance(String program, Path folder, Path fileName, int repo) {
-		super(program, folder, fileName, repo);
+	public SyllablesInstance(String program, Path folder, Path fileName, int repo, WhiteOrBlack wb) {
+		super(program, folder, fileName, repo, wb);
+		this.transformAndInitRunDir(false, "");
+		this.initTests();
 		
 	}
 
 	@Override
-	public void search(WhiteOrBlack wb) {
-		this.initWbOrBB(wb);
+	public void search() {
 		if(this.getPositives().size() == 0) {
 			this.getInfo().getResult().setState(ResultState.NOPOSITIVE);
 			return;
@@ -44,7 +45,7 @@ public class SyllablesInstance extends ProgramInstance{
 				break;
 			}
 			else{
-				if(wb != WhiteOrBlack.WHITEBOX)continue;
+				if(this.whiteOrBlack != WhiteOrBlack.WHITEBOX)continue;
 				instan.searchJustOnMap();
 				if(instan.getInfo().getResult().getState() == ResultState.SUCCESS){
 					this.setInfo(instan.getInfo());				
@@ -55,17 +56,6 @@ public class SyllablesInstance extends ProgramInstance{
 	}
 
 
-	private double getAverage() {
-		int denomerator = 0;
-		double numerator = 0;
-		for(int i = 1; i <= this.getSuspiciousness().keySet().size(); i++){
-				denomerator++;
-				numerator += this.getSuspiciousness().get(i);
-		}
-		if(denomerator == 0) return 1;
-		else return numerator / denomerator;
-	}
-	
 //why is this different between the search cases?  I feel like it should all be the same...	
 
 	protected List<int[]> getMultipleBuggyLines(){
@@ -90,6 +80,7 @@ public class SyllablesInstance extends ProgramInstance{
 		return list;
 	}
 	
+
 //	public static void main(String[] args){
 //		SyllableSearchCase instan = new SyllableSearchCase("./bughunt/syllables/109", "syllables.c", 3);
 //		instan.transformAndInitRunDir(false, "");

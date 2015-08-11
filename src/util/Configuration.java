@@ -8,7 +8,7 @@ import java.util.Properties;
 
 public class Configuration {
 	// type: 0 linux, 1 introclass, 2 future
-	public static int repositoryType = 1;
+	public static ExperimentType repositoryType = ExperimentType.INTROCLASS;
 
 	public static String introclassPath = "/Users/clegoues/research/autobugfix/autobugfix-yalin/IntroClass/";
 
@@ -35,8 +35,15 @@ public class Configuration {
 			e.printStackTrace();
 		}
 		if (prop.getProperty("reposType") != null) {
-			repositoryType = Integer.parseInt(prop.getProperty("reposType")
-					.trim());
+			// FIXME: make it possible to specify this with something besides a magic integer
+			switch(Integer.parseInt(prop.getProperty("reposType").trim())) {
+			case 0 : repositoryType = ExperimentType.LINUX;
+				break;
+			case 1 : repositoryType = ExperimentType.INTROCLASS;
+				break;
+			case 2 : repositoryType = ExperimentType.FUTURE;
+				break;
+			}
 		}
 
 		if (prop.getProperty("introclassPath") != null) {

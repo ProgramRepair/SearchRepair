@@ -52,9 +52,9 @@ public  class ProgramInstance {
 	private List<String> content;
 	private String program;
 	
-	private WhiteOrBlack whiteOrBlack;
+	protected WhiteOrBlack whiteOrBlack;
 
-	public ProgramInstance(String program, Path folder, Path fileName, int repo){
+	public ProgramInstance(String program, Path folder, Path fileName, int repo, WhiteOrBlack wb){
 		this.repo = repo;
 		this.folder = folder;
 		this.fileName = fileName;
@@ -66,13 +66,9 @@ public  class ProgramInstance {
 		this.runDir = Paths.get(this.folder.toString() + File.separator + "temp");
 		this.content = new ArrayList<String>();
 		this.setProgram(program);
-		
-	}
-
-	public void setWhiteOrBlack(WhiteOrBlack wb) {
 		this.whiteOrBlack = wb;
 	}
-	
+
 	public int getRepo() {
 		return repo;
 	}
@@ -154,17 +150,16 @@ public  class ProgramInstance {
 		}
 	}
 
-	protected void initWbOrBB(WhiteOrBlack wb){
-		this.setWhiteOrBlack(wb);
+	protected void initTests(){
 		initTraining(); 
 		initValidation();
 
 		// possible FIXME: initialize this without a useless variable.
-		GcovTest test = new GcovTest(this.getProgram(), this.folder, this.transformFile, wb);
+		GcovTest test = new GcovTest(this.getProgram(), this.folder, this.transformFile, this.whiteOrBlack);
 	}
 
-	public void search(WhiteOrBlack wb){
-		initWbOrBB(wb);
+	// precondition: assumes tests have been initialized
+	public void search(){
 
 		if(this.getPositives().size() == 0) {
 			this.info.getResult().setState(ResultState.NOPOSITIVE);
@@ -511,6 +506,19 @@ public  class ProgramInstance {
 		this.program = program;
 	}
 
+	protected double getAverage() {
+		int denominator = 0;
+		double numerator = 0;
+		for(int i = 1; i <= this.getSuspiciousness().keySet().size(); i++){
+			if(this.getSuspiciousness().get(i) > 0){
+				denominator++;
+				numerator += this.getSuspiciousness().get(i);
+			}
+		}
+		if(denominator == 0) return 1;
+		else return numerator / denominator;
+		
+	}
 	// FIXME: consider adding unit testing back in at end.
 	//	public static void main(String[] args) {
 	//		ESearchCase instan = new ESearchCase("./bughunt/smallest/43", "smallest.c", 2);

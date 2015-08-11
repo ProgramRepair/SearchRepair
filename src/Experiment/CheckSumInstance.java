@@ -9,13 +9,15 @@ import util.WhiteOrBlack;
 
 public class CheckSumInstance extends ProgramInstance {
 
-	public CheckSumInstance(String program, Path folder, Path fileName, int repo) {
-		super(program, folder, fileName, repo);
+	// possible FIXME: do I want to set wb here, or do we ever need to change it in one experiment?
+	public CheckSumInstance(String program, Path folder, Path fileName, int repo, WhiteOrBlack wb) {
+		super(program, folder, fileName, repo, wb);
+		this.transformAndInitRunDir(false, "");
+		this.initTests();
 	}
 
 	@Override
-	public void search(WhiteOrBlack wb) {
-		this.initWbOrBB(wb);
+	public void search() {
 		if(this.getPositives().size() == 0) {
 			this.getInfo().getResult().setState(ResultState.NOPOSITIVE);
 			return;
@@ -25,7 +27,6 @@ public class CheckSumInstance extends ProgramInstance {
 			return;
 		}
 		
-
 		List<int[]> buggylines = getMultipleBuggyLines();
 
 		for(int[] range : buggylines){
@@ -43,20 +44,6 @@ public class CheckSumInstance extends ProgramInstance {
 				break;
 			}
 		}
-	}
-
-	private double getAverage() {
-		int denominator = 0;
-		double numerator = 0;
-		for(int i = 1; i <= this.getSuspiciousness().keySet().size(); i++){
-			if(this.getSuspiciousness().get(i) > 0){
-				denominator++;
-				numerator += this.getSuspiciousness().get(i);
-			}
-		}
-		if(denominator == 0) return 1;
-		else return numerator / denominator;
-		
 	}
 	
 	protected List<int[]> getMultipleBuggyLines(){

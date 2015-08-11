@@ -1,12 +1,12 @@
-package test;
+package main;
 
 import org.apache.log4j.Logger;
 
 import util.Configuration;
+import util.ExperimentType;
 import util.WhiteOrBlack;
 import Database.DataBaseManager;
 import Experiment.Analyzer;
-import Experiment.GroupTest;
 import ProcessIntroClass.GenerateStandardTestCases;
 import Repository.EntryAddition;
 
@@ -38,7 +38,7 @@ public class Main {
 		
 	}
 
-	private static void rerun(WhiteOrBlack wb, int repositoryType) {
+	private static void rerun(WhiteOrBlack wb, ExperimentType repositoryType) {
 		logger.info("Initializing database connection.");
 		DataBaseManager.connect();
 		if (!DataBaseManager.isConnected()) {
@@ -48,7 +48,7 @@ public class Main {
 		DataBaseManager.rebuildTables();
 		initRepository();
 		logger.info("Repositories initialized, running all experiments");
-		GroupTest.rerun(wb, repositoryType);
+		RepairIntroClass.rerun(wb, repositoryType);
 		Analyzer.getCSVData();
 	}
 

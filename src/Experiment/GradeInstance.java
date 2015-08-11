@@ -7,15 +7,15 @@ import util.WhiteOrBlack;
 
 public class GradeInstance extends ProgramInstance {
 // FIXME: make all the .gcov .gcda .gcno etc files end up not at the top level.
-	public GradeInstance(String program, Path folder, Path fileName, int repo) {
-		super(program, folder, fileName, repo);
+	public GradeInstance(String program, Path folder, Path fileName, int repo, WhiteOrBlack wb) {
+		super(program, folder, fileName, repo, wb);
+		this.transformAndInitRunDir(true, "--type grade");
+		this.initTests();
+
 	}
 
 	@Override
-	public void search(WhiteOrBlack wb) {
-		
-		this.initWbOrBB(wb);
-
+	public void search() {
 		if(this.getPositives().size() == 0) {
 			this.getInfo().getResult().setState(ResultState.NOPOSITIVE);
 			return;
@@ -26,8 +26,7 @@ public class GradeInstance extends ProgramInstance {
 		}
 		
 		int[] range = getBugLines();
-		// FIXME: I mangled all these prefix mangling things as an intermediate step in changing from strings to paths, fix it!
-		// trick is: what is prefix supposed to be pointing at?
+
 		OneRegion instan = new OneRegion(this.getProgram(), this.getRunDir(), this.getRepo());
 		instan.setBuggy(range);
 		instan.setNegatives(this.getNegatives());

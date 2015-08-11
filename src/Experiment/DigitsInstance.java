@@ -7,14 +7,13 @@ import util.WhiteOrBlack;
 
 public class DigitsInstance extends ProgramInstance {
 
-	public DigitsInstance(String program, Path folder, Path fileName, int repo) {
-		super(program, folder, fileName, repo);
-		
+	public DigitsInstance(String program, Path folder, Path fileName, int repo, WhiteOrBlack wb) {
+		super(program, folder, fileName, repo, wb);
+		this.initTests();
 	}
 
 	@Override
-	public void search(WhiteOrBlack wb) {
-		this.initWbOrBB(wb);
+	public void search() {
 		if(this.getPositives().size() == 0) {
 			this.getInfo().getResult().setState(ResultState.NOPOSITIVE);
 			return;
@@ -23,7 +22,7 @@ public class DigitsInstance extends ProgramInstance {
 			this.getInfo().getResult().setState(ResultState.CORRECT);
 			return;
 		}
-		
+		// FIXME: OK, I see, he doesn't bother searching for this one because we know we can't do it.
 		this.getInfo().getResult().setState(ResultState.FAILED);
 	}
 
