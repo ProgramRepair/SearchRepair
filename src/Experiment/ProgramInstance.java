@@ -157,11 +157,11 @@ public  class ProgramInstance {
 
 	// precondition: assumes tests have been initialized
 	public void search(){
-		if(this.getPositives().size() == 0) {
+		if(this.trainingTests.getPositives().size() == 0) {
 			this.info.getResult().setState(ResultState.NOPOSITIVE);
 			return;
 		}
-		if(this.getNegatives().size() == 0){
+		if(this.trainingTests.getNegatives().size() == 0){
 			this.info.getResult().setState(ResultState.CORRECT);
 			return;
 		}
@@ -235,10 +235,10 @@ public  class ProgramInstance {
 	}
 
 	private boolean testAllResults(String source, String outputFile) {
-		boolean pass = passAllPositive(source, outputFile);
+		boolean pass = trainingTests.passAllPositive(source, outputFile, this.compiledBinary);
 		if(!pass) return false;
-		int count = passNegatives(source, outputFile);
-		if(count == this.getNegatives().size()) {
+		int count = trainingTests.passNegatives(source, outputFile, this.compiledBinary);
+		if(count == this.trainingTests.getNegatives().size()) {
 			info.getResult().getPositive().add(source);
 			return true;
 		}
@@ -247,46 +247,9 @@ public  class ProgramInstance {
 			return false;
 		}
 		else {
-			info.getResult().getPartial().put(source, count * 1.0 / this.getNegatives().size());
+			info.getResult().getPartial().put(source, count * 1.0 / this.trainingTests.getNegatives().size());
 			return true;
 		}
-	}
-
-	private int passNegatives(String source, String outputFile) {
-		return passAllTests(source, outputFile, this.getNegatives());
-	}
-
-	private boolean passAllPositive(String source, String outputFile) {
-		int numPassed = passAllTests(source, outputFile, this.getPositives()); 
-		return (numPassed == this.getPositives().size());  
-	}
-
-	private int passAllTests(String source, String outputFile, Map<String,String> testSuite) {
-		try {
-			Files.deleteIfExists(this.compiledBinary);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		// FIXME: don't need to do this twice
-		String command1 = "gcc " + outputFile + " -o " + this.compiledBinary.toString();
-		Utility.runCProgram(command1);
-		if(!Files.exists(this.compiledBinary)) {
-			return 0;
-		}
-		int count = 0;
-		for(String input : testSuite.keySet()){
-			String output = testSuite.get(input);
-
-			String s2 = Utility.runCProgramWithInput(this.compiledBinary.toString(), input);
-
-			if(s2.isEmpty() ){
-				continue;
-			}
-
-			if(s2.equals(output)) count++;
-		}
-		return count;
 	}
 
 	private String generateOutputFile(String input) {
@@ -339,7 +302,7 @@ public  class ProgramInstance {
 	}
 
 	protected void initPositiveStates() {
-		GetInputStateAndOutputState instan = new GetInputStateAndOutputState(this.getFolder().toString(), this.getFileName().toString(), this.getBuggy(), this.getPositives().keySet());
+		GetInputStateAndOutputState instan = new GetInputStateAndOutputState(this.getFolder().toString(), this.getFileName().toString(), this.getBuggy(), this.trainingTests.getPositives().keySet());
 		info.setPositives(instan.getStates());
 	}
 	/**
@@ -397,16 +360,9 @@ public  class ProgramInstance {
 		this.suspiciousness = suspiciousness;
 	}
 
-
-	public HashMap<String, String> getNegatives() {
-		return this.trainingTests.getNegatives();
+	public ProgramTests getTrainingTests() {
+		return trainingTests;
 	}
-
-	public HashMap<String, String> getPositives() {
-		return this.trainingTests.getPositives();
-	}
-
-
 
 	public ProgramTests getValidationTests() {
 		return validationTests;

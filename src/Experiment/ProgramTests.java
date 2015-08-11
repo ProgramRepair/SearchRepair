@@ -1,7 +1,11 @@
 package Experiment;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.Map;
 
 import util.Utility;
 
@@ -72,4 +76,44 @@ public class ProgramTests {
 		this.addTestFromStrings(trim, trim2, NegOrPos.POSITIVE);
 	}
 	
+	// FIXME: lose the compilation from the test case execution
+	public boolean passAllPositive(String source, String outputFile, Path compiledBinary) {
+		int numPassed = passAllTests(source, outputFile, this.getPositives(), compiledBinary); 
+		return (numPassed == this.getPositives().size());  
+	}
+
+	private int passAllTests(String source, String outputFile, Map<String,String> testSuite, Path compiledBinary) {
+		try {
+			Files.deleteIfExists(compiledBinary);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		// FIXME: don't need to do this twice
+		String command1 = "gcc " + outputFile + " -o " + compiledBinary.toString();
+		Utility.runCProgram(command1);
+		if(!Files.exists(compiledBinary)) {
+			return 0;
+		}
+		int count = 0;
+		for(String input : testSuite.keySet()){
+			String output = testSuite.get(input);
+
+			String s2 = Utility.runCProgramWithInput(compiledBinary.toString(), input);
+
+			if(s2.isEmpty() ){
+				continue;
+			}
+
+			if(s2.equals(output)) count++;
+		}
+		return count;
+	}
+	
+	 public int passNegatives(String source, String outputFile, Path compiledBinary) {
+			return passAllTests(source, outputFile, this.getNegatives(), compiledBinary);
+		}
+
+
+
 }

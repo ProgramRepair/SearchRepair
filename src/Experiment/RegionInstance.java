@@ -69,7 +69,7 @@ public class RegionInstance {
 	private String tempOutput;
 	private int repo;
 
-	public RegionInstance(String program, Path cwd, int repo) {
+	public RegionInstance(String program, ProgramTests trainingTests, ProgramTests validationTests, Path cwd, int repo) {
 		this.program = program;
 		this.folder = cwd;
 		this.compiledBinary = Paths.get(this.folder.toString() + File.separator + program);
@@ -81,6 +81,8 @@ public class RegionInstance {
 		this.outputfile = this.folder + "/1.out";
 		this.tempOutput = this.folder + "/test.out";
 		this.repo = repo;
+		this.trainingTests = trainingTests;
+		this.verifications = validationTests;
 	}
 
 	public void search() {
@@ -162,7 +164,7 @@ public class RegionInstance {
 		if (!pass)
 			return false;
 		int count = passNegatives(source, outputFile);
-		if (count == this.getNegatives().size()) {
+		if (count == this.trainingTests.getNegatives().size()) {
 			info.getResult().getPositive().add(source);
 			return true;
 		} else if (count == 0) {
@@ -170,7 +172,7 @@ public class RegionInstance {
 			return false;
 		} else {
 			info.getResult().getPartial()
-					.put(source, count * 1.0 / this.getNegatives().size());
+					.put(source, count * 1.0 / this.trainingTests.getNegatives().size());
 			return true;
 		}
 	}
@@ -325,7 +327,7 @@ public class RegionInstance {
 
 	private void obtainPositiveStates() {
 		String sourceFile = this.compiledBinary + ".state.c";  
-		for (String input : this.getPositives().keySet()) {
+		for (String input : this.trainingTests.getPositives().keySet()) {
 			try {
 				Files.deleteIfExists(this.compiledBinary);
 			} catch (IOException e1) {
@@ -722,21 +724,6 @@ public class RegionInstance {
 
 	}
 
-	public HashMap<String, String> getPositives() {
-		return this.trainingTests.getPositives();
-	}
-
-	public void setPositives(HashMap<String, String> positives) {
-		this.trainingTests.setPositives(positives);
-	}
-
-	public HashMap<String, String> getNegatives() {
-		return this.trainingTests.getNegatives();
-	}
-
-	public void setNegatives(HashMap<String, String> negatives) {
-		this.trainingTests.setNegatives(negatives);
-	}
 
 	public CaseInfo getInfo() {
 		return info;

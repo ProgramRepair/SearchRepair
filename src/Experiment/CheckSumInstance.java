@@ -16,11 +16,11 @@ public class CheckSumInstance extends ProgramInstance {
 
 	@Override
 	public void search() {
-		if(this.getPositives().size() == 0) {
+		if(this.getTrainingTests().getPositives().size() == 0) {
 			this.getInfo().getResult().setState(ResultState.NOPOSITIVE);
 			return;
 		}
-		if(this.getNegatives().size() == 0){
+		if(this.getTrainingTests().getNegatives().size() == 0){
 			this.getInfo().getResult().setState(ResultState.CORRECT);
 			return;
 		}
@@ -28,10 +28,9 @@ public class CheckSumInstance extends ProgramInstance {
 		List<int[]> buggylines = getMultipleBuggyLines();
 
 		for(int[] range : buggylines){
-			RegionInstance instan = new RegionInstance(this.getProgram(), this.getRunDir(), this.getRepo());
+			// possible FIXME: I'm not convinced the regioninstance needs the validation tests.
+			RegionInstance instan = new RegionInstance(this.getProgram(),  this.getTrainingTests(), this.getValidationTests(),  this.getRunDir(), this.getRepo());
 			instan.setBuggy(range);
-			instan.setNegatives(this.getNegatives());
-			instan.setPositives(this.getPositives());
 			instan.search();
 			if(instan.getInfo().getResult().getState() == ResultState.SUCCESS){
 				this.setInfo(instan.getInfo());

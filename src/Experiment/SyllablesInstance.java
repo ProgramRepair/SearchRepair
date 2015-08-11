@@ -2,7 +2,6 @@ package Experiment;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import search.ResultObject.ResultState;
@@ -19,11 +18,11 @@ public class SyllablesInstance extends ProgramInstance{
 
 	@Override
 	public void search() {
-		if(this.getPositives().size() == 0) {
+		if(this.getTrainingTests().getPositives().size() == 0) {
 			this.getInfo().getResult().setState(ResultState.NOPOSITIVE);
 			return;
 		}
-		if(this.getNegatives().size() == 0){
+		if(this.getTrainingTests().getNegatives().size() == 0){
 			this.getInfo().getResult().setState(ResultState.CORRECT);
 			return;
 		}
@@ -31,13 +30,8 @@ public class SyllablesInstance extends ProgramInstance{
 		List<int[]> buggys = getMultipleBuggyLines();
 		
 		for(int[] range : buggys){
-			String s = Arrays.toString(range);
-			System.out.println(s);
-			RegionInstance instan = new RegionInstance(this.getProgram(), this.getRunDir(), this.getRepo());
-
+			RegionInstance instan = new RegionInstance(this.getProgram(), this.getTrainingTests(), this.getValidationTests(), this.getRunDir(), this.getRepo());
 			instan.setBuggy(range);
-			instan.setNegatives(this.getNegatives());
-			instan.setPositives(this.getPositives());
 			instan.search();
 			if(instan.getInfo().getResult().getState() == ResultState.SUCCESS || instan.getInfo().getResult().getState() == ResultState.PARTIAL){
 				this.setInfo(instan.getInfo());

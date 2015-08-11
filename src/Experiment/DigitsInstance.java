@@ -13,11 +13,11 @@ public class DigitsInstance extends ProgramInstance {
 
 	@Override
 	public void search() {
-		if(this.getPositives().size() == 0) {
+		if(this.getTrainingTests().getPositives().size() == 0) {
 			this.getInfo().getResult().setState(ResultState.NOPOSITIVE);
 			return;
 		}
-		if(this.getNegatives().size() == 0){
+		if(this.getTrainingTests().getNegatives().size() == 0){
 			this.getInfo().getResult().setState(ResultState.CORRECT);
 			return;
 		}
