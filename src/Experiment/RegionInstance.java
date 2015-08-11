@@ -381,13 +381,13 @@ public class RegionInstance {
 	 * @param original
 	 * @return
 	 */
-	public static String insertMark(String original, String compiledBinary, String programSource, int[] buggy) {
+	public static String insertMark(String original, String compiledBinary, int[] buggy) {
 		String output = compiledBinary + ".mark";
 		try {
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
 					new FileOutputStream(output)));
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					new FileInputStream(programSource)));
+					new FileInputStream(original)));
 			String s = null;
 
 			for (int i = 1; i < buggy[0]; i++) {
@@ -428,14 +428,5 @@ public class RegionInstance {
 		}
 		return output;
 	}
-
-
-
-	// FIXME: consider adding test cases back in when done
-//	public static void main(String[] args) {
-//		SearchCase case1 = new SearchCase("TestCases/examples/test1", 2);
-//		// case1.print();
-//	}
-
 
 }

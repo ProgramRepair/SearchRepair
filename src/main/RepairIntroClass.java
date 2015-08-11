@@ -36,7 +36,6 @@ public class RepairIntroClass {
 			for(File root : file.listFiles ()) {
 				Path folder = Paths.get(Configuration.outputPath + program + File.separator + root.getName());
 				Path fileName = Paths.get(folder.toString() + File.separator + program + ".c"); 	
-
 				if(repositoryType == ExperimentType.FUTURE) {
 					actualRepository = getActualRepository(program, size, Integer.parseInt(root.getName()));
 				}

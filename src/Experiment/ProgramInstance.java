@@ -51,7 +51,7 @@ public  class ProgramInstance {
 	private String program;
 	
 	protected WhiteOrBlack whiteOrBlack;
-
+// FIXME: FIGURE OUT THE REPO THING
 	public ProgramInstance(String program, Path folder, Path fileName, int repo, WhiteOrBlack wb){
 		this.repo = repo;
 		this.folder = folder;
@@ -451,7 +451,7 @@ public  class ProgramInstance {
 	 */
 	private boolean insertStateStatements(int[] buggy) {
 		// FIXME: the getProgram here cannot possibly be correct
-		String markFile = RegionInstance.insertMark(this.getProgram(),this.compiledBinary.toString(), this.getProgram(), buggy);
+		String markFile = RegionInstance.insertMark(this.fileName.toString(),this.compiledBinary.toString(), buggy);
  
 		String target = RegionInstance.getFunction(markFile);
 		String[] states = RegionInstance.getStatesStatement(target);
