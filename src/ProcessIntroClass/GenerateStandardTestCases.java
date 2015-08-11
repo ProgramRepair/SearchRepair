@@ -23,7 +23,6 @@ public class GenerateStandardTestCases {
 
 	public GenerateStandardTestCases() {
 		this.introPath = Configuration.introclassPath;
-
 		this.outputFolderPath = Configuration.outputPath;
 		new File(outputFolderPath).mkdir();
 		this.list = new ArrayList<String>();

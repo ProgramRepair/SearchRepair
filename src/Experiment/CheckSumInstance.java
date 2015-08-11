@@ -8,7 +8,6 @@ import search.ResultObject.ResultState;
 
 public class CheckSumInstance extends ProgramInstance {
 
-	// possible FIXME: do I want to set wb here, or do we ever need to change it in one experiment?
 	public CheckSumInstance(String program, Path folder, Path fileName, int repo, WhiteOrBlack wb) {
 		super(program, folder, fileName, repo, wb);
 		this.transformAndInitRunDir(false, "");
@@ -29,10 +28,6 @@ public class CheckSumInstance extends ProgramInstance {
 		List<int[]> buggylines = getMultipleBuggyLines();
 
 		for(int[] range : buggylines){
-			// I THINK I GET IT: we have a searchcase for every possible buggy region, and a CheckSumSearchCase for every possible buggy CheckSum.
-			// so a program search case per program, and a regular search case per region of program.
-			// the test case redundancy is still stupid
-			// but at least it makes a little more sense now
 			RegionInstance instan = new RegionInstance(this.getProgram(), this.getRunDir(), this.getRepo());
 			instan.setBuggy(range);
 			instan.setNegatives(this.getNegatives());

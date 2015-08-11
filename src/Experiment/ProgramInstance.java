@@ -158,7 +158,6 @@ public  class ProgramInstance {
 
 	// precondition: assumes tests have been initialized
 	public void search(){
-
 		if(this.getPositives().size() == 0) {
 			this.info.getResult().setState(ResultState.NOPOSITIVE);
 			return;

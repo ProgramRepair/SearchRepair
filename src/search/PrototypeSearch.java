@@ -11,9 +11,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lookups.TypeTable;
+
+import org.apache.log4j.Logger;
+
 import util.StringRepresentation;
 import util.Utility;
-import lookups.TypeTable;
 import Database.DataBaseManager;
 import Database.DataHandler;
 import Database.EntryHandler;
@@ -21,6 +24,8 @@ import Experiment.CaseInfo;
 
 
 public class PrototypeSearch {
+	protected static Logger logger = Logger.getLogger(PrototypeSearch.class);
+
 	private static String SEARCHFUTURE1= "select * from " + DataBaseManager.TABLEFUTURE1;
 	private static String SEARCHFUTURE2= "select * from " + DataBaseManager.TABLEFUTURE2;
 	private static String SEARCHALL= "select * from " + DataBaseManager.TABLEALL;
@@ -260,7 +265,6 @@ public class PrototypeSearch {
 		}
 
 		
-		System.out.println(list.size());
 		return list;
 	}
 	
@@ -416,37 +420,7 @@ public class PrototypeSearch {
 		}
 		return lists;
 	}
-	
-	public static void validatePermuation(){
-		List<String> list = new ArrayList<String>();
-		list.add("1");
-		list.add("1");
-		list.add("2");
-		list.add("3");
-		list.add("4");
-		List<List<String>> permutation = getPermutation(list, 4);
-		System.out.println("size:" + permutation.size());
-		for(List<String> t : permutation){
-			for(String s : t){
-				System.out.print(s + " ");
-			}
-			System.out.println();
-		}
-	}
-	
-	public static void main(String[] args){
-		validatePermuation();
-//		List<Map<String, String>> map = new ArrayList<Map<String, String>>();
-//		for(int i = 0; i < 3; i++){
-//			HashMap<String, String> m = new HashMap<String, String>();
-//			m.put("a", "b");
-//			m.put("b", Integer.toBinaryString(i));
-//			map.add(m);
-//		}
-//		System.out.println(getMappingConstraint(map));
-	}
-	
-	
+
 	public static String getMappingConstraint(List<Map<String, String>> map){
 		if(map.isEmpty()) return "";
 		String constraint = "(assert(or " + getMapping(map) + " ))";
