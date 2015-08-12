@@ -378,14 +378,12 @@ public class Analyzer {
 			else{
 				this.table.get(name).get("searchfix").put(version.getName(), Analyzer.SUCCESS);
 			}
-			String id = Utility.getStringFromFile(version.getAbsolutePath()+ "/original");
+			String id = Utility.getStringFromFile(version.getAbsolutePath()+ File.separator + "original");
 			//id = id.substring(id.indexOf("IntroClass"));
 			//this.successlist.add(id);
 			String secondline = lines[1].trim();
 			int value = Integer.parseInt(secondline.substring(secondline.lastIndexOf(":") + 1));
 			this.successlist.put(id, value);
-			//System.out.println(value);
-			//TODO
 			this.extraPass.put(name, this.extraPass.get(name) + value);
 			if(value == this.extraSuiteSize.get(name)){
 				this.extraComplete.put(name, this.extraComplete.get(name) + 1);

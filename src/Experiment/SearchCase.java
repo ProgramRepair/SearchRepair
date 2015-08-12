@@ -63,10 +63,8 @@ public class SearchCase {
 
 	public SearchCase(String casePrefix, int repo) {
 		this.casePrefix = casePrefix;
-		this.programTests = new ProgramTests(casePrefix);
 		this.info = new CaseInfo();
 		this.buggy = new int[2];
-
 		this.repo = repo;
 	}
 
@@ -82,8 +80,7 @@ public class SearchCase {
 		if(isEmpty(info.getResult())) {
 			this.info.getResult().setState(ResultState.FAILED);
 			return;
-		}
-		else{
+		} else{
 			if(!info.getResult().getPositive().isEmpty())
 			{
 				this.info.getResult().setState(ResultState.SUCCESS);

@@ -23,17 +23,17 @@ public class ProgramTests {
 	private Map<String, String> negatives;
 	private Map<String, String> validationTests;
 	
-	public ProgramTests(String casePrefix) {
+	public ProgramTests(String casePrefix, String folder, String functionName) {
 		positives = new HashMap<String,String> ();
 		negatives = new HashMap<String,String> ();
 		validationTests = new HashMap<String,String>();
 		
 		this.casePrefix = casePrefix;
-		this.folder = this.casePrefix.substring(0, this.casePrefix.lastIndexOf("/"));
-		this.functionName = this.casePrefix.substring(this.casePrefix.lastIndexOf("/") + 1);
-		this.inputfile = this.folder + "/1.in";
-		this.outputfile = this.folder + "/1.out";
-		this.tempOutput = this.folder + "/test.out";
+		this.folder = folder; // this.casePrefix.substring(0, this.casePrefix.lastIndexOf("/"));
+		this.functionName = functionName; //this.casePrefix.substring(this.casePrefix.lastIndexOf("/") + 1);
+		this.inputfile = this.folder + File.separator + "1.in";
+		this.outputfile = this.folder + File.separator + "1.out";
+		this.tempOutput = this.folder + File.separator + "test.out";
 
 	}
 	public Map<String,String> getNegatives() {

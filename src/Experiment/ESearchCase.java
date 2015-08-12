@@ -29,6 +29,8 @@ public  class ESearchCase {
 
 	private ProgramTests programTests;
 
+	private String program;
+	
 	private String fileName;
 	private String casePrefix;
 	private CaseInfo info;
@@ -36,15 +38,16 @@ public  class ESearchCase {
 	private String transformFile;
 	private int repo;	
 	
-	public ESearchCase(String folder, String fileName, int repo){
+	public ESearchCase(String program, String folder, String fileName, int repo){
 		this.repo = repo;
 		this.folder = folder;
 		this.fileName = fileName;
-		this.casePrefix = this.folder + "/" + fileName.substring(0, fileName.lastIndexOf("."));
-		this.programTests = new ProgramTests(this.casePrefix);
+		this.program = program;
+		this.casePrefix = this.folder + File.separator + this.program;
+		this.programTests = new ProgramTests(this.casePrefix, folder, program);
 		this.info = new CaseInfo();
 		this.suspiciousness = new HashMap<Integer, Double>();
-		this.runDir = this.folder + "/temp";
+		this.runDir = this.folder + File.separator + "temp";
 	}
 	
 	public int getRepo() {
@@ -54,7 +57,6 @@ public  class ESearchCase {
 	public void setRepo(int repo) {
 		this.repo = repo;
 	}
-
 
 	protected CaseInfo getInfo() {
 		return info;
@@ -77,8 +79,7 @@ public  class ESearchCase {
 	}
 	
 	protected void transformAndInitRunDir(boolean transform, String typeParameter){
-		runDir = this.getFolder() + "/temp";
-		if(!new File(runDir).exists()) new File(runDir).mkdir();
+		if(!new File(this.runDir).exists()) new File(this.runDir).mkdir();
 		if(!transform) {
 			this.transformFile = this.fileName;
 			Utility.copy(this.folder + File.separator + this.fileName, runDir + File.separator + this.getFileName());
@@ -90,6 +91,8 @@ public  class ESearchCase {
 		//transform here, if there is a true transform, no need to copy
 		if(pass != null) {
 			Utility.copy(pass, runDir + File.separator + this.getFileName());
+			
+			// FIXME: fix this string thing
 			this.transformFile = pass.substring(pass.lastIndexOf('/') + 1);
 		}
 		else{
@@ -121,7 +124,7 @@ public  class ESearchCase {
 		List<int[]> buggylines = getMultipleBuggyLines();
 		for(int[] range : buggylines){
 			//System.out.println(Arrays.toString(range));
-			String prefix = this.getRunDir() + "/" + this.getFileName().substring(0, this.getFileName().lastIndexOf('.'));
+			String prefix = this.getRunDir() + File.separator + this.program;
 			SearchCase instan = new SearchCase(prefix, this.getRepo());
 			instan.setBuggy(range);
 			instan.setTests(this.getTests());
@@ -149,11 +152,11 @@ public  class ESearchCase {
 		else{
 			filec="searchfix-bb" + type;
 		}
-		File dir = new File(this.folder + "/repair");
+		File dir = new File(this.folder + File.separator + "repair");
 		if(!dir.exists()){
 			dir.mkdir();
 		}
-		info.recordLog(this.folder + "/repair/" + filec);	
+		info.recordLog(this.folder + File.separator + "repair" + File.separator + filec);	
 	}
 
 	public ProgramTests getTests() {
@@ -181,7 +184,7 @@ public  class ESearchCase {
 
 	protected void initSuspicious() {
 		try{
-			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.getFolder() + "/suspicious")));
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.getFolder() + File.separator + "suspicious")));
 			String s = null;
 			while((s = br.readLine()) != null){
 				String[] info = s.split(" ");

@@ -5,7 +5,7 @@ import search.ResultObject.ResultState;
 public class DigitSearchCase extends ESearchCase {
 
 	public DigitSearchCase(String folder, String fileName, int repo) {
-		super(folder, fileName,  repo);
+		super("digits", folder, fileName,  repo);
 		
 	}
 

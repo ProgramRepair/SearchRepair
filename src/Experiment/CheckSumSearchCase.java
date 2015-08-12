@@ -6,7 +6,7 @@ import java.util.List;
 public class CheckSumSearchCase extends ESearchCase {
 
 	public CheckSumSearchCase(String folder, String fileName, int repo) {
-		super(folder, fileName, repo);
+		super("checksum", folder, fileName, repo);
 	}
 	
 	protected List<int[]> getMultipleBuggyLines(){

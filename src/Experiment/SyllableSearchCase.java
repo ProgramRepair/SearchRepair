@@ -1,5 +1,6 @@
 package Experiment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import search.ResultObject.ResultState;
 public class SyllableSearchCase extends ESearchCase{
 
 	public SyllableSearchCase(String folder, String fileName, int repo) {
-		super(folder, fileName, repo);	
+		super("syllables", folder, fileName, repo);	
 	}
 	
 	@Override
@@ -49,7 +50,7 @@ public class SyllableSearchCase extends ESearchCase{
 		List<int[]> buggys = getMultipleBuggyLines();
 		
 		for(int[] range : buggys){
-			String prefix = this.getRunDir() + "/" + this.getFileName().substring(0, this.getFileName().lastIndexOf('.'));
+			String prefix = this.getRunDir() + File.separator + "syllables"; 
 			SearchCase instan = new SearchCase(prefix, this.getRepo());
 			instan.setBuggy(range);
 			instan.setTests(this.getTests());

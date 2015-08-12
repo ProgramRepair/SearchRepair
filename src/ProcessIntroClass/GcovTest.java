@@ -102,13 +102,12 @@ public class GcovTest {
 	}
 
 	private void initNegativeExecutions() {
+		// FIXME fix this filename thing
 		String functionName = this.fileName.substring(0, this.fileName.lastIndexOf('.'));
 		for(String input : this.negatives.keySet()){
 			String cleanCommand = "rm " + functionName + ".gcda";
 			Utility.runCProgram(cleanCommand);
-			//System.out.println(input);
 			String s = runWithUserInput("./a.out", input);
-			//System.out.println(s);
 			String gcovCommand = "gcov " + "./" + fileName;
 			Utility.runCProgram(gcovCommand);
 			String gcovFile = this.fileName + ".gcov";

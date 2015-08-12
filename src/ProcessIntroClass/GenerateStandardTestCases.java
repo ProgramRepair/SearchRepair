@@ -1,8 +1,6 @@
 package ProcessIntroClass;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +8,6 @@ import Library.Utility;
 
 
 public class GenerateStandardTestCases {
-	private static int count = 0;
 	
 	private String introPath;
 	private String outputFolderPath;
@@ -57,6 +54,7 @@ public class GenerateStandardTestCases {
 	}
 
 	private void generate(String inputFolder, String outputFolder) {
+		// FIXME: fix this substring thing
 		String functionName = inputFolder.substring(inputFolder.lastIndexOf("/") + 1);
 		File outputFolderFile = new File(outputFolder);
 		outputFolderFile.mkdir();

@@ -25,8 +25,8 @@ public class Transform {
 			output = output.substring(0, output.length() - 6);
 		}
 		output = cropPre(output);
-		output = addPrefix(Utility.getStringFromFile(this.folder + "/" + this.originalFile), output);
-		String pass = this.folder + "/" + this.originalFile.substring(0, this.originalFile.lastIndexOf(".")) + "T.c";
+		output = addPrefix(Utility.getStringFromFile(this.folder + File.separator + this.originalFile), output);
+		String pass = this.folder + File.separator + this.originalFile.substring(0, this.originalFile.lastIndexOf(".")) + "T.c";
 		Utility.writeTOFile(pass, output);
 		
 		return pass;

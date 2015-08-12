@@ -63,8 +63,6 @@ public class Utility {
 
 			BufferedReader ls_in = new BufferedReader(new InputStreamReader(
 					ls_proc.getInputStream()));
-			// BufferedReader ls_err = new BufferedReader(new InputStreamReader(
-			// ls_proc.get));
 
 			long now = System.currentTimeMillis();
 			long timeoutInMillis = 100L * 10; // timeout in seconds
