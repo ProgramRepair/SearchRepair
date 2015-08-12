@@ -1,13 +1,11 @@
 package Experiment;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -50,6 +48,7 @@ public  class ESearchCase {
 	public Map<String,String> getValidationTests() {
 		return this.validationTests;
 	}
+	
 	public ESearchCase(String folder, String fileName, int repo){
 		this.repo = repo;
 		this.folder = folder;
@@ -66,7 +65,6 @@ public  class ESearchCase {
 	}
 	
 	
-	
 	public int getRepo() {
 		return repo;
 	}
@@ -81,21 +79,13 @@ public  class ESearchCase {
 	}
 
 
-
-
 	protected void setInfo(CaseInfo info) {
 		this.info = info;
 	}
 
-
-
-
 	public String getFolder() {
 		return folder;
 	}
-
-	
-	
 	
 	public int[] getBuggy() {
 		return buggy;
@@ -135,15 +125,15 @@ public  class ESearchCase {
 	protected void initWbOrBB(boolean wb){
 		if(wb){
 			
-			this.setPositives(this.getWhitePositives());
-			this.setNegatives(this.getWhiteNegatives());
+			this.trainingTests.setPositives(this.getWhitePositives());
+			this.trainingTests.setNegatives(this.getWhiteNegatives());
 			this.validationTests.putAll(this.getBlackNegatives());
 			this.validationTests.putAll(this.getBlackPositives());
 			
 		}
 		else{
-			this.setPositives(this.getBlackPositives());
-			this.setNegatives(this.getBlackNegatives());
+			this.trainingTests.setPositives(this.getBlackPositives());
+			this.trainingTests.setNegatives(this.getBlackNegatives());
 			this.validationTests.putAll(this.getWhiteNegatives());
 			this.validationTests.putAll(this.getWhitePositives());
 		}
@@ -155,19 +145,13 @@ public  class ESearchCase {
 		
 	}
 	
-	
-	
-	
 	public boolean isHasPrintf() {
 		return hasPrintf;
 	}
 
-
-
 	public void setHasPrintf(boolean hasPrintf) {
 		this.hasPrintf = hasPrintf;
 	}
-
 
 
 	protected boolean isEmpty(ResultObject result) {
@@ -276,151 +260,16 @@ public  class ESearchCase {
 	}
 
 
-
-	private void ruleOutFalsePositive() {
-		for(String source : info.getResult().getSearchMapping().keySet()){
-			for(Map<String, String> map : info.getResult().getSearchMapping().get(source)){
-				String input = Restore.getMappingString(source, map);
-				String outputFile = generateOutputFile(input);
-				if(testAllResults(source, outputFile)){
-					info.getResult().getMappingSource().put(source, input);
-					break;
-				}
-				else continue;
-			}
-		}
-		
-	}
-	
 	public boolean test(){
 		this.initWbOrBB(false);
 		this.initInputAndOutput();
 		String outputFile = this.casePrefix + ".c";
-		boolean pass = passAllPositive("result", outputFile);
+		boolean pass = trainingTests.passAllPositive("result", outputFile, this.casePrefix);
 		//if(!pass) return false;
-		int count = passNegatives("result", outputFile);
+		int count = this.trainingTests.passNegatives("result", outputFile, this.casePrefix);
 		if(count == this.getNegatives().keySet().size()) return true;
 		return false;
 	}
-
-	private boolean testAllResults(String source, String outputFile) {
-		boolean pass = passAllPositive(source, outputFile);
-		if(!pass) return false;
-		int count = passNegatives(source, outputFile);
-		if(count == this.getNegatives().size()) {
-			info.getResult().getPositive().add(source);
-			return true;
-		}
-		else if(count == 0){
-			info.getResult().getFalsePositve().add(source);
-			return false;
-		}
-		else {
-			info.getResult().getPartial().put(source, count * 1.0 / this.getNegatives().size());
-			return true;
-		}
-	}
-
-
-	private int passNegatives(String source, String outputFile) {
-		File file = new File( this.casePrefix);
-		if(file.exists()) file.delete();
-		String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
-		Utility.runCProgram(command1);
-		if(!new File(this.casePrefix).exists()){
-			return 0;
-		}
-		int count = 0;
-		for(String input : this.getNegatives().keySet()){
-			String output = this.getNegatives().get(input);
-			
-			String command2 = "./" + this.casePrefix;
-			
-			String s2 = Utility.runCProgramWithInput(command2, input);
-			
-			if(s2.isEmpty() ){
-				continue;
-			}
-			System.out.println(input);
-			System.out.println(s2);
-			System.out.println(output);
-			System.out.println(output.equals(s2));
-			if(s2.equals(output)) count++;
-		}
-		return count;
-	}
-
-
-
-	private boolean passAllPositive(String source, String outputFile) {
-		File file = new File( this.casePrefix);
-		if(file.exists()) file.delete();
-		String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
-		Utility.runCProgram(command1);
-		if(!new File(this.casePrefix).exists()){
-			return false;
-		}
-		for(String input : this.getPositives().keySet()){
-			String output = this.getPositives().get(input);
-			
-			String command2 = "./" + this.casePrefix;
-			
-			String s2 = Utility.runCProgramWithInput(command2, input);
-			
-			if(s2.isEmpty() ){
-				return false;
-			}
-			System.out.println(input);
-			System.out.println(output);
-			System.out.println(s2);
-			if(!s2.equals(output)) return false;
-		}
-		return true;
-	}
-
-
-
-
-
-
-
-	private String generateOutputFile(String input) {
-		String outputfile = this.casePrefix + "new.c";
-		try{
-			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputfile)));
-			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(this.casePrefix + ".c")));	
-			String s = null;
-			
-			
-			for(int i = 1; i < buggy[0]; i++){
-				s = reader.readLine();
-				writer.write(s);
-				writer.write("\n");
-				writer.flush();
-			}
-			if(this.bracket) writer.write("{\n");
-			
-			writer.write(input);
-			if(this.bracket) writer.write("}\n");
-			
-			for(int i = buggy[0]; i <= buggy[1]; i++){
-				s = reader.readLine();
-				
-			}
-			
-			while((s = reader.readLine()) != null){
-				writer.write(s);
-				writer.write("\n");
-				writer.flush();
-			}
-			reader.close();
-			writer.close();
-		}catch(Exception e){
-			return "";
-		}
-		return outputfile;
-	}
-
 
 	protected void searchOverRepository() {
 		try {
@@ -455,8 +304,6 @@ public  class ESearchCase {
 		initNegativeInputAndOutput();
 		
 	}
-
-
 
 	private void initNegativeInputAndOutput() {
 		String root1 = this.getFolder() + "/blackbox/negative";
@@ -504,13 +351,9 @@ public  class ESearchCase {
 		}
 	}
 	
-	
-	
 	protected Map<Integer, Double> getSuspiciousness() {
 		return suspiciousness;
 	}
-
-
 
 
 	protected void setSuspiciousness(Map<Integer, Double> suspiciousness) {
@@ -521,32 +364,17 @@ public  class ESearchCase {
 		return this.trainingTests.getBlackPositives();
 	}
 
-	public void setBlackPositives(Map<String, String> blackPositives) {
-		this.trainingTests.setBlackPositives(blackPositives);
-	}
 
 	public Map<String, String> getBlackNegatives() {
 		return this.trainingTests.getBlackNegatives();
-	}
-
-	public void setBlackNegatives(Map<String, String> blackNegatives) {
-		this.trainingTests.setBlackNegatives(blackNegatives);
 	}
 
 	public Map<String, String> getWhitePositives() {
 		return this.trainingTests.getWhitePositives();
 	}
 
-	public void setWhitePositives(Map<String, String> whitePositives) {
-		this.trainingTests.setWhitePositives(whitePositives);
-	}
-
 	public Map<String, String> getWhiteNegatives() {
 		return this.trainingTests.getWhiteNegatives();
-	}
-
-	public void setWhiteNegatives(Map<String, String> whiteNegatives) {
-		this.trainingTests.setWhiteNegatives(whiteNegatives);
 	}
 
 	public Map<String, String> getPositives() {
@@ -554,19 +382,9 @@ public  class ESearchCase {
 	}
 
 
-	public void setPositives(Map<String, String> positives) {
-		this.trainingTests.setPositives(positives);
-	}
-
-
 	public Map<String, String> getNegatives() {
 		return trainingTests.getNegatives();
 	}
-
-	public void setNegatives(Map<String, String> negatives) {
-		this.trainingTests.setNegatives(negatives);
-	}
-
 
 	public String getRunDir() {
 		return runDir;
