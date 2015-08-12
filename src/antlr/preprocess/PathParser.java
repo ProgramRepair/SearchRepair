@@ -23,7 +23,7 @@ public class PathParser extends Parser {
 		ADDSELF=25, DEDUCTSELF=26, MODSELF=27, MULTISELF=28, DIVIDESELF=29, LT=30, 
 		LE=31, GT=32, GE=33, EQ=34, NEQ=35, WS=36, CharacterLiteral=37, StringLiteral=38;
 	public static final String[] tokenNames = {
-		"<INVALID>", "'&'", "','", "'return'", "';'", "'!'", "'int'", "'char'", 
+		"<INVALID>", "'!'", "'&'", "'return'", "';'", "','", "'int'", "'char'", 
 		"'float'", "'double'", "'='", "INT", "FLOAT", "ID", "'||'", "'&&'", "'('", 
 		"')'", "'+'", "'-'", "'*'", "'/'", "'%'", "'++'", "'--'", "'+='", "'-='", 
 		"'%='", "'*='", "'/='", "'<'", "'<='", "'>'", "'>='", "'=='", "'!='", 
@@ -64,24 +64,16 @@ public class PathParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class ProgContext extends ParserRuleContext {
-		public List<StatementContext> statement() {
-			return getRuleContexts(StatementContext.class);
-		}
 		public StatementContext statement(int i) {
 			return getRuleContext(StatementContext.class,i);
+		}
+		public List<StatementContext> statement() {
+			return getRuleContexts(StatementContext.class);
 		}
 		public ProgContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_prog; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterProg(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitProg(this);
-		}
 	}
 
 	public final ProgContext prog() throws RecognitionException {
@@ -94,7 +86,7 @@ public class PathParser extends Parser {
 			setState(49);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__2) | (1L << T__0) | (1L << Int) | (1L << Char) | (1L << Float) | (1L << Double) | (1L << INT) | (1L << FLOAT) | (1L << ID) | (1L << LPAREN) | (1L << MULTIPLY) | (1L << CharacterLiteral))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__3) | (1L << T__2) | (1L << Int) | (1L << Char) | (1L << Float) | (1L << Double) | (1L << INT) | (1L << FLOAT) | (1L << ID) | (1L << LPAREN) | (1L << MULTIPLY) | (1L << CharacterLiteral))) != 0)) {
 				{
 				{
 				setState(46); statement();
@@ -118,11 +110,17 @@ public class PathParser extends Parser {
 	}
 
 	public static class StatementContext extends ParserRuleContext {
-		public CallStatContext callStat() {
-			return getRuleContext(CallStatContext.class,0);
+		public AssumeStatContext assumeStat() {
+			return getRuleContext(AssumeStatContext.class,0);
+		}
+		public DeclarationStatContext declarationStat() {
+			return getRuleContext(DeclarationStatContext.class,0);
 		}
 		public SelfIncreStatContext selfIncreStat() {
 			return getRuleContext(SelfIncreStatContext.class,0);
+		}
+		public CallStatContext callStat() {
+			return getRuleContext(CallStatContext.class,0);
 		}
 		public ReturnStatContext returnStat() {
 			return getRuleContext(ReturnStatContext.class,0);
@@ -130,24 +128,10 @@ public class PathParser extends Parser {
 		public AssignStatContext assignStat() {
 			return getRuleContext(AssignStatContext.class,0);
 		}
-		public DeclarationStatContext declarationStat() {
-			return getRuleContext(DeclarationStatContext.class,0);
-		}
-		public AssumeStatContext assumeStat() {
-			return getRuleContext(AssumeStatContext.class,0);
-		}
 		public StatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_statement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitStatement(this);
-		}
 	}
 
 	public final StatementContext statement() throws RecognitionException {
@@ -214,14 +198,6 @@ public class PathParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_selfIncreStat; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterSelfIncreStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitSelfIncreStat(this);
-		}
 	}
 
 	public final SelfIncreStatContext selfIncreStat() throws RecognitionException {
@@ -251,14 +227,6 @@ public class PathParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_selfOperator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterSelfOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitSelfOperator(this);
-		}
 	}
 
 	public final SelfOperatorContext selfOperator() throws RecognitionException {
@@ -295,14 +263,6 @@ public class PathParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_callStat; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterCallStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitCallStat(this);
-		}
 	}
 
 	public final CallStatContext callStat() throws RecognitionException {
@@ -337,14 +297,6 @@ public class PathParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_assumeStat; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterAssumeStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitAssumeStat(this);
-		}
 	}
 
 	public final AssumeStatContext assumeStat() throws RecognitionException {
@@ -353,14 +305,14 @@ public class PathParser extends Parser {
 		try {
 			setState(75);
 			switch (_input.LA(1)) {
-			case T__0:
+			case T__4:
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(69); notExpr();
 				setState(70); match(T__1);
 				}
 				break;
-			case T__4:
+			case T__3:
 			case INT:
 			case FLOAT:
 			case ID:
@@ -396,14 +348,6 @@ public class PathParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_notExpr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterNotExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitNotExpr(this);
-		}
 	}
 
 	public final NotExprContext notExpr() throws RecognitionException {
@@ -412,7 +356,7 @@ public class PathParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(77); match(T__0);
+			setState(77); match(T__4);
 			setState(78); match(LPAREN);
 			setState(79); condExpr();
 			setState(80); match(RPAREN);
@@ -430,8 +374,8 @@ public class PathParser extends Parser {
 	}
 
 	public static class CondExprContext extends ParserRuleContext {
-		public BooleanOperatorContext booleanOperator() {
-			return getRuleContext(BooleanOperatorContext.class,0);
+		public ComparatorContext comparator() {
+			return getRuleContext(ComparatorContext.class,0);
 		}
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
@@ -439,21 +383,13 @@ public class PathParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public ComparatorContext comparator() {
-			return getRuleContext(ComparatorContext.class,0);
+		public BooleanOperatorContext booleanOperator() {
+			return getRuleContext(BooleanOperatorContext.class,0);
 		}
 		public CondExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_condExpr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterCondExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitCondExpr(this);
-		}
 	}
 
 	public final CondExprContext condExpr() throws RecognitionException {
@@ -500,14 +436,6 @@ public class PathParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_declarationStat; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterDeclarationStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitDeclarationStat(this);
-		}
 	}
 
 	public final DeclarationStatContext declarationStat() throws RecognitionException {
@@ -547,13 +475,10 @@ public class PathParser extends Parser {
 	}
 
 	public static class AssignStatContext extends ParserRuleContext {
+		public TerminalNode ID() { return getToken(PathParser.ID, 0); }
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
-		public AssiginOperatorContext assiginOperator() {
-			return getRuleContext(AssiginOperatorContext.class,0);
-		}
-		public TerminalNode ID() { return getToken(PathParser.ID, 0); }
 		public CondExprContext condExpr() {
 			return getRuleContext(CondExprContext.class,0);
 		}
@@ -561,18 +486,13 @@ public class PathParser extends Parser {
 		public CallExprContext callExpr() {
 			return getRuleContext(CallExprContext.class,0);
 		}
+		public AssiginOperatorContext assiginOperator() {
+			return getRuleContext(AssiginOperatorContext.class,0);
+		}
 		public AssignStatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_assignStat; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterAssignStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitAssignStat(this);
-		}
 	}
 
 	public final AssignStatContext assignStat() throws RecognitionException {
@@ -648,14 +568,6 @@ public class PathParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_returnStat; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterReturnStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitReturnStat(this);
-		}
 	}
 
 	public final ReturnStatContext returnStat() throws RecognitionException {
@@ -691,40 +603,32 @@ public class PathParser extends Parser {
 	}
 
 	public static class ExprContext extends ParserRuleContext {
-		public TerminalNode FLOAT() { return getToken(PathParser.FLOAT, 0); }
-		public TerminalNode INT() { return getToken(PathParser.INT, 0); }
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
-		}
-		public TerminalNode CharacterLiteral() { return getToken(PathParser.CharacterLiteral, 0); }
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
-		}
 		public TerminalNode ID() { return getToken(PathParser.ID, 0); }
 		public ConvertExprContext convertExpr() {
 			return getRuleContext(ConvertExprContext.class,0);
 		}
-		public ArithOperatorContext arithOperator() {
-			return getRuleContext(ArithOperatorContext.class,0);
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
 		}
 		public DefExprContext defExpr() {
 			return getRuleContext(DefExprContext.class,0);
 		}
+		public ArithOperatorContext arithOperator() {
+			return getRuleContext(ArithOperatorContext.class,0);
+		}
+		public TerminalNode INT() { return getToken(PathParser.INT, 0); }
+		public TerminalNode CharacterLiteral() { return getToken(PathParser.CharacterLiteral, 0); }
 		public AddressExprContext addressExpr() {
 			return getRuleContext(AddressExprContext.class,0);
 		}
+		public TerminalNode FLOAT() { return getToken(PathParser.FLOAT, 0); }
 		public ExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitExpr(this);
-		}
 	}
 
 	public final ExprContext expr() throws RecognitionException {
@@ -764,7 +668,7 @@ public class PathParser extends Parser {
 				setState(144); match(CharacterLiteral);
 				}
 				break;
-			case T__4:
+			case T__3:
 				{
 				setState(145); addressExpr();
 				}
@@ -827,14 +731,6 @@ public class PathParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_convertExpr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterConvertExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitConvertExpr(this);
-		}
 	}
 
 	public final ConvertExprContext convertExpr() throws RecognitionException {
@@ -866,14 +762,6 @@ public class PathParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_addressExpr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterAddressExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitAddressExpr(this);
-		}
 	}
 
 	public final AddressExprContext addressExpr() throws RecognitionException {
@@ -882,7 +770,7 @@ public class PathParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(164); match(T__4);
+			setState(164); match(T__3);
 			setState(165); match(ID);
 			}
 		}
@@ -903,14 +791,6 @@ public class PathParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_defExpr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterDefExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitDefExpr(this);
-		}
 	}
 
 	public final DefExprContext defExpr() throws RecognitionException {
@@ -943,14 +823,6 @@ public class PathParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_callExpr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterCallExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitCallExpr(this);
-		}
 	}
 
 	public final CallExprContext callExpr() throws RecognitionException {
@@ -975,24 +847,16 @@ public class PathParser extends Parser {
 	}
 
 	public static class ArgumentsContext extends ParserRuleContext {
-		public FormalArgumentContext formalArgument(int i) {
-			return getRuleContext(FormalArgumentContext.class,i);
-		}
 		public List<FormalArgumentContext> formalArgument() {
 			return getRuleContexts(FormalArgumentContext.class);
+		}
+		public FormalArgumentContext formalArgument(int i) {
+			return getRuleContext(FormalArgumentContext.class,i);
 		}
 		public ArgumentsContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arguments; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterArguments(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitArguments(this);
-		}
 	}
 
 	public final ArgumentsContext arguments() throws RecognitionException {
@@ -1011,10 +875,10 @@ public class PathParser extends Parser {
 				setState(179);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while (_la==T__3) {
+				while (_la==T__0) {
 					{
 					{
-					setState(175); match(T__3);
+					setState(175); match(T__0);
 					setState(176); formalArgument();
 					}
 					}
@@ -1040,21 +904,13 @@ public class PathParser extends Parser {
 	}
 
 	public static class FormalArgumentContext extends ParserRuleContext {
+		public TerminalNode ID() { return getToken(PathParser.ID, 0); }
 		public TerminalNode INT() { return getToken(PathParser.INT, 0); }
 		public TerminalNode FLOAT() { return getToken(PathParser.FLOAT, 0); }
-		public TerminalNode ID() { return getToken(PathParser.ID, 0); }
 		public FormalArgumentContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_formalArgument; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterFormalArgument(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitFormalArgument(this);
-		}
 	}
 
 	public final FormalArgumentContext formalArgument() throws RecognitionException {
@@ -1084,22 +940,14 @@ public class PathParser extends Parser {
 	}
 
 	public static class TypeContext extends ParserRuleContext {
-		public TerminalNode Double() { return getToken(PathParser.Double, 0); }
 		public TerminalNode Char() { return getToken(PathParser.Char, 0); }
 		public TerminalNode Float() { return getToken(PathParser.Float, 0); }
 		public TerminalNode Int() { return getToken(PathParser.Int, 0); }
+		public TerminalNode Double() { return getToken(PathParser.Double, 0); }
 		public TypeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_type; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterType(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitType(this);
-		}
 	}
 
 	public final TypeContext type() throws RecognitionException {
@@ -1129,23 +977,15 @@ public class PathParser extends Parser {
 	}
 
 	public static class ArithOperatorContext extends ParserRuleContext {
-		public TerminalNode DEDUCTIVE() { return getToken(PathParser.DEDUCTIVE, 0); }
-		public TerminalNode MULTIPLY() { return getToken(PathParser.MULTIPLY, 0); }
 		public TerminalNode ADDCTIVE() { return getToken(PathParser.ADDCTIVE, 0); }
 		public TerminalNode DIVIDE() { return getToken(PathParser.DIVIDE, 0); }
+		public TerminalNode MULTIPLY() { return getToken(PathParser.MULTIPLY, 0); }
 		public TerminalNode MOD() { return getToken(PathParser.MOD, 0); }
+		public TerminalNode DEDUCTIVE() { return getToken(PathParser.DEDUCTIVE, 0); }
 		public ArithOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arithOperator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterArithOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitArithOperator(this);
-		}
 	}
 
 	public final ArithOperatorContext arithOperator() throws RecognitionException {
@@ -1175,24 +1015,16 @@ public class PathParser extends Parser {
 	}
 
 	public static class AssiginOperatorContext extends ParserRuleContext {
-		public TerminalNode DIVIDESELF() { return getToken(PathParser.DIVIDESELF, 0); }
-		public TerminalNode DEDUCTSELF() { return getToken(PathParser.DEDUCTSELF, 0); }
 		public TerminalNode MULTISELF() { return getToken(PathParser.MULTISELF, 0); }
 		public TerminalNode ASSIGN() { return getToken(PathParser.ASSIGN, 0); }
-		public TerminalNode ADDSELF() { return getToken(PathParser.ADDSELF, 0); }
 		public TerminalNode MODSELF() { return getToken(PathParser.MODSELF, 0); }
+		public TerminalNode DEDUCTSELF() { return getToken(PathParser.DEDUCTSELF, 0); }
+		public TerminalNode ADDSELF() { return getToken(PathParser.ADDSELF, 0); }
+		public TerminalNode DIVIDESELF() { return getToken(PathParser.DIVIDESELF, 0); }
 		public AssiginOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_assiginOperator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterAssiginOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitAssiginOperator(this);
-		}
 	}
 
 	public final AssiginOperatorContext assiginOperator() throws RecognitionException {
@@ -1228,14 +1060,6 @@ public class PathParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_booleanOperator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterBooleanOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitBooleanOperator(this);
-		}
 	}
 
 	public final BooleanOperatorContext booleanOperator() throws RecognitionException {
@@ -1266,23 +1090,15 @@ public class PathParser extends Parser {
 
 	public static class ComparatorContext extends ParserRuleContext {
 		public TerminalNode NEQ() { return getToken(PathParser.NEQ, 0); }
-		public TerminalNode LT() { return getToken(PathParser.LT, 0); }
-		public TerminalNode LE() { return getToken(PathParser.LE, 0); }
-		public TerminalNode GT() { return getToken(PathParser.GT, 0); }
 		public TerminalNode GE() { return getToken(PathParser.GE, 0); }
+		public TerminalNode LT() { return getToken(PathParser.LT, 0); }
+		public TerminalNode GT() { return getToken(PathParser.GT, 0); }
+		public TerminalNode LE() { return getToken(PathParser.LE, 0); }
 		public TerminalNode EQ() { return getToken(PathParser.EQ, 0); }
 		public ComparatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_comparator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).enterComparator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PathListener ) ((PathListener)listener).exitComparator(this);
-		}
 	}
 
 	public final ComparatorContext comparator() throws RecognitionException {
@@ -1352,7 +1168,7 @@ public class PathParser extends Parser {
 		"9\3\2\2\2<:\3\2\2\2<;\3\2\2\2=\5\3\2\2\2>?\7\17\2\2?@\5\b\5\2@A\7\6\2"+
 		"\2A\7\3\2\2\2BC\t\2\2\2C\t\3\2\2\2DE\5 \21\2EF\7\6\2\2F\13\3\2\2\2GH\5"+
 		"\16\b\2HI\7\6\2\2IN\3\2\2\2JK\5\20\t\2KL\7\6\2\2LN\3\2\2\2MG\3\2\2\2M"+
-		"J\3\2\2\2N\r\3\2\2\2OP\7\7\2\2PQ\7\22\2\2QR\5\20\t\2RS\7\23\2\2S\17\3"+
+		"J\3\2\2\2N\r\3\2\2\2OP\7\3\2\2PQ\7\22\2\2QR\5\20\t\2RS\7\23\2\2S\17\3"+
 		"\2\2\2TU\5\30\r\2UV\5,\27\2VW\5\30\r\2W]\3\2\2\2XY\5\30\r\2YZ\5.\30\2"+
 		"Z[\5\30\r\2[]\3\2\2\2\\T\3\2\2\2\\X\3\2\2\2]\21\3\2\2\2^_\5&\24\2_`\7"+
 		"\17\2\2`a\7\6\2\2ah\3\2\2\2bc\5&\24\2cd\7\26\2\2de\7\17\2\2ef\7\6\2\2"+
@@ -1374,10 +1190,10 @@ public class PathParser extends Parser {
 		"\u009d\3\2\2\2\u009c\u0098\3\2\2\2\u009d\u00a0\3\2\2\2\u009e\u009c\3\2"+
 		"\2\2\u009e\u009f\3\2\2\2\u009f\31\3\2\2\2\u00a0\u009e\3\2\2\2\u00a1\u00a2"+
 		"\7\22\2\2\u00a2\u00a3\5&\24\2\u00a3\u00a4\7\23\2\2\u00a4\u00a5\7\17\2"+
-		"\2\u00a5\33\3\2\2\2\u00a6\u00a7\7\3\2\2\u00a7\u00a8\7\17\2\2\u00a8\35"+
+		"\2\u00a5\33\3\2\2\2\u00a6\u00a7\7\4\2\2\u00a7\u00a8\7\17\2\2\u00a8\35"+
 		"\3\2\2\2\u00a9\u00aa\7\26\2\2\u00aa\u00ab\7\17\2\2\u00ab\37\3\2\2\2\u00ac"+
 		"\u00ad\7\17\2\2\u00ad\u00ae\5\"\22\2\u00ae!\3\2\2\2\u00af\u00b8\7\22\2"+
-		"\2\u00b0\u00b5\5$\23\2\u00b1\u00b2\7\4\2\2\u00b2\u00b4\5$\23\2\u00b3\u00b1"+
+		"\2\u00b0\u00b5\5$\23\2\u00b1\u00b2\7\7\2\2\u00b2\u00b4\5$\23\2\u00b3\u00b1"+
 		"\3\2\2\2\u00b4\u00b7\3\2\2\2\u00b5\u00b3\3\2\2\2\u00b5\u00b6\3\2\2\2\u00b6"+
 		"\u00b9\3\2\2\2\u00b7\u00b5\3\2\2\2\u00b8\u00b0\3\2\2\2\u00b8\u00b9\3\2"+
 		"\2\2\u00b9\u00ba\3\2\2\2\u00ba\u00bb\7\23\2\2\u00bb#\3\2\2\2\u00bc\u00bd"+
