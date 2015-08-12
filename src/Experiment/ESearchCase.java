@@ -274,23 +274,6 @@ public  class ESearchCase {
 		this.suspiciousness = suspiciousness;
 	}
 
-	public Map<String, String> getBlackPositives() {
-		return this.programTests.getBlackPositives();
-	}
-
-
-	public Map<String, String> getBlackNegatives() {
-		return this.programTests.getBlackNegatives();
-	}
-
-	public Map<String, String> getWhitePositives() {
-		return this.programTests.getWhitePositives();
-	}
-
-	public Map<String, String> getWhiteNegatives() {
-		return this.programTests.getWhiteNegatives();
-	}
-
 	public Map<String, String> getPositives() {
 		return this.programTests.getPositives();
 	}
