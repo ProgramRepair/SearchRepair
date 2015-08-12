@@ -237,18 +237,6 @@ public  class ESearchCase {
 		
 	}
 
-
-	public boolean test(){
-		this.initWbOrBB(false);
-		this.initInputAndOutput();
-		String outputFile = this.casePrefix + ".c";
-		boolean pass = programTests.passAllPositive("result", outputFile, this.casePrefix);
-		//if(!pass) return false;
-		int count = this.programTests.passNegatives("result", outputFile, this.casePrefix);
-		if(count == this.getNegatives().keySet().size()) return true;
-		return false;
-	}
-
 	protected void searchOverRepository() {
 		try {
 			PrototypeSearch.search(info, repo);
@@ -276,7 +264,6 @@ public  class ESearchCase {
 	}
 
 
-
 	protected void initInputAndOutput() {
 		initPositveInputAndOutput();
 		initNegativeInputAndOutput();
@@ -287,7 +274,6 @@ public  class ESearchCase {
 		String root2 = this.getFolder() + "/whitebox/negative";
 		addToInputOutputMap(root1, this.getBlackNegatives());
 		addToInputOutputMap(root2, this.getWhiteNegatives());
-		
 	}
 
 	private void initPositveInputAndOutput() {

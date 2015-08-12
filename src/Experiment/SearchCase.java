@@ -54,12 +54,10 @@ public class SearchCase {
 	public String outputType = "";
 	
 	private String casePrefix;
-	private ProgramTests trainingTests;
-	private Map<String,String> validationTests;
+	private ProgramTests programTests;
 
 	private int[] buggy;
 	private CaseInfo info;
-	private Map<String, String> verifications;
 	private  String inputfile;
 	private  String outputfile;
 	private  String folder;
@@ -71,11 +69,9 @@ public class SearchCase {
 
 	public SearchCase(String casePrefix, int repo) {
 		this.casePrefix = casePrefix;
-		this.trainingTests = new ProgramTests();
-		this.validationTests = new HashMap<String,String>();
+		this.programTests = new ProgramTests();
 		this.info = new CaseInfo();
 		this.buggy = new int[2];
-		this.verifications = new HashMap<String, String>();
 		this.folder = this.casePrefix.substring(0, this.casePrefix.lastIndexOf("/"));
 		this.functionName = this.casePrefix.substring(this.casePrefix.lastIndexOf("/") + 1);
 		this.inputfile = this.folder + "/1.in";
@@ -150,7 +146,7 @@ public class SearchCase {
 					String outputFile = generateOutputFile(input);
 					if(testAllResults(source, outputFile)){
 						info.getResult().getMappingSource().put(source, input);
-						int extraPass = this.passTestSuite(source, outputFile, this.verifications);
+						int extraPass = this.passTestSuite(source, outputFile, this.programTests.getValidationTests());
 						this.info.getResult().getExtraPass().put(source, extraPass);
 						break;
 					}
@@ -185,7 +181,7 @@ public class SearchCase {
 	}
 
 	private int passNegatives(String source, String outputFile) {
-		return this.passTestSuite(source, outputFile, this.trainingTests.getNegatives());
+		return this.passTestSuite(source, outputFile, this.programTests.getNegatives());
 	}
 
 	
@@ -731,19 +727,19 @@ public class SearchCase {
 	}
 
 	public Map<String, String> getPositives() {
-		return this.trainingTests.getPositives();
+		return this.programTests.getPositives();
 	}
 
 	public void setPositives(Map<String, String> positives) {
-		this.trainingTests.setPositives(positives);
+		this.programTests.setPositives(positives);
 	}
 
 	public Map<String, String> getNegatives() {
-		return this.trainingTests.getNegatives();
+		return this.programTests.getNegatives();
 	}
 
 	public void setNegatives(Map<String, String> negatives) {
-		this.trainingTests.setNegatives(negatives);
+		this.programTests.setNegatives(negatives);
 	}
 
 	
@@ -767,19 +763,10 @@ public class SearchCase {
 	
 	
 	
-	
-	public Map<String, String> getVerifications() {
-		return verifications;
-	}
-
 	public void setVerifications(Map<String, String> verifications) {
-		this.verifications = verifications;
+		this.programTests.putValidation(verifications);
 	}
 
-	public static void main(String[] args){
-		SearchCase case1 = new SearchCase("TestCases/examples/test1", 2);
-		//case1.print();
-	}
 
 	public void searchJustOnMap() {
 		try{
