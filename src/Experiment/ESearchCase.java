@@ -110,8 +110,6 @@ public  class ESearchCase {
 	}
 	
 	public  void search(boolean wb){
-		this.initWbOrBB(wb);
-
 		// this implements the single bug line case; copied from Median.
 		if(this.getPositives().size() == 0) {
 			this.getInfo().getResult().setState(ResultState.NOPOSITIVE);

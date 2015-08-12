@@ -66,7 +66,7 @@ public class GroupTest {
 					else actualRepository = 4;
 				}
 				System.out.println(folder);
-				MedianSearchCase searcher = new MedianSearchCase(folder, fileName, actualRepository);
+				ESearchCase searcher = new ESearchCase(folder, fileName, actualRepository);
 				searcher.transformAndInitRunDir(true, "");
 				searcher.initWbOrBB(wb);
 				searcher.search(wb);
@@ -103,8 +103,7 @@ public class GroupTest {
 					if(value < size / 2) actualRepository = 3;
 					else actualRepository = 4;
 				}
-				System.out.println(folder);
-				MedianSearchCase searcher = new MedianSearchCase(folder, fileName, actualRepository);
+				ESearchCase searcher = new ESearchCase(folder, fileName, actualRepository);
 				searcher.transformAndInitRunDir(true, "");
 				searcher.initWbOrBB(wb);
 				searcher.search(wb);
@@ -135,8 +134,7 @@ public class GroupTest {
 					else actualRepository = 4;
 					//if(value != 120) continue;
 				}
-				System.out.println(folder);
-				GradeSearchCase instan = new GradeSearchCase(folder, fileName, actualRepository);
+				ESearchCase instan = new ESearchCase(folder, fileName, actualRepository);
 				instan.transformAndInitRunDir(true, "--type grade");
 				instan.initWbOrBB(wb);
 				instan.search(wb);
