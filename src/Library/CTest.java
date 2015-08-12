@@ -1,10 +1,5 @@
 package Library;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +9,6 @@ import Experiment.CaseInfo;
 
 
 public class CTest {
-	
 	
 	public List<List<String>> getPositiveParameters(CaseInfo info){
 		List<List<String>> lists = new ArrayList<List<String>>();
@@ -71,23 +65,5 @@ public class CTest {
 		return command;
 	}
 	
-	
-
-	
-	public static void main(String[] args) throws IOException, InterruptedException{
-		//String command = "gcc ccode/test.c -o test";
-		String g = Utility.getStringFromFile("ccode/test.c");
-		String command = "gcc   ccode/test.c -o test.o";
-		String commands = "gcc -fprofile-arcs -ftest-coverage ./testcases/ccode/median.c";
-		//Test.invokeZ3onFile("ctest/test/temp");
-		Utility.runCProgram(commands);
-		String s = Utility.runCProgram("./a.out");
-		System.out.println(s);
-		//Process p = Runtime.getRuntime().exec(command);
-		//p.waitFor();
-		//Thread.currentThread().sleep(3000);
-		//Process ls_proc = Runtime.getRuntime().exec(command);
-		//System.out.println(g);
-	}
 
 }

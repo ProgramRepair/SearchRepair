@@ -52,8 +52,6 @@ public class BugLineSearcher {
 		initContent();
 		if(this.linesContent.size() != this.suspiciousness.keySet().size()) return;
 		calculateBuggy();
-		System.out.println(buggy[0]);
-		System.out.println(buggy[1]);
 	}
 
 	private void calculateBuggy() {

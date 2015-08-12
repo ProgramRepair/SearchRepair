@@ -27,7 +27,6 @@ public class GenerateStandardTestCases {
 	public void generate(){
 		try{
 			File dir = new File(introPath);
-			System.out.println(dir.getAbsolutePath());
 			for(String typeName : dir.list()){
 				if(typeName.equals("smallest")){
 					generate(introPath + File.separator + "smallest", outputFolderPath + File.separator + "smallest", "smallest");
@@ -152,6 +151,7 @@ public class GenerateStandardTestCases {
 	}
 
 	private void generateWhiteAndBlack(String outputFolder, String inputFolder, String fileName) {
+		// FIXME: deal with this pathname stuff!
 		String whiteboxPath = inputFolder + "/../../tests/whitebox";
 		String blackboxPath = inputFolder + "/../../tests/blackbox";
 		new File(outputFolder + "/whitebox").mkdir();

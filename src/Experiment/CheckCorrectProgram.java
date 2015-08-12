@@ -37,7 +37,6 @@ public class CheckCorrectProgram {
 
 	private boolean checkRepair(File subsubDir) {
 		String dirPath = subsubDir.getAbsolutePath();
-		//System.out.println(dirPath);
 		File dir1 = new File(dirPath + "/repair");
 		if(dir1.isDirectory() && dir1.list().length != 0) return true;
 		return false;
@@ -65,27 +64,13 @@ public class CheckCorrectProgram {
 
 	private boolean checkNeg(File subsubDir) {
 		String dirPath = subsubDir.getAbsolutePath();
-		//System.out.println(dirPath);
+		// FIXME: paths
 		File dir1 = new File(dirPath + "/blackbox/negative");
 		File dir2 = new File(dirPath + "/whitebox/negative");
 		boolean hasNeg = false;
 		if(dir1.exists() && dir1.list().length != 0) hasNeg = true;
 		if(dir2.exists() && dir2.list().length != 0) hasNeg = true;
 		return hasNeg;
-	}
-	
-	public void printCorrect(){
-		System.out.println(this.pathsForCorrect.size());
-		for(String s : this.pathsForCorrect){
-			System.out.println(s);
-		}
-	}
-	
-	public void printRepair(){
-		System.out.println(this.pathsForRepair.size());
-		for(String s : this.pathsForRepair){
-			System.out.println(s);
-		}
 	}
 	
 	public int countLines(String folder){
@@ -103,17 +88,6 @@ public class CheckCorrectProgram {
 		}
 		return count;
 	}
-	
-	
-	public static void main(String[] args){
-		CheckCorrectProgram check = new CheckCorrectProgram("./bughunt");
-		//System.out.println(check.countLines("./src"));
-//		check.checkRepairProgram();;
-//		check.printRepair();
-		check.checkCorrectProgram();
-		check.printCorrect();
-	}
-	
 	
 	
 }

@@ -6,9 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import Library.Utility;
@@ -76,7 +74,6 @@ public class GetDrecrepency {
 			String path = version.getAbsolutePath() + "/original";
 			String content = Utility.getStringFromFile(path);
 			content = content.substring(content.indexOf("introclass"), content.length() - 1);
-			//System.out.println(content);
 			set.add(content);
 		}		
 	}
@@ -92,7 +89,6 @@ public class GetDrecrepency {
 				String version = array[2].trim();
 				version = modifiy(version);
 				String path = "introclass/" + name + "/" + submission + "/" + version;
-				//System.out.println(path);
 				if(name.equals("median")){
 					this.tedMedian.add(path);
 				}

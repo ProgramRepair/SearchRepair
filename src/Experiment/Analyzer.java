@@ -13,8 +13,6 @@ import Library.Utility;
 
 public class Analyzer {
 	
-	
-	
 	public static final String MEDIAN = "median";
 	public static final String SMALLEST = "smallest";
 	public static final String SYLLABLES = "syllables";
@@ -367,7 +365,6 @@ public class Analyzer {
 		}
 		String[] lines = content.split("\n");
 		String firstline = lines[0].trim();
-		//System.out.println(firstline);
 		if(firstline.startsWith("success"))
 		{
 
@@ -523,15 +520,6 @@ public class Analyzer {
 		ana.initThreeCombines();
 		ana.initAll();
 		ana.printyury();
-	}
-
-
-
-	private void printSuccessList() {
-		for(String s : this.successlist.keySet()){
-			System.out.println(s + this.successlist.get(s));
-		}
-		
 	}
 
 	private boolean verifySearch(String version, String program){

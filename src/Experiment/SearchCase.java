@@ -106,7 +106,7 @@ public class SearchCase {
 					}
 					else continue;
 				}catch(Exception e){
-					System.out.println(e);
+				// FIXME: do I care?	System.out.println(e);
 					continue;
 				}
 			}	
@@ -266,7 +266,6 @@ public class SearchCase {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(this.casePrefix + ".c")));
 			String s = null;
 			
-			
 			for(int i = 1; i < buggy[0]; i++){
 				s = reader.readLine();
 				writer.write(s);
@@ -365,7 +364,6 @@ public class SearchCase {
 				outputend += end;
 			}
 		}
-		System.out.println(inputend);
 		states[0] = inputbegin.subSequence(0, inputbegin.length()) + "inputEnd\", " + inputend.substring(0, inputend.length() - 2) + ");";
 		states[1] = outputbegin.subSequence(0, outputbegin.length()) + "_nextloop_\", " + outputend.substring(0, outputend.length() - 2) + ");";
 		return states;
@@ -402,13 +400,10 @@ public class SearchCase {
 		
 	}
 
-
-
 	private Map<String, String> getBlockVariable(BlockContext block) {
 		Map<String, String> variables = new HashMap<String, String>();
 		if(find) return variables;
 		for(StatContext statCon : block.stat()){
-			//System.out.println(statCon.getText());
 			if(statCon.getText().equals(MARKINPUT)){
 				find = true;
 				break;
@@ -435,7 +430,6 @@ public class SearchCase {
 		String type = assign.type().getText();
 		String id  = assign.ID().getText();
 		variables.put(id, type);
-		
 	}
 
 	private void add(DeclarationStatContext decl, Map<String, String> variables) {
@@ -458,7 +452,6 @@ public class SearchCase {
 		String output = "";
 		try{
 			String fileString = Utility.getStringFromFile(markFile);
-			//System.out.println(fileString);
 			int start = -1;
 			int end = -1;
 			Stack<Character> stack = new Stack<Character>();
@@ -484,7 +477,7 @@ public class SearchCase {
 			output = fileString.substring(start + 1, end + 1);
 			
 		}catch(Exception e){
-			System.out.println(e);
+			// FIXME: do I care? 
 			return "";
 		}
 		return output;

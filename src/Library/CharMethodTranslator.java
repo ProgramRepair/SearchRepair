@@ -39,8 +39,4 @@ public class CharMethodTranslator {
 		String constraint = "(assert (ite " + condition +  " " + result + " ))";
 		return constraint;
 	}
-	
-	public static void main(String[] args){
-		System.out.println(CharMethodTranslator.getToLowerConstraint("y", "x"));
-	}
 }

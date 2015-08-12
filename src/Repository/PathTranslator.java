@@ -3,6 +3,8 @@ package Repository;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,16 +47,28 @@ public class PathTranslator {
 	private String fileName;
 	private int count;
 	
+	private static class NullOutputStream extends OutputStream {
+	    @Override
+	    public void write(int b){
+	         return;
+	    }
+	    @Override
+	    public void write(byte[] b){
+	         return;
+	    }
+	    @Override
+	    public void write(byte[] b, int off, int len){
+	         return;
+	    }
+	    public NullOutputStream(){
+	    }
+	}
+
 	
-	
-	
-	
-	
+
 	public PathTranslator(String path, String formalVariables) {
 		super();
 		this.path = path;
-		//System.out.println(formalVariables);
-		//System.out.println(path);
 		this.count = 0;
 		this.fileName = "_test_";
 		this.ssa = new ArrayList<String>();
@@ -76,17 +90,16 @@ public class PathTranslator {
 		applySSA();
 	}
 	
-	
-	
-	
+	private PrintStream realSystemErr = System.err;
+	private PrintStream nullSystemErr = new PrintStream(new NullOutputStream());
 
 	private void applySSA() {
 		//add formal parameters
-		
 		trackFormal();
 		
 		InputStream stream = new ByteArrayInputStream(path.getBytes());
 		try {
+			System.setErr(nullSystemErr);
 			ANTLRInputStream input = new ANTLRInputStream(stream);
 			PathLexer lexer = new PathLexer(input);
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -94,7 +107,8 @@ public class PathTranslator {
 			ProgContext prog = parser.prog();
 			List<StatementContext> statements = prog.statement();
 			convertStatementToConstraints(statements);
-			
+			System.setErr(realSystemErr);
+
 		} catch (IOException e) {
 			//
 			e.printStackTrace();

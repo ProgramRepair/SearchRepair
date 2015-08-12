@@ -44,10 +44,6 @@ public class GroupTest {
 				continue;
 			}
 		}
-
-		for (String s : list) {
-			System.out.println(s);
-		}
 	}
 
 	public static void medianTest(boolean wb, int type) {

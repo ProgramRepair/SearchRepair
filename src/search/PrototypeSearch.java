@@ -44,7 +44,7 @@ public class PrototypeSearch {
 				searchMatchType(source, info, pathformals);
 			}catch(Exception e){
 				result.close();
-				System.out.println(source);
+				// FIXME: do I care?System.out.println(source);
 				continue;
 			}
 
@@ -61,8 +61,6 @@ public class PrototypeSearch {
 		{
 			info.getResult().addSearchMapping(source, map);;
 		}
-		//info.clear(
-
 	}
 
 	public static void search(CaseInfo info, int repo) throws SQLException, IOException{
@@ -87,7 +85,7 @@ public class PrototypeSearch {
 			try{
 				searchAllPath(pathconstraint, pathtypes, source, info, pathtracks, pathmapping, pathformals);
 			}catch(Exception e){
-				System.out.println(source);
+				// FIXME: do I care? System.out.println(source);
 				continue;
 			}
 
@@ -149,9 +147,7 @@ public class PrototypeSearch {
 
 			info.getResult().addSearchMapping(source, map);
 			break;
-
 		}
-
 	}
 
 
@@ -159,7 +155,6 @@ public class PrototypeSearch {
 			String[] variableTracks, String[] mapping, String[] formals, Map<String, String> map, List<String> pInputs, List<String> pOutputs) {
 
 		List<String> delcarations = getVariableTypeConstraint(variableTypes);
-		//
 		Map<String, String> tracks = PrototypeSearch.getVariableTrack(variableTracks);
 		boolean isReturn = false;
 		if(pOutputs.get(0).contains("_result_")){
@@ -208,8 +203,7 @@ public class PrototypeSearch {
 	//get validate mapping by variableTracks
 	private static List<Map<String, String>> getValidateMapping(
 			CaseInfo info, String[] formals) {
-		//Map<String, String> track = getVariableTrack(variableTracks);
-		//Map<String, String> typeTrack = getVariableTrack(variableTypes);
+
 		Map<String, String> formalTypes = getVariableTrack(formals);
 
 		List<String> inputs = new ArrayList<String>();
@@ -285,7 +279,6 @@ public class PrototypeSearch {
 				list.add(assign);
 			}
 		}
-
 		return list;
 	}
 
@@ -368,23 +361,6 @@ public class PrototypeSearch {
 		return lists;
 	}
 
-	public static void validatePermuation(){
-		List<String> list = new ArrayList<String>();
-		list.add("1");
-		list.add("1");
-		list.add("2");
-		list.add("3");
-		list.add("4");
-		List<List<String>> permutation = getPermutation(list, 4);
-		System.out.println("size:" + permutation.size());
-		for(List<String> t : permutation){
-			for(String s : t){
-				System.out.print(s + " ");
-			}
-			System.out.println();
-		}
-	}
-
 	public static String getMappingConstraint(List<Map<String, String>> map){
 		if(map.isEmpty()) return "";
 		return "(assert(or " + getMapping(map) + " ))";
@@ -402,8 +378,5 @@ public class PrototypeSearch {
 		}
 		return expr;
 	}
-
-
-
 
 }

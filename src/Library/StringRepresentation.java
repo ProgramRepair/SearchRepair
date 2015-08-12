@@ -14,17 +14,13 @@ public class StringRepresentation {
 	private String content;
 	private List<String> constraints;
 	private String declareConstraint;
+
 	public StringRepresentation(String name, String content){
 		this.name = name;
 		this.content = content;
 		constraints = new ArrayList<String>();
 		generateConstraints();
 	}
-	
-	
-			
-
-
 
 	/**
 	 * be careful, there is no declaration cosntraint in this set
@@ -34,15 +30,9 @@ public class StringRepresentation {
 		return constraints;
 	}
 
-
-
-
-
 	public String getName() {
 		return name;
 	}
-
-
 
 	public void setName(String name) {
 		this.name = name;
@@ -65,16 +55,6 @@ public class StringRepresentation {
 	public void setConstraints(List<String> constraints) {
 		this.constraints = constraints;
 	}
-
-	
-	public void print(){
-		for(String constraint : this.constraints){
-			System.out.println(constraint);
-		}
-	}
-
-
-
 
 	private void generateConstraints(){
 		this.declareConstraint = getDeclareConstraint(name);
@@ -104,19 +84,10 @@ public class StringRepresentation {
 		return s;
 	}
 	
-	
-	
 	public static String getLengthConstraints(String name, String content){
 		String constraint = "(assert (= (length " + name + ") " + content.length() + "))";
 		return constraint;
 	}
-	
-	public static void main(String[] args){
-		StringRepresentation g = new StringRepresentation("c", "ababc");
-		System.out.println(g);
-//		getCharToInt();
-	}
-	
 	
 	public static String encodeLetter(char c) {
 		if (c == 'a' || c == 'b' || c == 'c' || c == 'd' || c == 'e'

@@ -27,41 +27,18 @@ public class EntryAddition {
 			try{
 				object = covertMethodToEntry(method);
 			}catch(Exception e){
-				System.out.println(e);
+				// FIXME: do I care? System.out.println(e);
 				continue;
 			}
 			EntryHandler.save(object, table);
-//			try {
-//				System.setOut(new PrintStream("log"));
-//			} catch (FileNotFoundException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			System.out.println(method.getName());
-//			save++;
-//			System.out.println(method.getSource());
-
-//			for(String path : object.getPathConstraint().keySet())
-//			{
-//				System.out.println("constraint:\n" + object.getPathConstraint().get(path));
-//				System.out.println("variable:\n" + object.getPathFormalVariables().get(path));
-//				System.out.println("track:\n" + object.getPathVariableTrack().get(path));
-//				System.out.println("type:\n" + object.getPathVariablesTypes().get(path));
-//				System.out.println("path:\n" + path);
-//			}
 		}
-		//System.out.println("count: " + count + "save: " + save);
 	}
-	
-
 	
 	private static EntryObject covertMethodToEntry(Method method) {
 		EntryTranslator translator = new EntryTranslator(method);
 		return translator.getEntryObject();
 		
 	}
-
-
 
 	public static void addOneFolder(String dirPath, String table){
 		File dir = new File(dirPath);
@@ -74,7 +51,6 @@ public class EntryAddition {
 			}		
 		}
 	}
-
 	
 	private static List<Method> parse(String fileName){
 		//assume only one method
@@ -198,8 +174,7 @@ public class EntryAddition {
 				}
 				index.push(i);
 				stack.add(c);
-				if(!typeStack.isEmpty())typeStack.pop();
-				
+				if(!typeStack.isEmpty())typeStack.pop();				
 			}
 			else if(c == '}'){
 				stack.pop();
