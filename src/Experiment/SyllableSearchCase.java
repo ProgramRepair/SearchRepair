@@ -68,7 +68,6 @@ public class SyllableSearchCase extends ESearchCase{
 	protected List<int[]> getMultpleBuggyLines(){
 		List<int[]> list = new ArrayList<int[]>();
 		initSuspicious();
-		this.initContent();
 		double average = getAverage();
 		int index = 12;
 		while(index < this.getSuspiciousness().keySet().size()){
@@ -87,14 +86,4 @@ public class SyllableSearchCase extends ESearchCase{
 		return list;
 	}
 	
-	
-	public static void main(String[] args){
-		SyllableSearchCase instan = new SyllableSearchCase("./bughunt/syllables/109", "syllables.c", 3);
-		instan.transformAndInitRunDir(false, "");
-		instan.initInputAndOutput();
-//		instan.search(true);
-//		instan.recordResult(true);
-		instan.search(false);
-		instan.recordResult(false);
-	}
 }

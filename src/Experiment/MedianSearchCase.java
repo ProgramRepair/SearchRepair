@@ -1,14 +1,8 @@
 package Experiment;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 import search.ResultObject.ResultState;
-import Library.Utility;
-import ProcessIntroClass.BugLineSearcher;
 
 public class MedianSearchCase extends ESearchCase {
 	public MedianSearchCase(String folder, String fileName, int repo) {
@@ -35,7 +29,7 @@ public class MedianSearchCase extends ESearchCase {
 		instan.setBuggy(range);
 		instan.setNegatives(this.getNegatives());
 		instan.setPositives(this.getPositives());
-		instan.setVerifications(this.getVerifications());
+		instan.setVerifications(this.getValidationTests());
 		instan.search();	
 		this.setInfo(instan.getInfo());
 	}

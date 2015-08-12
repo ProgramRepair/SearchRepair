@@ -1,7 +1,6 @@
 package Experiment;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import search.ResultObject.ResultState;
@@ -63,7 +62,6 @@ public class CheckSumSearchCase extends ESearchCase {
 	protected List<int[]> getMultpleBuggyLines(){
 		List<int[]> list = new ArrayList<int[]>();
 		initSuspicious();
-		this.initContent();
 		double average = getAverage();
 		int index = 12;
 		while(index < this.getSuspiciousness().keySet().size()){
@@ -82,20 +80,6 @@ public class CheckSumSearchCase extends ESearchCase {
 				
 		return list;
 	}
-
-	
-	
-	public static void main(String[] args){
-		CheckSumSearchCase instan = new CheckSumSearchCase("./bughunt/checksum/6", "checksum.c", 3);
-		instan.transformAndInitRunDir(false, "");
-		instan.initInputAndOutput();
-		instan.search(true);
-		instan.recordResult(true);
-		instan.search(false);
-		instan.recordResult(false);
-	}
-	
-	
 	
 	
 

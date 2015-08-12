@@ -1,13 +1,8 @@
 package Experiment;
 
-import java.io.File;
 import java.util.Arrays;
 
 import search.ResultObject.ResultState;
-import Library.Utility;
-import ProcessIntroClass.BugLineSearcher;
-import ProcessIntroClass.GcovTest;
-import ProcessIntroClass.Transform;
 
 public class GradeSearchCase extends ESearchCase {
 
@@ -39,7 +34,7 @@ public class GradeSearchCase extends ESearchCase {
 		instan.setBuggy(range);
 		instan.setNegatives(this.getNegatives());
 		instan.setPositives(this.getPositives());
-		instan.setVerifications(this.getVerifications());
+		instan.setVerifications(this.getValidationTests());
 		instan.search();	
 		this.setInfo(instan.getInfo());
 	}

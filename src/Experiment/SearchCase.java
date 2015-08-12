@@ -21,6 +21,7 @@ import java.util.Stack;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.apache.log4j.Logger;
 
 import search.PrototypeSearch;
 import search.ResultObject;
@@ -46,13 +47,16 @@ import antlr.preprocess.FunctionParser.StatContext;
  */
 public class SearchCase {
 	
+	protected static Logger logger = Logger.getLogger(SearchCase.class);
+
 	public static final String MARKINPUT = "_yalin_mark(\"input\");";
 	public static final String MARKOUTPUT = "_yalin_mark(\"output\");";
 	public String outputType = "";
 	
 	private String casePrefix;
-	private Map<String, String> positives;
-	private Map<String, String> negatives;
+	private ProgramTests trainingTests;
+	private Map<String,String> validationTests;
+
 	private int[] buggy;
 	private CaseInfo info;
 	private Map<String, String> verifications;
@@ -63,15 +67,12 @@ public class SearchCase {
 	private String tempOutput;
 	private int repo;
 	
-	
-	
-	
 
 
 	public SearchCase(String casePrefix, int repo) {
 		this.casePrefix = casePrefix;
-		this.positives = new HashMap<String, String>();
-		this.negatives = new HashMap<String, String>();
+		this.trainingTests = new ProgramTests();
+		this.validationTests = new HashMap<String,String>();
 		this.info = new CaseInfo();
 		this.buggy = new int[2];
 		this.verifications = new HashMap<String, String>();
@@ -165,9 +166,6 @@ public class SearchCase {
 	}
 
 
-		
-
-
 	private boolean testAllResults(String source, String outputFile) {
 		boolean pass = passAllPositive(source, outputFile);
 		if(!pass) return false;
@@ -186,10 +184,8 @@ public class SearchCase {
 		}
 	}
 
-
-
 	private int passNegatives(String source, String outputFile) {
-		return this.passTestSuite(source, outputFile, this.negatives);
+		return this.passTestSuite(source, outputFile, this.trainingTests.getNegatives());
 	}
 
 	
@@ -239,8 +235,8 @@ public class SearchCase {
 		if(!new File(this.casePrefix).exists()){
 			return false;
 		}
-		for(String input : this.positives.keySet()){
-			String output = this.positives.get(input);
+		for(String input : this.getPositives().keySet()){
+			String output = this.getPositives().get(input);
 			
 			String command2 = "./" + this.casePrefix;
 			
@@ -337,7 +333,7 @@ public class SearchCase {
 
 	private void obtainPositiveStates() {
 		String sourceFile = this.casePrefix + "state.c";
-		for(String input : this.positives.keySet()){
+		for(String input : this.getPositives().keySet()){
 			File file = new File( this.casePrefix);
 			if(file.exists()) file.delete();
 			String command1 = "gcc " + sourceFile + " -o " + this.casePrefix;
@@ -709,10 +705,10 @@ public class SearchCase {
 					String input = line.substring(6, index);
 					String output = line.substring(index + 7);
 					if(neg){
-						this.negatives.put(input.trim(), output.trim());
+						this.getNegatives().put(input.trim(), output.trim());
 					}
 					else{
-						this.positives.put(input.trim(), output.trim());
+						this.getPositives().put(input.trim(), output.trim());
 					}
 				}
 				else{
@@ -735,19 +731,19 @@ public class SearchCase {
 	}
 
 	public Map<String, String> getPositives() {
-		return positives;
+		return this.trainingTests.getPositives();
 	}
 
 	public void setPositives(Map<String, String> positives) {
-		this.positives = positives;
+		this.trainingTests.setPositives(positives);
 	}
 
 	public Map<String, String> getNegatives() {
-		return negatives;
+		return this.trainingTests.getNegatives();
 	}
 
 	public void setNegatives(Map<String, String> negatives) {
-		this.negatives = negatives;
+		this.trainingTests.setNegatives(negatives);
 	}
 
 	
