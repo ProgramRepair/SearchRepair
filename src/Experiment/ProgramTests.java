@@ -18,6 +18,7 @@ public class ProgramTests {
 	private Map<String, String> whiteNegatives;
 	private Map<String, String> positives;
 	private Map<String, String> negatives;
+	private Map<String, String> validationTests;
 	
 	public ProgramTests() {
 		blackPositives = new HashMap<String,String> ();
@@ -26,7 +27,7 @@ public class ProgramTests {
 		whiteNegatives = new HashMap<String,String> ();
 		positives = new HashMap<String,String> ();
 		negatives = new HashMap<String,String> ();
-		
+		validationTests = new HashMap<String,String>();
 	}
 	public Map<String,String> getNegatives() {
 		return this.negatives;
@@ -75,6 +76,9 @@ public class ProgramTests {
 		this.blackPositives = blackPositives;
 	}
 	
+	public Map<String,String> getValidationTests() {
+		return this.validationTests;
+	}
 	public int passNegatives(String source, String outputFile, String casePrefix) {
 		File file = new File(casePrefix);
 		if(file.exists()) file.delete();
@@ -102,7 +106,7 @@ public class ProgramTests {
 		}
 		return count;
 	}
-
+	
 	public boolean passAllPositive(String source, String outputFile, String casePrefix) {
 		File file = new File(casePrefix);
 		if(file.exists()) file.delete();
@@ -127,6 +131,9 @@ public class ProgramTests {
 			if(!s2.equals(output)) return false;
 		}
 		return true;
+	}
+	public void putValidation(Map<String, String> blackNegatives2) {
+		this.validationTests.putAll(blackNegatives2);
 	}
 
 

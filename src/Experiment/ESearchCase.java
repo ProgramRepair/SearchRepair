@@ -27,8 +27,7 @@ public  class ESearchCase {
 	private Map<Integer, Double> suspiciousness;
 	private String folder;
 
-	private ProgramTests trainingTests;
-	private Map<String,String> validationTests;
+	private ProgramTests programTests;
 
 	private String fileName;
 	private int[] buggy;
@@ -43,16 +42,12 @@ public  class ESearchCase {
 		this.buggy = buggy;
 	}
 
-	public Map<String,String> getValidationTests() {
-		return this.validationTests;
-	}
-	
+
 	public ESearchCase(String folder, String fileName, int repo){
 		this.repo = repo;
 		this.folder = folder;
 		this.fileName = fileName;
-		this.trainingTests = new ProgramTests();
-		this.validationTests = new HashMap<String,String>();
+		this.programTests = new ProgramTests();
 		this.buggy = new int[2];
 		this.casePrefix = this.folder + "/" + fileName.substring(0, fileName.lastIndexOf("."));
 		this.info = new CaseInfo();
@@ -118,20 +113,22 @@ public  class ESearchCase {
 		}
 	}
 	
+	public Map<String,String> getValidationTests() {
+		return this.programTests.getValidationTests();
+	}
+
 	protected void initWbOrBB(boolean wb){
 		if(wb){
+			this.programTests.setPositives(this.getWhitePositives());
+			this.programTests.setNegatives(this.getWhiteNegatives());
+			this.programTests.putValidation(this.getBlackNegatives());
+			this.programTests.putValidation(this.getBlackPositives());
 			
-			this.trainingTests.setPositives(this.getWhitePositives());
-			this.trainingTests.setNegatives(this.getWhiteNegatives());
-			this.validationTests.putAll(this.getBlackNegatives());
-			this.validationTests.putAll(this.getBlackPositives());
-			
-		}
-		else{
-			this.trainingTests.setPositives(this.getBlackPositives());
-			this.trainingTests.setNegatives(this.getBlackNegatives());
-			this.validationTests.putAll(this.getWhiteNegatives());
-			this.validationTests.putAll(this.getWhitePositives());
+		} else{
+			this.programTests.setPositives(this.getBlackPositives());
+			this.programTests.setNegatives(this.getBlackNegatives());
+			this.programTests.putValidation(this.getWhiteNegatives());
+			this.programTests.putValidation(this.getWhitePositives());
 		}
 		GcovTest test = new GcovTest(this.folder, this.transformFile, wb);
 	}
@@ -161,12 +158,8 @@ public  class ESearchCase {
 		if(!dir.exists()){
 			dir.mkdir();
 		}
-		recordLog(this.folder + "/repair/" + filec);
-		
-		
+		recordLog(this.folder + "/repair/" + filec);	
 	}
-
-
 
 	private void recordLog(String path) {
 		if(new File(path).exists()) new File(path).delete();
@@ -249,9 +242,9 @@ public  class ESearchCase {
 		this.initWbOrBB(false);
 		this.initInputAndOutput();
 		String outputFile = this.casePrefix + ".c";
-		boolean pass = trainingTests.passAllPositive("result", outputFile, this.casePrefix);
+		boolean pass = programTests.passAllPositive("result", outputFile, this.casePrefix);
 		//if(!pass) return false;
-		int count = this.trainingTests.passNegatives("result", outputFile, this.casePrefix);
+		int count = this.programTests.passNegatives("result", outputFile, this.casePrefix);
 		if(count == this.getNegatives().keySet().size()) return true;
 		return false;
 	}
@@ -287,7 +280,6 @@ public  class ESearchCase {
 	protected void initInputAndOutput() {
 		initPositveInputAndOutput();
 		initNegativeInputAndOutput();
-		
 	}
 
 	private void initNegativeInputAndOutput() {
@@ -306,7 +298,6 @@ public  class ESearchCase {
 	}
 
 
-
 	private void addToInputOutputMap(String root1, Map<String, String> map) {
 		File dir = new File(root1);
 		if(!dir.exists() ||!dir.isDirectory()) return;
@@ -318,7 +309,6 @@ public  class ESearchCase {
 				String outputString = Utility.getStringFromFile(output);
 				map.put(inputString, outputString);
 			}
-			
 		}		
 	}
 	
@@ -346,29 +336,29 @@ public  class ESearchCase {
 	}
 
 	public Map<String, String> getBlackPositives() {
-		return this.trainingTests.getBlackPositives();
+		return this.programTests.getBlackPositives();
 	}
 
 
 	public Map<String, String> getBlackNegatives() {
-		return this.trainingTests.getBlackNegatives();
+		return this.programTests.getBlackNegatives();
 	}
 
 	public Map<String, String> getWhitePositives() {
-		return this.trainingTests.getWhitePositives();
+		return this.programTests.getWhitePositives();
 	}
 
 	public Map<String, String> getWhiteNegatives() {
-		return this.trainingTests.getWhiteNegatives();
+		return this.programTests.getWhiteNegatives();
 	}
 
 	public Map<String, String> getPositives() {
-		return this.trainingTests.getPositives();
+		return this.programTests.getPositives();
 	}
 
 
 	public Map<String, String> getNegatives() {
-		return trainingTests.getNegatives();
+		return programTests.getNegatives();
 	}
 
 	public String getRunDir() {
