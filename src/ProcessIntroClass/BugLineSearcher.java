@@ -16,7 +16,6 @@ public class BugLineSearcher {
 	private Map<Integer, Double> suspiciousness;
 	private int[] buggy;
 	private boolean addBracket;
-	//private 
 
 	public BugLineSearcher(String folder, String fileName) {
 		this.folder = folder;
@@ -40,12 +39,7 @@ public class BugLineSearcher {
 		initSuspicious();
 		initContent();
 		if(this.linesContent.size() != this.suspiciousness.keySet().size()) return;
-		calculateBuggy();
-	}
-
-	private void calculateBuggy() {
-		int lineNumber = getBigSupicious();
-		initBuggyRange(lineNumber);	
+		initBuggyRange(getBigSupicious());	
 	}
 
 	public int[] getBuggy() {
@@ -233,7 +227,6 @@ public class BugLineSearcher {
 		
 	}
 
-	// FIXME: this prints a stack trace if it can't find the suspiciousness file, which it does when the suspiciousness file doesn't exist.
 	private void initSuspicious() {
 		try{
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.folder + "/suspicious")));

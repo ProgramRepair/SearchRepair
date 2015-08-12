@@ -302,10 +302,6 @@ public  class ProgramInstance {
 		return suspiciousness;
 	}
 
-	protected void setSuspiciousness(Map<Integer, Double> suspiciousness) {
-		this.suspiciousness = suspiciousness;
-	}
-
 	public ProgramTests getTrainingTests() {
 		return trainingTests;
 	}
@@ -355,7 +351,7 @@ public  class ProgramInstance {
 	 */
 	private boolean insertStateStatements(int[] buggy) {
 		// FIXME: the getProgram here cannot possibly be correct
-		String markFile = RegionInstance.insertMark(this.fileName.toString(),this.compiledBinary.toString(), buggy);
+		String markFile = RegionInstance.insertMark(this.transformFile.toString(),this.compiledBinary.toString(), buggy);
 
 		String target = RegionInstance.getFunction(markFile);
 		String[] states = RegionInstance.getStatesStatement(target);
@@ -365,6 +361,7 @@ public  class ProgramInstance {
 		RegionInstance.writeStatesStatement(states, this.compiledBinary.toString(), buggy);
 		return true;
 	}
+
 
 	protected boolean constructProfile(int[] buggy) {
 		if (insertStateStatements(buggy)) {  

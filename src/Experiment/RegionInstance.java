@@ -165,6 +165,12 @@ public class RegionInstance {
 		return fileName;
 	}
 
+	public static void main(String [] args) {
+		int[] buggy = { 15, 23 }; 
+		String target = RegionInstance.getFunction("/Users/clegoues/research/autobugfix/autobugfix-yalin/bughunt/median/0/median.mark");
+		String[] states = RegionInstance.getStatesStatement(target);
+
+	}
 	public static String[] getStatesStatement(String target) {
 		String[] states = null;
 

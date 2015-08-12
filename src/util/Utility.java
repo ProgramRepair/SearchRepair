@@ -267,14 +267,11 @@ public class Utility {
 				while ((ls_str = ls_in.readLine()) != null) {
 					sb.append(ls_str);
 					sb.append("\n");
-					System.out.println(ls_str);
 				}
 				while ((ls_str = ls_err.readLine()) != null) {
-					System.out.println(ls_str);
 					sb.append("failed");
 					break;
 				}
-				System.out.println(ls_proc.exitValue());
 
 			} catch (IOException e) {
 				sb.append("failed");
@@ -282,7 +279,6 @@ public class Utility {
 				sb.append("failed");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			sb.append("failed");
 		}
 
