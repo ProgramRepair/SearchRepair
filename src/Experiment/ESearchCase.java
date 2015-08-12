@@ -124,9 +124,7 @@ public  class ESearchCase {
 		String prefix = this.getRunDir() + "/" + this.getFileName().substring(0, this.getFileName().lastIndexOf('.'));
 		SearchCase instan = new SearchCase(prefix, this.getRepo());
 		instan.setBuggy(range);
-		instan.setNegatives(this.getNegatives());
-		instan.setPositives(this.getPositives());
-		instan.setVerifications(this.getValidationTests());
+		instan.setTests(this.getTests());
 		instan.search();	
 		this.setInfo(instan.getInfo());	
 	}
@@ -154,6 +152,10 @@ public  class ESearchCase {
 		recordLog(this.folder + "/repair/" + filec);	
 	}
 
+	public ProgramTests getTests() {
+		return this.programTests;
+	}
+	
 	private void recordLog(String path) {
 		if(new File(path).exists()) new File(path).delete();
 		try {

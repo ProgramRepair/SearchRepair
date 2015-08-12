@@ -33,10 +33,8 @@ public class SyllableSearchCase extends ESearchCase{
 			//if(!s.equals("[17, 22]")) continue;
 			String prefix = this.getRunDir() + "/" + this.getFileName().substring(0, this.getFileName().lastIndexOf('.'));
 			SearchCase instan = new SearchCase(prefix, this.getRepo());
-			System.out.println(Arrays.toString(range));
 			instan.setBuggy(range);
-			instan.setNegatives(this.getNegatives());
-			instan.setPositives(this.getPositives());
+			instan.setTests(this.getTests());
 			instan.search();
 			if(instan.getInfo().getResult().getState() == ResultState.SUCCESS || instan.getInfo().getResult().getState() == ResultState.PARTIAL){
 				this.setInfo(instan.getInfo());

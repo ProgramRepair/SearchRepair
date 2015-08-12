@@ -623,13 +623,10 @@ public class SearchCase {
 		this.casePrefix = casePrefix;
 	}
 
-	public void setPositives(Map<String, String> positives) {
-		this.programTests.setPositives(positives);
+	public void setTests(ProgramTests tests) {
+		this.programTests = tests;
 	}
 
-	public void setNegatives(Map<String, String> negatives) {
-		this.programTests.setNegatives(negatives);
-	}	
 
 	public CaseInfo getInfo() {
 		return info;
@@ -646,10 +643,7 @@ public class SearchCase {
 	public void setBuggy(int[] buggy) {
 		this.buggy = buggy;
 	}
-	
-	public void setVerifications(Map<String, String> verifications) {
-		this.programTests.putValidation(verifications);
-	}
+
 
 	public void searchJustOnMap() {
 		try{
