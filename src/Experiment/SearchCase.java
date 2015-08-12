@@ -12,7 +12,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,9 +72,7 @@ public class SearchCase {
 		boolean pass = fillSearchCase();
 		if(!pass) return;
 		searchOverRepository();
-		//printResult();
 		ruleOutFalsePositive();
-		//printSearchingResult();
 		
 		if(isEmpty(info.getResult())) {
 			this.info.getResult().setState(ResultState.FAILED);
@@ -186,27 +183,21 @@ public class SearchCase {
 	private void searchOverRepository() {
 		try {
 			PrototypeSearch.search(info, repo);
-			
 		} catch (SQLException e) {
-			
 			e.printStackTrace();
 		} catch (IOException e) {
-			
 			e.printStackTrace();
 		}
 		
 	}
 
 	private boolean fillSearchCase() {
-		System.out.println("---"+Arrays.toString(this.buggy));
 		try{
 			if(insertStateStatements(this.casePrefix + ".c")){
 				obtainPositiveStates();
 				return true;
-			}
-			else return false;
+			} else return false;
 		}catch(Exception e){
-			e.printStackTrace();
 			return true;
 		}
 		
@@ -218,25 +209,22 @@ public class SearchCase {
 			File file = new File( this.casePrefix);
 			if(file.exists()) file.delete();
 			String command1 = "gcc " + sourceFile + " -o " + this.casePrefix;
-			String command2 = "./" + this.casePrefix;
+			String command2 = this.casePrefix;
 			String s1 = Utility.runCProgram(command1);
 			if(s1.equals("failed")) continue;
 			String s2 = Utility.runCProgramWithInput(command2, input);
-			//System.out.println(s2);
 			if(s2.trim().isEmpty()) return;
 			String[] entries = s2.split("_nextloop_");
 			for(String entry : entries){
 				int inputStart = entry.indexOf("inputStart:");
 				int inputEnd = entry.indexOf("inputEnd");
 				int outputStart = entry.indexOf("outputStart:");
-				//int outputEnd = s2.indexOf("outputEnd");
 				if(inputStart == - 1) continue;
 				if(outputStart == - 1) continue;
 				
 				List<String> inputList = new ArrayList<String>();
 				List<String> outputList = new ArrayList<String>();
-				
-	
+			
 				String[] elems = entry.substring(inputStart + 11, inputEnd).split("_VBC_");
 				for(String e : elems){
 					if(e.equals("")) continue;
@@ -248,9 +236,7 @@ public class SearchCase {
 				}
 				info.getPositives().put(inputList, outputList);
 			}
-		}
-
-		
+		}	
 	}
 
 	/*

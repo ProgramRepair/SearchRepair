@@ -67,7 +67,7 @@ public class ProgramTests {
 		for(String input : suite.keySet()){
 			String output = suite.get(input);
 			
-			String command2 = "./" + this.casePrefix;
+			String command2 = this.casePrefix;
 			
 			String s2 = Utility.runCProgramWithInput(command2, input);
 			
@@ -91,7 +91,7 @@ public class ProgramTests {
 		for(String input : this.getPositives().keySet()){
 			String output = this.getPositives().get(input);
 			
-			String command2 = "./" + this.casePrefix;
+			String command2 = this.casePrefix;
 			
 			String s2 = Utility.runCProgramWithInput(command2, input);
 			

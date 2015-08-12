@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import search.ResultObject.ResultState;
+import test.Configuration;
 
 public class GroupTest {
 
@@ -51,13 +52,12 @@ public class GroupTest {
 
 	public static void medianTest(boolean wb, int type) {
 		List<String> list = new ArrayList<String>();
-		File file = new File("./bughunt/median");
+		File file = new File(Configuration.outputPath + File.separator + "median");
 		int size = file.listFiles().length;
 		int actualRepository = 0;
 		for (File root : file.listFiles()) {
 			try {
-				// if(!root.getName().equals("225"))continue;
-				String folder = "./bughunt/median/" + root.getName();
+				String folder = Configuration.outputPath + File.separator + "median" + File.separator + root.getName();
 				String fileName = "median.c";
 				if (type == 2) {
 					int value = Integer.parseInt(root.getName());
@@ -65,7 +65,6 @@ public class GroupTest {
 					if(value < size / 2) actualRepository = 3;
 					else actualRepository = 4;
 				}
-				System.out.println(folder);
 				ESearchCase searcher = new ESearchCase("median", folder, fileName, actualRepository);
 				searcher.transformAndInitRunDir(true, "");
 				searcher.initWbOrBB(wb);

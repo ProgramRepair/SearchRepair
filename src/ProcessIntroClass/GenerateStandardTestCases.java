@@ -232,15 +232,4 @@ public class GenerateStandardTestCases {
 		}
 		
 	}
-	
-
-
-
-	
-	public static void main(String[] args){
-		GenerateStandardTestCases test = new GenerateStandardTestCases("/users/keyalin/documents/test/latest/IntroClass", "./bughunt");
-		test.generate();
-		test.printFailed();
-	}
-
 }

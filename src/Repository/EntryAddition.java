@@ -2,12 +2,8 @@ package Repository;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -73,29 +69,22 @@ public class EntryAddition {
 		for(File file : dir.listFiles()){
 			if(file.isDirectory()){
 				addOneFolder(file.getAbsolutePath(), table);
-			}
-			else{
+			} else {
 				addOneFile(file.getAbsolutePath(), table);
-			}
-			
+			}		
 		}
 	}
-	
 
 	
 	private static List<Method> parse(String fileName){
 		//assume only one method
 		List<Method> methods = new ArrayList<Method>();
 		try {
-			//if(!fileName.equals("./repository/scrape/test41.c")) return methods;
 			String com = "./executors/pathgen " + fileName;
 
  			Process p = Runtime.getRuntime().exec(com);
 			BufferedReader ls_in = new BufferedReader(new InputStreamReader(
 					p.getInputStream()));
-//			BufferedReader ls_error = new BufferedReader(new InputStreamReader(
-//					p.getErrorStream()));
-//			System.out.println(ls_error.readLine());
 			String s = null;
 			StringBuilder path = new StringBuilder();
 			StringBuilder input = new StringBuilder();
@@ -104,7 +93,6 @@ public class EntryAddition {
 			boolean correct = true;
 			while((s = ls_in.readLine()) != null)
 			{
-				System.out.println(s);
 				s = s.trim();
 				if(s.startsWith("Processing:")){
 					if(method.getName() != null){
@@ -120,8 +108,6 @@ public class EntryAddition {
 				}
 				else if(s.startsWith("GLOBAL")){
 					continue;
-//					path.append(s.substring(7, s.length() - 1));
-//					path.append("\n");
 				}
 				else if(s.startsWith("FORMAL")){
 					input.append(s.substring(7, s.length() - 1));
@@ -133,10 +119,8 @@ public class EntryAddition {
 				else if(s.startsWith("STMT(return")){
 					path.append(s.substring(5, s.length() - 1));
 					path.append("\n");
-					
 					method.getPath().add(path.toString());
 					method.getPathToInput().put(path.toString(), input.toString());		
-					System.out.println(input.toString());
 					path = new StringBuilder();
 					input = new StringBuilder();
 					//startParsing = false;
@@ -189,10 +173,8 @@ public class EntryAddition {
 			{
 				methods.add(method);
 			}
-			
 			ls_in.close();
 		} catch (IOException e) {
-			
 			e.printStackTrace();
 			return methods;
 		}
@@ -237,11 +219,7 @@ public class EntryAddition {
 			methods.get(i).setReturnType(types.get(i));
 		}
 		return methods;
-		
 	}
-	
-	
-	
 	
 	private static String getType(String declare) {
 		declare = declare.trim();
@@ -251,13 +229,5 @@ public class EntryAddition {
 		else if(declare.startsWith("float")) return "float";
 		else if(declare.startsWith("char*")) return "char*";
 		else return "void";
-	}
-
-
-
-	public static void main(String[] args) throws FileNotFoundException{
-		String filePath = "./repository/future";
-		EntryAddition.addOneFolder(filePath, "future");;
-		//EntryAddition.addOneFile(filePath);
 	}
 }

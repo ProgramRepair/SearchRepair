@@ -25,7 +25,7 @@ public class PrototypeSearch {
 	private static String SEARCHFUTURE2= "select * from " + DataBaseManager.TABLEFUTURE2;
 	private static String SEARCHALL= "select * from " + DataBaseManager.TABLEALL;
 	private static String SEARCHLINUX= "select * from " + DataBaseManager.TABLELINUX;
-	
+
 	public static void searchOnlyMatchType(CaseInfo info, int repo) throws SQLException{
 		DataBaseManager.connect();
 		String database;
@@ -47,12 +47,12 @@ public class PrototypeSearch {
 				System.out.println(source);
 				continue;
 			}
-			
+
 		}
 		result.close();
 		DataBaseManager.close();
 	}
-	
+
 	private static void searchMatchType(String source, CaseInfo info,
 			String[] pathformals) {
 		String[] variableFor = pathformals[0].split(EntryHandler.PATH_VARIABLE_Formal)[1].split(DataHandler.VARIABLE_END);
@@ -62,7 +62,7 @@ public class PrototypeSearch {
 			info.getResult().addSearchMapping(source, map);;
 		}
 		//info.clear(
-		
+
 	}
 
 	public static void search(CaseInfo info, int repo) throws SQLException, IOException{
@@ -78,8 +78,7 @@ public class PrototypeSearch {
 		ResultSet result = Database.DataBaseManager.query(database);
 		while(result.next()){
 			String source = result.getString(1).trim();
-			//System.out.println(source);
-			//if(!source.startsWith("if (string[i]") ) continue;
+
 			String[] pathconstraint = result.getString(2).split(EntryHandler.PATH_SEPERATOR);
 			String[] pathtypes = result.getString(3).split(EntryHandler.PATH_SEPERATOR);			
 			String[] pathtracks= result.getString(4).split(EntryHandler.PATH_SEPERATOR);
@@ -91,22 +90,22 @@ public class PrototypeSearch {
 				System.out.println(source);
 				continue;
 			}
-			
+
 		}
 		result.close();
 		DataBaseManager.close();
 	}
-	
 
-	
+
+
 
 	private static void searchAllPath(String[] pathconstraint,
 			String[] pathtypes, String source, CaseInfo info,
 			String[] pathtracks, String[] pathmapping, String[] pathformals) {
 		// only one path can succeed
 		if(!(pathconstraint.length == pathtypes.length && pathtypes.length == pathtracks.length && pathtracks.length == pathmapping.length && pathmapping.length == pathformals.length)) return;
-		
-		
+
+
 		String[] variableTyp = pathtypes[0].split(EntryHandler.PATH_VARIABLE_TYPE)[1].split(DataHandler.VARIABLE_END);
 		String[] variableTra = pathtracks[0].split(EntryHandler.PATH_VARIABLE_TRACK)[1].split(DataHandler.VARIABLE_END);
 		String[] variableFor = pathformals[0].split(EntryHandler.PATH_VARIABLE_Formal)[1].split(DataHandler.VARIABLE_END);
@@ -138,54 +137,48 @@ public class PrototypeSearch {
 						break;
 					}						
 				}
-				
+
 				if(passOnePath) continue;
 				else {
 					passAllPositive = false;
 					break;
 				}
 			}
-			
+
 			if(!passAllPositive) continue;
 
 			info.getResult().addSearchMapping(source, map);
 			break;
-			
-		}
-		
-	}
 
+		}
+
+	}
 
 
 	private static boolean searchWithMapping( String constraint, String[] variableTypes,
-			 String[] variableTracks, String[] mapping, String[] formals, Map<String, String> map, List<String> pInputs, List<String> pOutputs) {
-		
-			List<String> delcarations = getVariableTypeConstraint(variableTypes);
+			String[] variableTracks, String[] mapping, String[] formals, Map<String, String> map, List<String> pInputs, List<String> pOutputs) {
+
+		List<String> delcarations = getVariableTypeConstraint(variableTypes);
 		//
-			Map<String, String> tracks = PrototypeSearch.getVariableTrack(variableTracks);
-			boolean isReturn = false;
-			if(pOutputs.get(0).contains("_result_")){
-				isReturn = true;
-			}
-			
-			boolean loadString = checkLoadString(variableTypes, pInputs);
-			
-			String mappingConstraint = getMapping(map, tracks, isReturn);
-			//System.out.println(mappingConstraint);
-			//if(!mappingConstraint.trim().equals("(assert (and (= g g_in )(= g g_out )(= h h_in )(= h h_out )))")) return false;
-			List<String> states = new ArrayList<String>();
-			states.addAll(getStateConstraint(pInputs, "_in"));
-			List<String> output = getStateConstraint(pOutputs, "_out");
-			if(!validate(delcarations, mappingConstraint, constraint, states, output, isReturn, loadString)) {
-				return false;
-			}
-			
-			return true;
-		
+		Map<String, String> tracks = PrototypeSearch.getVariableTrack(variableTracks);
+		boolean isReturn = false;
+		if(pOutputs.get(0).contains("_result_")){
+			isReturn = true;
+		}
+
+		boolean loadString = checkLoadString(variableTypes, pInputs);
+
+		String mappingConstraint = getMapping(map, tracks, isReturn);
+		//System.out.println(mappingConstraint);
+		//if(!mappingConstraint.trim().equals("(assert (and (= g g_in )(= g g_out )(= h h_in )(= h h_out )))")) return false;
+		List<String> states = new ArrayList<String>();
+		states.addAll(getStateConstraint(pInputs, "_in"));
+		List<String> output = getStateConstraint(pOutputs, "_out");
+		if(!validate(delcarations, mappingConstraint, constraint, states, output, isReturn, loadString)) {
+			return false;
+		}
+		return true;
 	}
-
-
-
 
 	private static boolean checkLoadString(String[] variableTypes,
 			List<String> pInputs) {
@@ -193,16 +186,14 @@ public class PrototypeSearch {
 			String[] info = s.split(":");
 			if(info[1].contains("char*")) return true;
 		}
-		
+
 		for(String s : pInputs){
 			String[] info = s.split(":");
 			if(info[info.length - 1].contains("char*")) return true;
 		}
 		return false;
-		
+
 	}
-
-
 
 	private static String getMapping(Map<String, String> m, Map<String, String> variableTrack, boolean isReturn) {
 		String temp = "(assert (and ";
@@ -210,22 +201,17 @@ public class PrototypeSearch {
 			temp = temp + "(= " + s + " "  + m.get(s) + "_in " + ")";
 			if(!isReturn)temp = temp + "(= " + variableTrack.get(s) +  " " + m.get(s) + "_out " + ")";
 		}
-		
 		temp = temp + "))";
 		return temp;
-		
-		//map.put(in[0]+"_out", track.get(var));
 	}
 
-
-	
 	//get validate mapping by variableTracks
 	private static List<Map<String, String>> getValidateMapping(
 			CaseInfo info, String[] formals) {
 		//Map<String, String> track = getVariableTrack(variableTracks);
 		//Map<String, String> typeTrack = getVariableTrack(variableTypes);
 		Map<String, String> formalTypes = getVariableTrack(formals);
-		
+
 		List<String> inputs = new ArrayList<String>();
 		for(List<String> l : info.getPositives().keySet()){
 			inputs = l;
@@ -239,9 +225,7 @@ public class PrototypeSearch {
 		if(inputs.size() < variables.size()) return list;
 		if(inputs.size() > 7 || variables.size() > 6) return list;
 		List<List<String>> inputPerms = getPermutation(inputs, variables.size());
-		
-		
-		
+
 		for(List<String> input : inputPerms){
 			Map<String, String> map = new HashMap<String, String>();
 			boolean val = true;
@@ -253,37 +237,25 @@ public class PrototypeSearch {
 					break;
 				}
 				map.put(var, in[0]);
-				//map.put(in[0]+"_out", track.get(var));
 			}
 			if(!val) continue;
 			list.add(map);
 		}
-
-		
-		System.out.println(list.size());
 		return list;
 	}
-	
-	
-	
 
 	private static Map<String, String> getVariableTrack(String[] variableTracks) {
-		 Map<String, String> map = new HashMap<String, String>();
-		 
-		 for(String s : variableTracks){
-			 String[] array = s.split(":");
-			 map.put(array[0], array[1]);
-		 }
+		Map<String, String> map = new HashMap<String, String>();
+
+		for(String s : variableTracks){
+			String[] array = s.split(":");
+			map.put(array[0], array[1]);
+		}
 		return map;
 	}
 
-
-
-
-
 	private static List<String> getStateConstraint(List<String> states, String prefix) {
 		List<String> list = new ArrayList<String>();
-		//list.add"(declare-fun _output_"  + " () " + type+ ")");
 		for(String s : states){
 			String[] con = s.split(":");
 			if(con[2].equals("char")){
@@ -298,39 +270,23 @@ public class PrototypeSearch {
 			}
 			else id = con[0] + prefix;
 			String value = con[1];
-			//System.out.println(type);
-			if(!type.equals("String"))
-			{	
+			if(!type.equals("String")) {	
 				String delcare = "(declare-fun " + id + " () " + type+ ")";
 				String assign = "(assert (= " + id + " " + value +"))";
 				list.add(delcare);
 				list.add(assign);
-			}
-			
-			else if(type.equals("String")){
-				//StringRepresentation rep = new StringRepresentation(id, value.substring(1, value.length() - 1));
-				
+			} else if(type.equals("String")){
 				StringRepresentation rep = new StringRepresentation(id, value);
 				list.add(rep.getDeclareConstraint(id));
 				list.addAll(rep.getConstraints());
 			}
 			if(id.contains("_result_")){
-				
 				String assign = "(assert (= " + id + " _output_ ))";
-				//list.add(delcare);
 				list.add(assign);
 			}
 		}
-		
-		return list;
-	}
 
-	private static List<List<String>> getPermutation(String[] inputs, int k) {
-		List<String> list = new ArrayList<String>();
-		for(String s : inputs){
-			list.add(s);
-		}
-		return getPermutation(list, k);
+		return list;
 	}
 
 	private static boolean validate(List<String> variableConstraint,
@@ -368,16 +324,11 @@ public class PrototypeSearch {
 				}				
 			}
 			bw.write("(check-sat)\n");
-			//bw.write("(get-model)\n");
 			bw.close();
 			String res = Utility.invokeZ3onFile(DataHandler.z3TempFile);
-			//System.out.println(res);
-			if(res.equals("sat")){
-				return true;
-			}
-			else return false;
+			return res.equals("sat"); 
 		}catch(Exception e){
-			
+
 		}
 		return false;
 	}
@@ -404,7 +355,7 @@ public class PrototypeSearch {
 			lists.add(new ArrayList<String>());
 			return lists;
 		}
-		
+
 		for(int i = 0; i < list.size(); i++){
 			List<String> temp = new ArrayList<String>(list);
 			temp.remove(i);
@@ -416,7 +367,7 @@ public class PrototypeSearch {
 		}
 		return lists;
 	}
-	
+
 	public static void validatePermuation(){
 		List<String> list = new ArrayList<String>();
 		list.add("1");
@@ -433,24 +384,10 @@ public class PrototypeSearch {
 			System.out.println();
 		}
 	}
-	
-	public static void main(String[] args){
-		validatePermuation();
-//		List<Map<String, String>> map = new ArrayList<Map<String, String>>();
-//		for(int i = 0; i < 3; i++){
-//			HashMap<String, String> m = new HashMap<String, String>();
-//			m.put("a", "b");
-//			m.put("b", Integer.toBinaryString(i));
-//			map.add(m);
-//		}
-//		System.out.println(getMappingConstraint(map));
-	}
-	
-	
+
 	public static String getMappingConstraint(List<Map<String, String>> map){
 		if(map.isEmpty()) return "";
-		String constraint = "(assert(or " + getMapping(map) + " ))";
-		return constraint;
+		return "(assert(or " + getMapping(map) + " ))";
 	}
 
 	private static String getMapping(List<Map<String, String>> map) {
@@ -466,7 +403,7 @@ public class PrototypeSearch {
 		return expr;
 	}
 
-	
+
 
 
 }

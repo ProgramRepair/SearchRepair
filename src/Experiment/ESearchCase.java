@@ -26,11 +26,8 @@ public  class ESearchCase {
 
 	private Map<Integer, Double> suspiciousness;
 	private String folder;
-
 	private ProgramTests programTests;
-
 	private String program;
-	
 	private String fileName;
 	private String casePrefix;
 	private CaseInfo info;
@@ -123,7 +120,6 @@ public  class ESearchCase {
 		
 		List<int[]> buggylines = getMultipleBuggyLines();
 		for(int[] range : buggylines){
-			//System.out.println(Arrays.toString(range));
 			String prefix = this.getRunDir() + File.separator + this.program;
 			SearchCase instan = new SearchCase(prefix, this.getRepo());
 			instan.setBuggy(range);
@@ -176,7 +172,6 @@ public  class ESearchCase {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			
 			e.printStackTrace();
 		}
 		
