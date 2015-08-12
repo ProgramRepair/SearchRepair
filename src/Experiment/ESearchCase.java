@@ -42,7 +42,6 @@ public  class ESearchCase {
 		this.buggy = buggy;
 	}
 
-
 	public ESearchCase(String folder, String fileName, int repo){
 		this.repo = repo;
 		this.folder = folder;
@@ -118,18 +117,7 @@ public  class ESearchCase {
 	}
 
 	protected void initWbOrBB(boolean wb){
-		if(wb){
-			this.programTests.setPositives(this.getWhitePositives());
-			this.programTests.setNegatives(this.getWhiteNegatives());
-			this.programTests.putValidation(this.getBlackNegatives());
-			this.programTests.putValidation(this.getBlackPositives());
-			
-		} else{
-			this.programTests.setPositives(this.getBlackPositives());
-			this.programTests.setNegatives(this.getBlackNegatives());
-			this.programTests.putValidation(this.getWhiteNegatives());
-			this.programTests.putValidation(this.getWhitePositives());
-		}
+		programTests.initTrainingAndValidationTests(wb, this.getFolder());
 		GcovTest test = new GcovTest(this.folder, this.transformFile, wb);
 	}
 	
@@ -263,41 +251,6 @@ public  class ESearchCase {
 		return bug.getBuggy();
 	}
 
-
-	protected void initInputAndOutput() {
-		initPositveInputAndOutput();
-		initNegativeInputAndOutput();
-	}
-
-	private void initNegativeInputAndOutput() {
-		String root1 = this.getFolder() + "/blackbox/negative";
-		String root2 = this.getFolder() + "/whitebox/negative";
-		addToInputOutputMap(root1, this.getBlackNegatives());
-		addToInputOutputMap(root2, this.getWhiteNegatives());
-	}
-
-	private void initPositveInputAndOutput() {
-		String root1 = this.getFolder() + "/blackbox/positive";
-		String root2 = this.getFolder() + "/whitebox/positive";
-		addToInputOutputMap(root1, this.getBlackPositives());
-		addToInputOutputMap(root2, this.getWhitePositives());
-	}
-
-
-	private void addToInputOutputMap(String root1, Map<String, String> map) {
-		File dir = new File(root1);
-		if(!dir.exists() ||!dir.isDirectory()) return;
-		for(File file : dir.listFiles()){
-			String name = file.getAbsolutePath();
-			if(name.endsWith(".in")){
-				String output = name.substring(0, name.length() - 3) + ".out";
-				String inputString = Utility.getStringFromFile(name);
-				String outputString = Utility.getStringFromFile(output);
-				map.put(inputString, outputString);
-			}
-		}		
-	}
-	
 	protected void initSuspicious() {
 		try{
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.getFolder() + "/suspicious")));
@@ -341,7 +294,6 @@ public  class ESearchCase {
 	public Map<String, String> getPositives() {
 		return this.programTests.getPositives();
 	}
-
 
 	public Map<String, String> getNegatives() {
 		return programTests.getNegatives();

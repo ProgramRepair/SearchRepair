@@ -187,13 +187,10 @@ public class SearchCase {
 		int i = 0;
 		for(String source : info.getResult().getSearchMapping().keySet())
 		{
-			
 			i++;
 			System.out.println("result" + i + "\n--------------------");
 			System.out.println(source);
-
 		}
-		
 	}
 
 

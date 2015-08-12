@@ -160,6 +160,45 @@ public class ProgramTests {
 	public void putValidation(Map<String, String> blackNegatives2) {
 		this.validationTests.putAll(blackNegatives2);
 	}
+	
+	private void addToInputOutputMap(String root1, Map<String, String> map) {
+		File dir = new File(root1);
+		if(!dir.exists() ||!dir.isDirectory()) return;
+		for(File file : dir.listFiles()){
+			String name = file.getAbsolutePath();
+			if(name.endsWith(".in")){
+				String output = name.substring(0, name.length() - 3) + ".out";
+				String inputString = Utility.getStringFromFile(name);
+				String outputString = Utility.getStringFromFile(output);
+				map.put(inputString, outputString);
+			}
+		}		
+	}
+	
+	public void initTrainingAndValidationTests(boolean wb, String folder) {
+	if(wb) { // wb training, bb validation 
+		String root1 = folder + "/whitebox/positive";
+		String root2 = folder + "/whitebox/negative";
+		addToInputOutputMap(root1, this.getPositives());
+		addToInputOutputMap(root2, this.getNegatives());
+		
+		root1 = folder + "/blackbox/positive";
+		root2 = folder + "/blackbox/negative";		
+		addToInputOutputMap(root1, this.getValidationTests());
+		addToInputOutputMap(root2, this.getValidationTests());
+	} else { // bb training, wb validation
+		// initPositveInputAndOutput();
+			String root1 = folder + "/blackbox/positive";
+			String root2 = folder + "/blackbox/negative";
+			addToInputOutputMap(root1, this.getPositives());
+			addToInputOutputMap(root2, this.getNegatives());	
+			root1 = folder + "/whitebox/positive";
+			root2 = folder + "/whitebox/negative";
+			addToInputOutputMap(root1, this.getValidationTests());
+			addToInputOutputMap(root2, this.getValidationTests());
+		}
+	
+	}
 
 
 }

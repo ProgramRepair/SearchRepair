@@ -12,7 +12,6 @@ public class MedianSearchCase extends ESearchCase {
 
 	@Override
 	public void search(boolean wb) {
-		this.initWbOrBB(wb);
 		if(this.getPositives().size() == 0) {
 			this.getInfo().getResult().setState(ResultState.NOPOSITIVE);
 			return;
@@ -33,15 +32,4 @@ public class MedianSearchCase extends ESearchCase {
 		instan.search();	
 		this.setInfo(instan.getInfo());
 	}
-
-	
-	public static void main(String[] args){
-		MedianSearchCase instan = new MedianSearchCase("./bughunt/median/0", "median.c",  2);
-		instan.transformAndInitRunDir(true, "");
-		instan.initInputAndOutput();
-		instan.search(false);
-//		instan.search(false);
-		instan.recordResult(false);
-	}
-
 }

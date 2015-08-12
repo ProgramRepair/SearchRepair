@@ -12,11 +12,7 @@ public class GradeSearchCase extends ESearchCase {
 
 	@Override
 	public void search(boolean wb) {
-		
 		this.initWbOrBB(wb);
-		
-		
-		
 		
 		if(this.getPositives().size() == 0) {
 			this.getInfo().getResult().setState(ResultState.NOPOSITIVE);
@@ -37,20 +33,6 @@ public class GradeSearchCase extends ESearchCase {
 		instan.setVerifications(this.getValidationTests());
 		instan.search();	
 		this.setInfo(instan.getInfo());
-	}
-
-	
-	
-	
-
-	public static void main(String[] args){
-		GradeSearchCase instan = new GradeSearchCase("./bughunt/grade/120", "grade.c", 4);
-		instan.transformAndInitRunDir(true, "--type grade");
-		instan.initInputAndOutput();
-//		instan.search(true);
-//		instan.recordResult(true);
-		instan.search(false);
-		instan.recordResult(false);
 	}
 
 }

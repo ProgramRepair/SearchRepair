@@ -8,14 +8,6 @@ import search.ResultObject.ResultState;
 
 public class GroupTest {
 
-	public static void main(String[] args) {
-		//medianTest(false, 2);
-		//smallestTest(false, 2);
-		//gradeTest(false, 2);
-		//checkSumTest(false, 2);
-		syllablesTest(false, 2);
-	}
-
 	public static void rerun(boolean wb, int repositoryType) {
 		medianTest(wb, repositoryType);
 		// smallestTest(wb, repositoryType);
@@ -40,7 +32,7 @@ public class GroupTest {
 				}
 				CheckSumSearchCase searcher = new CheckSumSearchCase(folder, fileName, actualRepository);
 				searcher.transformAndInitRunDir(false, "");
-				searcher.initInputAndOutput();
+				searcher.initWbOrBB(wb);
 				searcher.search(wb);
 				searcher.recordResult(wb);
 				if (searcher.getInfo().getResult().getState() == ResultState.SUCCESS) {
@@ -76,7 +68,7 @@ public class GroupTest {
 				System.out.println(folder);
 				MedianSearchCase searcher = new MedianSearchCase(folder, fileName, actualRepository);
 				searcher.transformAndInitRunDir(true, "");
-				searcher.initInputAndOutput();
+				searcher.initWbOrBB(wb);
 				searcher.search(wb);
 				searcher.recordResult(wb);
 				if (searcher.getInfo().getResult().getState() == ResultState.SUCCESS) {
@@ -114,7 +106,7 @@ public class GroupTest {
 				System.out.println(folder);
 				MedianSearchCase searcher = new MedianSearchCase(folder, fileName, actualRepository);
 				searcher.transformAndInitRunDir(true, "");
-				searcher.initInputAndOutput();
+				searcher.initWbOrBB(wb);
 				searcher.search(wb);
 				searcher.recordResult(wb);
 				if (searcher.getInfo().getResult().getState() == ResultState.SUCCESS) {
@@ -146,7 +138,7 @@ public class GroupTest {
 				System.out.println(folder);
 				GradeSearchCase instan = new GradeSearchCase(folder, fileName, actualRepository);
 				instan.transformAndInitRunDir(true, "--type grade");
-				instan.initInputAndOutput();
+				instan.initWbOrBB(wb);
 				instan.search(wb);
 				instan.recordResult(wb);
 				if (instan.getInfo().getResult().getState() == ResultState.SUCCESS) {
@@ -178,7 +170,7 @@ public class GroupTest {
 				}
 				SyllableSearchCase searcher = new SyllableSearchCase(folder, fileName, actualRepository);
 				searcher.transformAndInitRunDir(false, "");
-				searcher.initInputAndOutput();
+				searcher.initWbOrBB(wb);
 				searcher.search(wb);
 				searcher.recordResult(wb);
 				if (searcher.getInfo().getResult().getState() == ResultState.SUCCESS) {
