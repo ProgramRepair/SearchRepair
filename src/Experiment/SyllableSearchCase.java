@@ -8,9 +8,31 @@ import search.ResultObject.ResultState;
 public class SyllableSearchCase extends ESearchCase{
 
 	public SyllableSearchCase(String folder, String fileName, int repo) {
-		super(folder, fileName, repo);
-		
+		super(folder, fileName, repo);	
 	}
+	
+	@Override
+	protected List<int[]> getMultipleBuggyLines(){
+		List<int[]> list = new ArrayList<int[]>();
+		initSuspicious();
+		double average = getAverage();
+		int index = 12;
+		while(index < this.getSuspiciousness().keySet().size()){
+			if(this.getSuspiciousness().get(index) >= average){
+				list.add(new int[]{index,index});
+				int right = index + 1;
+				while(right <= this.getSuspiciousness().keySet().size() && right - index < 6) {
+					if(this.getSuspiciousness().get(right) >= average) {
+						list.add(new int[] {index, right});
+					}
+					right++;
+				}
+			}
+			index++;
+		}
+		return list;
+	}
+
 
 	@Override
 	public void search(boolean wb) {
@@ -24,7 +46,7 @@ public class SyllableSearchCase extends ESearchCase{
 			return;
 		}
 		
-		List<int[]> buggys = getMultpleBuggyLines();
+		List<int[]> buggys = getMultipleBuggyLines();
 		
 		for(int[] range : buggys){
 			String prefix = this.getRunDir() + "/" + this.getFileName().substring(0, this.getFileName().lastIndexOf('.'));
@@ -47,26 +69,6 @@ public class SyllableSearchCase extends ESearchCase{
 		}
 	}
 
-	protected List<int[]> getMultpleBuggyLines(){
-		List<int[]> list = new ArrayList<int[]>();
-		initSuspicious();
-		double average = getAverage();
-		int index = 12;
-		while(index < this.getSuspiciousness().keySet().size()){
-			if(this.getSuspiciousness().get(index) >= average){
-				int right = index + 1;
-				while(right <= this.getSuspiciousness().keySet().size() && right - index < 6) {
-					if(this.getSuspiciousness().get(right) >= average) {
-						list.add(new int[] {index, right});
-					}
-					right++;
-				}
-			}
-			index++;
-		}
-				
-		return list;
-	}
 
 
 	

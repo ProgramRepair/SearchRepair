@@ -6,7 +6,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -106,7 +108,7 @@ public  class ESearchCase {
 	}
 	
 	public  void search(boolean wb){
-		// this implements the single bug line case; copied from Median.
+		this.initWbOrBB(wb);
 		if(this.getPositives().size() == 0) {
 			this.getInfo().getResult().setState(ResultState.NOPOSITIVE);
 			return;
@@ -116,13 +118,19 @@ public  class ESearchCase {
 			return;
 		}
 		
-		int[] range = this.getBugLines();
-		String prefix = this.getRunDir() + File.separator + this.getFileName().substring(0, this.getFileName().lastIndexOf('.'));
-		SearchCase instan = new SearchCase(prefix, this.getRepo());
-		instan.setBuggy(range);
-		instan.setTests(this.getTests());
-		instan.search();	
-		this.setInfo(instan.getInfo());	
+		List<int[]> buggylines = getMultipleBuggyLines();
+		for(int[] range : buggylines){
+			//System.out.println(Arrays.toString(range));
+			String prefix = this.getRunDir() + "/" + this.getFileName().substring(0, this.getFileName().lastIndexOf('.'));
+			SearchCase instan = new SearchCase(prefix, this.getRepo());
+			instan.setBuggy(range);
+			instan.setTests(this.getTests());
+			instan.search();
+			if(instan.getInfo().getResult().getState() == ResultState.SUCCESS){
+				this.setInfo(instan.getInfo());
+				break;
+			}
+		}
 	}
 
 	protected boolean isEmpty(ResultObject result) {
@@ -152,27 +160,23 @@ public  class ESearchCase {
 		return this.programTests;
 	}
 	
+	protected List<int[]> getMultipleBuggyLines(){
+		List<int[]> list = new ArrayList<int[]>();
+		BugLineSearcher bug = new BugLineSearcher(this.getFolder(), this.transformFile);
+		list.add(bug.getBuggy());
+		return list;
+	}
 
 	protected void searchOverRepository() {
 		try {
 			PrototypeSearch.search(info, repo);
-			
 		} catch (SQLException e) {
-			
 			e.printStackTrace();
 		} catch (IOException e) {
 			
 			e.printStackTrace();
 		}
 		
-	}
-
-	/**
-	 * if no bug, the buggy lines will be 0-0
-	 */
-	protected int[] getBugLines() {
-		BugLineSearcher bug = new BugLineSearcher(this.getFolder(), this.transformFile);
-		return bug.getBuggy();
 	}
 
 	protected void initSuspicious() {
@@ -192,7 +196,6 @@ public  class ESearchCase {
 	protected Map<Integer, Double> getSuspiciousness() {
 		return suspiciousness;
 	}
-
 
 	protected void setSuspiciousness(Map<Integer, Double> suspiciousness) {
 		this.suspiciousness = suspiciousness;

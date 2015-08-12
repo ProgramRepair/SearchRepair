@@ -70,16 +70,7 @@ public class SearchCase {
 		this.repo = repo;
 	}
 
-	public void init() {
-		EndToEndProcess();
-		search();
-	}
-	
-	private void EndToEndProcess(){
-		String IOFileName = this.casePrefix + "_TS";
-		parse(IOFileName);		
-	}
-	
+
 	public void search(){
 		boolean pass = fillSearchCase();
 		if(!pass) return;
@@ -403,11 +394,8 @@ public class SearchCase {
 		List<FormalParameterContext> fpc = function.parameters().formalParameter();
 		this.outputType = function.type().getText().trim();
 		for(FormalParameterContext fp : fpc){
-			String type = fp.type().getText();
-			String id = fp.ID().getText();
 			variables.put(fp.ID().getText(), fp.type().getText());
 		}
-		
 		
 		Map<String, String> local = getBlockVariable(function.block());
 		for(String s : local.keySet()){
@@ -570,63 +558,9 @@ public class SearchCase {
 		return output;
 	}
 
-	
-	/**
-	 * get input/output pairs, and buggy lines info
-	 * @param caseFile
-	 */
-	private void parse(String caseFile) {
-		try{
-			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(caseFile)));
-			String line = null;
-			boolean neg = false;
-			while((line = br.readLine()) != null){
-				line = line.trim();
-				if(line.startsWith("positive:")){
-					neg = false;
-				}
-				else if(line.startsWith("negative:")){
-					neg = true;
-				}
-				else if(line.startsWith("buggy lines:")){
-					String[] lines = line.substring(12).split("-");
-					buggy[0] = Integer.valueOf(lines[0]);
-					buggy[1] = Integer.valueOf(lines[1]);
-				}
-				else if(line.startsWith("input:")){
-					int index = line.indexOf("output:");
-					String input = line.substring(6, index);
-					String output = line.substring(index + 7);
-					if(neg){
-						this.programTests.getNegatives().put(input.trim(), output.trim());
-					}
-					else{
-						this.programTests.getPositives().put(input.trim(), output.trim());
-					}
-				}
-				else{
-					continue;
-				}
-			}
-			br.close();
-		}catch(Exception e){
-			return;
-		}
-		
-	}
-
-	public String getCasePrefix() {
-		return casePrefix;
-	}
-
-	public void setCasePrefix(String casePrefix) {
-		this.casePrefix = casePrefix;
-	}
-
 	public void setTests(ProgramTests tests) {
 		this.programTests = tests;
 	}
-
 
 	public CaseInfo getInfo() {
 		return info;
@@ -643,7 +577,6 @@ public class SearchCase {
 	public void setBuggy(int[] buggy) {
 		this.buggy = buggy;
 	}
-
 
 	public void searchJustOnMap() {
 		try{

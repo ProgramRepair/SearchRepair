@@ -140,12 +140,6 @@ public class CaseInfo {
 			System.out.println();
 		}
 	}
-	public void clear() {
-		this.positives = new HashMap<List<String>, List<String>>();
-		this.negatives = new HashMap<List<String>, List<String>>();
-		result = new ResultObject();
-		
-	}
 
 }
 
