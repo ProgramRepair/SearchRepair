@@ -34,8 +34,6 @@ public  class ESearchCase {
 	private int[] buggy;
 	private String casePrefix;
 	private CaseInfo info;
-	private boolean bracket;
-	private boolean hasPrintf ;
 	private String runDir;
 	private String transformFile;
 	private int repo;	
@@ -58,8 +56,6 @@ public  class ESearchCase {
 		this.buggy = new int[2];
 		this.casePrefix = this.folder + "/" + fileName.substring(0, fileName.lastIndexOf("."));
 		this.info = new CaseInfo();
-		this.bracket = false;
-		this.hasPrintf = false;
 		this.suspiciousness = new HashMap<Integer, Double>();
 		this.runDir = this.folder + "/temp";
 	}
@@ -144,21 +140,10 @@ public  class ESearchCase {
 		// FIXME: not implemented at this level
 		
 	}
-	
-	public boolean isHasPrintf() {
-		return hasPrintf;
-	}
-
-	public void setHasPrintf(boolean hasPrintf) {
-		this.hasPrintf = hasPrintf;
-	}
-
 
 	protected boolean isEmpty(ResultObject result) {
 		return result.getPositive().isEmpty() && result.getPartial().isEmpty();
 	}
-
-
 
 	public void recordResult(boolean wb) {
 		String filec;
