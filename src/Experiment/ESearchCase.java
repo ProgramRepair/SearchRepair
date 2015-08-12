@@ -110,8 +110,27 @@ public  class ESearchCase {
 	}
 	
 	public  void search(boolean wb){
-		// FIXME: not implemented at this level
+		this.initWbOrBB(wb);
+
+		// this implements the single bug line case; copied from Median.
+		if(this.getPositives().size() == 0) {
+			this.getInfo().getResult().setState(ResultState.NOPOSITIVE);
+			return;
+		}
+		if(this.getNegatives().size() == 0){
+			this.getInfo().getResult().setState(ResultState.CORRECT);
+			return;
+		}
 		
+		int[] range = this.getBugLines();
+		String prefix = this.getRunDir() + "/" + this.getFileName().substring(0, this.getFileName().lastIndexOf('.'));
+		SearchCase instan = new SearchCase(prefix, this.getRepo());
+		instan.setBuggy(range);
+		instan.setNegatives(this.getNegatives());
+		instan.setPositives(this.getPositives());
+		instan.setVerifications(this.getValidationTests());
+		instan.search();	
+		this.setInfo(instan.getInfo());	
 	}
 
 	protected boolean isEmpty(ResultObject result) {

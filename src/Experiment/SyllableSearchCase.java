@@ -30,7 +30,6 @@ public class SyllableSearchCase extends ESearchCase{
 		
 		for(int[] range : buggys){
 			String s = Arrays.toString(range);
-			System.out.println(s);
 			//if(!s.equals("[17, 22]")) continue;
 			String prefix = this.getRunDir() + "/" + this.getFileName().substring(0, this.getFileName().lastIndexOf('.'));
 			SearchCase instan = new SearchCase(prefix, this.getRepo());
