@@ -30,30 +30,22 @@ public  class ESearchCase {
 	private ProgramTests programTests;
 
 	private String fileName;
-	private int[] buggy;
 	private String casePrefix;
 	private CaseInfo info;
 	private String runDir;
 	private String transformFile;
 	private int repo;	
 	
-	
-	public void setBuggy(int[] buggy) {
-		this.buggy = buggy;
-	}
-
 	public ESearchCase(String folder, String fileName, int repo){
 		this.repo = repo;
 		this.folder = folder;
 		this.fileName = fileName;
-		this.buggy = new int[2];
 		this.casePrefix = this.folder + "/" + fileName.substring(0, fileName.lastIndexOf("."));
 		this.programTests = new ProgramTests(this.casePrefix);
 		this.info = new CaseInfo();
 		this.suspiciousness = new HashMap<Integer, Double>();
 		this.runDir = this.folder + "/temp";
 	}
-	
 	
 	public int getRepo() {
 		return repo;
@@ -75,10 +67,6 @@ public  class ESearchCase {
 
 	public String getFolder() {
 		return folder;
-	}
-	
-	public int[] getBuggy() {
-		return buggy;
 	}
 
 	public String getCasePrefix() {
@@ -244,10 +232,6 @@ public  class ESearchCase {
 	 */
 	protected int[] getBugLines() {
 		BugLineSearcher bug = new BugLineSearcher(this.getFolder(), this.transformFile);
-		this.getBuggy()[0] = bug.getBuggy()[0];
-		this.getBuggy()[1] = bug.getBuggy()[1];
-//		this.bracket = bug.isAddBracket();
-//		this.hasPrintf = bug.getHasPrintf();
 		return bug.getBuggy();
 	}
 

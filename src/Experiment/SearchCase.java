@@ -623,7 +623,6 @@ public class SearchCase {
 		this.casePrefix = casePrefix;
 	}
 
-
 	public void setPositives(Map<String, String> positives) {
 		this.programTests.setPositives(positives);
 	}
