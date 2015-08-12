@@ -3,10 +3,8 @@ package Experiment;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +58,6 @@ public  class ESearchCase {
 		return info;
 	}
 
-
 	protected void setInfo(CaseInfo info) {
 		this.info = info;
 	}
@@ -73,7 +70,6 @@ public  class ESearchCase {
 		return casePrefix;
 	}
 
-
 	public String getFileName() {
 		return fileName;
 	}
@@ -83,7 +79,7 @@ public  class ESearchCase {
 		if(!new File(runDir).exists()) new File(runDir).mkdir();
 		if(!transform) {
 			this.transformFile = this.fileName;
-			Utility.copy(this.folder + "/" + this.fileName, runDir + "/" + this.getFileName());
+			Utility.copy(this.folder + File.separator + this.fileName, runDir + File.separator + this.getFileName());
 			return;
 		}
 		Transform trans = new Transform(this.getFolder(), this.getFileName(), typeParameter);
@@ -91,12 +87,12 @@ public  class ESearchCase {
 		
 		//transform here, if there is a true transform, no need to copy
 		if(pass != null) {
-			Utility.copy(pass, runDir + "/" + this.getFileName());
+			Utility.copy(pass, runDir + File.separator + this.getFileName());
 			this.transformFile = pass.substring(pass.lastIndexOf('/') + 1);
 		}
 		else{
 			this.transformFile = this.fileName;
-			Utility.copy(this.folder + "/" + this.fileName, runDir + "/" + this.getFileName());
+			Utility.copy(this.folder + File.separator + this.fileName, runDir + File.separator + this.getFileName());
 		}
 	}
 	
@@ -121,7 +117,7 @@ public  class ESearchCase {
 		}
 		
 		int[] range = this.getBugLines();
-		String prefix = this.getRunDir() + "/" + this.getFileName().substring(0, this.getFileName().lastIndexOf('.'));
+		String prefix = this.getRunDir() + File.separator + this.getFileName().substring(0, this.getFileName().lastIndexOf('.'));
 		SearchCase instan = new SearchCase(prefix, this.getRepo());
 		instan.setBuggy(range);
 		instan.setTests(this.getTests());
@@ -149,88 +145,13 @@ public  class ESearchCase {
 		if(!dir.exists()){
 			dir.mkdir();
 		}
-		recordLog(this.folder + "/repair/" + filec);	
+		info.recordLog(this.folder + "/repair/" + filec);	
 	}
 
 	public ProgramTests getTests() {
 		return this.programTests;
 	}
 	
-	private void recordLog(String path) {
-		if(new File(path).exists()) new File(path).delete();
-		try {
-			new File(path).createNewFile();
-		} catch (IOException e1) {
-			
-			e1.printStackTrace();
-		}
-		try{
-			PrintWriter pw = new PrintWriter(new FileOutputStream(path));
-			if(info.getResult().getState() == ResultState.FAILED){
-				pw.println("failed");
-			}
-			else if(info.getResult().getState() == ResultState.CORRECT){
-				pw.println("correct");
-			}
-			else if(info.getResult().getState() == ResultState.NOPOSITIVE){
-				pw.println("no positive");
-			}
-			else{
-				if(!info.getResult().getPositive().isEmpty())
-					pw.print("success");
-				
-				if(!info.getResult().getPartial().isEmpty()){
-					pw.print(" partial");
-				}
-				pw.println();
-				pw.println("extra pass:" + info.getResult().getBigExtra());
-				pw.println("True fix:" + info.getResult().getPositive().size());
-				int count = 0;
-				for(String source : info.getResult().getPositive()){
-					pw.println();
-					pw.println();
-					pw.println("True fix " + ++count);
-					pw.println("From: ");
-					pw.println(source);
-					pw.println("To: ");
-					pw.print(info.getResult().getMappingSource().get(source));
-				}
-				
-				
-				
-				pw.println("Partial fix:" + info.getResult().getPartial().keySet().size());
-				count = 0;
-				for(String source : info.getResult().getPartial().keySet()){
-					
-					pw.println();
-					pw.println();
-					pw.println("Partial fix " + ++count);
-					pw.println("success: " + info.getResult().getPartial().get(source));
-					pw.println("From: ");
-					pw.println(source);
-					pw.println("To: ");
-					pw.print(info.getResult().getMappingSource().get(source));
-				}
-				
-				pw.println("Not a fix:" + info.getResult().getFalsePositve().size());
-				count = 0;
-				for(String source : info.getResult().getFalsePositve()){
-					
-					pw.println();
-					pw.println();
-					pw.println("Not a fix " + ++count);
-					pw.println(source);
-				}
-				
-			}
-			pw.close();
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-				
-		
-	}
 
 	protected void searchOverRepository() {
 		try {

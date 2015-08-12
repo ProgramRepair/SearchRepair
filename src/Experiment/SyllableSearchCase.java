@@ -1,7 +1,6 @@
 package Experiment;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import search.ResultObject.ResultState;
@@ -26,11 +25,8 @@ public class SyllableSearchCase extends ESearchCase{
 		}
 		
 		List<int[]> buggys = getMultpleBuggyLines();
-		//System.out.println(Arrays.toString(range));
 		
 		for(int[] range : buggys){
-			String s = Arrays.toString(range);
-			//if(!s.equals("[17, 22]")) continue;
 			String prefix = this.getRunDir() + "/" + this.getFileName().substring(0, this.getFileName().lastIndexOf('.'));
 			SearchCase instan = new SearchCase(prefix, this.getRepo());
 			instan.setBuggy(range);
@@ -41,7 +37,7 @@ public class SyllableSearchCase extends ESearchCase{
 				break;
 			}
 			else{
-				if(!wb)continue;
+				if(!wb) continue;
 				instan.searchJustOnMap();
 				if(instan.getInfo().getResult().getState() == ResultState.SUCCESS){
 					this.setInfo(instan.getInfo());				
@@ -71,5 +67,7 @@ public class SyllableSearchCase extends ESearchCase{
 				
 		return list;
 	}
+
+
 	
 }
