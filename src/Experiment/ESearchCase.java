@@ -21,7 +21,6 @@ import search.ResultObject.ResultState;
 import Library.Utility;
 import ProcessIntroClass.BugLineSearcher;
 import ProcessIntroClass.GcovTest;
-import ProcessIntroClass.GetInputStateAndOutputState;
 import ProcessIntroClass.Transform;
 
 public  class ESearchCase {
@@ -192,45 +191,7 @@ public  class ESearchCase {
 	}
 	
 	public  void search(boolean wb){
-		initInputAndOutput();
-		
-		if(this.getPositives().size() == 0) {
-			this.info.getResult().setState(ResultState.NOPOSITIVE);
-			return;
-		}
-		if(this.negatives.size() == 0){
-			this.info.getResult().setState(ResultState.CORRECT);
-			return;
-		}
-		getBugLines();
-		if(this.buggy[0] == 0) {
-			this.info.getResult().setState(ResultState.FAILED);
-			return;
-		}
-		if(this.hasPrintf) {
-			this.info.getResult().setState(ResultState.FAILED);
-			return;
-		}
-		initPositiveStates();
-		if(this.info.getPositives().isEmpty()) {
-			this.info.getResult().setState(ResultState.FAILED);
-			return;
-		}
-		searchOverRepository();
-		ruleOutFalsePositive();		
-		if(isEmpty(info.getResult())) {
-			this.info.getResult().setState(ResultState.FAILED);
-			return;
-		}
-		else{
-			if(!info.getResult().getPositive().isEmpty())
-			{
-				this.info.getResult().setState(ResultState.SUCCESS);
-			}
-			else{
-				this.info.getResult().setState(ResultState.PARTIAL);
-			}
-		}
+		// FIXME: not implemented at this level
 		
 	}
 	
@@ -515,10 +476,6 @@ public  class ESearchCase {
 		
 	}
 
-	protected void initPositiveStates() {
-		GetInputStateAndOutputState instan = new GetInputStateAndOutputState(this.getFolder(), this.getFileName(), this.getBuggy(), this.getPositives().keySet());
-		info.setPositives(instan.getStates());;
-	}
 	/**
 	 * if no bug, the buggy lines will be 0-0
 	 */
