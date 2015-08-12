@@ -30,22 +30,22 @@ public class GenerateStandardTestCases {
 			System.out.println(dir.getAbsolutePath());
 			for(String typeName : dir.list()){
 				if(typeName.equals("smallest")){
-					generate(introPath + "/smallest", outputFolderPath + "/smallest");
+					generate(introPath + File.separator + "smallest", outputFolderPath + File.separator + "smallest", "smallest");
 				}
 				if(typeName.equals("median")){
-					generate(introPath + "/median", outputFolderPath + "/median");
+					generate(introPath + File.separator + "median", outputFolderPath + File.separator + "median", "median");
 				}
 				if(typeName.equals("grade")){
-					generate(introPath + "/grade", outputFolderPath + "/grade");
+					generate(introPath + File.separator + "grade", outputFolderPath + File.separator + "grade", "grade");
 				}
 				if(typeName.equals("checksum")){
-					generate(introPath + "/checksum", outputFolderPath + "/checksum");
+					generate(introPath + File.separator + "checksum", outputFolderPath + File.separator + "checksum", "checksum");
 				}
 				if(typeName.equals("digits")){
-					generate(introPath + "/digits", outputFolderPath + "/digits");
+					generate(introPath + File.separator + "digits", outputFolderPath + File.separator + "digits", "digits");
 				}
 				if(typeName.equals("syllables")){
-					generate(introPath + "/syllables", outputFolderPath + "/syllables");
+					generate(introPath + File.separator + "syllables", outputFolderPath + File.separator + "syllables", "syllables");
 				}
 			}
 		}catch(Exception e){
@@ -53,9 +53,7 @@ public class GenerateStandardTestCases {
 		}
 	}
 
-	private void generate(String inputFolder, String outputFolder) {
-		// FIXME: fix this substring thing
-		String functionName = inputFolder.substring(inputFolder.lastIndexOf("/") + 1);
+	private void generate(String inputFolder, String outputFolder, String functionName) {
 		File outputFolderFile = new File(outputFolder);
 		outputFolderFile.mkdir();
 		try{
@@ -94,16 +92,15 @@ public class GenerateStandardTestCases {
 		String inputFolder = temp.getAbsolutePath();
 		String outputFolder = caseFolder.getAbsolutePath();
 		new File(outputFolder).mkdir();
-		System.out.println(inputFolder + "\n" + outputFolder);
 	
-		Utility.copy(inputFolder + "/" + functionName + ".c", outputFolder + "/" + functionName + ".c");
-		Utility.writeTOFile(outputFolder + "/original", inputFolder);
+		Utility.copy(inputFolder + File.separator + functionName + ".c", outputFolder + File.separator + functionName + ".c");
+		Utility.writeTOFile(outputFolder + File.separator + "original", inputFolder);
 		generateWhiteAndBlack(outputFolder, inputFolder, functionName + ".c");
 		getOtherTechInfo(inputFolder, outputFolder);
 	}
 	
 	private void getOtherTechInfo(String inputFolder, String outputFolder) {
-		new File(outputFolder + "/repair").mkdir();
+		new File(outputFolder + File.separator + "repair").mkdir();
 		File dir = new File(inputFolder);
 		boolean findGP = false;
 		for(File file : dir.listFiles()){
@@ -130,7 +127,7 @@ public class GenerateStandardTestCases {
 				if(fileString.contains("Repair Found") || fileString.contains("repair found")){
 					if(name.contains("wb"))
 					{
-						Utility.writeTOFile(outputFolder + "/repair/ae-wb", "success");
+						Utility.writeTOFile(outputFolder + File.separator + "repair" + File.separator + "ae-wb", "success");
 					}
 					else if(name.contains("bb")){
 						Utility.writeTOFile(outputFolder + "/repair/ae-bb", "success");
