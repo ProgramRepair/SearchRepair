@@ -58,25 +58,15 @@ public class SearchCase {
 
 	private int[] buggy;
 	private CaseInfo info;
-	private  String inputfile;
-	private  String outputfile;
-	private  String folder;
-	private String functionName;
-	private String tempOutput;
-	private int repo;
-	
 
+	private int repo;
 
 	public SearchCase(String casePrefix, int repo) {
 		this.casePrefix = casePrefix;
-		this.programTests = new ProgramTests();
+		this.programTests = new ProgramTests(casePrefix);
 		this.info = new CaseInfo();
 		this.buggy = new int[2];
-		this.folder = this.casePrefix.substring(0, this.casePrefix.lastIndexOf("/"));
-		this.functionName = this.casePrefix.substring(this.casePrefix.lastIndexOf("/") + 1);
-		this.inputfile = this.folder + "/1.in";
-		this.outputfile = this.folder + "/1.out";
-		this.tempOutput = this.folder + "/test.out";
+
 		this.repo = repo;
 	}
 
@@ -113,29 +103,8 @@ public class SearchCase {
 		}
 	}
 	
-	
-
 	private boolean isEmpty(ResultObject result) {
 		return info.getResult().getPartial().isEmpty() && info.getResult().getPositive().isEmpty();
-	}
-
-	private void printSearchingResult() {
-		System.out.println("True fix:\n");
-		for(String source : info.getResult().getPositive()){
-			System.out.println(source);
-		}
-		
-		System.out.println("not a fix:\n");
-		for(String source : info.getResult().getFalsePositve()){
-			System.out.println(source);
-		}
-		
-		System.out.println("partial fix:\n");
-		for(String source : info.getResult().getPartial().keySet()){
-			System.out.println(source);
-			System.out.println("success: " + info.getResult().getPartial().get(source));
-		}
-		
 	}
 
 	private void ruleOutFalsePositive() {
@@ -146,7 +115,7 @@ public class SearchCase {
 					String outputFile = generateOutputFile(input);
 					if(testAllResults(source, outputFile)){
 						info.getResult().getMappingSource().put(source, input);
-						int extraPass = this.passTestSuite(source, outputFile, this.programTests.getValidationTests());
+						int extraPass = this.programTests.passTestSuite(source, outputFile, this.programTests.getValidationTests());
 						this.info.getResult().getExtraPass().put(source, extraPass);
 						break;
 					}
@@ -155,18 +124,16 @@ public class SearchCase {
 					System.out.println(e);
 					continue;
 				}
-			}
-			
-		}
-		
+			}	
+		}		
 	}
 
 
 	private boolean testAllResults(String source, String outputFile) {
-		boolean pass = passAllPositive(source, outputFile);
+		boolean pass = this.programTests.passAllPositive(source, outputFile);
 		if(!pass) return false;
-		int count = passNegatives(source, outputFile);
-		if(count == this.getNegatives().size()) {
+		int count = programTests.passNegatives(source, outputFile);
+		if(count == programTests.getNegatives().size()) {
 			info.getResult().getPositive().add(source);
 			return true;
 		}
@@ -175,76 +142,9 @@ public class SearchCase {
 			return false;
 		}
 		else {
-			info.getResult().getPartial().put(source, count * 1.0 / this.getNegatives().size());
+			info.getResult().getPartial().put(source, count * 1.0 / this.programTests.getNegatives().size());
 			return true;
 		}
-	}
-
-	private int passNegatives(String source, String outputFile) {
-		return this.passTestSuite(source, outputFile, this.programTests.getNegatives());
-	}
-
-	
-	private int passTestSuite(String source, String outputFile, Map<String, String> suite){
-		File file = new File( this.casePrefix);
-		if(file.exists()) file.delete();
-		String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
-		Utility.runCProgram(command1);
-		if(!new File(this.casePrefix).exists()){
-			return 0;
-		}
-		int count = 0;
-		for(String input : suite.keySet()){
-			String output = suite.get(input);
-			
-			String command2 = "./" + this.casePrefix;
-			
-			String s2 = Utility.runCProgramWithInput(command2, input);
-			
-			if(s2.isEmpty() ){
-				continue;
-			}
-			
-			if(checkPassForOneCase(s2, output, input)) count++;
-		}
-		return count;
-	}
-	
-	
-
-
-	private boolean checkPassForOneCase(String s2, String output, String input) {
-		Utility.writeTOFile(this.tempOutput, s2);
-		Utility.writeTOFile(this.outputfile, output);
-		Utility.writeTOFile(this.inputfile, input);
-		String s = Utility.runCProgramWithPythonCommand(this.functionName, this.tempOutput, this.inputfile, this.outputfile);
-		if(s.trim().endsWith("Test passed.")) return true;
-		else return false;
-		
-	}
-
-	private boolean passAllPositive(String source, String outputFile) {
-		File file = new File( this.casePrefix);
-		if(file.exists()) file.delete();
-		String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
-		Utility.runCProgram(command1);
-		if(!new File(this.casePrefix).exists()){
-			return false;
-		}
-		for(String input : this.getPositives().keySet()){
-			String output = this.getPositives().get(input);
-			
-			String command2 = "./" + this.casePrefix;
-			
-			String s2 = Utility.runCProgramWithInput(command2, input);
-			
-			if(s2.isEmpty() ){
-				return false;
-			}
-			if(!checkPassForOneCase(s2, output, input)) return false;
-	
-		}
-		return true;
 	}
 
 	private String generateOutputFile(String input) {
@@ -329,7 +229,7 @@ public class SearchCase {
 
 	private void obtainPositiveStates() {
 		String sourceFile = this.casePrefix + "state.c";
-		for(String input : this.getPositives().keySet()){
+		for(String input : this.programTests.getPositives().keySet()){
 			File file = new File( this.casePrefix);
 			if(file.exists()) file.delete();
 			String command1 = "gcc " + sourceFile + " -o " + this.casePrefix;
@@ -701,10 +601,10 @@ public class SearchCase {
 					String input = line.substring(6, index);
 					String output = line.substring(index + 7);
 					if(neg){
-						this.getNegatives().put(input.trim(), output.trim());
+						this.programTests.getNegatives().put(input.trim(), output.trim());
 					}
 					else{
-						this.getPositives().put(input.trim(), output.trim());
+						this.programTests.getPositives().put(input.trim(), output.trim());
 					}
 				}
 				else{
@@ -726,23 +626,14 @@ public class SearchCase {
 		this.casePrefix = casePrefix;
 	}
 
-	public Map<String, String> getPositives() {
-		return this.programTests.getPositives();
-	}
 
 	public void setPositives(Map<String, String> positives) {
 		this.programTests.setPositives(positives);
 	}
 
-	public Map<String, String> getNegatives() {
-		return this.programTests.getNegatives();
-	}
-
 	public void setNegatives(Map<String, String> negatives) {
 		this.programTests.setNegatives(negatives);
-	}
-
-	
+	}	
 
 	public CaseInfo getInfo() {
 		return info;
@@ -760,13 +651,9 @@ public class SearchCase {
 		this.buggy = buggy;
 	}
 	
-	
-	
-	
 	public void setVerifications(Map<String, String> verifications) {
 		this.programTests.putValidation(verifications);
 	}
-
 
 	public void searchJustOnMap() {
 		try{

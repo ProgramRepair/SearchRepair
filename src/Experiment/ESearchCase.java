@@ -47,9 +47,9 @@ public  class ESearchCase {
 		this.repo = repo;
 		this.folder = folder;
 		this.fileName = fileName;
-		this.programTests = new ProgramTests();
 		this.buggy = new int[2];
 		this.casePrefix = this.folder + "/" + fileName.substring(0, fileName.lastIndexOf("."));
+		this.programTests = new ProgramTests(this.casePrefix);
 		this.info = new CaseInfo();
 		this.suspiciousness = new HashMap<Integer, Double>();
 		this.runDir = this.folder + "/temp";

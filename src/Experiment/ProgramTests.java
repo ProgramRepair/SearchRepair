@@ -12,6 +12,13 @@ public class ProgramTests {
 
 	protected static Logger logger = Logger.getLogger(ProgramTests.class);
 
+	private String tempOutput;
+	private String casePrefix;
+	private  String folder;
+	private  String inputfile;
+	private  String outputfile;
+	private String functionName;
+
 	private Map<String, String> blackPositives;
 	private Map<String, String> blackNegatives;
 	private Map<String, String> whitePositives;
@@ -20,7 +27,7 @@ public class ProgramTests {
 	private Map<String, String> negatives;
 	private Map<String, String> validationTests;
 	
-	public ProgramTests() {
+	public ProgramTests(String casePrefix) {
 		blackPositives = new HashMap<String,String> ();
 		blackNegatives = new HashMap<String,String> ();
 		whitePositives = new HashMap<String,String> ();
@@ -28,6 +35,14 @@ public class ProgramTests {
 		positives = new HashMap<String,String> ();
 		negatives = new HashMap<String,String> ();
 		validationTests = new HashMap<String,String>();
+		
+		this.casePrefix = casePrefix;
+		this.folder = this.casePrefix.substring(0, this.casePrefix.lastIndexOf("/"));
+		this.functionName = this.casePrefix.substring(this.casePrefix.lastIndexOf("/") + 1);
+		this.inputfile = this.folder + "/1.in";
+		this.outputfile = this.folder + "/1.out";
+		this.tempOutput = this.folder + "/test.out";
+
 	}
 	public Map<String,String> getNegatives() {
 		return this.negatives;
@@ -79,59 +94,69 @@ public class ProgramTests {
 	public Map<String,String> getValidationTests() {
 		return this.validationTests;
 	}
-	public int passNegatives(String source, String outputFile, String casePrefix) {
+
+	public int passTestSuite(String source, String outputFile, Map<String, String> suite){
 		File file = new File(casePrefix);
 		if(file.exists()) file.delete();
-		String command1 = "gcc " + outputFile + " -o " + casePrefix;
+		String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
 		Utility.runCProgram(command1);
-		if(!new File(casePrefix).exists()){
+		if(!new File(this.casePrefix).exists()){
 			return 0;
 		}
 		int count = 0;
-		for(String input : this.getNegatives().keySet()){
-			String output = this.getNegatives().get(input);
+		for(String input : suite.keySet()){
+			String output = suite.get(input);
 			
-			String command2 = "./" + casePrefix;
+			String command2 = "./" + this.casePrefix;
 			
 			String s2 = Utility.runCProgramWithInput(command2, input);
 			
 			if(s2.isEmpty() ){
 				continue;
 			}
-			System.out.println(input);
-			System.out.println(s2);
-			System.out.println(output);
-			System.out.println(output.equals(s2));
-			if(s2.equals(output)) count++;
+			
+			if(checkPassForOneCase(s2, output, input)) count++;
 		}
 		return count;
 	}
 	
-	public boolean passAllPositive(String source, String outputFile, String casePrefix) {
-		File file = new File(casePrefix);
+	public boolean passAllPositive(String source, String outputFile) {
+		File file = new File( this.casePrefix);
 		if(file.exists()) file.delete();
-		String command1 = "gcc " + outputFile + " -o " + casePrefix;
+		String command1 = "gcc " + outputFile + " -o " + this.casePrefix;
 		Utility.runCProgram(command1);
-		if(!new File(casePrefix).exists()){
+		if(!new File(this.casePrefix).exists()){
 			return false;
 		}
 		for(String input : this.getPositives().keySet()){
 			String output = this.getPositives().get(input);
 			
-			String command2 = "./" + casePrefix;
+			String command2 = "./" + this.casePrefix;
 			
 			String s2 = Utility.runCProgramWithInput(command2, input);
 			
 			if(s2.isEmpty() ){
 				return false;
 			}
-			System.out.println(input);
-			System.out.println(output);
-			System.out.println(s2);
-			if(!s2.equals(output)) return false;
+			if(!checkPassForOneCase(s2, output, input)) return false;
+	
 		}
 		return true;
 	}
+	private boolean checkPassForOneCase(String s2, String output, String input) {
+		Utility.writeTOFile(this.tempOutput, s2);
+		Utility.writeTOFile(this.outputfile, output);
+		Utility.writeTOFile(this.inputfile, input);
+		String s = Utility.runCProgramWithPythonCommand(this.functionName, this.tempOutput, this.inputfile, this.outputfile);
+		if(s.trim().endsWith("Test passed.")) return true;
+		else return false;
+		
+	}
+	public int passNegatives(String source, String outputFile) {
+		return this.passTestSuite(source, outputFile, this.getNegatives());
+	}
+
+
 	public void putValidation(Map<String, String> blackNegatives2) {
 		this.validationTests.putAll(blackNegatives2);
 	}
