@@ -290,6 +290,17 @@ public  class ESearchCase {
 	public void setRunDir(String runDir) {
 		this.runDir = runDir;
 	}
-
+	
+	protected double getAverage() {
+		int denominator = 0;
+		double numerator = 0;
+		for(int i = 1; i <= this.getSuspiciousness().keySet().size(); i++){
+				denominator++;
+				numerator += this.getSuspiciousness().get(i);
+		}
+		if(denominator == 0) return 1;
+		else return numerator / denominator;
+	}
+	
 
 }

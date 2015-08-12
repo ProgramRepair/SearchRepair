@@ -53,17 +53,6 @@ public class SyllableSearchCase extends ESearchCase{
 		}
 	}
 
-	private double getAverage() {
-		int denomerator = 0;
-		double numerator = 0;
-		for(int i = 1; i <= this.getSuspiciousness().keySet().size(); i++){
-				denomerator++;
-				numerator += this.getSuspiciousness().get(i);
-		}
-		if(denomerator == 0) return 1;
-		else return numerator / denomerator;
-	}
-	
 	protected List<int[]> getMultpleBuggyLines(){
 		List<int[]> list = new ArrayList<int[]>();
 		initSuspicious();
