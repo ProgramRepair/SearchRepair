@@ -174,7 +174,6 @@ public  class ESearchCase {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	protected void initSuspicious() {
