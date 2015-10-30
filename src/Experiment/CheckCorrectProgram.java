@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import Library.Utility;
+import util.Utility;
 
 public class CheckCorrectProgram {
 	private String folder;
@@ -65,7 +65,6 @@ public class CheckCorrectProgram {
 
 	private boolean checkNeg(File subsubDir) {
 		String dirPath = subsubDir.getAbsolutePath();
-		//System.out.println(dirPath);
 		File dir1 = new File(dirPath + "/blackbox/negative");
 		File dir2 = new File(dirPath + "/whitebox/negative");
 		boolean hasNeg = false;

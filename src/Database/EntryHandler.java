@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.util.HashMap;
 import java.util.Map;
 
-import Library.Utility;
+import util.Utility;
 
 public class EntryHandler {
 	public static String PATH_CONSTRAINT = "_yalin_autofix_constraint\n";
@@ -26,7 +26,6 @@ public class EntryHandler {
 		String formals = formatFormals(object.getPathFormalVariables());
 		String sql = "insert into " + table + " (source, constraints, variableType, variableTrack, variableMap, variableFormal) " +
 				"values(?, ?, ?, ?, ?, ?)";
-		//System.out.println(formals);
 		PreparedStatement  statement = null;
 		try{
 			statement = DataBaseManager.conn.prepareStatement(sql);

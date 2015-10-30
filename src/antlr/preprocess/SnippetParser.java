@@ -25,8 +25,8 @@ public class SnippetParser extends Parser {
 		ADDSELF=36, DEDUCTSELF=37, MODSELF=38, MULTISELF=39, DIVIDESELF=40, LT=41, 
 		LE=42, GT=43, GE=44, EQ=45, NEQ=46, POINTER=47, WS=48;
 	public static final String[] tokenNames = {
-		"<INVALID>", "']'", "'{'", "','", "'['", "'if'", "'else'", "'return'", 
-		"'}'", "';'", "BlockComment", "LineComment", "CharacterLiteral", "StringLiteral", 
+		"<INVALID>", "'else'", "'return'", "'['", "';'", "'{'", "','", "']'", 
+		"'}'", "'if'", "BlockComment", "LineComment", "CharacterLiteral", "StringLiteral", 
 		"'int'", "'char'", "'float'", "'char*'", "'unsigned'", "'double'", "INT", 
 		"FLOAT", "STRING", "ID", "'||'", "'&&'", "'('", "')'", "'+'", "'-'", "MULTIPLY", 
 		"'/'", "'%'", "'='", "'++'", "'--'", "'+='", "'-='", "'%='", "'*='", "'/='", 
@@ -83,19 +83,6 @@ public class SnippetParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_prog; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterProg(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitProg(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitProg(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ProgContext prog() throws RecognitionException {
@@ -108,7 +95,7 @@ public class SnippetParser extends Parser {
 			setState(71);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__2) | (1L << Int) | (1L << Char) | (1L << Float) | (1L << String) | (1L << UnSigned) | (1L << Double) | (1L << ID) | (1L << POINTER))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__7) | (1L << T__0) | (1L << Int) | (1L << Char) | (1L << Float) | (1L << String) | (1L << UnSigned) | (1L << Double) | (1L << ID) | (1L << POINTER))) != 0)) {
 				{
 				{
 				setState(68); stat();
@@ -132,29 +119,16 @@ public class SnippetParser extends Parser {
 	}
 
 	public static class TypeContext extends ParserRuleContext {
-		public TerminalNode String() { return getToken(SnippetParser.String, 0); }
-		public TerminalNode UnSigned() { return getToken(SnippetParser.UnSigned, 0); }
-		public TerminalNode Double() { return getToken(SnippetParser.Double, 0); }
 		public TerminalNode Char() { return getToken(SnippetParser.Char, 0); }
+		public TerminalNode String() { return getToken(SnippetParser.String, 0); }
 		public TerminalNode Float() { return getToken(SnippetParser.Float, 0); }
 		public TerminalNode Int() { return getToken(SnippetParser.Int, 0); }
+		public TerminalNode Double() { return getToken(SnippetParser.Double, 0); }
+		public TerminalNode UnSigned() { return getToken(SnippetParser.UnSigned, 0); }
 		public TypeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_type; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterType(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitType(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitType(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final TypeContext type() throws RecognitionException {
@@ -194,19 +168,6 @@ public class SnippetParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_block; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitBlock(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitBlock(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final BlockContext block() throws RecognitionException {
@@ -216,11 +177,11 @@ public class SnippetParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(76); match(T__7);
+			setState(76); match(T__4);
 			setState(80);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__2) | (1L << Int) | (1L << Char) | (1L << Float) | (1L << String) | (1L << UnSigned) | (1L << Double) | (1L << ID) | (1L << POINTER))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__7) | (1L << T__0) | (1L << Int) | (1L << Char) | (1L << Float) | (1L << String) | (1L << UnSigned) | (1L << Double) | (1L << ID) | (1L << POINTER))) != 0)) {
 				{
 				{
 				setState(77); stat();
@@ -245,11 +206,17 @@ public class SnippetParser extends Parser {
 	}
 
 	public static class StatContext extends ParserRuleContext {
-		public CallStatContext callStat() {
-			return getRuleContext(CallStatContext.class,0);
+		public DeclarationStatContext declarationStat() {
+			return getRuleContext(DeclarationStatContext.class,0);
 		}
 		public SelfIncreStatContext selfIncreStat() {
 			return getRuleContext(SelfIncreStatContext.class,0);
+		}
+		public If_statContext if_stat() {
+			return getRuleContext(If_statContext.class,0);
+		}
+		public CallStatContext callStat() {
+			return getRuleContext(CallStatContext.class,0);
 		}
 		public ReturnStatContext returnStat() {
 			return getRuleContext(ReturnStatContext.class,0);
@@ -257,29 +224,10 @@ public class SnippetParser extends Parser {
 		public AssignStatContext assignStat() {
 			return getRuleContext(AssignStatContext.class,0);
 		}
-		public DeclarationStatContext declarationStat() {
-			return getRuleContext(DeclarationStatContext.class,0);
-		}
-		public If_statContext if_stat() {
-			return getRuleContext(If_statContext.class,0);
-		}
 		public StatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_stat; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitStat(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitStat(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final StatContext stat() throws RecognitionException {
@@ -292,7 +240,7 @@ public class SnippetParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(85); declarationStat();
-				setState(86); match(T__0);
+				setState(86); match(T__5);
 				}
 				break;
 			case 2:
@@ -305,28 +253,28 @@ public class SnippetParser extends Parser {
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(89); returnStat();
-				setState(90); match(T__0);
+				setState(90); match(T__5);
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(92); callStat();
-				setState(93); match(T__0);
+				setState(93); match(T__5);
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
 				setState(95); assignStat();
-				setState(96); match(T__0);
+				setState(96); match(T__5);
 				}
 				break;
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
 				setState(98); selfIncreStat();
-				setState(99); match(T__0);
+				setState(99); match(T__5);
 				}
 				break;
 			}
@@ -343,32 +291,19 @@ public class SnippetParser extends Parser {
 	}
 
 	public static class If_statContext extends ParserRuleContext {
-		public ElsepartContext elsepart() {
-			return getRuleContext(ElsepartContext.class,0);
+		public ElseifpartContext elseifpart() {
+			return getRuleContext(ElseifpartContext.class,0);
 		}
 		public IfpartContext ifpart() {
 			return getRuleContext(IfpartContext.class,0);
 		}
-		public ElseifpartContext elseifpart() {
-			return getRuleContext(ElseifpartContext.class,0);
+		public ElsepartContext elsepart() {
+			return getRuleContext(ElsepartContext.class,0);
 		}
 		public If_statContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_if_stat; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterIf_stat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitIf_stat(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitIf_stat(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final If_statContext if_stat() throws RecognitionException {
@@ -408,29 +343,16 @@ public class SnippetParser extends Parser {
 	}
 
 	public static class IfpartContext extends ParserRuleContext {
-		public IfblockContext ifblock() {
-			return getRuleContext(IfblockContext.class,0);
-		}
 		public CondExprContext condExpr() {
 			return getRuleContext(CondExprContext.class,0);
+		}
+		public IfblockContext ifblock() {
+			return getRuleContext(IfblockContext.class,0);
 		}
 		public IfpartContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_ifpart; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterIfpart(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitIfpart(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitIfpart(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final IfpartContext ifpart() throws RecognitionException {
@@ -439,7 +361,7 @@ public class SnippetParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(110); match(T__4);
+			setState(110); match(T__0);
 			setState(111); condExpr();
 			setState(112); ifblock();
 			}
@@ -466,19 +388,6 @@ public class SnippetParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_elseifpart; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterElseifpart(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitElseifpart(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitElseifpart(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ElseifpartContext elseifpart() throws RecognitionException {
@@ -528,19 +437,6 @@ public class SnippetParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_elsepart; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterElsepart(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitElsepart(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitElsepart(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ElsepartContext elsepart() throws RecognitionException {
@@ -549,7 +445,7 @@ public class SnippetParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(119); match(T__3);
+			setState(119); match(T__8);
 			setState(120); ifblock();
 			}
 		}
@@ -565,29 +461,16 @@ public class SnippetParser extends Parser {
 	}
 
 	public static class ElseifblockContext extends ParserRuleContext {
-		public IfblockContext ifblock() {
-			return getRuleContext(IfblockContext.class,0);
-		}
 		public CondExprContext condExpr() {
 			return getRuleContext(CondExprContext.class,0);
+		}
+		public IfblockContext ifblock() {
+			return getRuleContext(IfblockContext.class,0);
 		}
 		public ElseifblockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_elseifblock; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterElseifblock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitElseifblock(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitElseifblock(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ElseifblockContext elseifblock() throws RecognitionException {
@@ -596,8 +479,8 @@ public class SnippetParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(122); match(T__3);
-			setState(123); match(T__4);
+			setState(122); match(T__8);
+			setState(123); match(T__0);
 			setState(124); condExpr();
 			setState(125); ifblock();
 			}
@@ -624,19 +507,6 @@ public class SnippetParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_ifblock; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterIfblock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitIfblock(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitIfblock(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final IfblockContext ifblock() throws RecognitionException {
@@ -645,8 +515,8 @@ public class SnippetParser extends Parser {
 		try {
 			setState(129);
 			switch (_input.LA(1)) {
-			case T__4:
-			case T__2:
+			case T__7:
+			case T__0:
 			case Int:
 			case Char:
 			case Float:
@@ -660,7 +530,7 @@ public class SnippetParser extends Parser {
 				setState(127); stat();
 				}
 				break;
-			case T__7:
+			case T__4:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(128); block();
@@ -682,29 +552,16 @@ public class SnippetParser extends Parser {
 	}
 
 	public static class DeclarationStatContext extends ParserRuleContext {
-		public TerminalNode INT() { return getToken(SnippetParser.INT, 0); }
 		public TerminalNode POINTER() { return getToken(SnippetParser.POINTER, 0); }
 		public TerminalNode ID() { return getToken(SnippetParser.ID, 0); }
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
 		}
+		public TerminalNode INT() { return getToken(SnippetParser.INT, 0); }
 		public DeclarationStatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_declarationStat; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterDeclarationStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitDeclarationStat(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitDeclarationStat(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final DeclarationStatContext declarationStat() throws RecognitionException {
@@ -720,9 +577,9 @@ public class SnippetParser extends Parser {
 				setState(131); type();
 				setState(132); match(ID);
 				{
-				setState(133); match(T__5);
+				setState(133); match(T__6);
 				setState(134); match(INT);
-				setState(135); match(T__8);
+				setState(135); match(T__2);
 				}
 				}
 				break;
@@ -762,19 +619,6 @@ public class SnippetParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_returnStat; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterReturnStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitReturnStat(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitReturnStat(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ReturnStatContext returnStat() throws RecognitionException {
@@ -783,7 +627,7 @@ public class SnippetParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(145); match(T__2);
+			setState(145); match(T__7);
 			{
 			setState(146); arith_expression();
 			}
@@ -808,19 +652,6 @@ public class SnippetParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_callStat; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterCallStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitCallStat(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitCallStat(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final CallStatContext callStat() throws RecognitionException {
@@ -845,34 +676,21 @@ public class SnippetParser extends Parser {
 
 	public static class AssignStatContext extends ParserRuleContext {
 		public TerminalNode POINTER() { return getToken(SnippetParser.POINTER, 0); }
+		public TerminalNode ID() { return getToken(SnippetParser.ID, 0); }
+		public TerminalNode ASSIGN() { return getToken(SnippetParser.ASSIGN, 0); }
+		public ArithmAssignOperatorContext arithmAssignOperator() {
+			return getRuleContext(ArithmAssignOperatorContext.class,0);
+		}
 		public Assign_expressionContext assign_expression() {
 			return getRuleContext(Assign_expressionContext.class,0);
 		}
-		public TerminalNode ASSIGN() { return getToken(SnippetParser.ASSIGN, 0); }
-		public TerminalNode ID() { return getToken(SnippetParser.ID, 0); }
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
-		}
-		public ArithmAssignOperatorContext arithmAssignOperator() {
-			return getRuleContext(ArithmAssignOperatorContext.class,0);
 		}
 		public AssignStatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_assignStat; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterAssignStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitAssignStat(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitAssignStat(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final AssignStatContext assignStat() throws RecognitionException {
@@ -945,19 +763,6 @@ public class SnippetParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_callExpr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterCallExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitCallExpr(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitCallExpr(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final CallExprContext callExpr() throws RecognitionException {
@@ -990,19 +795,6 @@ public class SnippetParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_selfIncreStat; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterSelfIncreStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitSelfIncreStat(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitSelfIncreStat(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final SelfIncreStatContext selfIncreStat() throws RecognitionException {
@@ -1027,25 +819,12 @@ public class SnippetParser extends Parser {
 	}
 
 	public static class IncreOperatorContext extends ParserRuleContext {
-		public TerminalNode DECRE() { return getToken(SnippetParser.DECRE, 0); }
 		public TerminalNode INCRE() { return getToken(SnippetParser.INCRE, 0); }
+		public TerminalNode DECRE() { return getToken(SnippetParser.DECRE, 0); }
 		public IncreOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_increOperator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterIncreOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitIncreOperator(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitIncreOperator(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final IncreOperatorContext increOperator() throws RecognitionException {
@@ -1078,28 +857,15 @@ public class SnippetParser extends Parser {
 		public Assign_expressionContext assign_expression(int i) {
 			return getRuleContext(Assign_expressionContext.class,i);
 		}
+		public TerminalNode LPAREN() { return getToken(SnippetParser.LPAREN, 0); }
 		public List<Assign_expressionContext> assign_expression() {
 			return getRuleContexts(Assign_expressionContext.class);
 		}
 		public TerminalNode RPAREN() { return getToken(SnippetParser.RPAREN, 0); }
-		public TerminalNode LPAREN() { return getToken(SnippetParser.LPAREN, 0); }
 		public ArgumentsContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arguments; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterArguments(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitArguments(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitArguments(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ArgumentsContext arguments() throws RecognitionException {
@@ -1118,10 +884,10 @@ public class SnippetParser extends Parser {
 				setState(184);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while (_la==T__6) {
+				while (_la==T__3) {
 					{
 					{
-					setState(180); match(T__6);
+					setState(180); match(T__3);
 					setState(181); assign_expression();
 					}
 					}
@@ -1147,31 +913,18 @@ public class SnippetParser extends Parser {
 	}
 
 	public static class Assign_expressionContext extends ParserRuleContext {
-		public TerminalNode CharacterLiteral() { return getToken(SnippetParser.CharacterLiteral, 0); }
 		public ConvertExprContext convertExpr() {
 			return getRuleContext(ConvertExprContext.class,0);
 		}
-		public TerminalNode StringLiteral() { return getToken(SnippetParser.StringLiteral, 0); }
 		public Arith_expressionContext arith_expression() {
 			return getRuleContext(Arith_expressionContext.class,0);
 		}
+		public TerminalNode StringLiteral() { return getToken(SnippetParser.StringLiteral, 0); }
+		public TerminalNode CharacterLiteral() { return getToken(SnippetParser.CharacterLiteral, 0); }
 		public Assign_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_assign_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterAssign_expression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitAssign_expression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitAssign_expression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final Assign_expressionContext assign_expression() throws RecognitionException {
@@ -1228,19 +981,6 @@ public class SnippetParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_convertExpr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterConvertExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitConvertExpr(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitConvertExpr(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ConvertExprContext convertExpr() throws RecognitionException {
@@ -1267,28 +1007,15 @@ public class SnippetParser extends Parser {
 	}
 
 	public static class ArithmAssignOperatorContext extends ParserRuleContext {
-		public TerminalNode DIVIDESELF() { return getToken(SnippetParser.DIVIDESELF, 0); }
-		public TerminalNode DEDUCTSELF() { return getToken(SnippetParser.DEDUCTSELF, 0); }
 		public TerminalNode MULTISELF() { return getToken(SnippetParser.MULTISELF, 0); }
-		public TerminalNode ADDSELF() { return getToken(SnippetParser.ADDSELF, 0); }
 		public TerminalNode MODSELF() { return getToken(SnippetParser.MODSELF, 0); }
+		public TerminalNode DEDUCTSELF() { return getToken(SnippetParser.DEDUCTSELF, 0); }
+		public TerminalNode ADDSELF() { return getToken(SnippetParser.ADDSELF, 0); }
+		public TerminalNode DIVIDESELF() { return getToken(SnippetParser.DIVIDESELF, 0); }
 		public ArithmAssignOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arithmAssignOperator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterArithmAssignOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitArithmAssignOperator(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitArithmAssignOperator(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ArithmAssignOperatorContext arithmAssignOperator() throws RecognitionException {
@@ -1325,19 +1052,6 @@ public class SnippetParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_condExpr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterCondExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitCondExpr(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitCondExpr(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final CondExprContext condExpr() throws RecognitionException {
@@ -1361,15 +1075,15 @@ public class SnippetParser extends Parser {
 	}
 
 	public static class Or_expressionContext extends ParserRuleContext {
-		public List<TerminalNode> OR() { return getTokens(SnippetParser.OR); }
-		public And_expressionContext and_expression() {
-			return getRuleContext(And_expressionContext.class,0);
-		}
 		public Or_expressionContext or_expression(int i) {
 			return getRuleContext(Or_expressionContext.class,i);
 		}
+		public List<TerminalNode> OR() { return getTokens(SnippetParser.OR); }
 		public TerminalNode OR(int i) {
 			return getToken(SnippetParser.OR, i);
+		}
+		public And_expressionContext and_expression() {
+			return getRuleContext(And_expressionContext.class,0);
 		}
 		public List<Or_expressionContext> or_expression() {
 			return getRuleContexts(Or_expressionContext.class);
@@ -1378,19 +1092,6 @@ public class SnippetParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_or_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterOr_expression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitOr_expression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitOr_expression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final Or_expressionContext or_expression() throws RecognitionException {
@@ -1431,33 +1132,20 @@ public class SnippetParser extends Parser {
 	}
 
 	public static class And_expressionContext extends ParserRuleContext {
-		public List<TermContext> term() {
-			return getRuleContexts(TermContext.class);
-		}
-		public List<TerminalNode> AND() { return getTokens(SnippetParser.AND); }
 		public TerminalNode AND(int i) {
 			return getToken(SnippetParser.AND, i);
+		}
+		public List<TermContext> term() {
+			return getRuleContexts(TermContext.class);
 		}
 		public TermContext term(int i) {
 			return getRuleContext(TermContext.class,i);
 		}
+		public List<TerminalNode> AND() { return getTokens(SnippetParser.AND); }
 		public And_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_and_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterAnd_expression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitAnd_expression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitAnd_expression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final And_expressionContext and_expression() throws RecognitionException {
@@ -1499,34 +1187,21 @@ public class SnippetParser extends Parser {
 		public AtomContext atom(int i) {
 			return getRuleContext(AtomContext.class,i);
 		}
-		public TerminalNode RPAREN() { return getToken(SnippetParser.RPAREN, 0); }
+		public TerminalNode LPAREN() { return getToken(SnippetParser.LPAREN, 0); }
 		public OperatorContext operator() {
 			return getRuleContext(OperatorContext.class,0);
 		}
-		public TerminalNode LPAREN() { return getToken(SnippetParser.LPAREN, 0); }
-		public Or_expressionContext or_expression() {
-			return getRuleContext(Or_expressionContext.class,0);
-		}
+		public TerminalNode RPAREN() { return getToken(SnippetParser.RPAREN, 0); }
 		public List<AtomContext> atom() {
 			return getRuleContexts(AtomContext.class);
+		}
+		public Or_expressionContext or_expression() {
+			return getRuleContext(Or_expressionContext.class,0);
 		}
 		public TermContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_term; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterTerm(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitTerm(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitTerm(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final TermContext term() throws RecognitionException {
@@ -1585,19 +1260,6 @@ public class SnippetParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arith_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterArith_expression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitArith_expression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitArith_expression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final Arith_expressionContext arith_expression() throws RecognitionException {
@@ -1627,32 +1289,19 @@ public class SnippetParser extends Parser {
 		public Add_expressionContext add_expression(int i) {
 			return getRuleContext(Add_expressionContext.class,i);
 		}
+		public Multi_expressionContext multi_expression() {
+			return getRuleContext(Multi_expressionContext.class,0);
+		}
 		public List<AddOperatorContext> addOperator() {
 			return getRuleContexts(AddOperatorContext.class);
 		}
 		public List<Add_expressionContext> add_expression() {
 			return getRuleContexts(Add_expressionContext.class);
 		}
-		public Multi_expressionContext multi_expression() {
-			return getRuleContext(Multi_expressionContext.class,0);
-		}
 		public Add_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_add_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterAdd_expression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitAdd_expression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitAdd_expression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final Add_expressionContext add_expression() throws RecognitionException {
@@ -1709,19 +1358,6 @@ public class SnippetParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_multi_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterMulti_expression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitMulti_expression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitMulti_expression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final Multi_expressionContext multi_expression() throws RecognitionException {
@@ -1760,31 +1396,18 @@ public class SnippetParser extends Parser {
 	}
 
 	public static class ExprContext extends ParserRuleContext {
-		public Add_expressionContext add_expression() {
-			return getRuleContext(Add_expressionContext.class,0);
-		}
-		public TerminalNode RPAREN() { return getToken(SnippetParser.RPAREN, 0); }
 		public TerminalNode LPAREN() { return getToken(SnippetParser.LPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(SnippetParser.RPAREN, 0); }
 		public AtomContext atom() {
 			return getRuleContext(AtomContext.class,0);
+		}
+		public Add_expressionContext add_expression() {
+			return getRuleContext(Add_expressionContext.class,0);
 		}
 		public ExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitExpr(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitExpr(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ExprContext expr() throws RecognitionException {
@@ -1826,25 +1449,12 @@ public class SnippetParser extends Parser {
 	}
 
 	public static class AddOperatorContext extends ParserRuleContext {
-		public TerminalNode DEDUCTIVE() { return getToken(SnippetParser.DEDUCTIVE, 0); }
 		public TerminalNode ADDCTIVE() { return getToken(SnippetParser.ADDCTIVE, 0); }
+		public TerminalNode DEDUCTIVE() { return getToken(SnippetParser.DEDUCTIVE, 0); }
 		public AddOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_addOperator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterAddOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitAddOperator(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitAddOperator(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final AddOperatorContext addOperator() throws RecognitionException {
@@ -1874,26 +1484,13 @@ public class SnippetParser extends Parser {
 	}
 
 	public static class MultiOperatorContext extends ParserRuleContext {
-		public TerminalNode MULTIPLY() { return getToken(SnippetParser.MULTIPLY, 0); }
 		public TerminalNode DIVIDE() { return getToken(SnippetParser.DIVIDE, 0); }
+		public TerminalNode MULTIPLY() { return getToken(SnippetParser.MULTIPLY, 0); }
 		public TerminalNode MOD() { return getToken(SnippetParser.MOD, 0); }
 		public MultiOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_multiOperator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterMultiOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitMultiOperator(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitMultiOperator(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final MultiOperatorContext multiOperator() throws RecognitionException {
@@ -1923,33 +1520,20 @@ public class SnippetParser extends Parser {
 	}
 
 	public static class AtomContext extends ParserRuleContext {
-		public TerminalNode FLOAT() { return getToken(SnippetParser.FLOAT, 0); }
-		public TerminalNode INT() { return getToken(SnippetParser.INT, 0); }
-		public ArrayExprContext arrayExpr() {
-			return getRuleContext(ArrayExprContext.class,0);
-		}
-		public TerminalNode CharacterLiteral() { return getToken(SnippetParser.CharacterLiteral, 0); }
 		public TerminalNode ID() { return getToken(SnippetParser.ID, 0); }
 		public CallExprContext callExpr() {
 			return getRuleContext(CallExprContext.class,0);
 		}
+		public ArrayExprContext arrayExpr() {
+			return getRuleContext(ArrayExprContext.class,0);
+		}
+		public TerminalNode INT() { return getToken(SnippetParser.INT, 0); }
+		public TerminalNode CharacterLiteral() { return getToken(SnippetParser.CharacterLiteral, 0); }
+		public TerminalNode FLOAT() { return getToken(SnippetParser.FLOAT, 0); }
 		public AtomContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_atom; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterAtom(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitAtom(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitAtom(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final AtomContext atom() throws RecognitionException {
@@ -2008,28 +1592,15 @@ public class SnippetParser extends Parser {
 	}
 
 	public static class ArrayExprContext extends ParserRuleContext {
-		public TerminalNode INT() { return getToken(SnippetParser.INT, 0); }
 		public List<TerminalNode> ID() { return getTokens(SnippetParser.ID); }
 		public TerminalNode ID(int i) {
 			return getToken(SnippetParser.ID, i);
 		}
+		public TerminalNode INT() { return getToken(SnippetParser.INT, 0); }
 		public ArrayExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arrayExpr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterArrayExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitArrayExpr(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitArrayExpr(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ArrayExprContext arrayExpr() throws RecognitionException {
@@ -2040,14 +1611,14 @@ public class SnippetParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(273); match(ID);
-			setState(274); match(T__5);
+			setState(274); match(T__6);
 			setState(275);
 			_la = _input.LA(1);
 			if ( !(_la==INT || _la==ID) ) {
 			_errHandler.recoverInline(this);
 			}
 			consume();
-			setState(276); match(T__8);
+			setState(276); match(T__2);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2063,28 +1634,15 @@ public class SnippetParser extends Parser {
 
 	public static class OperatorContext extends ParserRuleContext {
 		public TerminalNode NEQ() { return getToken(SnippetParser.NEQ, 0); }
-		public TerminalNode LT() { return getToken(SnippetParser.LT, 0); }
-		public TerminalNode LE() { return getToken(SnippetParser.LE, 0); }
-		public TerminalNode GT() { return getToken(SnippetParser.GT, 0); }
 		public TerminalNode GE() { return getToken(SnippetParser.GE, 0); }
+		public TerminalNode LT() { return getToken(SnippetParser.LT, 0); }
+		public TerminalNode GT() { return getToken(SnippetParser.GT, 0); }
+		public TerminalNode LE() { return getToken(SnippetParser.LE, 0); }
 		public TerminalNode EQ() { return getToken(SnippetParser.EQ, 0); }
 		public OperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_operator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).enterOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SnippetListener ) ((SnippetListener)listener).exitOperator(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SnippetVisitor ) return ((SnippetVisitor<? extends T>)visitor).visitOperator(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final OperatorContext operator() throws RecognitionException {
@@ -2145,24 +1703,24 @@ public class SnippetParser extends Parser {
 		"\u00d8\3\2\2\2\62\u00ea\3\2\2\2\64\u00ec\3\2\2\2\66\u00ee\3\2\2\28\u00f7"+
 		"\3\2\2\2:\u0105\3\2\2\2<\u0107\3\2\2\2>\u0109\3\2\2\2@\u0111\3\2\2\2B"+
 		"\u0113\3\2\2\2D\u0118\3\2\2\2FH\5\b\5\2GF\3\2\2\2HK\3\2\2\2IG\3\2\2\2"+
-		"IJ\3\2\2\2J\3\3\2\2\2KI\3\2\2\2LM\t\2\2\2M\5\3\2\2\2NR\7\4\2\2OQ\5\b\5"+
+		"IJ\3\2\2\2J\3\3\2\2\2KI\3\2\2\2LM\t\2\2\2M\5\3\2\2\2NR\7\7\2\2OQ\5\b\5"+
 		"\2PO\3\2\2\2QT\3\2\2\2RP\3\2\2\2RS\3\2\2\2SU\3\2\2\2TR\3\2\2\2UV\7\n\2"+
-		"\2V\7\3\2\2\2WX\5\26\f\2XY\7\13\2\2Yh\3\2\2\2Zh\5\n\6\2[\\\5\30\r\2\\"+
-		"]\7\13\2\2]h\3\2\2\2^_\5\32\16\2_`\7\13\2\2`h\3\2\2\2ab\5\34\17\2bc\7"+
-		"\13\2\2ch\3\2\2\2de\5 \21\2ef\7\13\2\2fh\3\2\2\2gW\3\2\2\2gZ\3\2\2\2g"+
-		"[\3\2\2\2g^\3\2\2\2ga\3\2\2\2gd\3\2\2\2h\t\3\2\2\2ik\5\f\7\2jl\5\16\b"+
-		"\2kj\3\2\2\2kl\3\2\2\2ln\3\2\2\2mo\5\20\t\2nm\3\2\2\2no\3\2\2\2o\13\3"+
-		"\2\2\2pq\7\7\2\2qr\5,\27\2rs\5\24\13\2s\r\3\2\2\2tv\5\22\n\2ut\3\2\2\2"+
-		"vw\3\2\2\2wu\3\2\2\2wx\3\2\2\2x\17\3\2\2\2yz\7\b\2\2z{\5\24\13\2{\21\3"+
-		"\2\2\2|}\7\b\2\2}~\7\7\2\2~\177\5,\27\2\177\u0080\5\24\13\2\u0080\23\3"+
-		"\2\2\2\u0081\u0084\5\b\5\2\u0082\u0084\5\6\4\2\u0083\u0081\3\2\2\2\u0083"+
-		"\u0082\3\2\2\2\u0084\25\3\2\2\2\u0085\u0086\5\4\3\2\u0086\u0087\7\31\2"+
-		"\2\u0087\u0088\7\6\2\2\u0088\u0089\7\26\2\2\u0089\u008a\7\3\2\2\u008a"+
-		"\u0092\3\2\2\2\u008b\u008d\5\4\3\2\u008c\u008e\7\61\2\2\u008d\u008c\3"+
-		"\2\2\2\u008d\u008e\3\2\2\2\u008e\u008f\3\2\2\2\u008f\u0090\7\31\2\2\u0090"+
-		"\u0092\3\2\2\2\u0091\u0085\3\2\2\2\u0091\u008b\3\2\2\2\u0092\27\3\2\2"+
-		"\2\u0093\u0094\7\t\2\2\u0094\u0095\5\64\33\2\u0095\31\3\2\2\2\u0096\u0097"+
-		"\5\36\20\2\u0097\33\3\2\2\2\u0098\u009a\7\61\2\2\u0099\u0098\3\2\2\2\u0099"+
+		"\2V\7\3\2\2\2WX\5\26\f\2XY\7\6\2\2Yh\3\2\2\2Zh\5\n\6\2[\\\5\30\r\2\\]"+
+		"\7\6\2\2]h\3\2\2\2^_\5\32\16\2_`\7\6\2\2`h\3\2\2\2ab\5\34\17\2bc\7\6\2"+
+		"\2ch\3\2\2\2de\5 \21\2ef\7\6\2\2fh\3\2\2\2gW\3\2\2\2gZ\3\2\2\2g[\3\2\2"+
+		"\2g^\3\2\2\2ga\3\2\2\2gd\3\2\2\2h\t\3\2\2\2ik\5\f\7\2jl\5\16\b\2kj\3\2"+
+		"\2\2kl\3\2\2\2ln\3\2\2\2mo\5\20\t\2nm\3\2\2\2no\3\2\2\2o\13\3\2\2\2pq"+
+		"\7\13\2\2qr\5,\27\2rs\5\24\13\2s\r\3\2\2\2tv\5\22\n\2ut\3\2\2\2vw\3\2"+
+		"\2\2wu\3\2\2\2wx\3\2\2\2x\17\3\2\2\2yz\7\3\2\2z{\5\24\13\2{\21\3\2\2\2"+
+		"|}\7\3\2\2}~\7\13\2\2~\177\5,\27\2\177\u0080\5\24\13\2\u0080\23\3\2\2"+
+		"\2\u0081\u0084\5\b\5\2\u0082\u0084\5\6\4\2\u0083\u0081\3\2\2\2\u0083\u0082"+
+		"\3\2\2\2\u0084\25\3\2\2\2\u0085\u0086\5\4\3\2\u0086\u0087\7\31\2\2\u0087"+
+		"\u0088\7\5\2\2\u0088\u0089\7\26\2\2\u0089\u008a\7\t\2\2\u008a\u0092\3"+
+		"\2\2\2\u008b\u008d\5\4\3\2\u008c\u008e\7\61\2\2\u008d\u008c\3\2\2\2\u008d"+
+		"\u008e\3\2\2\2\u008e\u008f\3\2\2\2\u008f\u0090\7\31\2\2\u0090\u0092\3"+
+		"\2\2\2\u0091\u0085\3\2\2\2\u0091\u008b\3\2\2\2\u0092\27\3\2\2\2\u0093"+
+		"\u0094\7\4\2\2\u0094\u0095\5\64\33\2\u0095\31\3\2\2\2\u0096\u0097\5\36"+
+		"\20\2\u0097\33\3\2\2\2\u0098\u009a\7\61\2\2\u0099\u0098\3\2\2\2\u0099"+
 		"\u009a\3\2\2\2\u009a\u009b\3\2\2\2\u009b\u009c\7\31\2\2\u009c\u009d\7"+
 		"#\2\2\u009d\u00ab\5&\24\2\u009e\u00a0\5\4\3\2\u009f\u00a1\7\61\2\2\u00a0"+
 		"\u009f\3\2\2\2\u00a0\u00a1\3\2\2\2\u00a1\u00a2\3\2\2\2\u00a2\u00a3\7\31"+
@@ -2172,7 +1730,7 @@ public class SnippetParser extends Parser {
 		"\35\3\2\2\2\u00ac\u00ad\7\31\2\2\u00ad\u00ae\5$\23\2\u00ae\37\3\2\2\2"+
 		"\u00af\u00b0\7\31\2\2\u00b0\u00b1\5\"\22\2\u00b1!\3\2\2\2\u00b2\u00b3"+
 		"\t\3\2\2\u00b3#\3\2\2\2\u00b4\u00bd\7\34\2\2\u00b5\u00ba\5&\24\2\u00b6"+
-		"\u00b7\7\5\2\2\u00b7\u00b9\5&\24\2\u00b8\u00b6\3\2\2\2\u00b9\u00bc\3\2"+
+		"\u00b7\7\b\2\2\u00b7\u00b9\5&\24\2\u00b8\u00b6\3\2\2\2\u00b9\u00bc\3\2"+
 		"\2\2\u00ba\u00b8\3\2\2\2\u00ba\u00bb\3\2\2\2\u00bb\u00be\3\2\2\2\u00bc"+
 		"\u00ba\3\2\2\2\u00bd\u00b5\3\2\2\2\u00bd\u00be\3\2\2\2\u00be\u00bf\3\2"+
 		"\2\2\u00bf\u00c0\7\35\2\2\u00c0%\3\2\2\2\u00c1\u00c6\5\64\33\2\u00c2\u00c6"+
@@ -2202,8 +1760,8 @@ public class SnippetParser extends Parser {
 		"\u0112\7\26\2\2\u010d\u0112\7\27\2\2\u010e\u0112\7\16\2\2\u010f\u0112"+
 		"\5\36\20\2\u0110\u0112\5B\"\2\u0111\u010b\3\2\2\2\u0111\u010c\3\2\2\2"+
 		"\u0111\u010d\3\2\2\2\u0111\u010e\3\2\2\2\u0111\u010f\3\2\2\2\u0111\u0110"+
-		"\3\2\2\2\u0112A\3\2\2\2\u0113\u0114\7\31\2\2\u0114\u0115\7\6\2\2\u0115"+
-		"\u0116\t\7\2\2\u0116\u0117\7\3\2\2\u0117C\3\2\2\2\u0118\u0119\t\b\2\2"+
+		"\3\2\2\2\u0112A\3\2\2\2\u0113\u0114\7\31\2\2\u0114\u0115\7\5\2\2\u0115"+
+		"\u0116\t\7\2\2\u0116\u0117\7\t\2\2\u0117C\3\2\2\2\u0118\u0119\t\b\2\2"+
 		"\u0119E\3\2\2\2\31IRgknw\u0083\u008d\u0091\u0099\u00a0\u00aa\u00ba\u00bd"+
 		"\u00c5\u00d5\u00dd\u00e4\u00ea\u00f4\u00fd\u0105\u0111";
 	public static final ATN _ATN =

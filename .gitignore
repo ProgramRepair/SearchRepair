@@ -1,6 +1,7 @@
-/introclass
-/block
-/project-euler-c
-/bin
-/tempFolder
-/repositoryBackup
+project-euler-c/*
+tempFolder/*
+introclass-may-2015/*
+bin/*
+IntroClass*
+searchRepair.log
+/bughunt/

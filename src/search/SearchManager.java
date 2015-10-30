@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import util.Utility;
 import lookups.ClassType;
 import lookups.TypeTable;
 import Database.DataBaseManager;
 import Database.DataHandler;
-import Library.Utility;
 
 public class SearchManager {
 	

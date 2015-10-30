@@ -3,6 +3,8 @@ package Repository;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,9 +14,9 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import Library.CharMethodTranslator;
-import Library.StringMethodTranslator;
-import Library.StringRepresentation;
+import util.CharMethodTranslator;
+import util.StringMethodTranslator;
+import util.StringRepresentation;
 import antlr.preprocess.PathLexer;
 import antlr.preprocess.PathParser;
 import antlr.preprocess.PathParser.AddressExprContext;
@@ -33,6 +35,7 @@ import antlr.preprocess.PathParser.ReturnStatContext;
 import antlr.preprocess.PathParser.SelfIncreStatContext;
 import antlr.preprocess.PathParser.StatementContext;
 
+
 public class PathTranslator {
 	
 	private String path;
@@ -46,15 +49,27 @@ public class PathTranslator {
 	private int count;
 	
 	
-	
-	
-	
+	private static class NullOutputStream extends OutputStream {
+	    @Override
+	    public void write(int b){
+	         return;
+	    }
+	    @Override
+	    public void write(byte[] b){
+	         return;
+	    }
+	    @Override
+	    public void write(byte[] b, int off, int len){
+	         return;
+	    }
+	    public NullOutputStream(){
+	    }
+	}
+
 	
 	public PathTranslator(String path, String formalVariables) {
 		super();
 		this.path = path;
-		//System.out.println(formalVariables);
-		//System.out.println(path);
 		this.count = 0;
 		this.fileName = "_test_";
 		this.ssa = new ArrayList<String>();
@@ -78,8 +93,8 @@ public class PathTranslator {
 	
 	
 	
-	
-
+	private PrintStream realSystemErr = System.err;
+	private PrintStream nullSystemErr = new PrintStream(new NullOutputStream());
 	private void applySSA() {
 		//add formal parameters
 		
@@ -91,13 +106,14 @@ public class PathTranslator {
 			PathLexer lexer = new PathLexer(input);
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			PathParser parser = new PathParser(tokens);
+			System.setErr(nullSystemErr);
 			ProgContext prog = parser.prog();
+			System.setErr(realSystemErr);
 			List<StatementContext> statements = prog.statement();
 			convertStatementToConstraints(statements);
 			
 		} catch (IOException e) {
-			//
-			e.printStackTrace();
+			return;
 		}
 	}
 

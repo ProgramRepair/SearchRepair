@@ -16,58 +16,35 @@ public class BugLineSearcher {
 	private Map<Integer, Double> suspiciousness;
 	private int[] buggy;
 	private boolean addBracket;
-	private boolean hasPrintf;
-	private boolean isWholeBlock;
-	//private 
 
 	public BugLineSearcher(String folder, String fileName) {
-		super();
 		this.folder = folder;
 		this.fileName = fileName;
 		this.linesContent = new ArrayList<String>();
 		this.suspiciousness = new HashMap<Integer, Double>();
 		this.buggy = new int[2];
 		this.addBracket = false;
-		this.hasPrintf = false;
-		this.isWholeBlock = false;
 		init();
 	}
 	
-	
-
 	public boolean isAddBracket() {
 		return addBracket;
 	}
-
-
 
 	public void setAddBracket(boolean addBracket) {
 		this.addBracket = addBracket;
 	}
 
-
-
 	private void init() {
 		initSuspicious();
 		initContent();
 		if(this.linesContent.size() != this.suspiciousness.keySet().size()) return;
-		calculateBuggy();
-		System.out.println(buggy[0]);
-		System.out.println(buggy[1]);
+		initBuggyRange(getBigSupicious());	
 	}
-
-	private void calculateBuggy() {
-		int lineNumber = getBigSupicious();
-		initBuggyRange(lineNumber);
-		
-	}
-	
-	
 
 	public int[] getBuggy() {
 		return buggy;
 	}
-
 
 	private void initBuggyRange(int lineNumber) {
 		String content = this.linesContent.get(lineNumber - 1);
@@ -88,7 +65,6 @@ public class BugLineSearcher {
 			this.buggy[0] = getLower(lineNumber);
 			this.buggy[1] = getUpper(lineNumber);
 		}
-		checkPrintf(this.buggy[0], this.buggy[1]);
 	}
 
 	private int getUpperForStatement(int lineNumber) {
@@ -142,19 +118,6 @@ public class BugLineSearcher {
 		
 		return begin;
 	}
-
-
-
-	private void checkPrintf(int i, int j) {
-		for(int k = i; k <= j; k++){
-			if(this.linesContent.get(k-1).contains("printf(\"")){
-				this.hasPrintf = true;
-				return;
-			}
-		}
-		
-	}
-
 
 
 	private void checkBrackState(int lineNumber) {
@@ -252,7 +215,7 @@ public class BugLineSearcher {
 
 	private void initContent() {
 		try{
-			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.folder + "/" + this.fileName)));
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.fileName)));
 			String s = null;
 			while((s = br.readLine()) != null){
 				this.linesContent.add(s.trim());
@@ -278,17 +241,6 @@ public class BugLineSearcher {
 		}
 		
 	}
-	
-	public static void main(String[] args){
-		BugLineSearcher bug = new BugLineSearcher("./bughunt/smallest/109", "smallest.c");
-	}
 
-
-
-	public boolean getHasPrintf() {
-		return this.hasPrintf;
-	}
-	
-	
 
 }

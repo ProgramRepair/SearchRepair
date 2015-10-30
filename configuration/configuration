@@ -1,3 +1,4 @@
-user:root
-password:3125703
-database:test
+user:clegoues
+password:password
+database:autobugfix_test
+project:smallest

@@ -2,70 +2,60 @@ package Repository;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import org.apache.log4j.Logger;
+
+import util.Utility;
 import Database.EntryHandler;
 import Database.EntryObject;
-import Library.Utility;
 
+// CLG: not pretty, but fine
 public class EntryAddition {
-	
+
+	protected static Logger logger = Logger.getLogger(EntryAddition.class);
 	private static int count = 0;
 	private static int save = 0;
-	public static void addOneFile(String filePath, String table){
-		File file = new File(filePath);
-		if(!file.exists()) return;
-		List<Method> methods = parse(filePath);
-		for(Method method : methods){
-			count++;
+	
+	public static void main(String[] args) {
+		addOneFile("/Users/clegoues/git/autobugfix/./repository/future/test185.c", "future1");
+	}
+	
+	public static void addOneFile(String filePath, String table) {
 
+		File file = new File(filePath);
+		if (!file.exists())
+			return;
+		List<Method> methods = getAndParseSymExe(filePath);
+		for (Method method : methods) {
+			count++;
 			EntryObject object;
-			try{
-				object = covertMethodToEntry(method);
-			}catch(Exception e){
-				System.out.println(e);
+			try {
+				EntryTranslator translator = new EntryTranslator(method);
+				object = translator.getEntryObject();
+			} catch (Exception e) {
 				continue;
 			}
 			EntryHandler.save(object, table);
-//			try {
-//				System.setOut(new PrintStream("log"));
-//			} catch (FileNotFoundException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			System.out.println(method.getName());
-//			save++;
-//			System.out.println(method.getSource());
+			save ++;
+			//			for (String path : object.getPathConstraint().keySet()) {
+			//				System.out.println("constraint:\n"
+			//						+ object.getPathConstraint().get(path));
+			//				System.out.println("variable:\n"
+			//						+ object.getPathFormalVariables().get(path));
+			//				System.out.println("track:\n"
+			//						+ object.getPathVariableTrack().get(path));
+			//				System.out.println("type:\n"
+			//						+ object.getPathVariablesTypes().get(path));
+			//				System.out.println("path:\n" + path);
+			//			}
 
-//			for(String path : object.getPathConstraint().keySet())
-//			{
-//				System.out.println("constraint:\n" + object.getPathConstraint().get(path));
-//				System.out.println("variable:\n" + object.getPathFormalVariables().get(path));
-//				System.out.println("track:\n" + object.getPathVariableTrack().get(path));
-//				System.out.println("type:\n" + object.getPathVariablesTypes().get(path));
-//				System.out.println("path:\n" + path);
-//			}
 		}
-		//System.out.println("count: " + count + "save: " + save);
 	}
-	
-
-	
-	private static EntryObject covertMethodToEntry(Method method) {
-		EntryTranslator translator = new EntryTranslator(method);
-		return translator.getEntryObject();
-		
-	}
-
-
 
 	public static void addOneFolder(String dirPath, String table){
 		File dir = new File(dirPath);
@@ -77,34 +67,34 @@ public class EntryAddition {
 			else{
 				addOneFile(file.getAbsolutePath(), table);
 			}
-			
 		}
+		logger.info("Global method count attempted so far:" + count + " successes: " + save);
+
 	}
 	
 
-	
-	private static List<Method> parse(String fileName){
-		//assume only one method
+	// parses output from my symbolic execution engine
+
+	private static List<Method> getAndParseSymExe(String fileName) {
+		// assume only one method
 		List<Method> methods = new ArrayList<Method>();
 		try {
-			//if(!fileName.equals("./repository/scrape/test41.c")) return methods;
-			String com = "./executors/pathgen " + fileName;
 
- 			Process p = Runtime.getRuntime().exec(com);
-			BufferedReader ls_in = new BufferedReader(new InputStreamReader(
-					p.getInputStream()));
-//			BufferedReader ls_error = new BufferedReader(new InputStreamReader(
-//					p.getErrorStream()));
-//			System.out.println(ls_error.readLine());
+			String com = "./executors/pathgen " + fileName;
+			Process p = Runtime.getRuntime().exec(com);
+
+			BufferedReader ls_in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+
 			String s = null;
 			StringBuilder path = new StringBuilder();
 			StringBuilder input = new StringBuilder();
 			Method method = new Method();
 			boolean startParsing = false;
 			boolean correct = true;
+
 			while((s = ls_in.readLine()) != null)
 			{
-				System.out.println(s);
 				s = s.trim();
 				if(s.startsWith("Processing:")){
 					if(method.getName() != null){
@@ -136,7 +126,6 @@ public class EntryAddition {
 					
 					method.getPath().add(path.toString());
 					method.getPathToInput().put(path.toString(), input.toString());		
-					System.out.println(input.toString());
 					path = new StringBuilder();
 					input = new StringBuilder();
 					//startParsing = false;
@@ -189,11 +178,8 @@ public class EntryAddition {
 			{
 				methods.add(method);
 			}
-			
 			ls_in.close();
 		} catch (IOException e) {
-			
-			e.printStackTrace();
 			return methods;
 		}
 		if(methods.isEmpty()) return methods;
@@ -217,7 +203,6 @@ public class EntryAddition {
 				index.push(i);
 				stack.add(c);
 				if(!typeStack.isEmpty())typeStack.pop();
-				
 			}
 			else if(c == '}'){
 				stack.pop();
@@ -240,9 +225,6 @@ public class EntryAddition {
 		
 	}
 	
-	
-	
-	
 	private static String getType(String declare) {
 		declare = declare.trim();
 		if(declare.startsWith("int")) return "int";
@@ -253,11 +235,4 @@ public class EntryAddition {
 		else return "void";
 	}
 
-
-
-	public static void main(String[] args) throws FileNotFoundException{
-		String filePath = "./repository/future";
-		EntryAddition.addOneFolder(filePath, "future");;
-		//EntryAddition.addOneFile(filePath);
-	}
 }

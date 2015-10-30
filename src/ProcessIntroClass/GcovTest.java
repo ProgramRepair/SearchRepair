@@ -7,59 +7,66 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-import Library.Utility;
+import org.apache.log4j.Logger;
+
+import util.Utility;
+import Experiment.WhiteOrBlack;
 
 public class GcovTest {
-	
-	//test case folder
-	private String folder;
-	
-	//the buggy source file in that folder
-	private String fileName;
-	
-	private Map<String, String> positives;
-	private Map<String, String> negatives;
-	private Map<Integer, Integer> positiveExecutions;
-	private Map<Integer, Integer> negativeExecutions;
-	private Map<Integer, Double> suspiciousness;
-	private boolean wb;
+	protected static Logger logger = Logger.getLogger(GcovTest.class);
 
-	public GcovTest(String folder, String fileName, boolean wb) {
-		super();
+	// test case folder
+	private Path folder;
+	private String program;
+
+	// the buggy source file in that folder
+	private Path fileName;
+
+	private Map<String, String> positives = new HashMap<String, String>();
+	private Map<String, String> negatives = new HashMap<String, String>();
+	private Map<Integer, Integer> positiveExecutions = new HashMap<Integer, Integer>();
+	private Map<Integer, Integer> negativeExecutions= new HashMap<Integer, Integer>();
+	private Map<Integer, Double> suspiciousness= new HashMap<Integer, Double>();
+	private WhiteOrBlack wb;
+
+	public GcovTest(String program, Path folder, Path fileName, WhiteOrBlack wb) {
 		this.folder = folder;
 		this.fileName = fileName;
 		this.wb = wb;
-		System.out.println(folder);
-		this.positiveExecutions = new HashMap<Integer, Integer>();
-		this.negativeExecutions = new HashMap<Integer, Integer>();
-		this.positives = new HashMap<String, String>();
-		this.negatives = new HashMap<String, String>();
-		this.suspiciousness = new HashMap<Integer, Double>();
-		initInputs();
-		initExecutions();
+		this.program = program;
 	}
 
+	public void init() {
+		initPositives();
+		initNegatives();
+		initExecutions();
+	}
 	private void initExecutions() {
-		if(!compile()) return;
+		if (!compile()) {
+			// FIXME: log
+			return;
+		}
 		initPositiveExecutions();
-		if(this.positiveExecutions.isEmpty()) return;
+		if (this.positiveExecutions.isEmpty())
+			return;
 		initNegativeExecutions();
-		if(this.negativeExecutions.isEmpty()) return;
+		if (this.negativeExecutions.isEmpty())
+			return;
 		calculatesuspiciousness();
-//		for(int num : this.suspiciousness.keySet()){
-//			System.out.println("suspiciousness: " + num + " " + this.suspiciousness.get(num));
-//		}
 		recordSuspiciousness();
 	}
 
 	private void recordSuspiciousness() {
 		String filePath = this.folder + "/suspicious";
-		try{
-			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath)));
-			for(int num = 1;  num <= this.suspiciousness.keySet().size(); num++){
+		try {
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(filePath)));
+			for (int num = 1; num <= this.suspiciousness.keySet().size(); num++) {
 				bw.write(Integer.toString(num));
 				bw.write(" ");
 				bw.write(Double.toString(this.suspiciousness.get(num)));
@@ -67,97 +74,68 @@ public class GcovTest {
 			}
 			bw.flush();
 			bw.close();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	private void calculatesuspiciousness() {
 		int totalFail = this.negatives.size();
-		for(int num : this.negativeExecutions.keySet()){
-			
-			if(num == 10){
-				num = 10;
-			}
+		for (int num : this.negativeExecutions.keySet()) {
 			int failed = this.negativeExecutions.get(num);
 			int success = this.positiveExecutions.get(num);
 			int denom = totalFail * (failed + success);
-			
-			//one way
-//			if(denom == 0) this.suspiciousness.put(num, 0.0);
-//			else{
-//				this.suspiciousness.put(num, failed * 1.0 / denom);
-//			}
-			
-			//the other way
 			double left = failed * 1.0 / totalFail;
 			double right = failed * 1.0 / (failed + success);
-			if(denom == 0) this.suspiciousness.put(num, 0.0);
-			else{
+			if (denom == 0)
+				this.suspiciousness.put(num, 0.0);
+			else {
 				this.suspiciousness.put(num, Math.sqrt(left * right));
 			}
-			
+
 		}
 	}
 
+	private void initExecutions(Set<String> set, Map<Integer, Integer> negativeExecutions2) {
+		for (String input : set) {
+			// TODO or FIXME: the location of these gcov output files is irritating.
+			String cleanCommand = "rm " + program + ".gcda";
+			Utility.runCProgram(cleanCommand);
+			String s = runWithUserInput("./a.out", input);
+			String gcovCommand = "gcov --object-directory ./ " + fileName;
+			Utility.runCProgram(gcovCommand);
+			String gcovFile = this.program +".c" + ".gcov";
+			GcovFileParse parser = new GcovFileParse(gcovFile);
+			for (int lineNumber : parser.getExecutions().keySet()) {
+				if (!negativeExecutions2.containsKey(lineNumber)) {
+					negativeExecutions2.put(lineNumber, parser
+							.getExecutions().get(lineNumber));
+				} else {
+					negativeExecutions2.put(lineNumber, parser
+							.getExecutions().get(lineNumber)
+							+ negativeExecutions2.get(lineNumber));
+				}
+			}
+		}
+	}
 	private void initNegativeExecutions() {
-		String functionName = this.fileName.substring(0, this.fileName.lastIndexOf('.'));
-		for(String input : this.negatives.keySet()){
-			String cleanCommand = "rm " + functionName + ".gcda";
-			Utility.runCProgram(cleanCommand);
-			//System.out.println(input);
-			String s = runWithUserInput("./a.out", input);
-			//System.out.println(s);
-			String gcovCommand = "gcov " + "./" + fileName;
-			Utility.runCProgram(gcovCommand);
-			String gcovFile = this.fileName + ".gcov";
-			GcovFileParse parser = new GcovFileParse(gcovFile);
-			for(int lineNumber : parser.getExecutions().keySet()){
-				if(!this.negativeExecutions.containsKey(lineNumber)){
-					this.negativeExecutions.put(lineNumber, parser.getExecutions().get(lineNumber));
-				}
-				else{
-					this.negativeExecutions.put(lineNumber, parser.getExecutions().get(lineNumber) + this.negativeExecutions.get(lineNumber));
-				}
-			}
-		}
-		
+		this.initExecutions(this.negatives.keySet(), this.negativeExecutions);
 	}
-
-	private boolean compile() {
-		Utility.copy(folder + "/" + fileName, "./" + fileName);
-		String command = "gcc -fprofile-arcs -ftest-coverage " + "./" + fileName;
-		String s = Utility.runCProgram(command);
-		if(s.equals("failed")) return false;
-		return true;
-		//String cleanCommand = "rm median.gcda";
-		//Utility.runCProgram(cleanCommand);
-	}
-
+	
 	private void initPositiveExecutions() {
-		String functionName = this.fileName.substring(0, this.fileName.lastIndexOf('.'));
-		for(String input : this.positives.keySet()){
-			String cleanCommand = "rm " + functionName + ".gcda";
-			Utility.runCProgram(cleanCommand);
-			//System.out.println(input);
-			String s = runWithUserInput("./a.out", input);
-			//System.out.println(s);
-			String gcovCommand = "gcov " + "./" + fileName;
-			Utility.runCProgram(gcovCommand);
-			String gcovFile = this.fileName + ".gcov";
-			GcovFileParse parser = new GcovFileParse(gcovFile);
-			for(int lineNumber : parser.getExecutions().keySet()){
-				if(!this.positiveExecutions.containsKey(lineNumber)){
-					this.positiveExecutions.put(lineNumber, parser.getExecutions().get(lineNumber));
-				}
-				else{
-					this.positiveExecutions.put(lineNumber, parser.getExecutions().get(lineNumber) + this.positiveExecutions.get(lineNumber));
-				}
-			}
-		}
-		
+		this.initExecutions(this.positives.keySet(), this.positiveExecutions);
 	}
+
+
+	private boolean compile() {	
+		String command = "gcc -fprofile-arcs -ftest-coverage "
+				+ this.fileName;
+		String s = Utility.runCProgram(command);
+		if (s.equals("failed"))
+			return false;
+		return true;
+	}
+
 
 	private String runWithUserInput(String command, String input) {
 		String out = "";
@@ -165,7 +143,8 @@ public class GcovTest {
 		StringBuffer sb = new StringBuffer();
 		try {
 			Process ls_proc = Runtime.getRuntime().exec(command);
-			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(ls_proc.getOutputStream()));
+			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+					ls_proc.getOutputStream()));
 			writer.write(input);
 			writer.flush();
 
@@ -191,8 +170,8 @@ public class GcovTest {
 					sb.append(ls_str);
 					// System.out.println(ls_str);
 				}
-				while((ls_str = ls_err.readLine()) != null){
-					//System.out.println(ls_str);
+				while ((ls_str = ls_err.readLine()) != null) {
+					// System.out.println(ls_str);
 					sb.append(ls_str);
 				}
 
@@ -204,129 +183,73 @@ public class GcovTest {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			out= "";
+			out = "";
 		}
 		out = sb.toString();
 		return out;
 	}
 
-	private void initInputs() {
-		//obtainPositives
-		initPositives();
-		initNegatives();
-//		for(String s : positives.keySet()){
-//			System.out.println("input: " + s + " output: " + positives.get(s));
-//		}
-//		
-//		for(String s : negatives.keySet()){
-//			System.out.println("input: " + s + " output: " + negatives.get(s));
-//		}
-	}
-
 	private void initNegatives() {
-		
-		if(wb){
-			String dir = this.folder + "/whitebox/negative";
+
+		if (wb == WhiteOrBlack.WHITEBOX) {
+			String dir = this.folder + File.separator + "whitebox" + File.separator + "negative";
 			initNegatives(dir);
-		}else{
-			String blackdir = this.folder + "/blackbox/negative";
+		} else {
+			String blackdir = this.folder + File.separator + "blackbox" + File.separator + "negative";
 			initNegatives(blackdir);
 		}
 	}
 
 	private void initNegatives(String dir) {
 		File directory = new File(dir);
-		if(!directory.exists() || !directory.isDirectory()) return;
-		//System.out.println(dir);
-		for(File file : directory.listFiles()){
+		if (!directory.exists() || !directory.isDirectory())
+			return;
+		// System.out.println(dir);
+		for (File file : directory.listFiles()) {
 			String name = file.getAbsolutePath();
-			if(name.endsWith(".in")){				
+			if (name.endsWith(".in")) {
 				String input = Utility.getStringFromFile(name);
-				String outputFile = name.substring(0, name.length() - 3) + ".out";
+				String outputFile = name.substring(0, name.length() - 3)
+						+ ".out";
 				String output = Utility.getStringFromFile(outputFile);
 				this.negatives.put(input, output);
 			}
 		}
-		
+
 	}
 
 	private void initPositives() {
-		//fetch from whitebox
-		if(wb){
-			String dir = this.folder + "/whitebox/positive";
+		// fetch from whitebox
+		if (wb == WhiteOrBlack.WHITEBOX) {
+			String dir = this.folder + File.separator + "whitebox" + File.separator + "positive";
+		
 			initPositives(dir);
-		}
-		else{
-			String blackdir = this.folder + "/blackbox/positive";
+		} else {
+			String blackdir = this.folder + File.separator + "blackbox" + File.separator + "positive";
 			initPositives(blackdir);
 		}
 	}
 
 	private void initPositives(String dir) {
 		File directory = new File(dir);
-		if(!directory.exists() || !directory.isDirectory()) return;
-		for(File file : directory.listFiles()){
+		if (!directory.exists() || !directory.isDirectory())
+			return;
+		for (File file : directory.listFiles()) {
 			String name = file.getAbsolutePath();
-			if(name.endsWith(".in")){				
+			if (name.endsWith(".in")) {
 				String input = Utility.getStringFromFile(name);
-				String outputFile = name.substring(0, name.length() - 3) + ".out";
+				String outputFile = name.substring(0, name.length() - 3)
+						+ ".out";
 				String output = Utility.getStringFromFile(outputFile);
 				this.positives.put(input, output);
 			}
 		}
-		
-	}
-	
-	public static void groupExperiment(String root, boolean wb){
-		try{
-			File dir = new File(root);
-			for(String typeName : dir.list()){
-//				if(typeName.equals("smallest")){
-//					generate(root + "/smallest", "smallest.c", wb);
-//				}
-//				else if(typeName.equals("median")){
-//					generate(root + "/median", "median.c", wb);
-//				}
-//				else if(typeName.equals("grade")){
-//					generate(root + "/grade", "grade.c");
-//				}
-//				else if(typeName.equals("checksum")){
-//					generate(root + "/checksum", "checksum.c");
-//				}
-//				else if(typeName.equals("digits")){
-//					generate(root + "/digits", "digits.c");
-//				}
-//				if(typeName.equals("syllables")){
-//					generate(root + "/syllables", "syllables.c");
-//				}
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-	}
-	
-	
-	
-	private static void generate(String root, String fileName, boolean wb) {
-		try{
-			File dir = new File(root);
-			for(File file : dir.listFiles()){
-				if(file.isDirectory()){
-					String path = file.getAbsolutePath();
-					GcovTest test = new GcovTest(path, fileName, wb);
-					//test.
-				}
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
-		
+
 	}
 
-	public static void main(String[] args){
-		GcovTest test = new GcovTest("./bughunt/median/225", "median.c", false);
-		//groupExperiment("./bughunt");
-	}
+//	public static void main(String[] args) {
+//		GcovTest test = new GcovTest("./bughunt/median/225", "median.c", false);
+//		// groupExperiment("./bughunt");
+//	}
 
 }

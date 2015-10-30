@@ -1,10 +1,15 @@
 package Experiment;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import search.ResultObject;
+import search.ResultObject.ResultState;
 
 public class CaseInfo {
 	
@@ -39,7 +44,7 @@ public class CaseInfo {
 		this.result = result;
 	}
 	public void print(){
-		System.out.println("positve");
+		System.out.println("positive");
 		for(List<String> list : this.positives.keySet()){
 			System.out.print("input state:");
 			for(String in : list){
@@ -70,6 +75,80 @@ public class CaseInfo {
 		result = new ResultObject();
 		
 	}
+	
+	public void recordLog(String path) { 
+		if(new File(path).exists()) new File(path).delete();
+		try {
+			new File(path).createNewFile();
+		} catch (IOException e1) {
+
+			e1.printStackTrace();
+		}
+		try{
+			PrintWriter pw = new PrintWriter(new FileOutputStream(path));
+			if(this.getResult().getState() == ResultState.FAILED){
+				pw.println("failed");
+			}
+			else if(this.getResult().getState() == ResultState.CORRECT){
+				pw.println("correct");
+			}
+			else if(this.getResult().getState() == ResultState.NOPOSITIVE){
+				pw.println("no positive");
+			}
+			else{
+				if(!this.getResult().getPositive().isEmpty())
+					pw.print("success");
+
+				if(!this.getResult().getPartial().isEmpty()){
+					pw.print(" partial");
+				}
+				pw.println();
+				pw.println("extra pass:" + this.getResult().getBigExtra());
+				pw.println("True fix:" + this.getResult().getPositive().size());
+				int count = 0;
+				for(String source : this.getResult().getPositive()){
+					pw.println();
+					pw.println();
+					pw.println("True fix " + ++count);
+					pw.println("From: ");
+					pw.println(source);
+					pw.println("To: ");
+					pw.print(this.getResult().getMappingSource().get(source));
+				}
+
+				pw.println("Partial fix:" + this.getResult().getPartial().keySet().size());
+				count = 0;
+				for(String source : this.getResult().getPartial().keySet()){
+
+					pw.println();
+					pw.println();
+					pw.println("Partial fix " + ++count);
+					pw.println("success: " + this.getResult().getPartial().get(source));
+					pw.println("From: ");
+					pw.println(source);
+					pw.println("To: ");
+					pw.print(this.getResult().getMappingSource().get(source));
+				}
+
+				pw.println("Not a fix:" + this.getResult().getFalsePositve().size());
+				count = 0;
+				for(String source : this.getResult().getFalsePositve()){
+
+					pw.println();
+					pw.println();
+					pw.println("Not a fix " + ++count);
+					pw.println(source);
+				}
+
+			}
+			pw.close();
+
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
+	}
+
 
 }
 

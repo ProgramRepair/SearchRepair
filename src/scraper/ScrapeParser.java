@@ -25,12 +25,13 @@ public class ScrapeParser extends Parser {
 		ADDSELF=37, DEDUCTSELF=38, MODSELF=39, MULTISELF=40, DIVIDESELF=41, LT=42, 
 		LE=43, GT=44, GE=45, EQ=46, NEQ=47, POINTER=48, WS=49;
 	public static final String[] tokenNames = {
-		"<INVALID>", "']'", "'{'", "','", "'['", "'for'", "'if'", "'else'", "'return'", 
-		"'}'", "';'", "BlockComment", "LineComment", "CharacterLiteral", "StringLiteral", 
-		"'int'", "'char'", "'float'", "'char*'", "'unsigned'", "'double'", "INT", 
-		"FLOAT", "STRING", "ID", "'||'", "'&&'", "'('", "')'", "'+'", "'-'", "MULTIPLY", 
-		"'/'", "'%'", "'='", "'++'", "'--'", "'+='", "'-='", "'%='", "'*='", "'/='", 
-		"'<'", "'<='", "'>'", "'>='", "'=='", "'!='", "POINTER", "WS"
+		"<INVALID>", "'else'", "'return'", "'['", "';'", "'{'", "','", "']'", 
+		"'}'", "'if'", "'for'", "BlockComment", "LineComment", "CharacterLiteral", 
+		"StringLiteral", "'int'", "'char'", "'float'", "'char*'", "'unsigned'", 
+		"'double'", "INT", "FLOAT", "STRING", "ID", "'||'", "'&&'", "'('", "')'", 
+		"'+'", "'-'", "MULTIPLY", "'/'", "'%'", "'='", "'++'", "'--'", "'+='", 
+		"'-='", "'%='", "'*='", "'/='", "'<'", "'<='", "'>'", "'>='", "'=='", 
+		"'!='", "POINTER", "WS"
 	};
 	public static final int
 		RULE_prog = 0, RULE_type = 1, RULE_block = 2, RULE_stat = 3, RULE_if_stat = 4, 
@@ -93,7 +94,7 @@ public class ScrapeParser extends Parser {
 			setState(69);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__5) | (1L << T__4) | (1L << T__2) | (1L << Int) | (1L << Char) | (1L << Float) | (1L << String) | (1L << UnSigned) | (1L << Double) | (1L << ID) | (1L << POINTER))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__8) | (1L << T__1) | (1L << T__0) | (1L << Int) | (1L << Char) | (1L << Float) | (1L << String) | (1L << UnSigned) | (1L << Double) | (1L << ID) | (1L << POINTER))) != 0)) {
 				{
 				{
 				setState(66); stat();
@@ -117,12 +118,12 @@ public class ScrapeParser extends Parser {
 	}
 
 	public static class TypeContext extends ParserRuleContext {
-		public TerminalNode String() { return getToken(ScrapeParser.String, 0); }
-		public TerminalNode UnSigned() { return getToken(ScrapeParser.UnSigned, 0); }
-		public TerminalNode Double() { return getToken(ScrapeParser.Double, 0); }
 		public TerminalNode Char() { return getToken(ScrapeParser.Char, 0); }
+		public TerminalNode String() { return getToken(ScrapeParser.String, 0); }
 		public TerminalNode Float() { return getToken(ScrapeParser.Float, 0); }
 		public TerminalNode Int() { return getToken(ScrapeParser.Int, 0); }
+		public TerminalNode Double() { return getToken(ScrapeParser.Double, 0); }
+		public TerminalNode UnSigned() { return getToken(ScrapeParser.UnSigned, 0); }
 		public TypeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -175,11 +176,11 @@ public class ScrapeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(74); match(T__8);
+			setState(74); match(T__5);
 			setState(78);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__5) | (1L << T__4) | (1L << T__2) | (1L << Int) | (1L << Char) | (1L << Float) | (1L << String) | (1L << UnSigned) | (1L << Double) | (1L << ID) | (1L << POINTER))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__8) | (1L << T__1) | (1L << T__0) | (1L << Int) | (1L << Char) | (1L << Float) | (1L << String) | (1L << UnSigned) | (1L << Double) | (1L << ID) | (1L << POINTER))) != 0)) {
 				{
 				{
 				setState(75); stat();
@@ -189,7 +190,7 @@ public class ScrapeParser extends Parser {
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(81); match(T__1);
+			setState(81); match(T__2);
 			}
 		}
 		catch (RecognitionException re) {
@@ -204,26 +205,26 @@ public class ScrapeParser extends Parser {
 	}
 
 	public static class StatContext extends ParserRuleContext {
-		public CallStatContext callStat() {
-			return getRuleContext(CallStatContext.class,0);
+		public DeclarationStatContext declarationStat() {
+			return getRuleContext(DeclarationStatContext.class,0);
 		}
 		public SelfIncreStatContext selfIncreStat() {
 			return getRuleContext(SelfIncreStatContext.class,0);
-		}
-		public ReturnStatContext returnStat() {
-			return getRuleContext(ReturnStatContext.class,0);
-		}
-		public AssignStatContext assignStat() {
-			return getRuleContext(AssignStatContext.class,0);
-		}
-		public DeclarationStatContext declarationStat() {
-			return getRuleContext(DeclarationStatContext.class,0);
 		}
 		public ForStatContext forStat() {
 			return getRuleContext(ForStatContext.class,0);
 		}
 		public If_statContext if_stat() {
 			return getRuleContext(If_statContext.class,0);
+		}
+		public CallStatContext callStat() {
+			return getRuleContext(CallStatContext.class,0);
+		}
+		public ReturnStatContext returnStat() {
+			return getRuleContext(ReturnStatContext.class,0);
+		}
+		public AssignStatContext assignStat() {
+			return getRuleContext(AssignStatContext.class,0);
 		}
 		public StatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -241,7 +242,7 @@ public class ScrapeParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(83); declarationStat();
-				setState(84); match(T__0);
+				setState(84); match(T__6);
 				}
 				break;
 			case 2:
@@ -254,28 +255,28 @@ public class ScrapeParser extends Parser {
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(87); returnStat();
-				setState(88); match(T__0);
+				setState(88); match(T__6);
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(90); callStat();
-				setState(91); match(T__0);
+				setState(91); match(T__6);
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
 				setState(93); assignStat();
-				setState(94); match(T__0);
+				setState(94); match(T__6);
 				}
 				break;
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
 				setState(96); selfIncreStat();
-				setState(97); match(T__0);
+				setState(97); match(T__6);
 				}
 				break;
 			case 7:
@@ -298,14 +299,14 @@ public class ScrapeParser extends Parser {
 	}
 
 	public static class If_statContext extends ParserRuleContext {
-		public ElsepartContext elsepart() {
-			return getRuleContext(ElsepartContext.class,0);
+		public ElseifpartContext elseifpart() {
+			return getRuleContext(ElseifpartContext.class,0);
 		}
 		public IfpartContext ifpart() {
 			return getRuleContext(IfpartContext.class,0);
 		}
-		public ElseifpartContext elseifpart() {
-			return getRuleContext(ElseifpartContext.class,0);
+		public ElsepartContext elsepart() {
+			return getRuleContext(ElsepartContext.class,0);
 		}
 		public If_statContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -350,9 +351,6 @@ public class ScrapeParser extends Parser {
 	}
 
 	public static class ForStatContext extends ParserRuleContext {
-		public AssignStatContext assignStat() {
-			return getRuleContext(AssignStatContext.class,0);
-		}
 		public CondExprContext condExpr() {
 			return getRuleContext(CondExprContext.class,0);
 		}
@@ -361,6 +359,9 @@ public class ScrapeParser extends Parser {
 		}
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
+		}
+		public AssignStatContext assignStat() {
+			return getRuleContext(AssignStatContext.class,0);
 		}
 		public ForStatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -374,12 +375,12 @@ public class ScrapeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(109); match(T__5);
+			setState(109); match(T__0);
 			setState(110); match(LPAREN);
 			setState(111); assignStat();
-			setState(112); match(T__0);
+			setState(112); match(T__6);
 			setState(113); condExpr();
-			setState(114); match(T__0);
+			setState(114); match(T__6);
 			setState(115); stat();
 			setState(116); match(RPAREN);
 			setState(117); block();
@@ -397,11 +398,11 @@ public class ScrapeParser extends Parser {
 	}
 
 	public static class IfpartContext extends ParserRuleContext {
-		public IfblockContext ifblock() {
-			return getRuleContext(IfblockContext.class,0);
-		}
 		public CondExprContext condExpr() {
 			return getRuleContext(CondExprContext.class,0);
+		}
+		public IfblockContext ifblock() {
+			return getRuleContext(IfblockContext.class,0);
 		}
 		public IfpartContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -415,7 +416,7 @@ public class ScrapeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(119); match(T__4);
+			setState(119); match(T__1);
 			setState(120); condExpr();
 			setState(121); ifblock();
 			}
@@ -499,7 +500,7 @@ public class ScrapeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(128); match(T__3);
+			setState(128); match(T__9);
 			setState(129); ifblock();
 			}
 		}
@@ -515,11 +516,11 @@ public class ScrapeParser extends Parser {
 	}
 
 	public static class ElseifblockContext extends ParserRuleContext {
-		public IfblockContext ifblock() {
-			return getRuleContext(IfblockContext.class,0);
-		}
 		public CondExprContext condExpr() {
 			return getRuleContext(CondExprContext.class,0);
+		}
+		public IfblockContext ifblock() {
+			return getRuleContext(IfblockContext.class,0);
 		}
 		public ElseifblockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -533,8 +534,8 @@ public class ScrapeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(131); match(T__3);
-			setState(132); match(T__4);
+			setState(131); match(T__9);
+			setState(132); match(T__1);
 			setState(133); condExpr();
 			setState(134); ifblock();
 			}
@@ -569,9 +570,9 @@ public class ScrapeParser extends Parser {
 		try {
 			setState(138);
 			switch (_input.LA(1)) {
-			case T__5:
-			case T__4:
-			case T__2:
+			case T__8:
+			case T__1:
+			case T__0:
 			case Int:
 			case Char:
 			case Float:
@@ -585,7 +586,7 @@ public class ScrapeParser extends Parser {
 				setState(136); stat();
 				}
 				break;
-			case T__8:
+			case T__5:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(137); block();
@@ -607,12 +608,12 @@ public class ScrapeParser extends Parser {
 	}
 
 	public static class DeclarationStatContext extends ParserRuleContext {
-		public TerminalNode INT() { return getToken(ScrapeParser.INT, 0); }
 		public TerminalNode POINTER() { return getToken(ScrapeParser.POINTER, 0); }
 		public TerminalNode ID() { return getToken(ScrapeParser.ID, 0); }
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
 		}
+		public TerminalNode INT() { return getToken(ScrapeParser.INT, 0); }
 		public DeclarationStatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -632,9 +633,9 @@ public class ScrapeParser extends Parser {
 				setState(140); type();
 				setState(141); match(ID);
 				{
-				setState(142); match(T__6);
+				setState(142); match(T__7);
 				setState(143); match(INT);
-				setState(144); match(T__9);
+				setState(144); match(T__3);
 				}
 				}
 				break;
@@ -682,7 +683,7 @@ public class ScrapeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(154); match(T__2);
+			setState(154); match(T__8);
 			{
 			setState(155); arith_expression();
 			}
@@ -731,16 +732,16 @@ public class ScrapeParser extends Parser {
 
 	public static class AssignStatContext extends ParserRuleContext {
 		public TerminalNode POINTER() { return getToken(ScrapeParser.POINTER, 0); }
+		public TerminalNode ID() { return getToken(ScrapeParser.ID, 0); }
+		public TerminalNode ASSIGN() { return getToken(ScrapeParser.ASSIGN, 0); }
+		public ArithmAssignOperatorContext arithmAssignOperator() {
+			return getRuleContext(ArithmAssignOperatorContext.class,0);
+		}
 		public Assign_expressionContext assign_expression() {
 			return getRuleContext(Assign_expressionContext.class,0);
 		}
-		public TerminalNode ASSIGN() { return getToken(ScrapeParser.ASSIGN, 0); }
-		public TerminalNode ID() { return getToken(ScrapeParser.ID, 0); }
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
-		}
-		public ArithmAssignOperatorContext arithmAssignOperator() {
-			return getRuleContext(ArithmAssignOperatorContext.class,0);
 		}
 		public AssignStatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -874,8 +875,8 @@ public class ScrapeParser extends Parser {
 	}
 
 	public static class IncreOperatorContext extends ParserRuleContext {
-		public TerminalNode DECRE() { return getToken(ScrapeParser.DECRE, 0); }
 		public TerminalNode INCRE() { return getToken(ScrapeParser.INCRE, 0); }
+		public TerminalNode DECRE() { return getToken(ScrapeParser.DECRE, 0); }
 		public IncreOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -912,11 +913,11 @@ public class ScrapeParser extends Parser {
 		public Assign_expressionContext assign_expression(int i) {
 			return getRuleContext(Assign_expressionContext.class,i);
 		}
+		public TerminalNode LPAREN() { return getToken(ScrapeParser.LPAREN, 0); }
 		public List<Assign_expressionContext> assign_expression() {
 			return getRuleContexts(Assign_expressionContext.class);
 		}
 		public TerminalNode RPAREN() { return getToken(ScrapeParser.RPAREN, 0); }
-		public TerminalNode LPAREN() { return getToken(ScrapeParser.LPAREN, 0); }
 		public ArgumentsContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -939,10 +940,10 @@ public class ScrapeParser extends Parser {
 				setState(193);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while (_la==T__7) {
+				while (_la==T__4) {
 					{
 					{
-					setState(189); match(T__7);
+					setState(189); match(T__4);
 					setState(190); assign_expression();
 					}
 					}
@@ -968,11 +969,11 @@ public class ScrapeParser extends Parser {
 	}
 
 	public static class Assign_expressionContext extends ParserRuleContext {
-		public TerminalNode CharacterLiteral() { return getToken(ScrapeParser.CharacterLiteral, 0); }
-		public TerminalNode StringLiteral() { return getToken(ScrapeParser.StringLiteral, 0); }
 		public Arith_expressionContext arith_expression() {
 			return getRuleContext(Arith_expressionContext.class,0);
 		}
+		public TerminalNode StringLiteral() { return getToken(ScrapeParser.StringLiteral, 0); }
+		public TerminalNode CharacterLiteral() { return getToken(ScrapeParser.CharacterLiteral, 0); }
 		public Assign_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1017,11 +1018,11 @@ public class ScrapeParser extends Parser {
 	}
 
 	public static class ArithmAssignOperatorContext extends ParserRuleContext {
-		public TerminalNode DIVIDESELF() { return getToken(ScrapeParser.DIVIDESELF, 0); }
-		public TerminalNode DEDUCTSELF() { return getToken(ScrapeParser.DEDUCTSELF, 0); }
 		public TerminalNode MULTISELF() { return getToken(ScrapeParser.MULTISELF, 0); }
-		public TerminalNode ADDSELF() { return getToken(ScrapeParser.ADDSELF, 0); }
 		public TerminalNode MODSELF() { return getToken(ScrapeParser.MODSELF, 0); }
+		public TerminalNode DEDUCTSELF() { return getToken(ScrapeParser.DEDUCTSELF, 0); }
+		public TerminalNode ADDSELF() { return getToken(ScrapeParser.ADDSELF, 0); }
+		public TerminalNode DIVIDESELF() { return getToken(ScrapeParser.DIVIDESELF, 0); }
 		public ArithmAssignOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1085,15 +1086,15 @@ public class ScrapeParser extends Parser {
 	}
 
 	public static class Or_expressionContext extends ParserRuleContext {
-		public List<TerminalNode> OR() { return getTokens(ScrapeParser.OR); }
-		public And_expressionContext and_expression() {
-			return getRuleContext(And_expressionContext.class,0);
-		}
 		public Or_expressionContext or_expression(int i) {
 			return getRuleContext(Or_expressionContext.class,i);
 		}
+		public List<TerminalNode> OR() { return getTokens(ScrapeParser.OR); }
 		public TerminalNode OR(int i) {
 			return getToken(ScrapeParser.OR, i);
+		}
+		public And_expressionContext and_expression() {
+			return getRuleContext(And_expressionContext.class,0);
 		}
 		public List<Or_expressionContext> or_expression() {
 			return getRuleContexts(Or_expressionContext.class);
@@ -1142,16 +1143,16 @@ public class ScrapeParser extends Parser {
 	}
 
 	public static class And_expressionContext extends ParserRuleContext {
-		public List<TermContext> term() {
-			return getRuleContexts(TermContext.class);
-		}
-		public List<TerminalNode> AND() { return getTokens(ScrapeParser.AND); }
 		public TerminalNode AND(int i) {
 			return getToken(ScrapeParser.AND, i);
+		}
+		public List<TermContext> term() {
+			return getRuleContexts(TermContext.class);
 		}
 		public TermContext term(int i) {
 			return getRuleContext(TermContext.class,i);
 		}
+		public List<TerminalNode> AND() { return getTokens(ScrapeParser.AND); }
 		public And_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1197,16 +1198,16 @@ public class ScrapeParser extends Parser {
 		public AtomContext atom(int i) {
 			return getRuleContext(AtomContext.class,i);
 		}
-		public TerminalNode RPAREN() { return getToken(ScrapeParser.RPAREN, 0); }
+		public TerminalNode LPAREN() { return getToken(ScrapeParser.LPAREN, 0); }
 		public OperatorContext operator() {
 			return getRuleContext(OperatorContext.class,0);
 		}
-		public TerminalNode LPAREN() { return getToken(ScrapeParser.LPAREN, 0); }
-		public Or_expressionContext or_expression() {
-			return getRuleContext(Or_expressionContext.class,0);
-		}
+		public TerminalNode RPAREN() { return getToken(ScrapeParser.RPAREN, 0); }
 		public List<AtomContext> atom() {
 			return getRuleContexts(AtomContext.class);
+		}
+		public Or_expressionContext or_expression() {
+			return getRuleContext(Or_expressionContext.class,0);
 		}
 		public TermContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1299,14 +1300,14 @@ public class ScrapeParser extends Parser {
 		public Add_expressionContext add_expression(int i) {
 			return getRuleContext(Add_expressionContext.class,i);
 		}
+		public Multi_expressionContext multi_expression() {
+			return getRuleContext(Multi_expressionContext.class,0);
+		}
 		public List<AddOperatorContext> addOperator() {
 			return getRuleContexts(AddOperatorContext.class);
 		}
 		public List<Add_expressionContext> add_expression() {
 			return getRuleContexts(Add_expressionContext.class);
-		}
-		public Multi_expressionContext multi_expression() {
-			return getRuleContext(Multi_expressionContext.class,0);
 		}
 		public Add_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1406,13 +1407,13 @@ public class ScrapeParser extends Parser {
 	}
 
 	public static class ExprContext extends ParserRuleContext {
-		public Add_expressionContext add_expression() {
-			return getRuleContext(Add_expressionContext.class,0);
-		}
-		public TerminalNode RPAREN() { return getToken(ScrapeParser.RPAREN, 0); }
 		public TerminalNode LPAREN() { return getToken(ScrapeParser.LPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(ScrapeParser.RPAREN, 0); }
 		public AtomContext atom() {
 			return getRuleContext(AtomContext.class,0);
+		}
+		public Add_expressionContext add_expression() {
+			return getRuleContext(Add_expressionContext.class,0);
 		}
 		public ExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1459,8 +1460,8 @@ public class ScrapeParser extends Parser {
 	}
 
 	public static class AddOperatorContext extends ParserRuleContext {
-		public TerminalNode DEDUCTIVE() { return getToken(ScrapeParser.DEDUCTIVE, 0); }
 		public TerminalNode ADDCTIVE() { return getToken(ScrapeParser.ADDCTIVE, 0); }
+		public TerminalNode DEDUCTIVE() { return getToken(ScrapeParser.DEDUCTIVE, 0); }
 		public AddOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1494,8 +1495,8 @@ public class ScrapeParser extends Parser {
 	}
 
 	public static class MultiOperatorContext extends ParserRuleContext {
-		public TerminalNode MULTIPLY() { return getToken(ScrapeParser.MULTIPLY, 0); }
 		public TerminalNode DIVIDE() { return getToken(ScrapeParser.DIVIDE, 0); }
+		public TerminalNode MULTIPLY() { return getToken(ScrapeParser.MULTIPLY, 0); }
 		public TerminalNode MOD() { return getToken(ScrapeParser.MOD, 0); }
 		public MultiOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1530,13 +1531,13 @@ public class ScrapeParser extends Parser {
 	}
 
 	public static class AtomContext extends ParserRuleContext {
-		public TerminalNode FLOAT() { return getToken(ScrapeParser.FLOAT, 0); }
-		public TerminalNode INT() { return getToken(ScrapeParser.INT, 0); }
-		public TerminalNode CharacterLiteral() { return getToken(ScrapeParser.CharacterLiteral, 0); }
 		public TerminalNode ID() { return getToken(ScrapeParser.ID, 0); }
 		public CallExprContext callExpr() {
 			return getRuleContext(CallExprContext.class,0);
 		}
+		public TerminalNode INT() { return getToken(ScrapeParser.INT, 0); }
+		public TerminalNode CharacterLiteral() { return getToken(ScrapeParser.CharacterLiteral, 0); }
+		public TerminalNode FLOAT() { return getToken(ScrapeParser.FLOAT, 0); }
 		public AtomContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1594,10 +1595,10 @@ public class ScrapeParser extends Parser {
 
 	public static class OperatorContext extends ParserRuleContext {
 		public TerminalNode NEQ() { return getToken(ScrapeParser.NEQ, 0); }
-		public TerminalNode LT() { return getToken(ScrapeParser.LT, 0); }
-		public TerminalNode LE() { return getToken(ScrapeParser.LE, 0); }
-		public TerminalNode GT() { return getToken(ScrapeParser.GT, 0); }
 		public TerminalNode GE() { return getToken(ScrapeParser.GE, 0); }
+		public TerminalNode LT() { return getToken(ScrapeParser.LT, 0); }
+		public TerminalNode GT() { return getToken(ScrapeParser.GT, 0); }
+		public TerminalNode LE() { return getToken(ScrapeParser.LE, 0); }
 		public TerminalNode EQ() { return getToken(ScrapeParser.EQ, 0); }
 		public OperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1663,66 +1664,66 @@ public class ScrapeParser extends Parser {
 		"\u00ed\3\2\2\2\64\u00ef\3\2\2\2\66\u00f1\3\2\2\28\u00fa\3\2\2\2:\u0108"+
 		"\3\2\2\2<\u010a\3\2\2\2>\u010c\3\2\2\2@\u0113\3\2\2\2B\u0115\3\2\2\2D"+
 		"F\5\b\5\2ED\3\2\2\2FI\3\2\2\2GE\3\2\2\2GH\3\2\2\2H\3\3\2\2\2IG\3\2\2\2"+
-		"JK\t\2\2\2K\5\3\2\2\2LP\7\4\2\2MO\5\b\5\2NM\3\2\2\2OR\3\2\2\2PN\3\2\2"+
-		"\2PQ\3\2\2\2QS\3\2\2\2RP\3\2\2\2ST\7\13\2\2T\7\3\2\2\2UV\5\30\r\2VW\7"+
-		"\f\2\2Wg\3\2\2\2Xg\5\n\6\2YZ\5\32\16\2Z[\7\f\2\2[g\3\2\2\2\\]\5\34\17"+
-		"\2]^\7\f\2\2^g\3\2\2\2_`\5\36\20\2`a\7\f\2\2ag\3\2\2\2bc\5\"\22\2cd\7"+
-		"\f\2\2dg\3\2\2\2eg\5\f\7\2fU\3\2\2\2fX\3\2\2\2fY\3\2\2\2f\\\3\2\2\2f_"+
-		"\3\2\2\2fb\3\2\2\2fe\3\2\2\2g\t\3\2\2\2hj\5\16\b\2ik\5\20\t\2ji\3\2\2"+
-		"\2jk\3\2\2\2km\3\2\2\2ln\5\22\n\2ml\3\2\2\2mn\3\2\2\2n\13\3\2\2\2op\7"+
-		"\7\2\2pq\7\35\2\2qr\5\36\20\2rs\7\f\2\2st\5,\27\2tu\7\f\2\2uv\5\b\5\2"+
-		"vw\7\36\2\2wx\5\6\4\2x\r\3\2\2\2yz\7\b\2\2z{\5,\27\2{|\5\26\f\2|\17\3"+
-		"\2\2\2}\177\5\24\13\2~}\3\2\2\2\177\u0080\3\2\2\2\u0080~\3\2\2\2\u0080"+
-		"\u0081\3\2\2\2\u0081\21\3\2\2\2\u0082\u0083\7\t\2\2\u0083\u0084\5\26\f"+
-		"\2\u0084\23\3\2\2\2\u0085\u0086\7\t\2\2\u0086\u0087\7\b\2\2\u0087\u0088"+
-		"\5,\27\2\u0088\u0089\5\26\f\2\u0089\25\3\2\2\2\u008a\u008d\5\b\5\2\u008b"+
-		"\u008d\5\6\4\2\u008c\u008a\3\2\2\2\u008c\u008b\3\2\2\2\u008d\27\3\2\2"+
-		"\2\u008e\u008f\5\4\3\2\u008f\u0090\7\32\2\2\u0090\u0091\7\6\2\2\u0091"+
-		"\u0092\7\27\2\2\u0092\u0093\7\3\2\2\u0093\u009b\3\2\2\2\u0094\u0096\5"+
-		"\4\3\2\u0095\u0097\7\62\2\2\u0096\u0095\3\2\2\2\u0096\u0097\3\2\2\2\u0097"+
-		"\u0098\3\2\2\2\u0098\u0099\7\32\2\2\u0099\u009b\3\2\2\2\u009a\u008e\3"+
-		"\2\2\2\u009a\u0094\3\2\2\2\u009b\31\3\2\2\2\u009c\u009d\7\n\2\2\u009d"+
-		"\u009e\5\64\33\2\u009e\33\3\2\2\2\u009f\u00a0\5 \21\2\u00a0\35\3\2\2\2"+
-		"\u00a1\u00a3\7\62\2\2\u00a2\u00a1\3\2\2\2\u00a2\u00a3\3\2\2\2\u00a3\u00a4"+
-		"\3\2\2\2\u00a4\u00a5\7\32\2\2\u00a5\u00a6\7$\2\2\u00a6\u00b4\5(\25\2\u00a7"+
-		"\u00a9\5\4\3\2\u00a8\u00aa\7\62\2\2\u00a9\u00a8\3\2\2\2\u00a9\u00aa\3"+
-		"\2\2\2\u00aa\u00ab\3\2\2\2\u00ab\u00ac\7\32\2\2\u00ac\u00ad\7$\2\2\u00ad"+
-		"\u00ae\5(\25\2\u00ae\u00b4\3\2\2\2\u00af\u00b0\7\32\2\2\u00b0\u00b1\5"+
-		"*\26\2\u00b1\u00b2\5(\25\2\u00b2\u00b4\3\2\2\2\u00b3\u00a2\3\2\2\2\u00b3"+
-		"\u00a7\3\2\2\2\u00b3\u00af\3\2\2\2\u00b4\37\3\2\2\2\u00b5\u00b6\7\32\2"+
-		"\2\u00b6\u00b7\5&\24\2\u00b7!\3\2\2\2\u00b8\u00b9\7\32\2\2\u00b9\u00ba"+
-		"\5$\23\2\u00ba#\3\2\2\2\u00bb\u00bc\t\3\2\2\u00bc%\3\2\2\2\u00bd\u00c6"+
-		"\7\35\2\2\u00be\u00c3\5(\25\2\u00bf\u00c0\7\5\2\2\u00c0\u00c2\5(\25\2"+
-		"\u00c1\u00bf\3\2\2\2\u00c2\u00c5\3\2\2\2\u00c3\u00c1\3\2\2\2\u00c3\u00c4"+
-		"\3\2\2\2\u00c4\u00c7\3\2\2\2\u00c5\u00c3\3\2\2\2\u00c6\u00be\3\2\2\2\u00c6"+
-		"\u00c7\3\2\2\2\u00c7\u00c8\3\2\2\2\u00c8\u00c9\7\36\2\2\u00c9\'\3\2\2"+
-		"\2\u00ca\u00ce\5\64\33\2\u00cb\u00ce\7\20\2\2\u00cc\u00ce\7\17\2\2\u00cd"+
-		"\u00ca\3\2\2\2\u00cd\u00cb\3\2\2\2\u00cd\u00cc\3\2\2\2\u00ce)\3\2\2\2"+
-		"\u00cf\u00d0\t\4\2\2\u00d0+\3\2\2\2\u00d1\u00d2\5.\30\2\u00d2-\3\2\2\2"+
-		"\u00d3\u00d8\5\60\31\2\u00d4\u00d5\7\33\2\2\u00d5\u00d7\5.\30\2\u00d6"+
-		"\u00d4\3\2\2\2\u00d7\u00da\3\2\2\2\u00d8\u00d6\3\2\2\2\u00d8\u00d9\3\2"+
-		"\2\2\u00d9/\3\2\2\2\u00da\u00d8\3\2\2\2\u00db\u00e0\5\62\32\2\u00dc\u00dd"+
-		"\7\34\2\2\u00dd\u00df\5\62\32\2\u00de\u00dc\3\2\2\2\u00df\u00e2\3\2\2"+
-		"\2\u00e0\u00de\3\2\2\2\u00e0\u00e1\3\2\2\2\u00e1\61\3\2\2\2\u00e2\u00e0"+
-		"\3\2\2\2\u00e3\u00e7\5@!\2\u00e4\u00e5\5B\"\2\u00e5\u00e6\5@!\2\u00e6"+
-		"\u00e8\3\2\2\2\u00e7\u00e4\3\2\2\2\u00e7\u00e8\3\2\2\2\u00e8\u00ee\3\2"+
-		"\2\2\u00e9\u00ea\7\35\2\2\u00ea\u00eb\5.\30\2\u00eb\u00ec\7\36\2\2\u00ec"+
-		"\u00ee\3\2\2\2\u00ed\u00e3\3\2\2\2\u00ed\u00e9\3\2\2\2\u00ee\63\3\2\2"+
-		"\2\u00ef\u00f0\5\66\34\2\u00f0\65\3\2\2\2\u00f1\u00f7\58\35\2\u00f2\u00f3"+
-		"\5<\37\2\u00f3\u00f4\5\66\34\2\u00f4\u00f6\3\2\2\2\u00f5\u00f2\3\2\2\2"+
-		"\u00f6\u00f9\3\2\2\2\u00f7\u00f5\3\2\2\2\u00f7\u00f8\3\2\2\2\u00f8\67"+
-		"\3\2\2\2\u00f9\u00f7\3\2\2\2\u00fa\u0100\5:\36\2\u00fb\u00fc\5> \2\u00fc"+
-		"\u00fd\5:\36\2\u00fd\u00ff\3\2\2\2\u00fe\u00fb\3\2\2\2\u00ff\u0102\3\2"+
-		"\2\2\u0100\u00fe\3\2\2\2\u0100\u0101\3\2\2\2\u01019\3\2\2\2\u0102\u0100"+
-		"\3\2\2\2\u0103\u0109\5@!\2\u0104\u0105\7\35\2\2\u0105\u0106\5\66\34\2"+
-		"\u0106\u0107\7\36\2\2\u0107\u0109\3\2\2\2\u0108\u0103\3\2\2\2\u0108\u0104"+
-		"\3\2\2\2\u0109;\3\2\2\2\u010a\u010b\t\5\2\2\u010b=\3\2\2\2\u010c\u010d"+
-		"\t\6\2\2\u010d?\3\2\2\2\u010e\u0114\7\32\2\2\u010f\u0114\7\27\2\2\u0110"+
-		"\u0114\7\30\2\2\u0111\u0114\7\17\2\2\u0112\u0114\5 \21\2\u0113\u010e\3"+
-		"\2\2\2\u0113\u010f\3\2\2\2\u0113\u0110\3\2\2\2\u0113\u0111\3\2\2\2\u0113"+
-		"\u0112\3\2\2\2\u0114A\3\2\2\2\u0115\u0116\t\7\2\2\u0116C\3\2\2\2\31GP"+
-		"fjm\u0080\u008c\u0096\u009a\u00a2\u00a9\u00b3\u00c3\u00c6\u00cd\u00d8"+
-		"\u00e0\u00e7\u00ed\u00f7\u0100\u0108\u0113";
+		"JK\t\2\2\2K\5\3\2\2\2LP\7\7\2\2MO\5\b\5\2NM\3\2\2\2OR\3\2\2\2PN\3\2\2"+
+		"\2PQ\3\2\2\2QS\3\2\2\2RP\3\2\2\2ST\7\n\2\2T\7\3\2\2\2UV\5\30\r\2VW\7\6"+
+		"\2\2Wg\3\2\2\2Xg\5\n\6\2YZ\5\32\16\2Z[\7\6\2\2[g\3\2\2\2\\]\5\34\17\2"+
+		"]^\7\6\2\2^g\3\2\2\2_`\5\36\20\2`a\7\6\2\2ag\3\2\2\2bc\5\"\22\2cd\7\6"+
+		"\2\2dg\3\2\2\2eg\5\f\7\2fU\3\2\2\2fX\3\2\2\2fY\3\2\2\2f\\\3\2\2\2f_\3"+
+		"\2\2\2fb\3\2\2\2fe\3\2\2\2g\t\3\2\2\2hj\5\16\b\2ik\5\20\t\2ji\3\2\2\2"+
+		"jk\3\2\2\2km\3\2\2\2ln\5\22\n\2ml\3\2\2\2mn\3\2\2\2n\13\3\2\2\2op\7\f"+
+		"\2\2pq\7\35\2\2qr\5\36\20\2rs\7\6\2\2st\5,\27\2tu\7\6\2\2uv\5\b\5\2vw"+
+		"\7\36\2\2wx\5\6\4\2x\r\3\2\2\2yz\7\13\2\2z{\5,\27\2{|\5\26\f\2|\17\3\2"+
+		"\2\2}\177\5\24\13\2~}\3\2\2\2\177\u0080\3\2\2\2\u0080~\3\2\2\2\u0080\u0081"+
+		"\3\2\2\2\u0081\21\3\2\2\2\u0082\u0083\7\3\2\2\u0083\u0084\5\26\f\2\u0084"+
+		"\23\3\2\2\2\u0085\u0086\7\3\2\2\u0086\u0087\7\13\2\2\u0087\u0088\5,\27"+
+		"\2\u0088\u0089\5\26\f\2\u0089\25\3\2\2\2\u008a\u008d\5\b\5\2\u008b\u008d"+
+		"\5\6\4\2\u008c\u008a\3\2\2\2\u008c\u008b\3\2\2\2\u008d\27\3\2\2\2\u008e"+
+		"\u008f\5\4\3\2\u008f\u0090\7\32\2\2\u0090\u0091\7\5\2\2\u0091\u0092\7"+
+		"\27\2\2\u0092\u0093\7\t\2\2\u0093\u009b\3\2\2\2\u0094\u0096\5\4\3\2\u0095"+
+		"\u0097\7\62\2\2\u0096\u0095\3\2\2\2\u0096\u0097\3\2\2\2\u0097\u0098\3"+
+		"\2\2\2\u0098\u0099\7\32\2\2\u0099\u009b\3\2\2\2\u009a\u008e\3\2\2\2\u009a"+
+		"\u0094\3\2\2\2\u009b\31\3\2\2\2\u009c\u009d\7\4\2\2\u009d\u009e\5\64\33"+
+		"\2\u009e\33\3\2\2\2\u009f\u00a0\5 \21\2\u00a0\35\3\2\2\2\u00a1\u00a3\7"+
+		"\62\2\2\u00a2\u00a1\3\2\2\2\u00a2\u00a3\3\2\2\2\u00a3\u00a4\3\2\2\2\u00a4"+
+		"\u00a5\7\32\2\2\u00a5\u00a6\7$\2\2\u00a6\u00b4\5(\25\2\u00a7\u00a9\5\4"+
+		"\3\2\u00a8\u00aa\7\62\2\2\u00a9\u00a8\3\2\2\2\u00a9\u00aa\3\2\2\2\u00aa"+
+		"\u00ab\3\2\2\2\u00ab\u00ac\7\32\2\2\u00ac\u00ad\7$\2\2\u00ad\u00ae\5("+
+		"\25\2\u00ae\u00b4\3\2\2\2\u00af\u00b0\7\32\2\2\u00b0\u00b1\5*\26\2\u00b1"+
+		"\u00b2\5(\25\2\u00b2\u00b4\3\2\2\2\u00b3\u00a2\3\2\2\2\u00b3\u00a7\3\2"+
+		"\2\2\u00b3\u00af\3\2\2\2\u00b4\37\3\2\2\2\u00b5\u00b6\7\32\2\2\u00b6\u00b7"+
+		"\5&\24\2\u00b7!\3\2\2\2\u00b8\u00b9\7\32\2\2\u00b9\u00ba\5$\23\2\u00ba"+
+		"#\3\2\2\2\u00bb\u00bc\t\3\2\2\u00bc%\3\2\2\2\u00bd\u00c6\7\35\2\2\u00be"+
+		"\u00c3\5(\25\2\u00bf\u00c0\7\b\2\2\u00c0\u00c2\5(\25\2\u00c1\u00bf\3\2"+
+		"\2\2\u00c2\u00c5\3\2\2\2\u00c3\u00c1\3\2\2\2\u00c3\u00c4\3\2\2\2\u00c4"+
+		"\u00c7\3\2\2\2\u00c5\u00c3\3\2\2\2\u00c6\u00be\3\2\2\2\u00c6\u00c7\3\2"+
+		"\2\2\u00c7\u00c8\3\2\2\2\u00c8\u00c9\7\36\2\2\u00c9\'\3\2\2\2\u00ca\u00ce"+
+		"\5\64\33\2\u00cb\u00ce\7\20\2\2\u00cc\u00ce\7\17\2\2\u00cd\u00ca\3\2\2"+
+		"\2\u00cd\u00cb\3\2\2\2\u00cd\u00cc\3\2\2\2\u00ce)\3\2\2\2\u00cf\u00d0"+
+		"\t\4\2\2\u00d0+\3\2\2\2\u00d1\u00d2\5.\30\2\u00d2-\3\2\2\2\u00d3\u00d8"+
+		"\5\60\31\2\u00d4\u00d5\7\33\2\2\u00d5\u00d7\5.\30\2\u00d6\u00d4\3\2\2"+
+		"\2\u00d7\u00da\3\2\2\2\u00d8\u00d6\3\2\2\2\u00d8\u00d9\3\2\2\2\u00d9/"+
+		"\3\2\2\2\u00da\u00d8\3\2\2\2\u00db\u00e0\5\62\32\2\u00dc\u00dd\7\34\2"+
+		"\2\u00dd\u00df\5\62\32\2\u00de\u00dc\3\2\2\2\u00df\u00e2\3\2\2\2\u00e0"+
+		"\u00de\3\2\2\2\u00e0\u00e1\3\2\2\2\u00e1\61\3\2\2\2\u00e2\u00e0\3\2\2"+
+		"\2\u00e3\u00e7\5@!\2\u00e4\u00e5\5B\"\2\u00e5\u00e6\5@!\2\u00e6\u00e8"+
+		"\3\2\2\2\u00e7\u00e4\3\2\2\2\u00e7\u00e8\3\2\2\2\u00e8\u00ee\3\2\2\2\u00e9"+
+		"\u00ea\7\35\2\2\u00ea\u00eb\5.\30\2\u00eb\u00ec\7\36\2\2\u00ec\u00ee\3"+
+		"\2\2\2\u00ed\u00e3\3\2\2\2\u00ed\u00e9\3\2\2\2\u00ee\63\3\2\2\2\u00ef"+
+		"\u00f0\5\66\34\2\u00f0\65\3\2\2\2\u00f1\u00f7\58\35\2\u00f2\u00f3\5<\37"+
+		"\2\u00f3\u00f4\5\66\34\2\u00f4\u00f6\3\2\2\2\u00f5\u00f2\3\2\2\2\u00f6"+
+		"\u00f9\3\2\2\2\u00f7\u00f5\3\2\2\2\u00f7\u00f8\3\2\2\2\u00f8\67\3\2\2"+
+		"\2\u00f9\u00f7\3\2\2\2\u00fa\u0100\5:\36\2\u00fb\u00fc\5> \2\u00fc\u00fd"+
+		"\5:\36\2\u00fd\u00ff\3\2\2\2\u00fe\u00fb\3\2\2\2\u00ff\u0102\3\2\2\2\u0100"+
+		"\u00fe\3\2\2\2\u0100\u0101\3\2\2\2\u01019\3\2\2\2\u0102\u0100\3\2\2\2"+
+		"\u0103\u0109\5@!\2\u0104\u0105\7\35\2\2\u0105\u0106\5\66\34\2\u0106\u0107"+
+		"\7\36\2\2\u0107\u0109\3\2\2\2\u0108\u0103\3\2\2\2\u0108\u0104\3\2\2\2"+
+		"\u0109;\3\2\2\2\u010a\u010b\t\5\2\2\u010b=\3\2\2\2\u010c\u010d\t\6\2\2"+
+		"\u010d?\3\2\2\2\u010e\u0114\7\32\2\2\u010f\u0114\7\27\2\2\u0110\u0114"+
+		"\7\30\2\2\u0111\u0114\7\17\2\2\u0112\u0114\5 \21\2\u0113\u010e\3\2\2\2"+
+		"\u0113\u010f\3\2\2\2\u0113\u0110\3\2\2\2\u0113\u0111\3\2\2\2\u0113\u0112"+
+		"\3\2\2\2\u0114A\3\2\2\2\u0115\u0116\t\7\2\2\u0116C\3\2\2\2\31GPfjm\u0080"+
+		"\u008c\u0096\u009a\u00a2\u00a9\u00b3\u00c3\u00c6\u00cd\u00d8\u00e0\u00e7"+
+		"\u00ed\u00f7\u0100\u0108\u0113";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
