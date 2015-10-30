@@ -23,7 +23,7 @@ public class Configuration {
 
 	public static String outputPath = "/Users/clegoues/research/autobugfix/autobugfix-yalin/bughunt/";
 
-	public static boolean skipGenerate = true;
+	public static boolean skipGenerate = false;
 
 	public static String[] programs = new String[] { "median" } ; //, // "digits", 
 			// "checksum", "grade", "median", "smallest", "syllables" };
