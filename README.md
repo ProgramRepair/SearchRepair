@@ -1,5 +1,11 @@
 This is a project that demonstrate the feasibility of repairing program with semantic code search.
 
+# Dependencies
+
+In executors/, there exist several several compiled utilities that are called by the Java program.  Update z3, gcc and gdb to point to your local versions/binaries (symlinks should work fine).  pathgen and transform are produced by the OCaml code in the supportive associated repository SearchRepair-SymEx (https://github.com/ProgramRepair/SearchRepair-SymEx).  
+
+# Running
+
 Let PROJECTROOT denotes the root directory of this project
 
 Several things to setup and rerun:
@@ -43,4 +49,3 @@ After the experiments are completed, a csv file  PROJECTROOT/csvlog/log will be 
                 absolute path of the new introclass.
 		
 NOTICE: rerun experiments on syllables versions takes a lot of time.
-IMPORTANT:
