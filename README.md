@@ -1,4 +1,4 @@
-This is a project that demonstrate the feasibility of repairing program with semantic code search.
+This project demonstrates the feasibility of repairing program with semantic code search.  The project contains code and data described in ["Repairing Programs with Semantic Code Search" by Yalin Ke, Kathryn T. Stolee, Claire Le Goues, and Yuriy Brun](http://people.cs.umass.edu/~brun/pubs/pubs/Ke15ase.pdf), published in Proceedings of the 30th IEEE/ACM International Conference on Automated Software Engineering (ASE), 2015, pp. 295–306 ([doi](http://dx.doi.org/10.1109/ASE.2015.60)).
 
 # Dependencies
 
@@ -49,3 +49,9 @@ After the experiments are completed, a csv file  PROJECTROOT/csvlog/log will be 
                 absolute path of the new introclass.
 		
 NOTICE: rerun experiments on syllables versions takes a lot of time.
+
+# Contributors
+
+* [Yuriy Brun](http://people.cs.umass.edu/~brun/)
+* [Claire Le Goues](http://clairelegoues.com/)
+* [Kathryn T. Stolee](http://web.cs.iastate.edu/~kstolee/)
