@@ -30,7 +30,7 @@ Several things to setup and rerun:
 6. Go to PROJECTROOT/src/test/main.java, run the main function of that java file, then the experiments will be re run. IMPORTANT: if there were a lot of running time IO exceptions being printing out at console in the beginning, this is probably because C program can not be compiled by GCC in java.   This problem might happen a minute after starting rerun experiment. If it did happen, delete "./bughunt" and rerun this experiments. Usually a second rerun will be successful. A successful sign of this is that, the console is printing a list of name of directories, which are the directories of every version in IntroClass folder.
 After the experiments are completed, a csv file  PROJECTROOT/csvlog/log will be generated, which contains all of data presented in the paper.
  
-6. notice that, there are four fields in the main function of PROJECTROOT/src/test/main.java, which are:
+7. Notice that, there are four fields in the main function of PROJECTROOT/src/test/main.java, which are:
 
 	Field 1: repositoryType. repositoryType=0 means search repository built by linux, 
 		repositoryType=1 means search repository built by introclass, 
@@ -49,6 +49,10 @@ After the experiments are completed, a csv file  PROJECTROOT/csvlog/log will be 
                 absolute path of the new introclass.
 		
 NOTICE: rerun experiments on syllables versions takes a lot of time.
+
+# License
+
+See [LICENSE](LICENSE.md)
 
 # Contributors
 
